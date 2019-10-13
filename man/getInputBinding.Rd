@@ -34,8 +34,8 @@ getInputBinding(compoundInput2, pkg = 'dipsaus')
 \donttest{
 
 # You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
-getInputBinding(textInput)
 getInputBinding('textInput')
+# getInputBinding(textInput) also fails
 
 # Always fails
 getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')
