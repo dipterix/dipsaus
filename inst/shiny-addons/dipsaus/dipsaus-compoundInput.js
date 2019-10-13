@@ -18,6 +18,7 @@
     _el.innerHTML = s;
     return( _el.children[ 0 ] );
   };
+  const has_jquery = () => { return(jQuery !== undefined); };
   class CompountInputItem{
 
     constructor( el, binding ){
@@ -285,25 +286,45 @@
 
   // add bindings
   binding.find = (scope) => {
+    if( has_jquery ){
+      return( $(scope).find('.dipsaus-compound-input') );
+    }
     return( scope.getElementsByClassName('dipsaus-compound-input') );
   };
 
   // this method will be called on initialisation
   binding.initialize = (el) => {
-    els[ el.id ] = new CompountInputItem( el, binding );
+    let _el = el;
+    if( has_jquery ){
+      _el = $(_el)[0];
+    }
+    els[ _el.id ] = new CompountInputItem( _el, binding );
   };
 
   binding.getValue = (el) => {
-    return(els[ el.id ].get_value());
+    let _el = el;
+    if( has_jquery ){
+      _el = $(_el)[0];
+    }
+    if( !els[ _el.id ] ){ return; }
+    return(els[ _el.id ].get_value());
   };
   binding.subscribe = (el, callback) => {
-    const _i = els[ el.id ];
+    let _el = el;
+    if( has_jquery ){
+      _el = $(_el)[0];
+    }
+    const _i = els[ _el.id ];
     if( _i ){
       _i.subscribe( callback );
     }
   };
   binding.unsubscribe = (el) => {
-    const _i = els[ el.id ];
+    let _el = el;
+    if( has_jquery ){
+      _el = $(_el)[0];
+    }
+    const _i = els[ _el.id ];
     if( _i ){
       _i.unsubscribe();
     }
@@ -318,8 +339,13 @@
     return( "dipsaus.compoundInput2" );
   };
   binding.receiveMessage = (el, data) => {
-    if( els[ el.id ] ){
-      els[ el.id ].receive_message( data );
+    let _el = el;
+    if( has_jquery ){
+      _el = $(_el)[0];
+    }
+    const _i = els[ _el.id ];
+    if( _i ){
+      _i.receive_message( data );
     }
   };
 
