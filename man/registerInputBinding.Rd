@@ -11,7 +11,7 @@ registerInputBinding(fname, pkg, shiny_binding, update_function = NULL)
 
 \item{pkg}{character, package name, like \code{"shiny"}}
 
-\item{shiny_binding}{character, `Javascript` binding name.See examples}
+\item{shiny_binding}{character, `JavaScript` binding name.See examples}
 
 \item{update_function}{character, update function such as \code{"shiny::textInput"}}
 }

@@ -3,17 +3,17 @@ Package: dipsaus
 Type: Package
 Title: A Dipping Sauce to Data Analysis and Visualizations
 Version: 0.0.1
-Date: 2019-10-13
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
 Description: This package works like a dipping sauce, aims at enhancing 
-    visualization packages such as `shiny`, `threeBrain`, and `rave`.
+    visualization packages such as 'shiny', 'threeBrain', and 'rave'.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Language: en-US
 Imports:
     grDevices,
     shiny,

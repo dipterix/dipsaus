@@ -12,7 +12,7 @@ updateCompoundInput2(session, inputId, value = NULL, ncomp = NULL,
 
 \item{inputId}{character see \code{compoundInput2}}
 
-\item{value}{list of lists, see \code{compoundInput2} or exxamples}
+\item{value}{list of lists, see \code{compoundInput2} or examples}
 
 \item{ncomp}{integer, non-negative number of groups to update, \code{NULL} to
 remain unchanged}

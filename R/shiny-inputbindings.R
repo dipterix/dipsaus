@@ -80,7 +80,7 @@ list2env(list(
 #' Register customized input to enable support by compound input
 #' @param fname character, function name, such as \code{"textInput"}
 #' @param pkg character, package name, like \code{"shiny"}
-#' @param shiny_binding character, `Javascript` binding name.See examples
+#' @param shiny_binding character, `JavaScript` binding name.See examples
 #' @param update_function character, update function such as \code{"shiny::textInput"}
 #' @examples
 #'
