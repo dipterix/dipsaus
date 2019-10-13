@@ -13,10 +13,10 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Language: en-US
+Depends: R (>= 3.6.0)
 Imports:
     grDevices,
     shiny,
-    htmltools,
     stringr,
     jsonlite (>= 1.6)
 RoxygenNote: 6.1.1
