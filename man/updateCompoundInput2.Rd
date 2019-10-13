@@ -23,7 +23,9 @@ remain unchanged}
 Update compound inputs
 }
 \examples{
+
 \donttest{
+\dontrun{
 library(shiny); library(dipsaus)
 
 ## UI side
@@ -50,5 +52,6 @@ updateCompoundInput2(session, 'inputid',
                      initialization = list(
                        text = list(label = as.character(Sys.time()))
                      ))
+}
 }
 }

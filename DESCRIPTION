@@ -5,8 +5,8 @@ Version: 0.0.1
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
-Description: This package works like a dipping sauce, aims at enhancing 
-    visualization packages such as 'shiny', 'threeBrain', and 'rave'.
+Description: A dipping sauce aims at enhancing visualization packages such as 
+    'shiny', 'threeBrain', and 'rave'.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3

@@ -202,7 +202,9 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #' remain unchanged
 #' @param initialization,... named list of other updates
 #' @examples
+#'
 #' \donttest{
+#' \dontrun{
 #' library(shiny); library(dipsaus)
 #'
 #' ## UI side
@@ -229,6 +231,7 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #'                      initialization = list(
 #'                        text = list(label = as.character(Sys.time()))
 #'                      ))
+#' }
 #' }
 #' @export
 updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
