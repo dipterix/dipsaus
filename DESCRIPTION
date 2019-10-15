@@ -15,8 +15,19 @@ LazyData: true
 Language: en-US
 Depends: R (>= 3.6.0)
 Imports:
+    utils,
     grDevices,
     shiny,
     stringr,
-    jsonlite (>= 1.6)
+    jsonlite (>= 1.6),
+    Rcpp,
+    RcppParallel,
+    crayon,
+    rlang (>= 0.4.0)
+Suggests:
+    microbenchmark
 RoxygenNote: 6.1.1
+SystemRequirements: GNU make
+LinkingTo: 
+    Rcpp,
+    RcppParallel

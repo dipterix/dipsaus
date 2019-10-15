@@ -52,3 +52,78 @@ match_calls = function(call, recursive = TRUE, replace_args = list(),
 
 
 
+#' Evaluate expressions
+#'
+#' @param expr R expression or 'rlang' quo
+#' @param env environment to evaluate
+#' @param data dataframe or list
+#'
+#' @details \code{eval_dirty} uses \code{base::eval()} function to evaluate expressions.
+#' Compare to \code{rlang::eval_tidy}, which won't affect original environment,
+#' \code{eval_dirty} will cause changes to the environment. Therefore if \code{expr}
+#' contains assignment, environment will be changed in this case.
+#' @examples
+#'
+#' expr = quote({a <- 111})
+#' a = 1; env = globalenv()
+#' rlang::eval_tidy(expr, env = env)
+#' print(a)  # Will be 1. This is because eval_tidy has no side effect
+#' eval_dirty(expr, env)
+#' print(a)  # a is changed, a is changed
+#'
+#' @export
+eval_dirty <- function(expr, env = parent.frame(), data = NULL){
+
+  if(rlang::is_quosure(expr)){
+    expr = rlang::quo_squash(expr)
+  }
+
+  if(!is.null(data)){
+    return(eval(expr, enclos = env, envir = data))
+  }else{
+    return(eval(expr, envir = env))
+  }
+}
+
+#' Assign if not exists, or NULL
+#' Provides a way to assign default values to variables. If the statement `\code{lhs}`
+#' is invalid or \code{NULL}, this function will try to assign \code{value}, otherwise
+#' nothing happens.
+#' @param lhs an object to check or assign
+#' @param value value to be assigned if lhs is NULL
+#'
+#' @examples
+#' # Remove a if exists
+#' if(exists('a', envir = globalenv()))  rm(a, envir = globalenv())
+#'
+#' # Assign
+#' a %?<-% 1; print(a)
+#'
+#' # However, if assigned, nothing happens
+#' a = 1;
+#' a %?<-% 2;
+#' print(a)
+#'
+#' # in a list
+#' a = list()
+#' a$e %?<-% 1; print(a$e)
+#' a$e %?<-% 2; print(a$e)
+#'
+#' @export
+`%?<-%` <- function(lhs, value){
+  env = parent.frame()
+  lhs = substitute(lhs)
+
+  tryCatch({
+    is.null(eval(lhs, envir = env))
+  }, error = function(e){
+    return(TRUE)
+  }) ->
+    isnull
+
+  if(isnull){
+    eval(as.call(list( str2lang('`<-`'), lhs, value )), envir = env)
+  }
+}
+
+

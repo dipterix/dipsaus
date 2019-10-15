@@ -1,19 +1,61 @@
-#' Convert color to Hex string
-#' @param col character or integer indicating color
-#' @param alpha \code{NULL} or numeric, transparency. See \code{grDevices::rgb}
-#' @param prefix character, default is \code{"#"}
+
+
+# Unclassified utility functions
+
+#' Calculate time difference and return a number
+#' @param t1 time start
+#' @param t2 time end
+#' @param units character, choices are \code{'secs'}, \code{'mins'}, \code{'hours'}, and \code{'days'}
+#' @return numeric difference of time in units specified
 #' @examples
+#' a = Sys.time()
+#' Sys.sleep(0.3)
+#' b = Sys.time()
 #'
-#' col2hexStr(1, prefix = '0x')      # "0x000000"
-#' col2hexStr('blue')                # "#0000FF"
-#'
-#' # Change default palette, see "grDevices::colors()"
-#' grDevices::palette(c('orange3', 'skyblue1'))
-#' col2hexStr(1)                     # Instead of #000000, #CD8500
+#' time_delta(a, b) # In seconds, around 0.3
+#' time_delta(a, b, 'mins') # in minutes, around 0.005
 #'
 #' @export
-col2hexStr <- function(col, alpha = NULL, prefix = '#'){
-  col = grDevices::col2rgb(col, alpha = FALSE) / 255
-  col = grDevices::rgb(red = col[1,], green = col[2,], blue = col[3,], alpha = alpha)
-  stringr::str_replace(col, '^[^0-9A-F]*', prefix)
+time_delta <- function(t1, t2, units = 'secs'){
+  as.numeric(t2 - t1, units=units)
+}
+
+is_invalid <- function(x, any = F, .invalids = list('is.null', 'is.na'), ...){
+  .invalids = c(.invalids, list(...))
+  if('is.null' %in% .invalids){
+    if(is.null(x) || !length(x)){
+      return(TRUE)
+    }
+  }
+  for( func in .invalids ){
+    res = do.call(func, args = list(x))
+    if(length(res) > 1){
+      if(any){
+        res = any(res)
+      }else{
+        res = all(res)
+      }
+    }
+    if(res){
+      return(TRUE)
+    }
+  }
+
+  return(FALSE)
+}
+
+
+#' Drop \code{NULL} values from list or vectors
+#'
+#' @param x list to check
+#' @param .invalids a list of functions, or function name. Default is 'is.null'.
+#'
+#' @examples
+#'
+#' x <- list(NULL,NULL,1,2)
+#' drop_nulls(x)
+#'
+#' @export
+drop_nulls <- function (x, .invalids = list('is.null')) {
+  x[!vapply(x, is_invalid, FUN.VALUE = logical(1), .invalids = .invalids)]
 }
