@@ -1,0 +1,23 @@
+{
+  "name": "dipsaus",
+  "version": "0.0.1",
+  "description": "JS lib to R package `dipsaus`",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "serve": "^11.2.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9"
+  },
+  "scripts": {
+    "build": "npx webpack",
+    "start": "serve dist",
+    "dev": "npm-run-all --parallel start build"
+  },
+  "author": "Zhengjia Wang",
+  "license": "ISC"
+}
