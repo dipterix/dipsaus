@@ -71,8 +71,12 @@ list2env(list(
     update_function = NULL
   ),
   'dipsaus.compoundInput2' = list(
-    binding = "shiny.actionButtonInput",
+    binding = "dipsaus.compoundInput2",
     update_function = 'dipsaus.updateCompoundInput2'
+  ),
+  'dipsaus.actionButtonStyled' = list(
+    binding = "shiny.actionButtonInput",
+    update_function = 'dipsaus.updateActionButtonStyled'
   )
 ), envir = shiny_input_bindings)
 

@@ -155,7 +155,7 @@ compoundInput2 <- function(
     class = 'dipsaus-compound-input',
     shiny::singleton(shiny::tags$head(
       shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
-      shiny::tags$script(src="dipsaus/dipsaus-compoundInput.js")
+      shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
     )),
     shiny::div(
       class = 'dipsaus-compound-input-header force-hidden', style = 'display:none!important;',
