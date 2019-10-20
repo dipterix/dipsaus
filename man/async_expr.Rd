@@ -28,6 +28,7 @@ Apply R expressions in a parallel way
 \examples{
 
 \donttest{
+\dontrun{
 # Takes about 15 seconds to run
 library(dipsaus)
 async_expr(.X = 1:10, {
@@ -44,6 +45,7 @@ async({
 }, .pre_run = {
   make_forked_clusters()
 })
+}
 }
 
 }

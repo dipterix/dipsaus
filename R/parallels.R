@@ -9,6 +9,7 @@
 #' @examples
 #'
 #' \donttest{
+#' \dontrun{
 #' # Takes about 15 seconds to run
 #' library(dipsaus)
 #' async_expr(.X = 1:10, {
@@ -25,6 +26,7 @@
 #' }, .pre_run = {
 #'   make_forked_clusters()
 #' })
+#' }
 #' }
 #'
 #' @export
@@ -98,6 +100,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 #' @examples
 #'
 #' \donttest{
+#' \dontrun{
 #' # Takes about 15 seconds to run
 #' library(dipsaus)
 #'
@@ -111,6 +114,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 #'   # Callback is not async
 #'   print(sprintf('Iteration %d', i))
 #' })
+#' }
 #' }
 #' @export
 async_lapply <- function(

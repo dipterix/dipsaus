@@ -36,6 +36,7 @@ Apply to each element in parallel with callbacks
 \examples{
 
 \donttest{
+\dontrun{
 # Takes about 15 seconds to run
 library(dipsaus)
 
@@ -49,5 +50,6 @@ async_lapply(11:20, function(x){
   # Callback is not async
   print(sprintf('Iteration \%d', i))
 })
+}
 }
 }
