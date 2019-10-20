@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <Rcpp.h>
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
@@ -32,7 +33,7 @@ struct Collapse : public RcppParallel::Worker
     // int input_ind[input_size];
     int rem_dim = total_dim / out_dim;
 
-    unsigned long int i, j, k;
+    int i, j, k;
     int l,p,a,b,c;    // indices
     double re;
 

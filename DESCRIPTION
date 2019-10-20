@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce to Data Analysis and Visualizations
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
@@ -40,4 +40,3 @@ SystemRequirements: GNU make
 LinkingTo: 
     Rcpp,
     RcppParallel
-VignetteBuilder: knitr
