@@ -83,12 +83,16 @@
 #' shinyApp(ui, server, options = list(launch.browser = TRUE))
 #' }
 #' }
+#'
+#' @seealso \code{\link[dipsaus]{updateCompoundInput2}} for how to update inputs
+#' @return `HTML` tags
 #' @export
 compoundInput2 <- function(
   inputId, label = 'Group', components = shiny::tagList(),
   initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10,
   value = NULL, label_color = 1, ...
 ){
+  add_js_script()
   if( length(label_color) == 0 ){ label_color = 1 }
   if( !length(label_color) %in% c(1, max_ncomp)){
     stop('label_color must be length of 1 or equal to max_ncomp')
@@ -98,9 +102,6 @@ compoundInput2 <- function(
     label_color = rep(label_color, max_ncomp)
   }
   # Add css, js
-  shiny::addResourcePath(
-    prefix = 'dipsaus', directoryPath = system.file('shiny-addons/dipsaus', package='dipsaus')
-  )
 
   value = shiny::restoreInput(id = inputId, default = value)
   if(!is.list(value)){
@@ -290,6 +291,9 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #'                      ))
 #' }
 #' }
+#'
+#' @seealso \code{\link[dipsaus]{compoundInput2}} for how to define components.
+#'
 #' @export
 updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
                                  initialization = NULL, ...) {

@@ -1,4 +1,4 @@
-import { has_jquery , parse_html } from './utils.js';
+import { has_jquery , parse_html, check_shiny } from './utils.js';
 
 class CompountInputItem{
 
@@ -262,11 +262,7 @@ class CompountInputItem{
 
 function register_compoundInput2 ( Shiny, debug = false ){
   const log = (s) => { if( !debug ){ console.log(s); } };
-  if(Shiny === undefined){
-    log('Shiny is not found.');
-    return;
-  }
-  log('Register compountInput2 (dipsaus)');
+  check_shiny( Shiny, 'Register compountInput2 (dipsaus)' );
 
   // Register!
 

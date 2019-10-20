@@ -1,6 +1,9 @@
 #' Check if a package is installed
 #' @param pkgs vector of package names
 #' @param all only returns TRUE if all packages are installed. Default is FALSE.
+#'
+#' @return logical, if packages are installed or not. If \code{all=TRUE}, return
+#' a logical value of whether all packages a re installed.
 #' @export
 package_installed <- function(pkgs, all = FALSE){
   re = sapply(pkgs, function(p){
@@ -18,6 +21,9 @@ package_installed <- function(pkgs, all = FALSE){
 #' @param libs paths of libraries
 #' @param auto_install automatically install packages if missing
 #' @param ... other parameters for \code{install.packages}
+#'
+#' @return package names that are not installed
+#'
 #' @export
 check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_install = FALSE, ...){
   installed = sapply(pkgs, package_installed)

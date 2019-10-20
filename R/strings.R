@@ -16,7 +16,16 @@ to_datauri <- function(file, mime = ''){
 #' @param col character or integer indicating color
 #' @param alpha \code{NULL} or numeric, transparency. See \code{grDevices::rgb}
 #' @param prefix character, default is \code{"#"}
-#' @return characters containing the hex value of each color. See examples.
+#' @param ... passing to  \code{\link[grDevices]{adjustcolor}}
+#' @return characters containing the hex value of each color. See details
+#' @details \code{col2hexStr} converts colors such as 1, 2, 3, "red", "blue", ... into
+#' hex strings that can be easily recognized by `HTML`, `CSS` and `JavaScript`.
+#' Internally this function uses \code{\link[grDevices]{adjustcolor}} with two differences:
+#' \enumerate{
+#' \item the returned hex string does not contain alpha value if \code{alpha} is \code{NULL};
+#' \item the leading prefix "#" can be customized
+#' }
+#' @seealso  \code{\link[grDevices]{adjustcolor}}
 #' @examples
 #'
 #' col2hexStr(1, prefix = '0x')      # "0x000000"
@@ -27,10 +36,18 @@ to_datauri <- function(file, mime = ''){
 #' col2hexStr(1)                     # Instead of #000000, #CD8500
 #'
 #' @export
-col2hexStr <- function(col, alpha = NULL, prefix = '#'){
-  col = grDevices::col2rgb(col, alpha = FALSE) / 255
-  col = grDevices::rgb(red = col[1,], green = col[2,], blue = col[3,], alpha = alpha)
-  stringr::str_replace(col, '^[^0-9A-F]*', prefix)
+col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
+  if(is.null(alpha)){
+    alpha = 1
+    transparent = FALSE
+  }else{
+    transparent = TRUE
+  }
+  re = grDevices::adjustcolor(col, alpha.f = alpha)
+  if(!transparent){
+    re = stringr::str_sub(re, end = 7L)
+  }
+  stringr::str_replace(re, '^[^0-9A-F]*', prefix)
 }
 
 
@@ -43,7 +60,8 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#'){
 #' @param connect characters defining connection links for example "1:10" is the same as "1-10"
 #' @param sort sort the result
 #' @param unique extract unique elements
-#'
+#' @return a numeric vector. For example, "1-3" returns \code{c(1, 2, 3)}
+#' @seealso \code{\link[dipsaus]{deparse_svec}}
 #' @examples
 #' \dontrun{
 #' parse_svec('1-10, 13:15,14-20')
@@ -102,7 +120,8 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
 #' @param concatenate connect strings if there are multiples
 #' @param collapse if concatenate, character used to connect strings
 #' @param max_lag defines "consecutive", min = 1
-#'
+#' @return strings representing the input vector. For example, \code{c(1, 2, 3)} returns "1-3".
+#' @seealso \code{\link[dipsaus]{parse_svec}}
 #' @examples
 #' \dontrun{
 #' deparse_svec(c(1:10, 15:18))
@@ -113,9 +132,9 @@ deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', m
   if(length(nums) == 0){
     return('')
   }
-  alag = 1:max(1, max_lag)
+  alag = seq_len(max(1, max_lag))
   nums = sort(unique(nums))
-  lg = c(NA, nums)[1:length(nums)]
+  lg = c(NA, nums)[seq_len(length(nums))]
   ind = nums - lg; ind[1] = 0
   ind2 = c(ind[-1], -1)
 

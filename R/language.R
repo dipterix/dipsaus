@@ -8,6 +8,8 @@
 #' @param envir which environment should call be evaluated
 #' @param ... other parameters passing to \code{match.call}
 #'
+#' @return A nested call with all arguments matched
+#'
 #' @examples
 #' library(dipsaus); library(shiny)
 #'

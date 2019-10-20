@@ -1,4 +1,8 @@
-
+stopifnot2 <- function(..., msg = 'Condition not satisfied'){
+  if(!all(c(...))){
+    stop(msg)
+  }
+}
 
 # Unclassified utility functions
 
@@ -50,6 +54,7 @@ is_invalid <- function(x, any = F, .invalids = list('is.null', 'is.na'), ...){
 #' @param x list to check
 #' @param .invalids a list of functions, or function name. Default is 'is.null'.
 #'
+#' @return list or vector containing no invalid values
 #' @examples
 #'
 #' x <- list(NULL,NULL,1,2)

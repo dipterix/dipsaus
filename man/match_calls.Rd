@@ -20,6 +20,9 @@ match_calls(call, recursive = TRUE, replace_args = list(),
 
 \item{...}{other parameters passing to \code{match.call}}
 }
+\value{
+A nested call with all arguments matched
+}
 \description{
 Recursively match calls and modify arguments
 }

@@ -2,9 +2,12 @@
 #'
 #' (stable)
 #'
-#' @param x A multi-mode tensor (array)
+#' @param x A numeric multi-mode tensor (array), without \code{NA}
 #' @param keep Which dimension to keep
 #' @param average collapse to sum or mean
+#'
+#' @return a collapsed array with values to be mean or summation along collapsing dimensions
+#'
 #'
 #' @examples
 #' # Example 1

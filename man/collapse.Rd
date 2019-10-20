@@ -9,11 +9,14 @@
 collapse(x, keep, average = FALSE)
 }
 \arguments{
-\item{x}{A multi-mode tensor (array)}
+\item{x}{A numeric multi-mode tensor (array), without \code{NA}}
 
 \item{keep}{Which dimension to keep}
 
 \item{average}{collapse to sum or mean}
+}
+\value{
+a collapsed array with values to be mean or summation along collapsing dimensions
 }
 \description{
 Collapse Sensors And Calculate Summations/Mean

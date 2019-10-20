@@ -11,18 +11,24 @@ function parse_html ( s ) {
 }
 
 function logger ( debug = true, level = 'log' ){
-  this.debug = debug;
   return (
-    ( s, d ) => {
-      if( d ){
-        this.debug = s === true;
-      }else if ( this.debug ){
+    ( s ) => {
+      if( debug ){
         console[level](s);
       }
     }
   );
 }
 
+var shiny_missing_warning = true;
+function check_shiny( Shiny, suc, mis = 'Shiny is not found!' ){
+  if( Shiny === undefined && shiny_missing_warning ){
+    console.warn(mis);
+    shiny_missing_warning = false;
+  }else if(suc){
+    console.log( suc );
+  }
+}
 
 
 var readyList = [];
@@ -74,7 +80,7 @@ const document_ready = function(callback, context) {
       }
       readyEventHandlersInstalled = true;
   }
-}
+};
 
 
-export { has_jquery , parse_html, logger, document_ready };
+export { has_jquery , parse_html, logger, document_ready, check_shiny };

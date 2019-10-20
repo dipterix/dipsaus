@@ -19,6 +19,9 @@ parse_svec(text, sep = ",", connect = "-:|", sort = F, unique = T)
 
 \item{unique}{extract unique elements}
 }
+\value{
+a numeric vector. For example, "1-3" returns \code{c(1, 2, 3)}
+}
 \description{
 Parse Text Into Numeric Vectors
 
@@ -28,4 +31,7 @@ Parse Text Into Numeric Vectors
 \dontrun{
 parse_svec('1-10, 13:15,14-20')
 }
+}
+\seealso{
+\code{\link[dipsaus]{deparse_svec}}
 }

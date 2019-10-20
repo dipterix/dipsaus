@@ -16,6 +16,9 @@ check_installed_packages(pkgs, libs = base::.libPaths(),
 
 \item{...}{other parameters for \code{install.packages}}
 }
+\value{
+package names that are not installed
+}
 \description{
 Check If Packages Are Installed, Returns Missing Packages
 }

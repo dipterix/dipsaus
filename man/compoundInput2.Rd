@@ -29,6 +29,9 @@ assigning colors to each group labels,}
 
 \item{...}{will be ignored}
 }
+\value{
+`HTML` tags
+}
 \description{
 Compound input that combines and extends shiny inputs
 }
@@ -104,4 +107,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server, options = list(launch.browser = TRUE))
 }
 }
+
+}
+\seealso{
+\code{\link[dipsaus]{updateCompoundInput2}} for how to update inputs
 }

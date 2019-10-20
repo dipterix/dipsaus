@@ -105,18 +105,24 @@ function parse_html ( s ) {
 }
 
 function logger ( debug = true, level = 'log' ){
-  this.debug = debug;
   return (
-    ( s, d ) => {
-      if( d ){
-        this.debug = s === true;
-      }else if ( this.debug ){
+    ( s ) => {
+      if( debug ){
         console[level](s);
       }
     }
   );
 }
 
+var shiny_missing_warning = true;
+function check_shiny( Shiny, suc, mis = 'Shiny is not found!' ){
+  if( Shiny === undefined && shiny_missing_warning ){
+    console.warn(mis);
+    shiny_missing_warning = false;
+  }else if(suc){
+    console.log( suc );
+  }
+}
 
 
 var readyList = [];
@@ -168,7 +174,7 @@ const document_ready = function(callback, context) {
       }
       readyEventHandlersInstalled = true;
   }
-}
+};
 
 
 
@@ -437,11 +443,7 @@ class shiny_input_compound_CompountInputItem{
 
 function register_compoundInput2 ( Shiny, debug = false ){
   const log = (s) => { if( !debug ){ console.log(s); } };
-  if(Shiny === undefined){
-    log('Shiny is not found.');
-    return;
-  }
-  log('Register compountInput2 (dipsaus)');
+  check_shiny( Shiny, 'Register compountInput2 (dipsaus)' );
 
   // Register!
 
@@ -525,13 +527,32 @@ function register_compoundInput2 ( Shiny, debug = false ){
 
 
 function register_actionButtonStyled ( Shiny, debug = false ){
+  check_shiny( Shiny, 'Register actionButtonStyled (dipsaus)' );
   const log = logger( debug );
   const shiny_binding = Shiny.inputBindings.bindingNames["shiny.actionButtonInput"].binding;
+  const btn_types = ['default', 'info', 'success', 'primary', 'warning', 'danger'];
 
   document_ready( () => {
     Shiny.addCustomMessageHandler('dipsaus.updateActionButtonStyled', ( msg ) => {
-      const inputId = msg.inputId;
-      log( inputId );
+      const inputId = msg.inputId,
+            el = document.getElementById( inputId );
+      log( msg );
+      if( !el ){ return; }
+
+      if( msg.type && btn_types.includes( msg.type ) ){
+
+        btn_types.forEach((_v) => {
+          if( _v === msg.type ){
+            el.classList.add('btn-' + _v);
+          }else{
+            el.classList.remove('btn-' + _v);
+          }
+        });
+
+      }
+
+      el.disabled = msg.disabled === true;
+
     });
   });
 }

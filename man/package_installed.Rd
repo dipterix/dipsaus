@@ -11,6 +11,10 @@ package_installed(pkgs, all = FALSE)
 
 \item{all}{only returns TRUE if all packages are installed. Default is FALSE.}
 }
+\value{
+logical, if packages are installed or not. If \code{all=TRUE}, return
+a logical value of whether all packages a re installed.
+}
 \description{
 Check if a package is installed
 }

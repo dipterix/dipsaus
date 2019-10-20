@@ -20,6 +20,9 @@ deparse_svec(nums, connect = "-", concatenate = T, collapse = ",",
 
 \item{max_lag}{defines "consecutive", min = 1}
 }
+\value{
+strings representing the input vector. For example, \code{c(1, 2, 3)} returns "1-3".
+}
 \description{
 Convert Integer Vectors To String
 
@@ -29,4 +32,7 @@ Convert Integer Vectors To String
 \dontrun{
 deparse_svec(c(1:10, 15:18))
 }
+}
+\seealso{
+\code{\link[dipsaus]{parse_svec}}
 }

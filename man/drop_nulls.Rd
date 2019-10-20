@@ -11,6 +11,9 @@ drop_nulls(x, .invalids = list("is.null"))
 
 \item{.invalids}{a list of functions, or function name. Default is 'is.null'.}
 }
+\value{
+list or vector containing no invalid values
+}
 \description{
 Drop \code{NULL} values from list or vectors
 }

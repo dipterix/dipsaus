@@ -5,8 +5,12 @@ Version: 0.0.1
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
-Description: A dipping sauce aims at enhancing visualization packages such as 
-    'shiny', 'threeBrain', and 'rave'.
+Description: Works as `add-ons` to packages like 'shiny', 'future', as well as `rlang`,
+    and provides handy utility functions. The enhancements are: 1. providing more 
+    `shiny` input widgets and making small changes to its native inputs; 2. high-performance 
+    computing using `RcppParallel` and `future` package; 3. easy ways to modify R calls 
+    and convert among numbers, strings, and other objects. 4. utility functions 
+    to get system information such like CPU chipset, memory limit, etc.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3
@@ -20,14 +24,20 @@ Imports:
     shiny,
     stringr,
     jsonlite (>= 1.6),
+    future,
+    future.apply,
+    data.table,
     Rcpp,
     RcppParallel,
     crayon,
     rlang (>= 0.4.0)
 Suggests:
-    microbenchmark
+    microbenchmark,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make
 LinkingTo: 
     Rcpp,
     RcppParallel
+VignetteBuilder: knitr

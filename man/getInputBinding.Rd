@@ -14,6 +14,9 @@ such as \code{'shiny::textInput'} or \code{numericInput}.}
 
 \item{envir}{environment to evaluate \code{fname} if \code{pkg} is not provided}
 }
+\value{
+a list containing: 1. `JavaScript` input binding name; 2. `R` updating function name
+}
 \description{
 Obtain registered input bindings
 }

@@ -115,6 +115,9 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
 #' such as \code{'shiny::textInput'} or \code{numericInput}.
 #' @param pkg (optional), name of package
 #' @param envir environment to evaluate \code{fname} if \code{pkg} is not provided
+#'
+#' @return a list containing: 1. `JavaScript` input binding name; 2. `R` updating function name
+#'
 #' @examples
 #'
 #' # Most recommended usage

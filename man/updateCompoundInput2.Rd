@@ -54,4 +54,8 @@ updateCompoundInput2(session, 'inputid',
                      ))
 }
 }
+
+}
+\seealso{
+\code{\link[dipsaus]{compoundInput2}} for how to define components.
 }
