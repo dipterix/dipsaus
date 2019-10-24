@@ -198,44 +198,44 @@ Below is the workflow:</p><ul>
   })
 
   <span class='no'>x</span>  <span class='co'># this is not returned as async is called</span>
-})</div><div class='output co'>#&gt; [1] "x=1 in session pid: 92335"
-#&gt; [1] "x=2 in session pid: 92335"
-#&gt; [1] "x=3 in session pid: 92335"
-#&gt; [1] "x=4 in session pid: 92335"
-#&gt; [1] "x=5 in session pid: 92335"
-#&gt; [1] "x=6 in session pid: 92335"
-#&gt; [1] "x=7 in session pid: 92335"
-#&gt; [1] "x=8 in session pid: 92335"
-#&gt; [1] "x=9 in session pid: 92335"
-#&gt; [1] "x=10 in session pid: 92335"</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 92367
+})</div><div class='output co'>#&gt; [1] "x=1 in session pid: 93607"
+#&gt; [1] "x=2 in session pid: 93607"
+#&gt; [1] "x=3 in session pid: 93607"
+#&gt; [1] "x=4 in session pid: 93607"
+#&gt; [1] "x=5 in session pid: 93607"
+#&gt; [1] "x=6 in session pid: 93607"
+#&gt; [1] "x=7 in session pid: 93607"
+#&gt; [1] "x=8 in session pid: 93607"
+#&gt; [1] "x=9 in session pid: 93607"
+#&gt; [1] "x=10 in session pid: 93607"</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] 93639
 #&gt; 
 #&gt; [[2]]
-#&gt; [1] 92369
+#&gt; [1] 93640
 #&gt; 
 #&gt; [[3]]
-#&gt; [1] 92370
+#&gt; [1] 93641
 #&gt; 
 #&gt; [[4]]
-#&gt; [1] 92371
+#&gt; [1] 93642
 #&gt; 
 #&gt; [[5]]
-#&gt; [1] 92372
+#&gt; [1] 93643
 #&gt; 
 #&gt; [[6]]
-#&gt; [1] 92373
+#&gt; [1] 93644
 #&gt; 
 #&gt; [[7]]
-#&gt; [1] 92374
+#&gt; [1] 93645
 #&gt; 
 #&gt; [[8]]
-#&gt; [1] 92375
+#&gt; [1] 93646
 #&gt; 
 #&gt; [[9]]
-#&gt; [1] 92376
+#&gt; [1] 93647
 #&gt; 
 #&gt; [[10]]
-#&gt; [1] 92377
+#&gt; [1] 93648
 #&gt; </div><div class='input'>
 <span class='co'># Case 2: async is not called, all expressions are evaluated in</span>
 <span class='co'># a single session</span>
@@ -243,16 +243,16 @@ Below is the workflow:</p><ul>
   <span class='co'># This part is not async</span>
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>'x=%s in session pid: %s'</span>, <span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.getpid.html'>Sys.getpid</a></span>()))
   <span class='no'>x</span>  <span class='co'># x is returned as async is not called</span>
-})</div><div class='output co'>#&gt; [1] "x=1 in session pid: 92335"
-#&gt; [1] "x=2 in session pid: 92335"
-#&gt; [1] "x=3 in session pid: 92335"
-#&gt; [1] "x=4 in session pid: 92335"
-#&gt; [1] "x=5 in session pid: 92335"
-#&gt; [1] "x=6 in session pid: 92335"
-#&gt; [1] "x=7 in session pid: 92335"
-#&gt; [1] "x=8 in session pid: 92335"
-#&gt; [1] "x=9 in session pid: 92335"
-#&gt; [1] "x=10 in session pid: 92335"</div><div class='output co'>#&gt; [[1]]
+})</div><div class='output co'>#&gt; [1] "x=1 in session pid: 93607"
+#&gt; [1] "x=2 in session pid: 93607"
+#&gt; [1] "x=3 in session pid: 93607"
+#&gt; [1] "x=4 in session pid: 93607"
+#&gt; [1] "x=5 in session pid: 93607"
+#&gt; [1] "x=6 in session pid: 93607"
+#&gt; [1] "x=7 in session pid: 93607"
+#&gt; [1] "x=8 in session pid: 93607"
+#&gt; [1] "x=9 in session pid: 93607"
+#&gt; [1] "x=10 in session pid: 93607"</div><div class='output co'>#&gt; [[1]]
 #&gt; NULL
 #&gt; 
 #&gt; [[2]]
