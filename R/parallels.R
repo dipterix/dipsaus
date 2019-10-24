@@ -34,24 +34,34 @@
 #' @examples
 #'
 #' \donttest{
-#' # Takes about 15 seconds to run
+#'
 #' library(dipsaus)
+#'
+#' # Enable parallel computing
+#' make_forked_clusters()
+#'
+#' # Case 1: async is called
 #' async_expr(.X = 1:10, {
-#' # each element of .X is assigned as 'x'
+#'   # This part is not async
+#'   print(sprintf('x=%s in session pid: %s', x, Sys.getpid()))
 #'
-#' # This part is not async
-#' print(x)
+#'   # The magic starts here, async is provided
+#'   async({
+#'     Sys.getpid()
+#'   })
 #'
-#' # The magic starts here, async is provided
-#' async({
-#'   Sys.sleep(3)
-#'   return(x*2)
+#'   x  # this is not returned as async is called
 #' })
-#' }, .pre_run = {
-#'   make_forked_clusters()
+#'
+#' # Case 2: async is not called, all expressions are evaluated in
+#' # a single session
+#' async_expr(.X = 1:10, {
+#'   # This part is not async
+#'   print(sprintf('x=%s in session pid: %s', x, Sys.getpid()))
+#'   x  # x is returned as async is not called
 #' })
+#'
 #' }
-#'
 #' @export
 async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
                        .pre_run = NULL,
@@ -80,7 +90,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
       future::resolve(.envir$._futures)
       re <- future::values(.envir$._futures)
       if( !is.null(re) ){
-        ._values[length(._values) + seq_along(.envir$._futures)] <<- re
+        ._values[._ii - 1 + seq_along(.envir$._futures)] <<- re
       }
       .envir$._futures <- NULL
     }else{
@@ -97,13 +107,17 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 
   eval(.pre_run, envir = .envir)
 
-  lapply(seq_along(.X), function(.ii){
+  lapply(seq_along(.X), function(.jj){
     .__check__()
     if(any( future::resolved(.envir$._futures)) ){
       .envir$._values
     }
-    assign(.varname, .X[[.ii]], envir = .envir)
-    ._values[[.ii]] <<- eval(.expr, envir = .envir)
+    assign(.varname, .X[[.jj]], envir = .envir)
+    .re = eval(.expr, envir = .envir)
+    if( ._ii < .jj && !inherits(.re, 'Future') ){
+      ._values[[.jj]] <<- .re
+    }
+
   })
   .__check__(TRUE)
   .envir$._futures <- NULL
