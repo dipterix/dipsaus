@@ -11,3 +11,5 @@ add_js_script <- function(){
   registerCompoundInput2()
 
 }
+
+

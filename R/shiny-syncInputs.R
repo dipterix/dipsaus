@@ -90,3 +90,4 @@ sync_shiny_inputs <- function(input, session, inputIds,
     }
   }, env = this_env)
 }
+
