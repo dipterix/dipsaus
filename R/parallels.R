@@ -154,21 +154,20 @@ async <- function(expr){
 #' @return the same as \code{lapply(x, fun, ...)}
 #'
 #' @examples
-#'
 #' \donttest{
-#' # Takes about 15 seconds to run
+#'
 #' library(dipsaus)
 #'
 #' # Make a forked clusters
 #' make_forked_clusters()
 #'
 #' async_lapply(11:20, function(x){
-#'   Sys.sleep(3)
-#'   return(x)
+#'   Sys.getpid()
 #' }, .call_back = function(i){
 #'   # Callback is not async
 #'   print(sprintf('Iteration %d', i))
 #' })
+#'
 #' }
 #' @export
 async_lapply <- function(

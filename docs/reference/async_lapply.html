@@ -174,17 +174,15 @@ the result</p></td>
     <p>the same as <code><a href='https://rdrr.io/r/base/lapply.html'>lapply(x, fun, ...)</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># \donttest{</span>
-<span class='co'># Takes about 15 seconds to run</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
 
 <span class='co'># Make a forked clusters</span>
 <span class='fu'><a href='make_forked_clusters.html'>make_forked_clusters</a></span>()
 
 <span class='fu'>async_lapply</span>(<span class='fl'>11</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>x</span>){
-  <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>3</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='no'>x</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/Sys.getpid.html'>Sys.getpid</a></span>()
 }, <span class='kw'>.call_back</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>i</span>){
   <span class='co'># Callback is not async</span>
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>'Iteration %d'</span>, <span class='no'>i</span>))
@@ -198,35 +196,36 @@ the result</p></td>
 #&gt; [1] "Iteration 8"
 #&gt; [1] "Iteration 9"
 #&gt; [1] "Iteration 10"</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 11
+#&gt; [1] 99451
 #&gt; 
 #&gt; [[2]]
-#&gt; [1] 12
+#&gt; [1] 99452
 #&gt; 
 #&gt; [[3]]
-#&gt; [1] 13
+#&gt; [1] 99453
 #&gt; 
 #&gt; [[4]]
-#&gt; [1] 14
+#&gt; [1] 99454
 #&gt; 
 #&gt; [[5]]
-#&gt; [1] 15
+#&gt; [1] 99455
 #&gt; 
 #&gt; [[6]]
-#&gt; [1] 16
+#&gt; [1] 99456
 #&gt; 
 #&gt; [[7]]
-#&gt; [1] 17
+#&gt; [1] 99457
 #&gt; 
 #&gt; [[8]]
-#&gt; [1] 18
+#&gt; [1] 99458
 #&gt; 
 #&gt; [[9]]
-#&gt; [1] 19
+#&gt; [1] 99459
 #&gt; 
 #&gt; [[10]]
-#&gt; [1] 20
-#&gt; </div><div class='input'># }
+#&gt; [1] 99460
+#&gt; </div><div class='input'>
+# }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
