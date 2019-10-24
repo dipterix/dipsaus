@@ -21,16 +21,18 @@ Provides a way to assign default values to variables. If the statement
 \code{value}, otherwise nothing happens.
 }
 \examples{
-# Remove a if exists
-if(exists('a', envir = globalenv()))  rm(a, envir = globalenv())
+# Prepare, remove aaa if exists
+if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+  rm(aaa, envir = globalenv())
+}
 
 # Assign
-a \%?<-\% 1; print(a)
+aaa \%?<-\% 1; print(aaa)
 
 # However, if assigned, nothing happens
-a = 1;
-a \%?<-\% 2;
-print(a)
+aaa = 1;
+aaa \%?<-\% 2;
+print(aaa)
 
 # in a list
 a = list()

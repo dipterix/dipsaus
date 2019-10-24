@@ -167,13 +167,13 @@ collapsing dimensions</p>
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
   <span class='kw'>result</span> <span class='kw'>=</span> <span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>)),
   <span class='kw'>compare</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>), <span class='no'>sum</span>),
-  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>20L</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>v</span>){
+  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>v</span>){
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   }
 )</div><div class='output co'>#&gt; Unit: microseconds
-#&gt;     expr     min       lq     mean   median      uq     max neval
-#&gt;   result 187.892 202.2595 227.0642 216.0970 228.453 385.567    20
-#&gt;  compare  68.516  73.5555  91.8681  81.6345 109.108 149.227    20</div><div class='input'>
+#&gt;     expr     min      lq    mean  median      uq     max neval
+#&gt;   result 437.179 437.179 437.179 437.179 437.179 437.179     1
+#&gt;  compare 152.860 152.860 152.860 152.860 152.860 152.860     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>)), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span>))
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
@@ -183,8 +183,8 @@ collapsing dimensions</p>
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   })</div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  56.77871  56.77871  56.77871  56.77871  56.77871  56.77871     1
-#&gt;  compare 165.86974 165.86974 165.86974 165.86974 165.86974 165.86974     1</div><div class='input'>
+#&gt;   result  60.64652  60.64652  60.64652  60.64652  60.64652  60.64652     1
+#&gt;  compare 148.80165 148.80165 148.80165 148.80165 148.80165 148.80165     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
