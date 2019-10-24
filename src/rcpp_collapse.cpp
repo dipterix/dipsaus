@@ -33,7 +33,8 @@ struct Collapse : public RcppParallel::Worker
     // int input_ind[input_size];
     int rem_dim = total_dim / out_dim;
 
-    int i, j, k;
+    unsigned int i;
+    int j, k;
     int l,p,a,b,c;    // indices
     double re;
 

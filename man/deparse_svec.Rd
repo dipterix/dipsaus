@@ -29,9 +29,7 @@ Convert Integer Vectors To String
 (stable)
 }
 \examples{
-\dontrun{
 deparse_svec(c(1:10, 15:18))
-}
 }
 \seealso{
 \code{\link[dipsaus]{parse_svec}}

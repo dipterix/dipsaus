@@ -18,3 +18,12 @@ a logical value of whether all packages a re installed.
 \description{
 Check if a package is installed
 }
+\examples{
+
+# Check if package base and dipsaus are installed
+package_installed(c('base', 'dipsaus'))
+
+# Check if all required packages are installed
+package_installed(c('base', 'dipsaus'), all = TRUE)
+
+}

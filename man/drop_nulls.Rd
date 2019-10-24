@@ -20,6 +20,6 @@ Drop \code{NULL} values from list or vectors
 \examples{
 
 x <- list(NULL,NULL,1,2)
-drop_nulls(x)
+drop_nulls(x)  # length of 2
 
 }

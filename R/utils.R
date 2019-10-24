@@ -58,7 +58,7 @@ is_invalid <- function(x, any = F, .invalids = list('is.null', 'is.na'), ...){
 #' @examples
 #'
 #' x <- list(NULL,NULL,1,2)
-#' drop_nulls(x)
+#' drop_nulls(x)  # length of 2
 #'
 #' @export
 drop_nulls <- function (x, .invalids = list('is.null')) {

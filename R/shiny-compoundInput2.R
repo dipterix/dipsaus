@@ -26,9 +26,6 @@
 #'     list(sli = 0.2)    # sli = 0.2 for the third group
 #'   ))
 #'
-#' \donttest{
-#' \dontrun{
-#'
 #' # Source - system.file('demo/example-compountInput2.R', package='dipsaus')
 #'
 #' # demo('example-compountInput2', package='dipsaus')
@@ -80,8 +77,8 @@
 #'   })
 #' }
 #'
-#' shinyApp(ui, server, options = list(launch.browser = TRUE))
-#' }
+#' if( interactive() ){
+#'   shinyApp(ui, server, options = list(launch.browser = TRUE))
 #' }
 #'
 #' @seealso \code{\link[dipsaus]{updateCompoundInput2}} for how to update inputs
@@ -261,7 +258,6 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #' @param initialization,... named list of other updates
 #' @examples
 #'
-#' \donttest{
 #' \dontrun{
 #' library(shiny); library(dipsaus)
 #'
@@ -289,7 +285,6 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #'                      initialization = list(
 #'                        text = list(label = as.character(Sys.time()))
 #'                      ))
-#' }
 #' }
 #'
 #' @seealso \code{\link[dipsaus]{compoundInput2}} for how to define components.

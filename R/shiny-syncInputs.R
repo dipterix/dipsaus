@@ -6,7 +6,6 @@
 #' @param updates functions, equaling to length of \code{inputIds}, updating input values
 #' @param snap numeric, milliseconds to defer the changes
 #' @examples
-#' \donttest{
 #'
 #' library(shiny)
 #'
@@ -26,13 +25,10 @@
 #'
 #' }
 #'
-#' \donttest{
-#' \dontrun{
-#' shinyApp(ui, server)
-#' }
+#' if( interactive() ){
+#'   shinyApp(ui, server)
 #' }
 #'
-#' }
 #' @export
 sync_shiny_inputs <- function(input, session, inputIds,
                               uniform = rep('I', length(inputIds)), updates, snap = 250){

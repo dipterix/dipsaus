@@ -50,9 +50,6 @@ compoundInput2(
     list(sli = 0.2)    # sli = 0.2 for the third group
   ))
 
-\donttest{
-\dontrun{
-
 # Source - system.file('demo/example-compountInput2.R', package='dipsaus')
 
 # demo('example-compountInput2', package='dipsaus')
@@ -104,8 +101,8 @@ server <- function(input, output, session) {
   })
 }
 
-shinyApp(ui, server, options = list(launch.browser = TRUE))
-}
+if( interactive() ){
+  shinyApp(ui, server, options = list(launch.browser = TRUE))
 }
 
 }

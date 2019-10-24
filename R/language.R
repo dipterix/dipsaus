@@ -59,22 +59,36 @@ match_calls = function(call, recursive = TRUE, replace_args = list(),
 #' @param expr R expression or 'rlang' quo
 #' @param env environment to evaluate
 #' @param data dataframe or list
+#' @param quoted Is the expression quoted? By default, this is \code{TRUE}. This is
+#' useful when you don't want to use an expression that is stored in a
+#' variable; see examples
 #'
 #' @details \code{eval_dirty} uses \code{base::eval()} function to evaluate expressions.
 #' Compare to \code{rlang::eval_tidy}, which won't affect original environment,
-#' \code{eval_dirty} will cause changes to the environment. Therefore if \code{expr}
+#' \code{eval_dirty} causes changes to the environment. Therefore if \code{expr}
 #' contains assignment, environment will be changed in this case.
+#'
+#' @return the executed results of \code{expr} evaluated with side effects.
+#'
 #' @examples
 #'
-#' expr = quote({a <- 111})
-#' a = 1; env = globalenv()
-#' rlang::eval_tidy(expr, env = env)
-#' print(a)  # Will be 1. This is because eval_tidy has no side effect
-#' eval_dirty(expr, env)
-#' print(a)  # a is changed, a is changed
+#' env = new.env(); env$a = 1
+#' rlang::eval_tidy(quote({a <- 111}), env = env)
+#' print(env$a)  # Will be 1. This is because eval_tidy has no side effect
+#'
+#' eval_dirty(quote({a <- 111}), env)
+#' print(env$a)  # 111, a is changed
+#'
+#' # Unquoted case
+#' eval_dirty({a <- 222}, env, quoted = FALSE)
+#' print(env$a)
 #'
 #' @export
-eval_dirty <- function(expr, env = parent.frame(), data = NULL){
+eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
+
+  if( !quoted ){
+    expr = substitute( expr )
+  }
 
   if(rlang::is_quosure(expr)){
     expr = rlang::quo_squash(expr)

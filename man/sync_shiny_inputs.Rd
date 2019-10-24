@@ -23,7 +23,6 @@ to a uniform values}
 Synchronize Shiny Inputs
 }
 \examples{
-\donttest{
 
 library(shiny)
 
@@ -43,11 +42,8 @@ server <- function(input, output, session) {
 
 }
 
-\donttest{
-\dontrun{
-shinyApp(ui, server)
-}
+if( interactive() ){
+  shinyApp(ui, server)
 }
 
-}
 }

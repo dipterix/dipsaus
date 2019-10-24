@@ -1,6 +1,13 @@
 #' Check if a package is installed
 #' @param pkgs vector of package names
 #' @param all only returns TRUE if all packages are installed. Default is FALSE.
+#' @examples
+#'
+#' # Check if package base and dipsaus are installed
+#' package_installed(c('base', 'dipsaus'))
+#'
+#' # Check if all required packages are installed
+#' package_installed(c('base', 'dipsaus'), all = TRUE)
 #'
 #' @return logical, if packages are installed or not. If \code{all=TRUE}, return
 #' a logical value of whether all packages a re installed.

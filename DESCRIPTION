@@ -1,16 +1,22 @@
 Package: dipsaus
 Type: Package
-Title: A Dipping Sauce to Data Analysis and Visualizations
+Title: A Dipping Sauce for Data Analysis and Visualizations
 Version: 0.0.2
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
-Description: Works as `add-ons` to packages like 'shiny', 'future', as well as `rlang`,
-    and provides handy utility functions. The enhancements are: 1. providing more 
-    `shiny` input widgets and making small changes to its native inputs; 2. high-performance 
-    computing using `RcppParallel` and `future` package; 3. easy ways to modify R calls 
-    and convert among numbers, strings, and other objects. 4. utility functions 
-    to get system information such like CPU chipset, memory limit, etc.
+Description: Works as "add-ons" to packages like 'shiny', 'future', as well as 
+    'rlang', and provides utility functions. Just like dipping sauce adding 
+    flavors to potato chips or pita bread, 'dipsaus' for data analysis and 
+    visualizations addes handy functions and enhancements to popular packages. 
+    The goal is to provide simple solutions that are frequently asked for 
+    online, such as how to synchronize 'shiny' inputs without freezing the app,
+    or how to get memory size on "Linux" or "OSX" system. The enhancements can 
+    roughly fall into these four categories: 1. 'shiny' input widgets; 2. 
+    high-performance computing using 'RcppParallel' and 'future' package; 3. 
+    modify R calls and convert among numbers, strings, and other objects. 4. 
+    utility functions to get system information such like CPU chipset, memory 
+    limit, etc.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3

@@ -12,3 +12,6 @@ async_flapply(X, FUN, ...)
 \description{
 Wrapper for \code{future.apply::future_lapply}
 }
+\seealso{
+\code{\link[future.apply]{future_lapply}}
+}

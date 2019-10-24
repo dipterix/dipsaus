@@ -63,9 +63,7 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 #' @return a numeric vector. For example, "1-3" returns \code{c(1, 2, 3)}
 #' @seealso \code{\link[dipsaus]{deparse_svec}}
 #' @examples
-#' \dontrun{
 #' parse_svec('1-10, 13:15,14-20')
-#' }
 #' @export
 parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
   connect = unlist(stringr::str_split(connect, ''))
@@ -123,9 +121,7 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
 #' @return strings representing the input vector. For example, \code{c(1, 2, 3)} returns "1-3".
 #' @seealso \code{\link[dipsaus]{parse_svec}}
 #' @examples
-#' \dontrun{
 #' deparse_svec(c(1:10, 15:18))
-#' }
 #' @export
 deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', max_lag = 1){
   nums = nums[is.finite(nums)]

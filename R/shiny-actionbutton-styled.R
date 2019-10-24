@@ -32,10 +32,8 @@
 #' }
 #'
 #'
-#' \dontrun{
-#' \donttest{
-#' shinyApp(ui, server, options = list(launch.browser=TRUE))
-#' }
+#' if( interactive() ){
+#'   shinyApp(ui, server, options = list(launch.browser=TRUE))
 #' }
 #'
 #' @seealso \code{\link[dipsaus]{updateActionButtonStyled}} for how to update the button.

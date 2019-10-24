@@ -22,13 +22,38 @@ async_expr(.X, .expr, .varname = "x", envir = parent.frame(),
 
 \item{...}{passed to \code{future::future}}
 }
+\value{
+a list whose length equals to \code{.X}. The value of each item returned
+depends on whether \code{async} is called. See details for workflows.
+}
 \description{
 Apply R expressions in a parallel way
+}
+\details{
+\code{async_expr} uses \code{lapply} and \code{future::future} internally.
+Within each loop, an item in \code{".X"} will be assigned to variable \code{"x"}
+(defined by \code{".varname"}) and enter the evaluation. During the evaluation,
+function \code{async} is provided. Expressions within \code{async} will be
+evaluated in another session, otherwise will be evaluated in currect session.
+Below is the workflow:
+\itemize{
+  \item Run \code{.pre_run}
+  \item For \code{i} in \code{seq_along(.X)}:
+  \itemize{
+    \item 1. Assign \code{x} with \code{.X[[i]]}, variable name \code{x} is
+    defined by \code{.varname}
+    \item 2. Evaluate \code{expr} in current session.
+    \itemize{
+      \item a. If \code{async} is not called, return evaluated \code{expr}
+      \item b. If \code{async(aync_expr)} is called, evaluate \code{aync_expr}
+      in another session, and return the evaluation results if \code{aync_expr}
+    }
+  }
+}
 }
 \examples{
 
 \donttest{
-\dontrun{
 # Takes about 15 seconds to run
 library(dipsaus)
 async_expr(.X = 1:10, {
@@ -45,7 +70,6 @@ async({
 }, .pre_run = {
   make_forked_clusters()
 })
-}
 }
 
 }

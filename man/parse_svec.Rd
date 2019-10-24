@@ -28,9 +28,7 @@ Parse Text Into Numeric Vectors
 (stable)
 }
 \examples{
-\dontrun{
 parse_svec('1-10, 13:15,14-20')
-}
 }
 \seealso{
 \code{\link[dipsaus]{deparse_svec}}

@@ -45,15 +45,12 @@ microbenchmark::microbenchmark(
   times = 20L
 )
 
-\donttest{
-\dontrun{
 # large data big difference
 x = array(rnorm(prod(300,200,105)), c(300,200,105,1))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 10L
+  times = 1L
 )
-}
-}
+
 }

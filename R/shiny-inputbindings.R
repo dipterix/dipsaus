@@ -131,15 +131,14 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
 #'
 #' getInputBinding(compoundInput2, pkg = 'dipsaus')
 #'
-#' # Bad usage
-#' \donttest{
+#' # Bad usage, raise errors in some cases
+#' \dontrun{
+#' ## You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
+#' getInputBinding('textInput')
+#' getInputBinding(textInput) also fails
 #'
-#' #### You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
-#' # getInputBinding('textInput')
-#' # getInputBinding(textInput) also fails
-#'
-#' #### Always fails
-#' # getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')
+#' ## Always fails
+#' getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')
 #' }
 #'
 #' @export
