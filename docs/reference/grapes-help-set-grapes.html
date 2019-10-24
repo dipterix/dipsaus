@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `<code>lhs</code>`
-is invalid or <code>NULL</code>, this function will try to assign <code>value</code>, otherwise
-nothing happens. — %?&lt;-% • dipsaus</title>
+Provides a way to assign default values to variables. If the statement
+`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
+<code>value</code>, otherwise nothing happens. — %?&lt;-% • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,13 @@ nothing happens. — %?&lt;-% • dipsaus</title>
 
 
 <meta property="og:title" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `<code>lhs</code>`
-is invalid or <code>NULL</code>, this function will try to assign <code>value</code>, otherwise
-nothing happens. — %?&lt;-%" />
+Provides a way to assign default values to variables. If the statement
+`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
+<code>value</code>, otherwise nothing happens. — %?&lt;-%" />
 <meta property="og:description" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `lhs`
-is invalid or NULL, this function will try to assign value, otherwise
-nothing happens." />
+Provides a way to assign default values to variables. If the statement
+`lhs` is invalid or NULL, this function will try to assign
+value, otherwise nothing happens." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -78,7 +78,7 @@ nothing happens." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -118,18 +118,18 @@ nothing happens." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `<code>lhs</code>`
-is invalid or <code>NULL</code>, this function will try to assign <code>value</code>, otherwise
-nothing happens.</h1>
+Provides a way to assign default values to variables. If the statement
+`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
+<code>value</code>, otherwise nothing happens.</h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
     <div class="hidden name"><code>grapes-help-set-grapes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `<code>lhs</code>`
-is invalid or <code>NULL</code>, this function will try to assign <code>value</code>, otherwise
-nothing happens.</p>
+Provides a way to assign default values to variables. If the statement
+`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
+<code>value</code>, otherwise nothing happens.</p>
     </div>
 
     <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%?&lt;-%</span> <span class='no'>value</span></pre>
@@ -150,8 +150,7 @@ nothing happens.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Remove a if exists</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='st'>'a'</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>()))  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>a</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>())
-
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='st'>'a'</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>()))  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>a</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>())</div><div class='output co'>#&gt; <span class='warning'>Warning: object 'a' not found</span></div><div class='input'>
 <span class='co'># Assign</span>
 <span class='no'>a</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)</div><div class='output co'>#&gt; function (..., .noWS = NULL) 
 #&gt; {
@@ -159,8 +158,8 @@ nothing happens.</p>
 #&gt;     contents &lt;- dots_list(...)
 #&gt;     tag(tagname, contents, .noWS = .noWS)
 #&gt; }
-#&gt; &lt;bytecode: 0x7f9be6a82fd8&gt;
-#&gt; &lt;environment: 0x7f9be601b9a0&gt;</div><div class='input'>
+#&gt; &lt;bytecode: 0x7ff2565a4208&gt;
+#&gt; &lt;environment: 0x7ff25565d9a0&gt;</div><div class='input'>
 <span class='co'># However, if assigned, nothing happens</span>
 <span class='no'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>;
 <span class='no'>a</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>;

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
     <p>Evaluate expressions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>eval_dirty</span>(<span class='no'>expr</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>eval_dirty</span>(<span class='no'>expr</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>quoted</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,27 +134,40 @@
       <th>data</th>
       <td><p>dataframe or list</p></td>
     </tr>
+    <tr>
+      <th>quoted</th>
+      <td><p>Is the expression quoted? By default, this is <code>TRUE</code>.
+This is useful when you don't want to use an expression that is stored in a
+variable; see examples</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>the executed results of <code>expr</code> evaluated with side effects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>eval_dirty</code> uses <code><a href='https://rdrr.io/r/base/eval.html'>base::eval()</a></code> function to evaluate expressions.
-Compare to <code><a href='https://rlang.r-lib.org/reference/eval_tidy.html'>rlang::eval_tidy</a></code>, which won't affect original environment,
-<code>eval_dirty</code> will cause changes to the environment. Therefore if <code>expr</code>
-contains assignment, environment will be changed in this case.</p>
+    <p><code>eval_dirty</code> uses <code><a href='https://rdrr.io/r/base/eval.html'>base::eval()</a></code> function to evaluate
+expressions. Compare to <code><a href='https://rlang.r-lib.org/reference/eval_tidy.html'>rlang::eval_tidy</a></code>, which won't affect original
+environment, <code>eval_dirty</code> causes changes to the environment. Therefore
+if <code>expr</code> contains assignment, environment will be changed in this case.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>({<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>111</span>})
-<span class='no'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>; <span class='no'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>()
-<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/eval_tidy.html'>eval_tidy</a></span>(<span class='no'>expr</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 111</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># Will be 1. This is because eval_tidy has no side effect</span></div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>eval_dirty</span>(<span class='no'>expr</span>, <span class='no'>env</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)  <span class='co'># a is changed, a is changed</span></div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='no'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span>(); <span class='no'>env</span>$<span class='no'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>
+<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/eval_tidy.html'>eval_tidy</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>({<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>111</span>}), <span class='kw'>env</span> <span class='kw'>=</span> <span class='no'>env</span>)</div><div class='output co'>#&gt; [1] 111</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>env</span>$<span class='no'>a</span>)  <span class='co'># Will be 1. This is because eval_tidy has no side effect</span></div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>eval_dirty</span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>({<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>111</span>}), <span class='no'>env</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>env</span>$<span class='no'>a</span>)  <span class='co'># 111, a is changed</span></div><div class='output co'>#&gt; [1] 111</div><div class='input'>
+<span class='co'># Unquoted case</span>
+<span class='fu'>eval_dirty</span>({<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>222</span>}, <span class='no'>env</span>, <span class='kw'>quoted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>env</span>$<span class='no'>a</span>)</div><div class='output co'>#&gt; [1] 222</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

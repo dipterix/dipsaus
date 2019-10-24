@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -153,6 +153,30 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a list whose length equals to <code>.X</code>. The value of each item
+returned depends on whether <code>async</code> is called. See details for workflow.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>async_expr</code> uses <code>lapply</code> and <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code> internally.
+Within each loop, an item in <code>".X"</code> will be assigned to variable <code>"x"</code>
+(defined by <code>".varname"</code>) and enter the evaluation. During the evaluation,
+function <code>async</code> is provided. Expressions within <code>async</code> will be
+evaluated in another session, otherwise will be evaluated in current session.
+Below is the workflow:</p><ul>
+<li><p>Run <code>.pre_run</code></p></li>
+<li><p>For <code>i</code> in <code><a href='https://rdrr.io/r/base/seq.html'>seq_along(.X)</a></code>:</p><ul>
+<li><p>1. Assign <code>x</code> with <code>.X[[i]]</code>, variable name <code>x</code> is
+    defined by <code>.varname</code></p></li>
+<li><p>2. Evaluate <code>expr</code> in current session.</p><ul>
+<li><p>a. If <code>async</code> is not called, return evaluated <code>expr</code></p></li>
+<li><p>b. If <code><a href='async.html'>async(aync_expr)</a></code> is called, evaluate <code>aync_expr</code>
+      in another session, and return the evaluation results if <code>aync_expr</code></p></li>
+</ul></li>
+</ul></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -166,7 +190,7 @@
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)
 
 <span class='co'># The magic starts here, async is provided</span>
-<span class='fu'>async</span>({
+<span class='fu'><a href='async.html'>async</a></span>({
   <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>3</span>)
   <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='no'>x</span>*<span class='fl'>2</span>)
 })
@@ -188,28 +212,188 @@
 #&gt; [1] 4
 #&gt; 
 #&gt; [[3]]
-#&gt; [1] 6
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[4]]
-#&gt; [1] 8
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[5]]
-#&gt; [1] 10
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[6]]
-#&gt; [1] 12
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[7]]
-#&gt; [1] 14
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[8]]
-#&gt; [1] 16
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[9]]
-#&gt; [1] 18
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; 
 #&gt; [[10]]
-#&gt; [1] 20
+#&gt; MulticoreFuture:
+#&gt; Label: ‘&lt;none&gt;’
+#&gt; Expression:
+#&gt; {
+#&gt;     Sys.sleep(3)
+#&gt;     return(x * 2)
+#&gt; }
+#&gt; Lazy evaluation: FALSE
+#&gt; Asynchronous evaluation: TRUE
+#&gt; Local evaluation: TRUE
+#&gt; Environment: &lt;environment: 0x7ff25a4726e0&gt;
+#&gt; Capture standard output: TRUE
+#&gt; Capture condition classes: ‘condition’
+#&gt; Globals: &lt;none&gt;
+#&gt; Packages: &lt;none&gt;
+#&gt; L'Ecuyer-CMRG RNG seed: &lt;none&gt;
+#&gt; Resolved: TRUE
+#&gt; Value: 56 bytes of class ‘numeric’
+#&gt; Early signaling: FALSE
+#&gt; Owner process: dba8822e-6d68-8486-ac18-e7f7ec7b4ad6
+#&gt; Class: ‘MulticoreFuture’, ‘MultiprocessFuture’, ‘Future’, ‘environment’
 #&gt; </div><div class='input'># }
 
 </div></pre>
@@ -218,6 +402,8 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

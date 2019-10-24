@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -146,12 +146,15 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a collapsed array with values to be mean or summation along collapsing dimensions</p>
+    <p>a collapsed array with values to be mean or summation along
+collapsing dimensions</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example 1</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>:<span class='fl'>16</span>, <span class='fl'>4</span>)
-<span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># Keep the first dimension and calculate sums along the rest</span></div><div class='output co'>#&gt; [1] 28 32 36 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='no'>x</span>)  <span class='co'># Should yield the same result</span></div><div class='output co'>#&gt; [1] 28 32 36 40</div><div class='input'>
+
+<span class='co'># Keep the first dimension and calculate sums along the rest</span>
+<span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 28 32 36 40</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span>(<span class='no'>x</span>)  <span class='co'># Should yield the same result</span></div><div class='output co'>#&gt; [1] 28 32 36 40</div><div class='input'>
 <span class='co'># Example 2</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fl'>1</span>:<span class='fl'>120</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>))
 <span class='no'>result</span> <span class='kw'>=</span> <span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>))
@@ -164,20 +167,25 @@
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
   <span class='kw'>result</span> <span class='kw'>=</span> <span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>)),
   <span class='kw'>compare</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>), <span class='no'>sum</span>),
-  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>20L</span>
+  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>20L</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>v</span>){
+    <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
+  }
 )</div><div class='output co'>#&gt; Unit: microseconds
-#&gt;     expr     min      lq     mean   median      uq     max neval
-#&gt;   result 253.657 368.004 455.8721 431.7465 469.179 969.069    20
-#&gt;  compare 125.520 147.781 166.8954 164.9245 185.676 213.749    20</div><div class='input'><span class='co'># large data big difference</span>
+#&gt;     expr     min       lq     mean   median       uq     max neval
+#&gt;   result 198.388 213.5655 253.0788 229.4430 281.8795 444.338    20
+#&gt;  compare  68.726  77.8720 107.7819 114.7915 125.3185 155.333    20</div><div class='input'>
+<span class='co'># large data big difference</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>)), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span>))
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
   <span class='kw'>result</span> <span class='kw'>=</span> <span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>)),
   <span class='kw'>compare</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>2</span>), <span class='no'>sum</span>),
-  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10L</span>
-)</div><div class='output co'>#&gt; Unit: milliseconds
+  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1L</span> , <span class='kw'>check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>v</span>){
+    <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
+  })</div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  50.64733  56.67393  61.00035  61.60545  65.07969  70.23534    10
-#&gt;  compare 176.00585 204.00103 207.97881 212.45507 216.00275 219.85467    10</div></pre>
+#&gt;   result  62.11567  62.11567  62.11567  62.11567  62.11567  62.11567     1
+#&gt;  compare 162.51917 162.51917 162.51917 162.51917 162.51917 162.51917     1</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

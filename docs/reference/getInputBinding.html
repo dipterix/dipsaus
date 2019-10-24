@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -142,58 +142,7 @@ such as <code>'shiny::textInput'</code> or <code>numericInput</code>.</p></td>
     <p>a list containing: 1. `JavaScript` input binding name; 2. `R` updating function name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Most recommended usage</span>
-<span class='fu'>getInputBinding</span>(<span class='st'>'compoundInput2'</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='st'>'dipsaus'</span>)</div><div class='output co'>#&gt; $binding
-#&gt; [1] "dipsaus.compoundInput2"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "dipsaus.updateCompoundInput2"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "dipsaus::compoundInput2"
-#&gt; </div><div class='input'>
-<span class='co'># Other usages</span>
-<span class='fu'>getInputBinding</span>(<span class='st'>'shiny::textInput'</span>)</div><div class='output co'>#&gt; $binding
-#&gt; [1] "shiny.textInput"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "shiny::updateTextInput"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "shiny::textInput"
-#&gt; </div><div class='input'>
-
-<span class='fu'>getInputBinding</span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>)</div><div class='output co'>#&gt; $binding
-#&gt; [1] "shiny.textInput"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "shiny::updateTextInput"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "shiny::textInput"
-#&gt; </div><div class='input'>
-<span class='fu'>getInputBinding</span>(<span class='no'>compoundInput2</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='st'>'dipsaus'</span>)</div><div class='output co'>#&gt; $binding
-#&gt; [1] "dipsaus.compoundInput2"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "dipsaus.updateCompoundInput2"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "dipsaus::compoundInput2"
-#&gt; </div><div class='input'>
-# Bad usage
-# \donttest{
-
-#### You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
-# getInputBinding('textInput')
-# getInputBinding(textInput) also fails
-
-#### Always fails
-# getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')
-# }
-
-</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
