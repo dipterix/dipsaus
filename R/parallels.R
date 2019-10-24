@@ -113,7 +113,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
       .envir$._values
     }
     assign(.varname, .X[[.jj]], envir = .envir)
-    .re = eval(.expr, envir = .envir)
+    .re <- eval(.expr, envir = .envir)
     if( ._ii < .jj && !inherits(.re, 'Future') ){
       ._values[[.jj]] <<- .re
     }
