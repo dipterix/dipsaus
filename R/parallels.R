@@ -11,7 +11,7 @@
 #' Within each loop, an item in \code{".X"} will be assigned to variable \code{"x"}
 #' (defined by \code{".varname"}) and enter the evaluation. During the evaluation,
 #' function \code{async} is provided. Expressions within \code{async} will be
-#' evaluated in another session, otherwise will be evaluated in currect session.
+#' evaluated in another session, otherwise will be evaluated in current session.
 #' Below is the workflow:
 #' \itemize{
 #'   \item Run \code{.pre_run}

@@ -8,10 +8,10 @@ Authors@R: c(
 Description: Works as "add-ons" to packages like 'shiny', 'future', as well as 
     'rlang', and provides utility functions. Just like dipping sauce adding 
     flavors to potato chips or pita bread, 'dipsaus' for data analysis and 
-    visualizations addes handy functions and enhancements to popular packages. 
+    visualizations adds handy functions and enhancements to popular packages. 
     The goal is to provide simple solutions that are frequently asked for 
     online, such as how to synchronize 'shiny' inputs without freezing the app,
-    or how to get memory size on "Linux" or "OSX" system. The enhancements can 
+    or how to get memory size on 'Linux' or 'MacOS' system. The enhancements 
     roughly fall into these four categories: 1. 'shiny' input widgets; 2. 
     high-performance computing using 'RcppParallel' and 'future' package; 3. 
     modify R calls and convert among numbers, strings, and other objects. 4. 
