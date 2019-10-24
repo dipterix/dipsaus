@@ -25,19 +25,19 @@ time_delta <- function(t1, t2, units = 'secs'){
 }
 
 is_invalid <- function(x, any = F, .invalids = list('is.null', 'is.na'), ...){
-  .invalids = c(.invalids, list(...))
+  .invalids <- c(.invalids, list(...))
   if('is.null' %in% .invalids){
     if(is.null(x) || !length(x)){
       return(TRUE)
     }
   }
   for( func in .invalids ){
-    res = do.call(func, args = list(x))
+    res <- do.call(func, args = list(x))
     if(length(res) > 1){
       if(any){
-        res = any(res)
+        res <- any(res)
       }else{
-        res = all(res)
+        res <- all(res)
       }
     }
     if(res){

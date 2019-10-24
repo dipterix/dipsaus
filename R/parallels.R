@@ -28,8 +28,8 @@
 #'   }
 #' }
 #'
-#' @return a list whose length equals to \code{.X}. The value of each item returned
-#' depends on whether \code{async} is called. See details for workflows.
+#' @return a list whose length equals to \code{.X}. The value of each item
+#' returned depends on whether \code{async} is called. See details for workflow.
 #'
 #' @examples
 #'
@@ -56,40 +56,40 @@
 async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
                        .pre_run = NULL,
                        .ncore = future::availableCores(), ...){
-  .envir = new.env(parent = envir)
-  .expr = substitute(.expr)
-  .pre_run = substitute(.pre_run)
-  .envir$._args = list(...)
-  .envir$._futures = list()
-  ._length = length(.X)
-  ._values = list()
-  ._ii = 1
-  .envir$async = function(expr){
-    expr = substitute(expr)
-    call = as.call(c(list(
+  .envir <- new.env(parent = envir)
+  .expr <- substitute(.expr)
+  .pre_run <- substitute(.pre_run)
+  .envir$._args <- list(...)
+  .envir$._futures <- list()
+  ._length <- length(.X)
+  ._values <- list()
+  ._ii <- 1
+  .envir$async <- function(expr){
+    expr <- substitute(expr)
+    call <- as.call(c(list(
       quote(future::future),
       expr = expr,
       substitute = TRUE,
       envir = .envir
     ), .envir$._args))
-    .envir$._futures[[length(.envir$._futures) + 1]] = eval(call)
+    .envir$._futures[[length(.envir$._futures) + 1]] <- eval(call)
   }
 
-  .__check__ = function( force_all = FALSE ){
+  .__check__ <- function( force_all = FALSE ){
     if( force_all ){
       future::resolve(.envir$._futures)
-      re = future::values(.envir$._futures)
+      re <- future::values(.envir$._futures)
       if( !is.null(re) ){
         ._values[length(._values) + seq_along(.envir$._futures)] <<- re
       }
-      .envir$._futures = NULL
+      .envir$._futures <- NULL
     }else{
       if(length(.envir$._futures) >= .ncore){
-        re = future::values(.envir$._futures[[1]])
+        re <- future::values(.envir$._futures[[1]])
         if( !is.null(re) ){
           ._values[[._ii]] <<- re
         }
-        .envir$._futures[[1]] = NULL
+        .envir$._futures[[1]] <- NULL
         ._ii <<- ._ii + 1
       }
     }
@@ -106,9 +106,9 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
     ._values[[.ii]] <<- eval(.expr, envir = .envir)
   })
   .__check__(TRUE)
-  .envir$._futures = NULL
+  .envir$._futures <- NULL
   if( length(._values) != ._length ){
-    length(._values) = ._length
+    length(._values) <- ._length
   }
   ._values
 }
@@ -132,8 +132,10 @@ async <- function(expr){
 #' @param .packages packages to use
 #' @param .envir environment to evaluate
 #' @param .globals,.gc see \code{future::future}
-#' @param .as_datatable return a data frame instead of list? Default is \code{FALSE}
-#' @param .nrows if \code{.as_datatable} is true, what's the number of rows of the result
+#' @param .as_datatable return a data frame instead of list? Default is
+#' \code{FALSE}
+#' @param .nrows if \code{.as_datatable} is true, what's the number of rows of
+#' the result
 #'
 #' @return the same as \code{lapply(x, fun, ...)}
 #'
@@ -156,19 +158,19 @@ async <- function(expr){
 #' }
 #' @export
 async_lapply <- function(
-  x, fun, ..., .ncores = future::availableCores(), .call_back = NULL, .packages = NULL,
-  .envir = environment(), .globals = TRUE, .gc = TRUE, .as_datatable = FALSE,
-  .nrows = 0
+  x, fun, ..., .ncores = future::availableCores(), .call_back = NULL,
+  .packages = NULL, .envir = environment(), .globals = TRUE, .gc = TRUE,
+  .as_datatable = FALSE, .nrows = 0
 ){
   if(!length(x)){
     return(list())
   }
-  .ncores = as.integer(.ncores)
+  .ncores <- as.integer(.ncores)
   if(.ncores <= 0){
-    .ncores = future::availableCores()
+    .ncores <- future::availableCores()
   }
   # compatible with windows
-  args = list(...)
+  args <- list(...)
   if(stringr::str_detect(Sys.info()['sysname'], '^[wW]in') || .ncores == 1){
     return(lapply(seq_along(x), function(ii){
       if(is.function(.call_back)){
@@ -182,22 +184,22 @@ async_lapply <- function(
 
 
   if(is.null(.packages)){
-    .packages = stringr::str_match(search(), 'package:(.*)')
-    .packages = .packages[,2]
-    .packages = rev(.packages[!is.na(.packages)])
+    .packages <- stringr::str_match(search(), 'package:(.*)')
+    .packages <- .packages[,2]
+    .packages <- rev(.packages[!is.na(.packages)])
   }
-  .niter = length(x)
+  .niter <- length(x)
 
 
-  .future_list = list()
+  .future_list <- list()
 
   if(.as_datatable){
-    .future_values = data.table::data.table(
+    .future_values <- data.table::data.table(
       V1 = rep(NA, .nrows),
       keep.rownames = F, stringsAsFactors = F
     )
   }else{
-    .future_values = list()
+    .future_values <- list()
   }
 
 
@@ -207,8 +209,8 @@ async_lapply <- function(
     return(list())
   }
 
-  .this_env = environment()
-  ..started = FALSE
+  .this_env <- environment()
+  ..started <- FALSE
 
 
   lapply(seq_along(x), function(.i){
@@ -218,29 +220,38 @@ async_lapply <- function(
       })
     }
 
-    expr = rlang::quo_squash(rlang::quo({ do.call(fun, c(list(quote(!!x[[.i]])), args)) }))
+    expr <- rlang::quo_squash(rlang::quo({
+      do.call(fun, c(list(quote(!!x[[.i]])), args))
+    }))
 
-    .this_env$.future_list[[length(.future_list) + 1]] = future::future(expr, envir = .envir, substitute = FALSE, lazy = FALSE, globals = .globals, .packages = .packages, gc = .gc)
+    .this_env$.future_list[[length(.future_list) + 1]] <- future::future(
+      expr, envir = .envir, substitute = FALSE, lazy = FALSE,
+      globals = .globals, .packages = .packages, gc = .gc
+    )
 
 
     if(length(.future_list) >= .ncores){
       # wait for one of futures resolved
       if(!..started && .as_datatable){
-        .this_env$..started = TRUE
-        .this_env$.future_values[[1]] = future::value(.future_list[[1]])
+        .this_env$..started <- TRUE
+        .this_env$.future_values[[1]] <- future::value(.future_list[[1]])
       }else{
-        .this_env$.future_values[[1 + length(.future_values)]] = future::value(.future_list[[1]])
+        .this_env$.future_values[[1 + length(.future_values)]] <- future::value(
+          .future_list[[1]]
+        )
       }
 
-      .this_env$.future_list[[1]] = NULL
+      .this_env$.future_list[[1]] <- NULL
     }
   })
 
   if(length(.future_list)){
     future::resolve(.future_list)
     while(length(.future_list)){
-      .future_values[[1 + length(.future_values)]] = future::value(.future_list[[1]])
-      .future_list[[1]] = NULL
+      .future_values[[1 + length(.future_values)]] <- future::value(
+        .future_list[[1]]
+      )
+      .future_list[[1]] <- NULL
     }
   }
 

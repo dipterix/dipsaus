@@ -27,7 +27,8 @@
 #'     updateActionButtonStyled(session, 'btn2', type = btype)
 #'   })
 #'   observeEvent(input$btn2, {
-#'     updateActionButtonStyled(session, 'btn', disabled = c(F,T)[(input$btn2 %% 2) + 1])
+#'     updateActionButtonStyled(session, 'btn',
+#'                              disabled = c(F,T)[(input$btn2 %% 2) + 1])
 #'   })
 #' }
 #'
@@ -44,21 +45,22 @@ actionButtonStyled <- function(
   btn_type = "button", class = "", ...
 ){
 
-  if(length(type) > 1){ type = type[[1]] }
-  stopifnot2(length(type) == 0 || type[[1]] %in% c('default', 'primary', 'info', 'success', 'warning', 'danger'),
-             msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
+  if(length(type) > 1){ type <- type[[1]] }
+  stopifnot2(length(type) == 0 || type[[1]] %in% c(
+    'default', 'primary', 'info', 'success', 'warning', 'danger'
+  ), msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
 
   value <- shiny::restoreInput(id = inputId, default = NULL)
-  args = list(...)
-  style = c(args[["style"]], "")[[1]]
-  width = c(width, "auto")[[1]]
-  style = paste0("width: ", shiny::validateCssUnit(width), ";", style)
-  args[["style"]] = style
-  args[["id"]] = inputId
-  args[["type"]] = btn_type
-  args[["class"]] = sprintf("btn btn-%s action-button %s", type, class)
-  args[["data-val"]] = value
-  args[["id"]] = inputId
+  args <- list(...)
+  style <- c(args[["style"]], "")[[1]]
+  width <- c(width, "auto")[[1]]
+  style <- paste0("width: ", shiny::validateCssUnit(width), ";", style)
+  args[["style"]] <- style
+  args[["id"]] <- inputId
+  args[["type"]] <- btn_type
+  args[["class"]] <- sprintf("btn btn-%s action-button %s", type, class)
+  args[["data-val"]] <- value
+  args[["id"]] <- inputId
 
   tagList(
     shiny::singleton(shiny::tags$head(
@@ -80,9 +82,10 @@ actionButtonStyled <- function(
 #' @export
 updateActionButtonStyled <- function(
   session, inputId, label = NULL, icon = NULL, type = NULL, disabled = NULL, ...){
-  if(length(type) > 1){ type = type[[1]] }
-  stopifnot2(length(type) == 0 || type[[1]] %in% c('default', 'primary', 'info', 'success', 'warning', 'danger'),
-             msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
+  if(length(type) > 1){ type <- type[[1]] }
+  stopifnot2(length(type) == 0 || type[[1]] %in% c(
+    'default', 'primary', 'info', 'success', 'warning', 'danger'),
+    msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
   session$sendCustomMessage(
     type = 'dipsaus.updateActionButtonStyled',
     message = list(

@@ -6,13 +6,16 @@
 #' @param keep Which dimension to keep
 #' @param average collapse to sum or mean
 #'
-#' @return a collapsed array with values to be mean or summation along collapsing dimensions
+#' @return a collapsed array with values to be mean or summation along
+#' collapsing dimensions
 #'
 #'
 #' @examples
 #' # Example 1
 #' x = matrix(1:16, 4)
-#' collapse(x, keep = 1) # Keep the first dimension and calculate sums along the rest
+#'
+#' # Keep the first dimension and calculate sums along the rest
+#' collapse(x, keep = 1)
 #' rowSums(x)  # Should yield the same result
 #'
 #' # Example 2
@@ -28,7 +31,9 @@
 #' microbenchmark::microbenchmark(
 #'   result = collapse(x, keep = c(3,2)),
 #'   compare = apply(x, c(3,2), sum),
-#'   times = 20L
+#'   times = 20L, check = function(v){
+#'     max(abs(range(do.call('-', v)))) < 1e-10
+#'   }
 #' )
 #'
 #' # large data big difference
@@ -36,34 +41,35 @@
 #' microbenchmark::microbenchmark(
 #'   result = collapse(x, keep = c(3,2)),
 #'   compare = apply(x, c(3,2), sum),
-#'   times = 1L
-#' )
+#'   times = 1L , check = function(v){
+#'     max(abs(range(do.call('-', v)))) < 1e-10
+#'   })
 #'
 #' @export
 collapse <- function(x, keep, average = FALSE) {
 
   if(any(!is.finite(x))){
-    x[!is.finite(x)] = 0
+    x[!is.finite(x)] <- 0
   }
 
   if(any(is.complex(x))){
-    re = collapse(Re(x), keep = keep, average = average)
-    im = collapse(Im(x), keep = keep, average = average)
+    re <- collapse(Re(x), keep = keep, average = average)
+    im <- collapse(Im(x), keep = keep, average = average)
     return(re + 1i * im)
   }
 
-  dims = dim(x)
-  keep_sorted = sort(keep)
+  dims <- dim(x)
+  keep_sorted <- sort(keep)
 
-  re = .Call("_dipsaus_collapser", x, dims, keep_sorted)
-  dim(re) = dims[keep_sorted]
+  re <- .Call("_dipsaus_collapser", x, dims, keep_sorted)
+  dim(re) <- dims[keep_sorted]
 
   if(!isTRUE(all.equal(keep_sorted, keep))){
-    re = aperm(re, perm = order(order(keep)))
+    re <- aperm(re, perm = order(order(keep)))
   }
 
   if(average){
-    re = re / prod(dims[-keep_sorted])
+    re <- re / prod(dims[-keep_sorted])
   }
 
   return(re)

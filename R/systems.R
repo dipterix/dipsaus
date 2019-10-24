@@ -2,7 +2,7 @@
 
 
 get_os <- function(){
-  os = R.version$os
+  os <- R.version$os
   if(stringr::str_detect(os, '^darwin')){
     return('darwin')
   }
@@ -22,44 +22,44 @@ get_os <- function(){
 #' @return numeric in Bytes how big your system RAM is
 #' @export
 get_ram <- function(){
-  os = get_os()
-  ram = 128*1024^3
-  safe_ram = function(e){
+  os <- get_os()
+  ram <- 128*1024^3
+  safe_ram <- function(e){
     suppressWarnings({
       min(utils::memory.limit(), 128*1024^3)
     })
   }
 
-  ram = tryCatch({
+  ram <- tryCatch({
     switch (
       os,
       'darwin' = {
-        ram = substring(system("sysctl hw.memsize", intern = TRUE), 13)
+        ram <- substring(system("sysctl hw.memsize", intern = TRUE), 13)
       },
       'linux' = {
-        ram = system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
-        ram = as.numeric(ram) * 1024
+        ram <- system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
+        ram <- as.numeric(ram) * 1024
       },
       'solaris' = {
-        ram = system("prtconf | grep Memory", intern = TRUE)
-        ram = stringr::str_trim(ram)
-        ram = stringr::str_split(ram, '[ ]+')[[1]][3:4]
+        ram <- system("prtconf | grep Memory", intern = TRUE)
+        ram <- stringr::str_trim(ram)
+        ram <- stringr::str_split(ram, '[ ]+')[[1]][3:4]
 
-        power = match(ram[2], c("kB", "MB", "GB", "TB", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes"))
-        ram = as.numeric(ram[1]) * 1024^(1 + (power-1) %% 4)
+        power <- match(ram[2], c("kB", "MB", "GB", "TB", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes"))
+        ram <- as.numeric(ram[1]) * 1024^(1 + (power-1) %% 4)
       },
       'windows' = {
-        ram = system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
-        ram = stringr::str_trim(ram)
-        ram = ram[nchar(ram) > 0]
-        ram = sum(as.numeric(ram))
+        ram <- system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
+        ram <- stringr::str_trim(ram)
+        ram <- ram[nchar(ram) > 0]
+        ram <- sum(as.numeric(ram))
       }, {
-        ram = min(utils::memory.limit(), 128*1024^3)
+        ram <- min(utils::memory.limit(), 128*1024^3)
       }
     )
     ram
   }, error = safe_ram, warning = safe_ram)
-  ram = as.numeric(ram)
+  ram <- as.numeric(ram)
   ram
 }
 
@@ -68,15 +68,15 @@ get_ram <- function(){
 #' @return a list of vendor ID and CPU model name
 #' @export
 get_cpu <- function(){
-  os = get_os()
+  os <- get_os()
 
-  safe_cpu = function(...){
+  safe_cpu <- function(...){
     list(
       vendor_id = NA,
       model_name = NA
     )
   }
-  cpu = tryCatch({
+  cpu <- tryCatch({
     switch (
       os,
       'darwin' = list(

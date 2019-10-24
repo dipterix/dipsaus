@@ -90,47 +90,48 @@ compoundInput2 <- function(
   value = NULL, label_color = 1, ...
 ){
   add_js_script()
-  if( length(label_color) == 0 ){ label_color = 1 }
+  if( length(label_color) == 0 ){ label_color <- 1 }
   if( !length(label_color) %in% c(1, max_ncomp)){
     stop('label_color must be length of 1 or equal to max_ncomp')
   }
-  label_color = col2hexStr( label_color )
+  label_color <- col2hexStr( label_color )
   if( length(label_color) == 1 ){
-    label_color = rep(label_color, max_ncomp)
+    label_color <- rep(label_color, max_ncomp)
   }
   # Add css, js
 
-  value = shiny::restoreInput(id = inputId, default = value)
+  value <- shiny::restoreInput(id = inputId, default = value)
   if(!is.list(value)){
-    value = list()
+    value <- list()
   }
-  names(value) = NULL
+  names(value) <- NULL
 
-  components = substitute(components)
+  components <- substitute(components)
 
-  parent_env = parent.frame()
-  ...this_env = new.env(); ...this_env$bind_infos = list()
-  min_ncomp = max(min_ncomp, 0)
-  max_ncomp = max(min_ncomp, max_ncomp)
-  initial_ncomp = max(initial_ncomp, min_ncomp)
+  parent_env <- parent.frame()
+  ...this_env <- new.env(); ...this_env$bind_infos <- list()
+  min_ncomp <- max(min_ncomp, 0)
+  max_ncomp <- max(min_ncomp, max_ncomp)
+  initial_ncomp <- max(initial_ncomp, min_ncomp)
 
-  ...make_ui = function(ind){
-    nest_inputids = function(id, call){
-      fname = call[[1]]
-      bind_info = getInputBinding(fname)
+  ...make_ui <- function(ind){
+    nest_inputids <- function(id, call){
+      fname <- call[[1]]
+      bind_info <- getInputBinding(fname)
 
-      id = eval(id)
-      ...this_env$bind_infos[[ id ]] = bind_info
+      id <- eval(id)
+      ...this_env$bind_infos[[ id ]] <- bind_info
 
 
-      inner_id = paste0(inputId, '_', id, '_', ind)
+      inner_id <- paste0(inputId, '_', id, '_', ind)
 
       inner_id
     }
-    comp = match_calls(components, quoted = TRUE, envir = parent_env, replace_args = list(
-      inputId = nest_inputids,
-      outputId = nest_inputids
-    ))
+    comp <- match_calls(components, quoted = TRUE, envir = parent_env,
+                        replace_args = list(
+                          inputId = nest_inputids,
+                          outputId = nest_inputids
+                        ))
     as.call(list(
       quote(shiny::div),
       class = 'dipsaus-compound-input-item col-xs-12',
@@ -148,7 +149,7 @@ compoundInput2 <- function(
       ))
     ))
   }
-  comp_ui = quote(shiny::div(
+  comp_ui <- quote(shiny::div(
     id = inputId,
     class = 'dipsaus-compound-input',
     shiny::singleton(shiny::tags$head(
@@ -200,29 +201,29 @@ registerCompoundInput2 <- function(){
     if (is.null(data)){ return(list()) }
 
     # restoreInput(id = , NULL)
-    meta = as.list(data$meta); data$meta = NULL
-
+    meta <- as.list(data$meta)
+    data$meta <- NULL
     # shinysession$ns(name)
 
-    inner_ids = names(meta$bind_infos)
-    update_functions = sapply(inner_ids, function(id){
-      bind_info = meta$bind_infos[[id]]
+    inner_ids <- names(meta$bind_infos)
+    update_functions <- sapply(inner_ids, function(id){
+      bind_info <- meta$bind_infos[[id]]
       if(is.list(bind_info) && 'update_function' %in% names(bind_info)){
-        update_function = bind_info$update_function
+        update_function <- bind_info$update_function
         if(length(update_function)){
-          update_function = str2lang(update_function[[1]])
-          input_names = names(formals(eval(update_function)))
+          update_function <- str2lang(update_function[[1]])
+          input_names <- names(formals(eval(update_function)))
 
-          f = function(ii, ...){
-            inputId = sprintf('%s_%s_%s', name, id, ii)
-            call = as.call(list(update_function, session = quote(shinysession),
+          f <- function(ii, ...){
+            inputId <- sprintf('%s_%s_%s', name, id, ii)
+            call <- as.call(list(update_function, session = quote(shinysession),
                          inputId = inputId, ...))
             if( !'...' %in% input_names){
               # Need to match call
-              nms = names(call)
-              sel = nms %in% c('', input_names)
+              nms <- names(call)
+              sel <- nms %in% c('', input_names)
               if(!all(sel)){
-                call = call[sel]
+                call <- call[sel]
               }
             }
             eval(call)
@@ -232,9 +233,9 @@ registerCompoundInput2 <- function(){
       }
       return(NULL)
     }, simplify = FALSE, USE.NAMES = TRUE)
-    attr(data, 'update_functions') = update_functions
-    attr(data, 'meta') = meta
-    class(data) = c('dipsaus_compoundInput_data', 'list')
+    attr(data, 'update_functions') <- update_functions
+    attr(data, 'meta') <- meta
+    class(data) <- c('dipsaus_compoundInput_data', 'list')
     return(data)
 
   }, force = TRUE)
@@ -293,33 +294,33 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
                                  initialization = NULL, ...) {
   if(!is.list(value)){
-    value = list()
+    value <- list()
   }
-  value = lapply(seq_along(value), function(ii){
-    g = value[[ii]]
+  value <- lapply(seq_along(value), function(ii){
+    g <- value[[ii]]
     if(is.list(g)){
-      g$.__item = ii
+      g$.__item <- ii
     }else{
-      g = NULL
+      g <- NULL
     }
     g
   })
-  initialization = c(initialization, list(...))
+  initialization <- c(initialization, list(...))
 
-  sample = shiny::isolate(session$input[[ inputId ]])
-  update_functions = attr(sample, 'update_functions')
-  meta = attr(sample, 'meta')
-  max_ncomp = meta$max_ncomp
+  sample <- shiny::isolate(session$input[[ inputId ]])
+  update_functions <- attr(sample, 'update_functions')
+  meta <- attr(sample, 'meta')
+  max_ncomp <- meta$max_ncomp
   if(!length(max_ncomp) || !is.numeric(max_ncomp) || max_ncomp <= 0){
     return()
   }
 
   if(!is.list(update_functions)){
-    update_functions = list()
+    update_functions <- list()
   }
 
   for(nm in names(initialization)){
-    uf = update_functions[[ nm ]]
+    uf <- update_functions[[ nm ]]
     if(is.function(uf)){
       lapply(seq_len(max_ncomp), function(ii){
         do.call(uf, c(list(ii = ii), initialization[[nm]]))

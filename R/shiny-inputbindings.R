@@ -1,6 +1,6 @@
 # Defines shiny bindings
 
-shiny_input_bindings = new.env(parent = emptyenv())
+shiny_input_bindings <- new.env(parent = emptyenv())
 list2env(list(
   'shiny.textInput' = list(
     binding = "shiny.textInput",
@@ -100,11 +100,11 @@ list2env(list(
 #'
 #' @export
 registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL){
-  ns = asNamespace(pkg)
+  ns <- asNamespace(pkg)
   if( !is.function(ns[[fname]]) ){
     stop(sprintf('%s::%s is not a function', pkg, fname))
   }
-  shiny_input_bindings[[sprintf('%s.%s', pkg, fname)]] = list(
+  shiny_input_bindings[[sprintf('%s.%s', pkg, fname)]] <- list(
     binding = shiny_binding,
     update_function = update_function
   )
@@ -147,45 +147,45 @@ getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
     # need to get package from fname
 
     if(is.character(fname)){
-      fname = str2lang(fname)
+      fname <- str2lang(fname)
     }
 
-    fname_quoted = substitute(fname)
+    fname_quoted <- substitute(fname)
     if( !is.language(fname) ){
-      fname = fname_quoted
+      fname <- fname_quoted
     }
 
     # now we have quoted fname
     if(is.call(fname) && all(as.character(fname[[1]]) %in% c('::', ':::'))){
-      pkg = deparse(fname[[2]])
-      fname = deparse(fname[[3]])
+      pkg <- deparse(fname[[2]])
+      fname <- deparse(fname[[3]])
     }else{
-      f = eval(fname, envir = envir)
-      fenv = environment(f)
+      f <- eval(fname, envir = envir)
+      fenv <- environment(f)
       if( isNamespace(fenv) ){
-        pkg = fenv$.__NAMESPACE__.$spec[['name']]
+        pkg <- fenv$.__NAMESPACE__.$spec[['name']]
       }
-      fname = deparse(fname)
+      fname <- deparse(fname)
     }
   }else{
-    fname_quoted = substitute(fname)
+    fname_quoted <- substitute(fname)
     if(!is.character(fname)){
-      fname = deparse(fname_quoted)
+      fname <- deparse(fname_quoted)
     }
   }
   # Check whether fname exists
   if(is.null(pkg)){
     stop(sprintf('Cannot find function %s in any package loaded from envir. Please provide package name', fname))
   }
-  ns = asNamespace(pkg)
+  ns <- asNamespace(pkg)
   if(!is.function(ns[[fname]])){
     stop(sprintf('Cannot find function %s in namespace %s', fname, pkg))
   }
-  binding_key = sprintf('%s.%s', pkg, fname)
-  binding_re = shiny_input_bindings[[ binding_key ]]
+  binding_key <- sprintf('%s.%s', pkg, fname)
+  binding_re <- shiny_input_bindings[[ binding_key ]]
   if(is.null(binding_re)){
     stop(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding(%s, %s, shiny_binding, update_function = NULL)\n  to register this input type.', binding_key, fname, pkg))
   }
-  binding_re$call_function = sprintf('%s::%s', pkg, fname)
+  binding_re$call_function <- sprintf('%s::%s', pkg, fname)
   binding_re
 }

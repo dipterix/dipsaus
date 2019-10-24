@@ -13,11 +13,11 @@
 #' a logical value of whether all packages a re installed.
 #' @export
 package_installed <- function(pkgs, all = FALSE){
-  re = sapply(pkgs, function(p){
+  re <- sapply(pkgs, function(p){
     system.file('', package = p) != ''
   })
   if(all){
-    re = all(re)
+    re <- all(re)
   }
   re
 }
@@ -33,8 +33,8 @@ package_installed <- function(pkgs, all = FALSE){
 #'
 #' @export
 check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_install = FALSE, ...){
-  installed = sapply(pkgs, package_installed)
-  pkgs = pkgs[!installed]
+  installed <- sapply(pkgs, package_installed)
+  pkgs <- pkgs[!installed]
   if(auto_install && length(pkgs)){
     cat2('Installing packages:', paste0('[', pkgs, ']', collapse = ', '), level = 'INFO')
     do.call(utils::install.packages, c(

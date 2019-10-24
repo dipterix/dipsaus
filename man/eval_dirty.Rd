@@ -13,8 +13,8 @@ eval_dirty(expr, env = parent.frame(), data = NULL, quoted = TRUE)
 
 \item{data}{dataframe or list}
 
-\item{quoted}{Is the expression quoted? By default, this is \code{TRUE}. This is
-useful when you don't want to use an expression that is stored in a
+\item{quoted}{Is the expression quoted? By default, this is \code{TRUE}.
+This is useful when you don't want to use an expression that is stored in a
 variable; see examples}
 }
 \value{
@@ -24,10 +24,10 @@ the executed results of \code{expr} evaluated with side effects.
 Evaluate expressions
 }
 \details{
-\code{eval_dirty} uses \code{base::eval()} function to evaluate expressions.
-Compare to \code{rlang::eval_tidy}, which won't affect original environment,
-\code{eval_dirty} causes changes to the environment. Therefore if \code{expr}
-contains assignment, environment will be changed in this case.
+\code{eval_dirty} uses \code{base::eval()} function to evaluate
+expressions. Compare to \code{rlang::eval_tidy}, which won't affect original
+environment, \code{eval_dirty} causes changes to the environment. Therefore
+if \code{expr} contains assignment, environment will be changed in this case.
 }
 \examples{
 

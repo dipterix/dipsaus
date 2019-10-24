@@ -3,9 +3,9 @@
 \name{\%?<-\%}
 \alias{\%?<-\%}
 \title{Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `\code{lhs}`
-is invalid or \code{NULL}, this function will try to assign \code{value}, otherwise
-nothing happens.}
+Provides a way to assign default values to variables. If the statement
+`\code{lhs}` is invalid or \code{NULL}, this function will try to assign
+\code{value}, otherwise nothing happens.}
 \usage{
 lhs \%?<-\% value
 }
@@ -16,9 +16,9 @@ lhs \%?<-\% value
 }
 \description{
 Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement `\code{lhs}`
-is invalid or \code{NULL}, this function will try to assign \code{value}, otherwise
-nothing happens.
+Provides a way to assign default values to variables. If the statement
+`\code{lhs}` is invalid or \code{NULL}, this function will try to assign
+\code{value}, otherwise nothing happens.
 }
 \examples{
 # Remove a if exists

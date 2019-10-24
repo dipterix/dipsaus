@@ -22,29 +22,32 @@
 #' ))
 #'
 #' @export
-match_calls = function(call, recursive = TRUE, replace_args = list(),
+match_calls <- function(call, recursive = TRUE, replace_args = list(),
                        quoted = FALSE, envir = parent.frame(), ...){
-  if(!quoted){ call = substitute(call) }
-  args = as.list(match.call())[-1]
-  args$recursive = quote(recursive)
-  args$replace_args = quote(replace_args)
-  args$envir = envir
-  args$quoted = TRUE
+  if(!quoted){ call <- substitute(call) }
+  args <- as.list(match.call())[-1]
+  args$recursive <- quote(recursive)
+  args$replace_args <- quote(replace_args)
+  args$envir <- envir
+  args$quoted <- TRUE
   if(is.call(call)){
     if( recursive ){
-      call = as.call(lapply(call, function(cp){
-        args$call = quote(cp)
+      call <- as.call(lapply(call, function(cp){
+        args$call <- quote(cp)
         do.call(match_calls, args)
       }))
     }
     if( !is.primitive(eval(call[[1]], envir = envir)) ){
-      call = eval(as.call(list(quote(match.call), call[[1]], enquote(call))), envir = envir)
+      call <- eval(
+        as.call(list(quote(match.call), call[[1]], enquote(call))),
+        envir = envir)
     }
 
-    repl_name = names(replace_args); repl_name = repl_name[repl_name %in% names(call)]
+    repl_name <- names(replace_args)
+    repl_name <- repl_name[repl_name %in% names(call)]
     if(length(repl_name)){
       for(nm in repl_name){
-        call[[nm]] = replace_args[[nm]](call[[nm]], call)
+        call[[nm]] <- replace_args[[nm]](call[[nm]], call)
       }
     }
     return(call)
@@ -59,14 +62,14 @@ match_calls = function(call, recursive = TRUE, replace_args = list(),
 #' @param expr R expression or 'rlang' quo
 #' @param env environment to evaluate
 #' @param data dataframe or list
-#' @param quoted Is the expression quoted? By default, this is \code{TRUE}. This is
-#' useful when you don't want to use an expression that is stored in a
+#' @param quoted Is the expression quoted? By default, this is \code{TRUE}.
+#' This is useful when you don't want to use an expression that is stored in a
 #' variable; see examples
 #'
-#' @details \code{eval_dirty} uses \code{base::eval()} function to evaluate expressions.
-#' Compare to \code{rlang::eval_tidy}, which won't affect original environment,
-#' \code{eval_dirty} causes changes to the environment. Therefore if \code{expr}
-#' contains assignment, environment will be changed in this case.
+#' @details \code{eval_dirty} uses \code{base::eval()} function to evaluate
+#' expressions. Compare to \code{rlang::eval_tidy}, which won't affect original
+#' environment, \code{eval_dirty} causes changes to the environment. Therefore
+#' if \code{expr} contains assignment, environment will be changed in this case.
 #'
 #' @return the executed results of \code{expr} evaluated with side effects.
 #'
@@ -87,11 +90,10 @@ match_calls = function(call, recursive = TRUE, replace_args = list(),
 eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 
   if( !quoted ){
-    expr = substitute( expr )
+    expr <- substitute( expr )
   }
-
   if(rlang::is_quosure(expr)){
-    expr = rlang::quo_squash(expr)
+    expr <- rlang::quo_squash(expr)
   }
 
   if(!is.null(data)){
@@ -102,9 +104,9 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 }
 
 #' Assign if not exists, or NULL
-#' Provides a way to assign default values to variables. If the statement `\code{lhs}`
-#' is invalid or \code{NULL}, this function will try to assign \code{value}, otherwise
-#' nothing happens.
+#' Provides a way to assign default values to variables. If the statement
+#' `\code{lhs}` is invalid or \code{NULL}, this function will try to assign
+#' \code{value}, otherwise nothing happens.
 #' @param lhs an object to check or assign
 #' @param value value to be assigned if lhs is NULL
 #'
@@ -127,8 +129,8 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #'
 #' @export
 `%?<-%` <- function(lhs, value){
-  env = parent.frame()
-  lhs = substitute(lhs)
+  env <- parent.frame()
+  lhs <- substitute(lhs)
 
   tryCatch({
     is.null(eval(lhs, envir = env))

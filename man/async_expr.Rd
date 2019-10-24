@@ -23,8 +23,8 @@ async_expr(.X, .expr, .varname = "x", envir = parent.frame(),
 \item{...}{passed to \code{future::future}}
 }
 \value{
-a list whose length equals to \code{.X}. The value of each item returned
-depends on whether \code{async} is called. See details for workflows.
+a list whose length equals to \code{.X}. The value of each item
+returned depends on whether \code{async} is called. See details for workflow.
 }
 \description{
 Apply R expressions in a parallel way

@@ -5,9 +5,9 @@
 #' @param mime 'mime' type, default is blank
 #' @return a 'base64' data string looks like \code{'data:;base64,AEF6986...'}
 to_datauri <- function(file, mime = ''){
-  info = file.info(file)
-  ss = jsonlite::base64_enc(input = readBin(file, what = 'raw', n = info$size))
-  ss = sprintf('data:%s;base64,%s', mime, ss)
+  info <- file.info(file)
+  ss <- jsonlite::base64_enc(input = readBin(file, what = 'raw', n = info$size))
+  ss <- sprintf('data:%s;base64,%s', mime, ss)
   ss
 }
 
@@ -38,14 +38,14 @@ to_datauri <- function(file, mime = ''){
 #' @export
 col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
   if(is.null(alpha)){
-    alpha = 1
-    transparent = FALSE
+    alpha <- 1
+    transparent <- FALSE
   }else{
-    transparent = TRUE
+    transparent <- TRUE
   }
-  re = grDevices::adjustcolor(col, alpha.f = alpha)
+  re <- grDevices::adjustcolor(col, alpha.f = alpha)
   if(!transparent){
-    re = stringr::str_sub(re, end = 7L)
+    re <- stringr::str_sub(re, end = 7L)
   }
   stringr::str_replace(re, '^[^0-9A-F]*', prefix)
 }
@@ -66,9 +66,9 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 #' parse_svec('1-10, 13:15,14-20')
 #' @export
 parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
-  connect = unlist(stringr::str_split(connect, ''))
-  connect[connect %in% c('|', ':')] = paste0('\\', connect[connect %in% c('|', ':')])
-  connect = paste(connect, collapse = '')
+  connect <- unlist(stringr::str_split(connect, ''))
+  connect[connect %in% c('|', ':')] <- paste0('\\', connect[connect %in% c('|', ':')])
+  connect <- paste(connect, collapse = '')
 
 
   if(length(text) == 0 || stringr::str_trim(text) == ''){
@@ -78,32 +78,32 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
   if(is.numeric(text)){
     return(text)
   }
-  s = as.vector(stringr::str_split(text, sep, simplify = T))
-  s = stringr::str_trim(s)
-  s = s[s!='']
+  s <- as.vector(stringr::str_split(text, sep, simplify = T))
+  s <- stringr::str_trim(s)
+  s <- s[s!='']
 
-  s = s[stringr::str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
+  s <- s[stringr::str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
 
-  re = NULL
+  re <- NULL
   for(ss in s){
     if(stringr::str_detect(ss, sprintf('[%s]', connect))){
-      ss = as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = T))
-      ss = ss[stringr::str_detect(ss, '^[0-9]+$')]
-      ss = as.numeric(ss)
+      ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = T))
+      ss <- ss[stringr::str_detect(ss, '^[0-9]+$')]
+      ss <- as.numeric(ss)
       if(length(ss) >= 2){
-        re = c(re, (ss[1]:ss[2]))
+        re <- c(re, (ss[1]:ss[2]))
       }
     }else{
-      re = c(re, as.numeric(ss))
+      re <- c(re, as.numeric(ss))
     }
   }
 
   if(unique){
-    re = unique(re)
+    re <- unique(re)
   }
 
   if(sort){
-    re = sort(re)
+    re <- sort(re)
   }
 
   return(re)
@@ -124,16 +124,16 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
 #' deparse_svec(c(1:10, 15:18))
 #' @export
 deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', max_lag = 1){
-  nums = nums[is.finite(nums)]
+  nums <- nums[is.finite(nums)]
   if(length(nums) == 0){
     return('')
   }
-  alag = seq_len(max(1, max_lag))
-  nums = sort(unique(nums))
-  lg = c(NA, nums)[seq_len(length(nums))]
-  ind = nums - lg; ind[1] = 0
-  ind2 = c(ind[-1], -1)
-
+  alag <- seq_len(max(1, max_lag))
+  nums <- sort(unique(nums))
+  lg <- c(NA, nums)[seq_len(length(nums))]
+  ind <- nums - lg
+  ind[1] <- 0
+  ind2 <- c(ind[-1], -1)
   apply(cbind(nums[!ind %in% alag], nums[!ind2 %in% alag]), 1,function(x){
     if(x[1] == x[2]){
       stringr::str_c(x[1])
@@ -143,7 +143,7 @@ deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', m
   }) ->
     re
   if(concatenate){
-    re = stringr::str_c(re, collapse = collapse)
+    re <- stringr::str_c(re, collapse = collapse)
   }
   re
 }
@@ -178,17 +178,17 @@ cat2 <- function(
   )
 ){
   if(!level %in% names(pal)){
-    level = 'DEFAULT'
+    level <- 'DEFAULT'
   }
-  .col = pal[[level]]
+  .col <- pal[[level]]
   if(is.null(.col)){
-    .col = '#000000'
+    .col <- '#000000'
   }
 
   # check if interactive
   if(base::interactive()){
     # use colored console
-    col = crayon::make_style(.col)
+    col <- crayon::make_style(.col)
     if(print_level){
       base::cat('[', level, ']: ', sep = '')
     }
@@ -218,13 +218,13 @@ cat2 <- function(
 #' @return numeric equaling to \code{s} but formatted
 #' @export
 to_ram_size <- function(s, kb_to_b = 1000){
-  base = floor(log(max(abs(s), 1), kb_to_b))
-  s = s / (kb_to_b ^ (base))
+  base <- floor(log(max(abs(s), 1), kb_to_b))
+  s <- s / (kb_to_b ^ (base))
   if(is.na(base)){
-    base = 0
+    base <- 0
   }
-  attr(s, 'unit') = c('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')[base+1]
-  class(s) = c('dipsaus_bytes', class(s))
+  attr(s, 'unit') <- c('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')[base+1]
+  class(s) <- c('dipsaus_bytes', class(s))
   s
 }
 
@@ -236,7 +236,7 @@ as.character.dipsaus_bytes <- function(x, digit=1, ...){
 
 #' @export
 print.dipsaus_bytes <- function(x, digit=1, ...){
-  re = as.character(x, digit = digit, ...)
+  re <- as.character(x, digit = digit, ...)
   cat(re)
   invisible(re)
 }
@@ -247,12 +247,12 @@ print.dipsaus_bytes <- function(x, digit=1, ...){
 #' @export
 mem_limit2 <- function(){
 
-  total = get_ram()
+  total <- get_ram()
 
 
-  bit = 8 * .Machine$sizeof.pointer
-  bit = bit - (bit > 32) * 4 - 4
-  free = sum(gc()[,1] * c(bit, 8))
+  bit <- 8 * .Machine$sizeof.pointer
+  bit <- bit - (bit > 32) * 4 - 4
+  free <- sum(gc()[,1] * c(bit, 8))
 
   list(
     total = total,

@@ -32,33 +32,33 @@
 #' @export
 sync_shiny_inputs <- function(input, session, inputIds,
                               uniform = rep('I', length(inputIds)), updates, snap = 250){
-  env = new.env(parent = emptyenv())
-  this_env = environment()
+  env <- new.env(parent = emptyenv())
+  this_env <- environment()
 
-  env$which_changed = 0
-  env$suppress_other = FALSE
-  env$val = NULL
+  env$which_changed <- 0
+  env$suppress_other <- FALSE
+  env$val <- NULL
 
-  local_data = reactiveValues(
+  local_data <- reactiveValues(
     last_changed = Sys.time(),
     last_updated = Sys.time()
   )
   lapply(seq_along(inputIds), function(ii){
-    input_id = inputIds[[ii]]
+    input_id <- inputIds[[ii]]
     observeEvent(input[[input_id]], {
       if(!env$suppress_other){
-        env$which_changed = ii
+        env$which_changed <- ii
       }
       if( env$which_changed == ii ){
-        env$val = do.call(uniform[[ii]], list(input[[input_id]]))
-        local_data$last_changed = Sys.time()
+        env$val <- do.call(uniform[[ii]], list(input[[input_id]]))
+        local_data$last_changed <- Sys.time()
       }
     }, event.env = environment(), handler.env = environment())
   })
   observeEvent(local_data$last_changed, {
     if( env$which_changed == 0 ){ return() }
     # suppress other inputs
-    env$suppress_other = TRUE
+    env$suppress_other <- TRUE
 
     lapply(seq_along(inputIds), function(ii){
       if(ii != env$which_changed){
@@ -67,24 +67,24 @@ sync_shiny_inputs <- function(input, session, inputIds,
       }
     })
 
-    local_data$last_updated = Sys.time()
+    local_data$last_updated <- Sys.time()
   }, event.env = this_env, handler.env = this_env)
 
   observe({
-    last_updated = local_data$last_updated
+    last_updated <- local_data$last_updated
     if( is.null(last_updated) ){
-      env$suppress_other = FALSE
+      env$suppress_other <- FALSE
       return()
     }
     print(last_updated)
-    now = Sys.time()
-    dif = time_delta(last_updated, now) * 1000
+    now <- Sys.time()
+    dif <- time_delta(last_updated, now) * 1000
     if(dif > snap){
-      env$suppress_other = FALSE
+      env$suppress_other <- FALSE
       return()
     }else{
       if( dif < 10 ){
-        dif = snap
+        dif <- snap
       }
       shiny::invalidateLater(dif)
     }

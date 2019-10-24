@@ -16,7 +16,8 @@ collapse(x, keep, average = FALSE)
 \item{average}{collapse to sum or mean}
 }
 \value{
-a collapsed array with values to be mean or summation along collapsing dimensions
+a collapsed array with values to be mean or summation along
+collapsing dimensions
 }
 \description{
 Collapse Sensors And Calculate Summations/Mean
@@ -26,7 +27,9 @@ Collapse Sensors And Calculate Summations/Mean
 \examples{
 # Example 1
 x = matrix(1:16, 4)
-collapse(x, keep = 1) # Keep the first dimension and calculate sums along the rest
+
+# Keep the first dimension and calculate sums along the rest
+collapse(x, keep = 1)
 rowSums(x)  # Should yield the same result
 
 # Example 2
@@ -42,7 +45,9 @@ x = array(rnorm(240), dim = c(4,5,6,2))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 20L
+  times = 20L, check = function(v){
+    max(abs(range(do.call('-', v)))) < 1e-10
+  }
 )
 
 # large data big difference
@@ -50,7 +55,8 @@ x = array(rnorm(prod(300,200,105)), c(300,200,105,1))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 1L
-)
+  times = 1L , check = function(v){
+    max(abs(range(do.call('-', v)))) < 1e-10
+  })
 
 }

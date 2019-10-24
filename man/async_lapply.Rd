@@ -26,9 +26,11 @@ of each loop}
 
 \item{.globals, .gc}{see \code{future::future}}
 
-\item{.as_datatable}{return a data frame instead of list? Default is \code{FALSE}}
+\item{.as_datatable}{return a data frame instead of list? Default is
+\code{FALSE}}
 
-\item{.nrows}{if \code{.as_datatable} is true, what's the number of rows of the result}
+\item{.nrows}{if \code{.as_datatable} is true, what's the number of rows of
+the result}
 }
 \value{
 the same as \code{lapply(x, fun, ...)}
