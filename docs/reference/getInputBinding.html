@@ -142,7 +142,57 @@ such as <code>'shiny::textInput'</code> or <code>numericInput</code>.</p></td>
     <p>a list containing: 1. `JavaScript` input binding name; 2. `R` updating function name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
+
+<span class='co'># Most recommended usage</span>
+<span class='fu'>getInputBinding</span>(<span class='st'>'compoundInput2'</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='st'>'dipsaus'</span>)</div><div class='output co'>#&gt; $binding
+#&gt; [1] "dipsaus.compoundInput2"
+#&gt; 
+#&gt; $update_function
+#&gt; [1] "dipsaus.updateCompoundInput2"
+#&gt; 
+#&gt; $call_function
+#&gt; [1] "dipsaus::compoundInput2"
+#&gt; </div><div class='input'>
+<span class='co'># Other usages</span>
+<span class='fu'>getInputBinding</span>(<span class='st'>'shiny::textInput'</span>)</div><div class='output co'>#&gt; $binding
+#&gt; [1] "shiny.textInput"
+#&gt; 
+#&gt; $update_function
+#&gt; [1] "shiny::updateTextInput"
+#&gt; 
+#&gt; $call_function
+#&gt; [1] "shiny::textInput"
+#&gt; </div><div class='input'>
+
+<span class='fu'>getInputBinding</span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>)</div><div class='output co'>#&gt; $binding
+#&gt; [1] "shiny.textInput"
+#&gt; 
+#&gt; $update_function
+#&gt; [1] "shiny::updateTextInput"
+#&gt; 
+#&gt; $call_function
+#&gt; [1] "shiny::textInput"
+#&gt; </div><div class='input'>
+<span class='fu'>getInputBinding</span>(<span class='no'>compoundInput2</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='st'>'dipsaus'</span>)</div><div class='output co'>#&gt; $binding
+#&gt; [1] "dipsaus.compoundInput2"
+#&gt; 
+#&gt; $update_function
+#&gt; [1] "dipsaus.updateCompoundInput2"
+#&gt; 
+#&gt; $call_function
+#&gt; [1] "dipsaus::compoundInput2"
+#&gt; </div><div class='input'>
+<span class='co'># Bad usage, raise errors in some cases</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>## You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'</span>
+<span class='fu'>getInputBinding</span>(<span class='st'>'textInput'</span>)
+<span class='fu'>getInputBinding</span>(<span class='no'>textInput</span>) <span class='co'># also fails</span>
+
+<span class='co'>## Always fails</span>
+<span class='fu'>getInputBinding</span>(<span class='st'>'dipsaus::compoundInput2'</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='st'>'dipsaus'</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

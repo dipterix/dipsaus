@@ -54,22 +54,32 @@ Below is the workflow:
 \examples{
 
 \donttest{
-# Takes about 15 seconds to run
+
 library(dipsaus)
+
+# Enable parallel computing
+make_forked_clusters()
+
+# Case 1: async is called
 async_expr(.X = 1:10, {
-# each element of .X is assigned as 'x'
+  # This part is not async
+  print(sprintf('x=\%s in session pid: \%s', x, Sys.getpid()))
 
-# This part is not async
-print(x)
+  # The magic starts here, async is provided
+  async({
+    Sys.getpid()
+  })
 
-# The magic starts here, async is provided
-async({
-  Sys.sleep(3)
-  return(x*2)
+  x  # this is not returned as async is called
 })
-}, .pre_run = {
-  make_forked_clusters()
+
+# Case 2: async is not called, all expressions are evaluated in
+# a single session
+async_expr(.X = 1:10, {
+  # This part is not async
+  print(sprintf('x=\%s in session pid: \%s', x, Sys.getpid()))
+  x  # x is returned as async is not called
 })
+
 }
-
 }

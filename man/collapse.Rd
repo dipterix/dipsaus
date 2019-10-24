@@ -45,7 +45,7 @@ x = array(rnorm(240), dim = c(4,5,6,2))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 20L, check = function(v){
+  times = 1L, check = function(v){
     max(abs(range(do.call('-', v)))) < 1e-10
   }
 )

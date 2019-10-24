@@ -22,6 +22,8 @@ Obtain registered input bindings
 }
 \examples{
 
+library(dipsaus)
+
 # Most recommended usage
 getInputBinding('compoundInput2', pkg = 'dipsaus')
 
@@ -37,7 +39,7 @@ getInputBinding(compoundInput2, pkg = 'dipsaus')
 \dontrun{
 ## You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
 getInputBinding('textInput')
-getInputBinding(textInput) also fails
+getInputBinding(textInput) # also fails
 
 ## Always fails
 getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')

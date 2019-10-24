@@ -120,6 +120,8 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
 #'
 #' @examples
 #'
+#' library(dipsaus)
+#'
 #' # Most recommended usage
 #' getInputBinding('compoundInput2', pkg = 'dipsaus')
 #'
@@ -135,7 +137,7 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
 #' \dontrun{
 #' ## You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'
 #' getInputBinding('textInput')
-#' getInputBinding(textInput) also fails
+#' getInputBinding(textInput) # also fails
 #'
 #' ## Always fails
 #' getInputBinding('dipsaus::compoundInput2', pkg = 'dipsaus')
