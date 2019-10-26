@@ -1,6 +1,6 @@
 stopifnot2 <- function(..., msg = 'Condition not satisfied'){
   if(!all(c(...))){
-    stop(msg)
+    stop(msg, call. = FALSE)
   }
 }
 

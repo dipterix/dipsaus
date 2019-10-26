@@ -36,11 +36,20 @@ Imports:
     Rcpp,
     RcppParallel,
     crayon,
+    fastmap,
+    base64url,
+    txtq,
+    filelock,
+    RcppRedis,
+    digest,
+    R6,
     rlang (>= 0.4.0)
 Suggests:
     microbenchmark,
     knitr,
-    rmarkdown
+    rmarkdown,
+    promises,
+    testthat
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make
 LinkingTo: 

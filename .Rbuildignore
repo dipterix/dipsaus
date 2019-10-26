@@ -15,4 +15,4 @@
 ^todos\.rmd$
 ^inst/js_raws/
 ^inst/shiny-addons/dipsaus/dipsaus-dipterix-lib\.js\.map$
-^CRAN-RELEASE$
+CRAN-RELEASE
