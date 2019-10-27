@@ -43,6 +43,7 @@ Imports:
     RcppRedis,
     digest,
     R6,
+    qs,
     rlang (>= 0.4.0)
 Suggests:
     microbenchmark,

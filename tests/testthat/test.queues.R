@@ -43,10 +43,21 @@ test_queue <- function(generator, ...){
 
   expect_true(self$count == 0)
 
+  if( !identical(generator, dipsaus:::TextQueue) ){
+    # save environment
+    e = new.env()
+    e$a = 123
+    self$push(e)
+
+    ep = self$pop()
+    expect_equal(ep[[1]]$value$a, 123)
+  }
+
+
   self$destroy()
 
 
-  expect_error(self$validate())
+  expect_error(suppressWarnings(self$validate()))
 }
 
 
@@ -60,10 +71,17 @@ test_that('testing FileQueue', {
   test_queue(dipsaus:::FileQueue, path)
 })
 
-test_that('testing FileQueue', {
+test_that('testing TextQueue', {
   path = tempfile()
   test_queue(dipsaus:::TextQueue, path)
 })
+
+
+test_that('testing QsQueue', {
+  path = tempfile()
+  test_queue(dipsaus:::QsQueue, path)
+})
+
 
 
 test_that('testing RedisQueue', {
@@ -74,5 +92,5 @@ test_that('testing RedisQueue', {
     FALSE
   })
   skip_if(!has_redis, message = 'No Redis detected, skip :)')
-  test_queue(dipsaus:::TextQueue, 'junk')
+  test_queue(dipsaus:::RedisQueue, 'junk')
 })

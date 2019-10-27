@@ -3,7 +3,7 @@
 #' @name queue
 #' @title Create R object queue.
 #' @description See the examples.
-#' @details There are four types of queue implemeted. They all inherit class
+#' @details There are five types of queue implemeted. They all inherit class
 #' \code{\link[dipsaus]{AbstractQueue}}. There are several differences in
 #' use case scenarios and they backend implementations.
 #'
@@ -14,8 +14,7 @@
 #' nor parent process. The goal of this queue is to share the data across
 #' different environments and to store global variables, as long as they share
 #' the same map object. If you are looking for queues that can be shared
-#' by different processes, check \code{rds_queue}, \code{txtq_queue}, and
-#' \code{redis_queue}
+#' by different processes, check the rest queue types.
 #' }
 #' \item{\code{\link{rds_queue}}}{
 #' A 'RDS' queue uses file system to store values. The values are stored
@@ -25,13 +24,25 @@
 #' large files in \code{rds_queue}. If the value is not large in RAM,
 #' \code{txtq_queue} and \code{redis_queue} are recommended.
 #' }
+#' \item{\code{\link{qs_queue}}}{
+#' A 'qs' queue uses package 'qs' as backend. This queue is very similar to
+#' \code{rds_queue}, but is especially designed for large values. For example,
+#' pushing 1GB data to \code{qs_queue} will be 100 times faster than using
+#' \code{rds_queue}, and \code{txtq_queue} will almost fail. However, compared
+#' to \code{rds_queue} the stored data cannot be normally read by R as they
+#' are compressed binary files. And \code{qs_queue} is heavier than
+#' \code{txtq_queue}.
+#' }
 #' \item{\code{\link{txtq_queue}}}{
 #' A 'txtq' queue uses file system to store values. Similar to \code{rds_queue},
 #' it can be stored across multiple processes as long as the queues share the
 #' same file directory. Compared to \code{rds_queue}, \code{txtq_queue}
 #' serialize values as strings and stores them as a text table. It's much
-#' lighter but limited. It's highly recommended to use \code{redis_queue} for
-#' large data, and \code{rds_queue}.for huge data.
+#' lighter but limited. For example, all other queue types can store environment
+#' and functions. Though \code{txtq_queue} can also store complicated structures,
+#' The speed is much slower (could freeze the whole process). Therefore, it's
+#' highly recommended to use \code{redis_queue}, \code{qs_queue}, and
+#' \code{rds_queue} if speed is not the major concern.
 #' }
 #' \item{\code{\link{redis_queue}}}{
 #' A 'Redis' queue uses free open source software `Redis`
@@ -208,8 +219,6 @@ session_queue <- function(map = fastmap::fastmap()){
   SessionQueue$new(map = map)
 }
 
-
-
 #' @rdname queue
 #' @param path directory path where queue data should be stored
 #' @export
@@ -221,6 +230,12 @@ rds_queue <- function(path = tempfile()){
 #' @export
 txtq_queue <- function(path = tempfile()){
   TextQueue$new(path = path)
+}
+
+#' @rdname queue
+#' @export
+qs_queue <- function(path = tempfile()){
+  QsQueue$new(path = path)
 }
 
 #' @rdname queue
