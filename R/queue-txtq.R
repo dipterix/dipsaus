@@ -49,13 +49,18 @@ TextQueue <- R6::R6Class(
       re
     },
 
-    `@log` = function(n = -1){
-      head = self$head; total = self$total
+    `@log` = function(n = -1, all = FALSE){
+      if( all ){ head = 0 }else{ head = self$head }
+      total = self$total
       count = total - head
       if( n <= 0 ){ n = count }else{ n = min(n, count) }
       if( n == 0 ){ return() }
-      tbl = private$txtq$list(n = n)
-      stringr::str_split_fixed(tbl$message, '\\|', 3)
+      if( all ){
+        tbl = private$txtq$log()
+      }else{
+        tbl = private$txtq$list(n = n)
+      }
+      stringr::str_split_fixed(tbl$message, '\\|', 4)
     },
 
     `@reset` = function() {

@@ -31,13 +31,13 @@ will be shared.}
 See the examples.
 }
 \details{
-There are five types of queue implemeted. They all inherit class
+There are five types of queue implemented. They all inherit class
 \code{\link[dipsaus]{AbstractQueue}}. There are several differences in
 use case scenarios and they backend implementations.
 
 \describe{
 \item{\code{\link{session_queue}}}{
-A session queue takes a [{fastmap()}] object. All objects are stored in
+A session queue takes a \code{\link[fastmap]{fastmap}} object. All objects are stored in
 current R session. This means you cannot access the queue from other process
 nor parent process. The goal of this queue is to share the data across
 different environments and to store global variables, as long as they share

@@ -2,7 +2,7 @@
 #' @docType package
 #' @name dipsaus-package
 #' @author Zhengjia Wang \email{zhengjia.wang@@rice.edu}
-#' @references <https://github.com/dipterix/dipsaus>
+#' @references \url{https://github.com/dipterix/dipsaus}
 #'
 #' @import shiny
 #' @importFrom Rcpp sourceCpp

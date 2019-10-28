@@ -44,9 +44,14 @@ RedisQueue <- R6::R6Class(
       re
     },
 
-    `@log` = function(n = -1){
+    `@log` = function(n = -1, all = FALSE){
       header_key = sprintf('%s__HEADERS', private$redis_id)
-      head = self$head; total = self$total
+      if( all ){
+        head = 0
+      }else{
+        head = self$head;
+      }
+      total = self$total
       count = total - head
       if( n <= 0 ){ n = count }else{ n = min(n, count) }
       if( n == 0 ){ return() }
@@ -54,7 +59,7 @@ RedisQueue <- R6::R6Class(
       header = private$redis$exec(sprintf('LRANGE %s %d %d', header_key, head, head + n-1))
       header = unlist(header)
       header = stringr::str_remove_all(header, '(^")|("$)')
-      stringr::str_split_fixed(header, '\\|', 3)
+      stringr::str_split_fixed(header, '\\|', 4)
     },
 
     `@reset` = function() {
@@ -75,7 +80,7 @@ RedisQueue <- R6::R6Class(
           lapply(seq_len(head), function(ii){
             header = private$redis$exec(sprintf('LPOP %s', header_key))
             header = stringr::str_remove_all(header, '(^")|("$)')
-            header = self$print_item(stringr::str_split_fixed(header, '\\|', n = 3))
+            header = self$print_item(stringr::str_split_fixed(header, '\\|', n = 4))
             private$redis$hdel(private$redis_id, header$hash)
           })
         }

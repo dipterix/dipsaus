@@ -39,13 +39,16 @@ SessionQueue <- R6::R6Class(
       re
     },
 
-    `@log` = function(n = -1){
-      if( n <= 0 ){ n = self$count }else{ n = min(n, self$count) }
+    `@log` = function(n = -1, all = FALSE){
+      if( all ){ head = 0 }else{ head = self$head }
+      total = self$total
+      count = total - head
+      if( n <= 0 ){ n = count }else{ n = min(n, count) }
       if( n == 0 ){ return() }
-      re = unlist(lapply(self$head + seq_len(n), function(ii){
+      re = unlist(lapply(head + seq_len(n), function(ii){
         private$.map$get(paste0('HEADER', ii))
       }))
-      stringr::str_split_fixed(re, '\\|', 3)
+      stringr::str_split_fixed(re, '\\|', 4)
     },
 
     `@reset` = function() {
@@ -53,7 +56,7 @@ SessionQueue <- R6::R6Class(
       if(total > 0){
         lapply(seq_len(total), function(ii){
           msg = private$.map$get(paste0('HEADER', ii))
-          re = self$print_item(stringr::str_split_fixed(msg, '\\|', n = 3))
+          re = self$print_item(stringr::str_split_fixed(msg, '\\|', n = 4))
           private$.map$remove(re$hash)
           private$.map$remove(paste0('HEADER', ii))
         })
@@ -71,7 +74,7 @@ SessionQueue <- R6::R6Class(
         if( head > 0 ){
           lapply(seq_len(head), function(ii){
             msg = private$.map$get(paste0('HEADER', ii))
-            re = self$print_item(stringr::str_split_fixed(msg, '\\|', n = 3))
+            re = self$print_item(stringr::str_split_fixed(msg, '\\|', n = 4))
             private$.map$remove(re$hash)
             private$.map$remove(paste0('HEADER', ii))
           })

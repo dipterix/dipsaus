@@ -8,7 +8,7 @@
 A Dipping Sauce for Data Analysis and Visualizations.
 }
 \references{
-<https://github.com/dipterix/dipsaus>
+\url{https://github.com/dipterix/dipsaus}
 }
 \author{
 Zhengjia Wang \email{zhengjia.wang@rice.edu}

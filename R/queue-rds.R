@@ -58,13 +58,14 @@ FileQueue <- R6::R6Class(
       re
     },
 
-    `@log` = function(n = -1){
-      head = self$head; total = self$total
+    `@log` = function(n = -1, all = FALSE){
+      if( all ){ head = 0 }else{ head = self$head }
+      total = self$total
       count = total - head
       if( n <= 0 ){ n = count }else{ n = min(n, count) }
       if( n == 0 ){ return() }
       re = read.table(private$header_file, skip = head, header = TRUE, nrows = n)
-      stringr::str_split_fixed(re[[1]], '\\|', 3)
+      stringr::str_split_fixed(re[[1]], '\\|', 4)
     },
 
     `@reset` = function() {
@@ -84,7 +85,7 @@ FileQueue <- R6::R6Class(
         re = readLines(private$header_file)
         if( !preserve && head > 0 ){
           lapply(seq_len(head), function(ii){
-            re = self$print_item(stringr::str_split_fixed(re[[ii+1]], '\\|', n = 3))
+            re = self$print_item(stringr::str_split_fixed(re[[ii+1]], '\\|', n = 4))
             unlink(file.path(private$db_dir, re$hash))
           })
         }

@@ -24,6 +24,8 @@ test_queue <- function(generator, ...){
   expect_true(self$total == 3)
   expect_true(self$head == 1)
 
+  expect_equal(nrow(self$log(all=TRUE)), 3)
+
   self$clean()
 
   expect_true(self$total == 2)
