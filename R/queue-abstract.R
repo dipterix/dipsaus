@@ -1,8 +1,13 @@
 #' @title Defines abstract queue class
 #'
-#' @description This class is inspired by \url{https://cran.r-project.org/package=txtq}. The
-#' difference is \code{AbstractQueue} introduce an abstract class that can be
-#' extended. All the queue types in this package inherit this class.
+#' @description This class is inspired by \url{https://cran.r-project.org/package=txtq}.
+#' The difference is \code{AbstractQueue} introduce an abstract class that can
+#' be extended and can queue not only text messages, but also arbitrary R
+#' objects, including expressions and environments. All the queue types in this
+#' package inherit this class. See \code{\link[dipsaus]{queue}} for
+#' implementations.
+#'
+#' @seealso \code{\link[dipsaus]{queue}}
 #'
 #' @name AbstractQueue
 #'

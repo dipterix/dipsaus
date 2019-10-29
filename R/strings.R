@@ -158,6 +158,10 @@ deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', m
 #' @param file,sep,fill,labels,append pass to \code{base::cat}
 #' @param pal a named list defining colors see details
 #' @param end character to append to the string
+#' @param use_cli logical, whether to use package 'cli'
+#' @param bullet character, if use 'cli', which symbol to show. see
+#' \code{\link[cli]{symbol}}
+#'
 #' @details
 #' There are five levels of colors by default: 'DEBUG', 'INFO', 'WARNING', 'ERROR',
 #' or FATAL. Default colors are: 'DEBUG' (\code{grey60}), 'INFO' (\code{#1d9f34}), 'WARNING'
@@ -174,26 +178,43 @@ cat2 <- function(
     'WARNING' = '#ec942c',
     'ERROR' = '#f02c2c',
     'FATAL' = '#763053',
-    'DEFAULT' = '#000000'
-  )
+    'DEFAULT' = 'grey60'
+  ), use_cli = TRUE, bullet = 'auto'
 ){
   if(!level %in% names(pal)){
     level <- 'DEFAULT'
   }
+  bullet_list = list(
+    'DEBUG' = 'tick',
+    'INFO' = 'heart',
+    'WARNING' = 'warning',
+    'ERROR' = 'cross',
+    'FATAL' = 'cross',
+    'DEFAULT' = 'arrow_right'
+  )
+
   .col <- pal[[level]]
-  if(is.null(.col)){
-    .col <- '#000000'
+  if(is.null(.col)){ .col <- '#000000' }
+  if( bullet == 'auto' ){
+    bullet = bullet_list[[level]]
+    if(is.null(bullet)){ bullet <- 'arrow_right' }
   }
 
   # check if interactive
-  if(base::interactive()){
-    # use colored console
-    col <- crayon::make_style(.col)
-    if(print_level){
-      base::cat('[', level, ']: ', sep = '')
-    }
+  if(interactive()){
 
-    base::cat(col(..., sep = sep), end = end, file = file, fill = fill, labels = labels, append = append)
+    if( use_cli ){
+
+      cli::cat_bullet(..., col = .col, bullet = bullet)
+    }else{
+      # use colored console
+      col <- crayon::make_style(.col)
+      if(print_level){
+        base::cat('[', level, ']: ', sep = '')
+      }
+      base::cat(col(..., sep = sep), end = end, file = file, fill = fill,
+                labels = labels, append = append)
+    }
 
   }else{
     # Just use cat
@@ -202,12 +223,11 @@ cat2 <- function(
 
   if(level == 'FATAL'){
     # stop!
-    stop()
+    stop(call. = FALSE)
   }
 
   invisible()
 }
-
 
 
 

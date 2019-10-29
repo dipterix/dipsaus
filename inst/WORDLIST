@@ -15,3 +15,4 @@ RcppRedis
 rds
 redis
 txtq
+cli

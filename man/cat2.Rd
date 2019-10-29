@@ -7,7 +7,8 @@
 cat2(..., level = "DEBUG", print_level = FALSE, file = "",
   sep = " ", fill = FALSE, labels = NULL, append = FALSE,
   end = "\\n", pal = list(DEBUG = "grey60", INFO = "#1d9f34", WARNING =
-  "#ec942c", ERROR = "#f02c2c", FATAL = "#763053", DEFAULT = "#000000"))
+  "#ec942c", ERROR = "#f02c2c", FATAL = "#763053", DEFAULT = "grey60"),
+  use_cli = TRUE, bullet = "auto")
 }
 \arguments{
 \item{...}{to be printed}
@@ -21,6 +22,11 @@ cat2(..., level = "DEBUG", print_level = FALSE, file = "",
 \item{end}{character to append to the string}
 
 \item{pal}{a named list defining colors see details}
+
+\item{use_cli}{logical, whether to use package 'cli'}
+
+\item{bullet}{character, if use 'cli', which symbol to show. see
+\code{\link[cli]{symbol}}}
 }
 \description{
 Color Output

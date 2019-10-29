@@ -28,6 +28,7 @@ Imports:
     utils,
     grDevices,
     shiny,
+    cli,
     stringr,
     jsonlite (>= 1.6),
     future,

@@ -94,10 +94,9 @@ on your computer.
 }
 \examples{
 # ----------------------Basic Usage ----------------------
-map = fastmap::fastmap()
 
 # Define a path to your queue.
-queue <- session_queue(map)
+queue <- qs_queue(path = tempfile())
 
 # Reset
 queue$reset()
@@ -112,10 +111,20 @@ queue$validate()
 queue$list()
 
 # Start push
-queue$push('message 1')
-queue$push(list(header = c("Calculate", "Calculate"),
-                message = c("sqrt(4)", "sqrt(16)")))
-queue$push('stop')
+# Push a normal message
+queue$push(value = 'Do this', message = 'hello')
+
+# Push a quo
+v <- 16
+queue$push(value = rlang::quo({
+  sqrt(!!v)
+}), message = 'eval')
+
+# Push a large object
+queue$push(value = rnorm(100000), message = 'sum')
+
+# Push only message
+queue$push(value = NULL, message = 'stop')
 
 # Check queued messages.
 # The `time` is a formatted character string from `Sys.time()`
@@ -162,6 +171,7 @@ future::future({
 }) -> f
 
 # In current process, get pid
+# wait 0.5 seconds, making sure the queue has at least an item
 Sys.sleep(0.5)
 message = queue$pop()
 message[[1]]$value
@@ -205,7 +215,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$do, {
     updateActionButtonStyled(session, 'do', disabled = TRUE)
-    if(!is.null(progress))
+    if(!is.null(progress) && !progress$closed)
       progress$close()
     progress <<- shiny::Progress$new(max = 10)
 
