@@ -117,17 +117,25 @@
     <p>Create forked clusters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_forked_clusters</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>make_forked_clusters</span>(<span class='kw'>workers</span> <span class='kw'>=</span> <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/availableCores.html'>availableCores</a></span>(<span class='kw'>constraints</span> <span class='kw'>=</span>
+  <span class='st'>"multicore"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>workers</th>
+      <td><p>positive integer, number of cores to use</p></td>
+    </tr>
     <tr>
       <th>...</th>
       <td><p>passing to <code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan</a></code></p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>number of cores</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This is a wrapper for <code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan(future::multicore, ...)</a></code>.
@@ -140,6 +148,7 @@ a simple way of enable it and plan the future at the same time.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
     </ul>
 

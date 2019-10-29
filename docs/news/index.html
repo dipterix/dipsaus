@@ -110,9 +110,9 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dipsaus-002" class="section level1">
+    <div id="dipsaus-0-0-2" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-002" class="anchor"></a>dipsaus 0.0.2</h1>
+<a href="#dipsaus-0-0-2" class="anchor"></a>dipsaus 0.0.2</h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major Changes</h2>
@@ -124,14 +124,18 @@
 <li>Added new shiny widget <code>actionButtonStyled</code>
 </li>
 <li>Implemented <code>sync_shiny_inputs</code> to synchronize among shiny inputs without causing dead-locks in UI changes</li>
+<li>
+<code>progress2</code> allows debugging shiny progress instances in non- reactive context. It uses <code><a href="https://rdrr.io/pkg/shiny/man/Progress.html">shiny::Progress</a></code> in shiny reactive context, and just print out messages when shiny reactive domain is <code>NULL</code>
+</li>
 </ul>
 </div>
-<div id="high-performance" class="section level3">
+<div id="parallel" class="section level3">
 <h3 class="hasAnchor">
-<a href="#high-performance" class="anchor"></a>High-Performance</h3>
+<a href="#parallel" class="anchor"></a>Parallel</h3>
 <ul>
 <li>Implemented <code>collapse</code>, a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
-<li>Added <code>async_*apply</code> functions using <code>future</code> package for parallel computing</li>
+<li>Added <code>async_expr</code> functions using <code>future</code> package for parallel evaluation of R expressions.</li>
+<li>Four cross-session queue types <code>qs_queue</code>, <code>rds_queue</code>, <code>txtq_queue</code>, <code>redis_queue</code> allow pushing arbitrary R objects into queue in one session and pop them from another session.</li>
 </ul>
 </div>
 <div id="r-language" class="section level3">
@@ -178,9 +182,9 @@
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
 </div>
 </div>
-    <div id="dipsaus-001" class="section level1">
+    <div id="dipsaus-0-0-1" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-001" class="anchor"></a>dipsaus 0.0.1</h1>
+<a href="#dipsaus-0-0-1" class="anchor"></a>dipsaus 0.0.1</h1>
 <div id="major-changes-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
@@ -202,9 +206,9 @@
 <a href="#big-fixes" class="anchor"></a>Big Fixes</h2>
 </div>
 </div>
-    <div id="dipsaus-000" class="section level1">
+    <div id="dipsaus-0-0-0" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-000" class="anchor"></a>dipsaus 0.0.0</h1>
+<a href="#dipsaus-0-0-0" class="anchor"></a>dipsaus 0.0.0</h1>
 <ul>
 <li>Initial private beta release!</li>
 </ul>
@@ -215,9 +219,9 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dipsaus-002">0.0.2</a></li>
-        <li><a href="#dipsaus-001">0.0.1</a></li>
-        <li><a href="#dipsaus-000">0.0.0</a></li>
+        <li><a href="#dipsaus-0-0-2">0.0.2</a></li>
+        <li><a href="#dipsaus-0-0-1">0.0.1</a></li>
+        <li><a href="#dipsaus-0-0-0">0.0.0</a></li>
       </ul>
     </div>
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Synchronize Shiny Inputs — sync_shiny_inputs • dipsaus</title>
+<title>'Shiny' progress bar, but can run without reactive context — progress2 • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Synchronize Shiny Inputs — sync_shiny_inputs" />
-<meta property="og:description" content="Synchronize Shiny Inputs" />
+<meta property="og:title" content="'Shiny' progress bar, but can run without reactive context — progress2" />
+<meta property="og:description" content="'Shiny' progress bar, but can run without reactive context" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,69 +108,89 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Synchronize Shiny Inputs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-syncInputs.R'><code>R/shiny-syncInputs.R</code></a></small>
-    <div class="hidden name"><code>sync_shiny_inputs.Rd</code></div>
+    <h1>'Shiny' progress bar, but can run without reactive context</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-progress.R'><code>R/shiny-progress.R</code></a></small>
+    <div class="hidden name"><code>progress2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Synchronize Shiny Inputs</p>
+    <p>'Shiny' progress bar, but can run without reactive context</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sync_shiny_inputs</span>(<span class='no'>input</span>, <span class='no'>session</span>, <span class='no'>inputIds</span>, <span class='kw'>uniform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"I"</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>inputIds</span>)), <span class='no'>updates</span>, <span class='kw'>snap</span> <span class='kw'>=</span> <span class='fl'>250</span>)</pre>
+    <pre class="usage"><span class='fu'>progress2</span>(<span class='no'>title</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span>(),
+  <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input, session</th>
-      <td><p>shiny reactive objects</p></td>
+      <th>title</th>
+      <td><p>character, task description</p></td>
     </tr>
     <tr>
-      <th>inputIds</th>
-      <td><p>input ids to be synchronized</p></td>
+      <th>max</th>
+      <td><p>maximum number of items in the queue</p></td>
     </tr>
     <tr>
-      <th>uniform</th>
-      <td><p>functions, equaling to length of <code>inputIds</code>, converting inputs
-to a uniform values</p></td>
+      <th>...</th>
+      <td><p>passed to <code>shiny::Progress$new(...)</code></p></td>
     </tr>
     <tr>
-      <th>updates</th>
-      <td><p>functions, equaling to length of <code>inputIds</code>, updating input values</p></td>
+      <th>quiet</th>
+      <td><p>suppress console output, ignored in shiny context.</p></td>
     </tr>
     <tr>
-      <th>snap</th>
-      <td><p>numeric, milliseconds to defer the changes</p></td>
+      <th>session</th>
+      <td><p>'shiny' session, default is current reactive domain</p></td>
+    </tr>
+    <tr>
+      <th>shiny_auto_close</th>
+      <td><p>logical, automatically close 'shiny' progress bar
+once current observer is over. Default is <code>FALSE</code>. If setting to
+<code>TRUE</code>, then it's equivalent to
+<code>p &lt;- progress2(...); on.exit({p$close()}, add = TRUE)</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>none.</p>
+    <p>A list of functions:</p><dl class='dl-horizontal'>
+<dt><code>inc(detail, message = NULL, amount = 1, ...)</code></dt><dd><p>Increase progress bar by <code>amount</code> (default is 1).</p></dd>
+<dt><code><a href='https://rdrr.io/r/base/connections.html'>close()</a></code></dt><dd><p>Close the progress</p></dd>
+<dt><code>reset(detail = '', message = '', value = 0)</code></dt><dd><p>Reset the progress to <code>value</code> (default is 0), and reset information</p></dd>
+<dt><code>get_value()</code></dt><dd><p>Get current progress value</p></dd>
+<dt><code>is_closed()</code></dt><dd><p>Returns logical value if the progress is closed or not.</p></dd>
+
+</dl>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [Task A]: initializing...</div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 1'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 1 (1 out of 2)</div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 2'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 2 (2 out of 2)</div><div class='input'><span class='no'>progress</span>$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span>()</div><div class='output co'>#&gt; Finished</div><div class='input'>
+<span class='co'># Check if progress is closed</span>
+<span class='no'>progress</span>$<span class='fu'>is_closed</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># ------------------------------ Shiny Example ------------------------------</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
 
 <span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'a'</span>, <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>'a'</span>),
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sliderInput.html'>sliderInput</a></span>(<span class='st'>'b'</span>, <span class='st'>'b'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'do'</span>, <span class='st'>'Click Here'</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'primary'</span>)
 )
 
 <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
-  <span class='fu'>sync_shiny_inputs</span>(<span class='no'>input</span>, <span class='no'>session</span>, <span class='kw'>inputIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'a'</span>, <span class='st'>'b'</span>), <span class='kw'>uniform</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>function</span>(<span class='no'>a</span>){<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>a</span>)},
-    <span class='st'>'I'</span>
-  ), <span class='kw'>updates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>function</span>(<span class='no'>a</span>){<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/updateTextInput.html'>updateTextInput</a></span>(<span class='no'>session</span>, <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='no'>a</span>)},
-    <span class='kw'>function</span>(<span class='no'>b</span>){<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/updateSliderInput.html'>updateSliderInput</a></span>(<span class='no'>session</span>, <span class='st'>'b'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='no'>b</span>)}
-  ))
-
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>do</span>, {
+    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span>(<span class='no'>session</span>, <span class='st'>'do'</span>, <span class='kw'>disabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>function</span>(<span class='no'>ii</span>){
+      <span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>'Detail %d'</span>, <span class='no'>ii</span>))
+      <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.2</span>)
+    })
+    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span>(<span class='no'>session</span>, <span class='st'>'do'</span>, <span class='kw'>disabled</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  })
 }
 
-<span class='kw'>if</span>( <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>() ){
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
   <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
 }</div></pre>
   </div>

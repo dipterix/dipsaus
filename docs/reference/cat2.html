@@ -120,7 +120,8 @@
     <pre class="usage"><span class='fu'>cat2</span>(<span class='no'>...</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='st'>"DEBUG"</span>, <span class='kw'>print_level</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>" "</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>end</span> <span class='kw'>=</span> <span class='st'>"\n"</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>DEBUG</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>, <span class='kw'>INFO</span> <span class='kw'>=</span> <span class='st'>"#1d9f34"</span>, <span class='kw'>WARNING</span> <span class='kw'>=</span>
-  <span class='st'>"#ec942c"</span>, <span class='kw'>ERROR</span> <span class='kw'>=</span> <span class='st'>"#f02c2c"</span>, <span class='kw'>FATAL</span> <span class='kw'>=</span> <span class='st'>"#763053"</span>, <span class='kw'>DEFAULT</span> <span class='kw'>=</span> <span class='st'>"#000000"</span>))</pre>
+  <span class='st'>"#ec942c"</span>, <span class='kw'>ERROR</span> <span class='kw'>=</span> <span class='st'>"#f02c2c"</span>, <span class='kw'>FATAL</span> <span class='kw'>=</span> <span class='st'>"#763053"</span>, <span class='kw'>DEFAULT</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>),
+  <span class='kw'>use_cli</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bullet</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,8 +150,20 @@
       <th>pal</th>
       <td><p>a named list defining colors see details</p></td>
     </tr>
+    <tr>
+      <th>use_cli</th>
+      <td><p>logical, whether to use package 'cli'</p></td>
+    </tr>
+    <tr>
+      <th>bullet</th>
+      <td><p>character, if use 'cli', which symbol to show. see
+<code><a href='https://rdrr.io/pkg/cli/man/symbol.html'>symbol</a></code></p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>none.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>There are five levels of colors by default: 'DEBUG', 'INFO', 'WARNING', 'ERROR',
@@ -164,6 +177,7 @@ the color will be "default"-black color.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
     </ul>
 

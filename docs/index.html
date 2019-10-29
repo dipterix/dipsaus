@@ -85,11 +85,11 @@
 <a href="#a-dipping-sauce-to-data-analysis-and-visualization" class="anchor"></a>A Dipping Sauce to Data Analysis and Visualization</h1></div>
 
 <p>Package <code>dipsaus</code> provides <code>add-ons</code> to various packages such as <code>shiny</code>, <code>rlang</code>, <code>future</code>, etc. to enhance these packages. To install the development version package from <code>Github</code>,</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">'dipterix/dipsaus'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">'dipterix/dipsaus'</span>)</a></code></pre></div>
 <p><code>dipsaus</code> provides <code>add-ons</code> from the following perspectives:</p>
-<div id="1-shiny-customized-widgets" class="section level3">
+<div id="shiny-customized-widgets" class="section level3">
 <h3 class="hasAnchor">
-<a href="#1-shiny-customized-widgets" class="anchor"></a>1. <code>Shiny</code> Customized Widgets</h3>
+<a href="#shiny-customized-widgets" class="anchor"></a>1. <code>Shiny</code> Customized Widgets</h3>
 <ul>
 <li>
 <code>compoundInput2</code> assembles any shiny native inputs and create variable-length input;</li>
@@ -99,9 +99,9 @@
 <code>sync_shiny_inputs</code> synchronize among shiny inputs without causing dead-locks in UI changes;</li>
 </ul>
 </div>
-<div id="2-high-performance-functions" class="section level3">
+<div id="high-performance-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#2-high-performance-functions" class="anchor"></a>2. High-performance Functions</h3>
+<a href="#high-performance-functions" class="anchor"></a>2. High-performance Functions</h3>
 <ul>
 <li>
 <code>collapse</code> is a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
@@ -111,9 +111,9 @@
 <code>async_expr</code>, <code>async_lapply</code> applies to vectors/lists in parallel ways;</li>
 </ul>
 </div>
-<div id="3-r-expressions" class="section level3">
+<div id="r-expressions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#3-r-expressions" class="anchor"></a>3. R Expressions</h3>
+<a href="#r-expressions" class="anchor"></a>3. R Expressions</h3>
 <ul>
 <li>
 <code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/quotation.html">rlang::quo</a></code>;</li>
@@ -123,9 +123,9 @@
 <code><a href="reference/grapes-help-set-grapes.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist.</li>
 </ul>
 </div>
-<div id="4-utility-functions" class="section level3">
+<div id="utility-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#4-utility-functions" class="anchor"></a>4. Utility Functions</h3>
+<a href="#utility-functions" class="anchor"></a>4. Utility Functions</h3>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
