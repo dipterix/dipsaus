@@ -28,6 +28,9 @@ cat2(..., level = "DEBUG", print_level = FALSE, file = "",
 \item{bullet}{character, if use 'cli', which symbol to show. see
 \code{\link[cli]{symbol}}}
 }
+\value{
+none.
+}
 \description{
 Color Output
 }

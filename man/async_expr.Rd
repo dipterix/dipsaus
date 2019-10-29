@@ -51,35 +51,3 @@ Below is the workflow:
   }
 }
 }
-\examples{
-
-\donttest{
-
-library(dipsaus)
-
-# Enable parallel computing
-make_forked_clusters()
-
-# Case 1: async is called
-async_expr(.X = 1:10, {
-  # This part is not async
-  print(sprintf('x=\%s in session pid: \%s', x, Sys.getpid()))
-
-  # The magic starts here, async is provided
-  async({
-    Sys.getpid()
-  })
-
-  x  # this is not returned as async is called
-})
-
-# Case 2: async is not called, all expressions are evaluated in
-# a single session
-async_expr(.X = 1:10, {
-  # This part is not async
-  print(sprintf('x=\%s in session pid: \%s', x, Sys.getpid()))
-  x  # x is returned as async is not called
-})
-
-}
-}

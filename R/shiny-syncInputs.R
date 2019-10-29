@@ -5,6 +5,9 @@
 #' to a uniform values
 #' @param updates functions, equaling to length of \code{inputIds}, updating input values
 #' @param snap numeric, milliseconds to defer the changes
+#'
+#' @return none.
+#'
 #' @examples
 #'
 #' library(shiny)
@@ -89,5 +92,7 @@ sync_shiny_inputs <- function(input, session, inputIds,
       shiny::invalidateLater(dif)
     }
   }, env = this_env)
+
+  invisible()
 }
 

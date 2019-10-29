@@ -15,6 +15,10 @@ registerInputBinding(fname, pkg, shiny_binding, update_function = NULL)
 
 \item{update_function}{character, update function such as \code{"shiny::textInput"}}
 }
+\value{
+a list of binding functions, one is `JavaScript` object key in
+\code{Shiny.inputBindings}, the other is `shiny` update function in R end.
+}
 \description{
 Register customized input to enable support by compound input
 }

@@ -4,10 +4,16 @@
 \alias{make_forked_clusters}
 \title{Create forked clusters}
 \usage{
-make_forked_clusters(...)
+make_forked_clusters(workers = future::availableCores(constraints =
+  "multicore"), ...)
 }
 \arguments{
+\item{workers}{positive integer, number of cores to use}
+
 \item{...}{passing to \code{future::plan}}
+}
+\value{
+number of cores
 }
 \description{
 Create forked clusters

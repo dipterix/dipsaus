@@ -19,6 +19,9 @@ to a uniform values}
 
 \item{snap}{numeric, milliseconds to defer the changes}
 }
+\value{
+none.
+}
 \description{
 Synchronize Shiny Inputs
 }

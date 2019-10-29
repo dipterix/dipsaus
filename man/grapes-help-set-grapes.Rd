@@ -14,6 +14,10 @@ lhs \%?<-\% value
 
 \item{value}{value to be assigned if lhs is NULL}
 }
+\value{
+Assign value on the right-hand side to the left-hand side if
+\code{lhs} does not exist or is \code{NULL}
+}
 \description{
 Assign if not exists, or NULL
 Provides a way to assign default values to variables. If the statement

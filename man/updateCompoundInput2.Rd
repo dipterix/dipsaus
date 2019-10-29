@@ -19,6 +19,9 @@ remain unchanged}
 
 \item{initialization, ...}{named list of other updates}
 }
+\value{
+none
+}
 \description{
 Update compound inputs
 }

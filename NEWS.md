@@ -7,10 +7,12 @@ dipsaus 0.0.2
 * Use `webpack` to manage `JavaScript` libraries
 * Added new shiny widget `actionButtonStyled`
 * Implemented `sync_shiny_inputs` to synchronize among shiny inputs without causing dead-locks in UI changes
+* `progress2` allows debugging shiny progress instances in non- reactive context. It uses `shiny::Progress` in shiny reactive context, and just print out messages when shiny reactive domain is `NULL`
 
-### High-Performance
+### Parallel 
 * Implemented `collapse`, a parallel solution to calculate sum/mean along arrays, providing `4x` speed-ups for large arrays;
-* Added `async_*apply` functions using `future` package for parallel computing
+* Added `async_expr` functions using `future` package for parallel evaluation of R expressions.
+* Four cross-session queue types `qs_queue`, `rds_queue`, `txtq_queue`, `redis_queue` allow pushing arbitrary R objects into queue in one session and pop them from another session.
 
 ### R-language
 * `eval_dirty` works as `base::eval`, but supports quosures generated from `rlang::quo`

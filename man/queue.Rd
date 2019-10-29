@@ -27,8 +27,11 @@ redis_queue(name = rand_string())
 \item{name}{character, queue name. If queue name are the same, the data
 will be shared.}
 }
+\value{
+An \code{R6} class inherits \code{\link[dipsaus]{AbstractQueue}}
+}
 \description{
-See the examples.
+Provides five types of queue that fit in different use cases.
 }
 \details{
 There are five types of queue implemented. They all inherit class
@@ -73,12 +76,11 @@ highly recommended to use \code{redis_queue}, \code{qs_queue}, and
 \code{rds_queue} if speed is not the major concern.
 }
 \item{\code{\link{redis_queue}}}{
-A 'Redis' queue uses free open source software `Redis`
-(\url{https://redis.io/}) and R package 'RcppRedis' as backend. Compared to
-session queue, 'Redis' queue can be shared across sessions. Compared to 'txtq'
-and 'rds' queues, 'Redis' queue stores data in memory, meaning a potential of
-significant speed ups. To use \code{redis_queue}, you need to install `Redis`
-on your computer.
+A 'Redis' queue uses free open source software `Redis` and R package
+'RcppRedis' as backend. Compared to session queue, 'Redis' queue can be
+shared across sessions. Compared to 'txtq' and 'rds' queues, 'Redis' queue
+stores data in memory, meaning a potential of significant speed ups. To use
+\code{redis_queue}, you need to install `Redis` on your computer.
 \itemize{
   \item On Mac: use `\code{brew install redis}` to install and
     `\code{brew services start redis}` to start the service
@@ -161,7 +163,8 @@ queue$destroy()
 
 \donttest{
 # Cross session example
-make_forked_clusters()
+# If necessary, uncomment the following line to enable multi-core future
+# make_forked_clusters()
 queue <- txtq_queue()
 
 # In another process
@@ -171,10 +174,10 @@ future::future({
 }) -> f
 
 # In current process, get pid
-# wait 0.5 seconds, making sure the queue has at least an item
-Sys.sleep(0.5)
+# wait 0.2 seconds, making sure the queue has at least an item
+Sys.sleep(0.2)
 message = queue$pop()
-message[[1]]$value
+message[[1]]
 }
 
 # ----------------------Shiny Example ----------------------

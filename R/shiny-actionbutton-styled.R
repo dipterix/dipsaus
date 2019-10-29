@@ -76,6 +76,7 @@ actionButtonStyled <- function(
 #' @param type button type to update
 #' @param disabled whether to disable the button
 #' @param ... ignored
+#' @return none
 #'
 #' @seealso \code{\link[dipsaus]{actionButtonStyled}} for how to define the button.
 #'
@@ -96,4 +97,5 @@ updateActionButtonStyled <- function(
   )
 
   shiny::updateActionButton(session, inputId, label, icon)
+  invisible()
 }

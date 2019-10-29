@@ -25,9 +25,9 @@ once current observer is over. Default is \code{FALSE}. If setting to
 \code{p <- progress2(...); on.exit({p$close()}, add = TRUE)}.}
 }
 \value{
-a list
+A list of functions:
 \describe{
-\item{\code{$inc(detail, message = NULL, amount = 1, ...)}}{
+\item{\code{inc(detail, message = NULL, amount = 1, ...)}}{
 Increase progress bar by \code{amount} (default is 1).
 }
 \item{\code{close()}}{

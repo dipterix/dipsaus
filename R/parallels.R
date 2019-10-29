@@ -31,37 +31,6 @@
 #' @return a list whose length equals to \code{.X}. The value of each item
 #' returned depends on whether \code{async} is called. See details for workflow.
 #'
-#' @examples
-#'
-#' \donttest{
-#'
-#' library(dipsaus)
-#'
-#' # Enable parallel computing
-#' make_forked_clusters()
-#'
-#' # Case 1: async is called
-#' async_expr(.X = 1:10, {
-#'   # This part is not async
-#'   print(sprintf('x=%s in session pid: %s', x, Sys.getpid()))
-#'
-#'   # The magic starts here, async is provided
-#'   async({
-#'     Sys.getpid()
-#'   })
-#'
-#'   x  # this is not returned as async is called
-#' })
-#'
-#' # Case 2: async is not called, all expressions are evaluated in
-#' # a single session
-#' async_expr(.X = 1:10, {
-#'   # This part is not async
-#'   print(sprintf('x=%s in session pid: %s', x, Sys.getpid()))
-#'   x  # x is returned as async is not called
-#' })
-#'
-#' }
 #' @export
 async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
                        .pre_run = NULL,
@@ -145,13 +114,18 @@ async_flapply <- function(X, FUN, ...){
 }
 
 #' Create forked clusters
+#' @param workers positive integer, number of cores to use
 #' @param ... passing to \code{future::plan}
 #' @details This is a wrapper for \code{future::plan(future::multicore, ...)}.
 #' However, since version 1.14.0, forked clusters are disabled in `RStudio` by
 #' default, and you usually need to enable it manually. This function provides
 #' a simple way of enable it and plan the future at the same time.
+#' @return number of cores
 #' @export
-make_forked_clusters <- function(...){
+make_forked_clusters <- function(
+  workers = future::availableCores(constraints = "multicore"),
+  ...){
   options(future.fork.enable = TRUE)
-  future::plan(future::multicore, ...)
+  future::plan(future::multicore, workers = workers, ...)
+  invisible(workers)
 }

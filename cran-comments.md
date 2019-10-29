@@ -1,4 +1,60 @@
-## Resubmission
+## Resubmission - 2019-10-29
+
+Changes:
+
+1. Totally removed function `async_lapply`. I need to re-consider the 
+implementation. Examples in `async_expr` are also removed because they must use 
+at lease 2 cores.
+
+2. `\value` is added to `%?<-%`, `make_forked_clusters`, `updateActionButtonStyled`,
+`updateCompoundInput2`, `registerInputBinding`, `sync_shiny_inputs`, `cat2`.
+
+Updates: I've added functions since last submission. They are:
+
+1. `R6` class `AbstractQueue` defines an abstract queue class that is designed to 
+push arbitrary R object to a queue in one place and pop in another place (or 
+even another R session). Inherits are `session_queue`, `rds_queue`, 
+`txtq_queue`, `qs_queue`, and `redis_queue`. Two doc files are added: 
+  * `AbstractQueue.rd` describes public, private, and active bindings of class
+  * `queue.rd` provides detailed use cases for five queues implemented.
+2. `progress2` provides alternatives to shiny progress class, allowing debugging
+under non-reactive context.
+3. test units.
+  
+
+
+
+Original feedback from `Martina Schmirl`:
+
+```
+...
+> Functions that have no
+>    `\value` fields and reasons
+> 1. `%?<-%`,
+>    `make_forked_clusters`, `updateActionButtonStyled`,
+>    `updateCompoundInput2`, `registerInputBinding`,
+>    `sync_shiny_inputs`, `cat2`. These functions return
+>    nothing
+
+Still, it would be preferable to have that information in the \value field.
+
+...
+
+> **\donttest{}** cases:
+> *
+>    `async_expr` uses more than 1 cores
+> * `async_lapply`
+>    uses more than 1 cores
+
+Ok thats no reason to put in donttest. As long no more than 2 cores are
+used it's fine.
+(And more than 2 cores are not allowed in examples any way)
+
+```
+
+
+# Previous Records:
+## Last Submission - 2019-10-25
 
 Changes:
 

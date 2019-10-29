@@ -162,6 +162,8 @@ deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', m
 #' @param bullet character, if use 'cli', which symbol to show. see
 #' \code{\link[cli]{symbol}}
 #'
+#' @return none.
+#'
 #' @details
 #' There are five levels of colors by default: 'DEBUG', 'INFO', 'WARNING', 'ERROR',
 #' or FATAL. Default colors are: 'DEBUG' (\code{grey60}), 'INFO' (\code{#1d9f34}), 'WARNING'

@@ -110,6 +110,9 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' @param lhs an object to check or assign
 #' @param value value to be assigned if lhs is NULL
 #'
+#' @return Assign value on the right-hand side to the left-hand side if
+#' \code{lhs} does not exist or is \code{NULL}
+#'
 #' @examples
 #' # Prepare, remove aaa if exists
 #' if(exists('aaa', envir = globalenv(), inherits = FALSE)){

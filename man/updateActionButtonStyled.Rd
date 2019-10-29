@@ -16,6 +16,9 @@ updateActionButtonStyled(session, inputId, label = NULL, icon = NULL,
 
 \item{...}{ignored}
 }
+\value{
+none
+}
 \description{
 Update styled action button
 }

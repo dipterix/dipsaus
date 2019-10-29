@@ -2,7 +2,8 @@
 
 #' @name queue
 #' @title Create R object queue.
-#' @description See the examples.
+#' @description Provides five types of queue that fit in different use cases.
+#' @return An \code{R6} class inherits \code{\link[dipsaus]{AbstractQueue}}
 #' @details There are five types of queue implemented. They all inherit class
 #' \code{\link[dipsaus]{AbstractQueue}}. There are several differences in
 #' use case scenarios and they backend implementations.
@@ -45,12 +46,11 @@
 #' \code{rds_queue} if speed is not the major concern.
 #' }
 #' \item{\code{\link{redis_queue}}}{
-#' A 'Redis' queue uses free open source software `Redis`
-#' (\url{https://redis.io/}) and R package 'RcppRedis' as backend. Compared to
-#' session queue, 'Redis' queue can be shared across sessions. Compared to 'txtq'
-#' and 'rds' queues, 'Redis' queue stores data in memory, meaning a potential of
-#' significant speed ups. To use \code{redis_queue}, you need to install `Redis`
-#' on your computer.
+#' A 'Redis' queue uses free open source software `Redis` and R package
+#' 'RcppRedis' as backend. Compared to session queue, 'Redis' queue can be
+#' shared across sessions. Compared to 'txtq' and 'rds' queues, 'Redis' queue
+#' stores data in memory, meaning a potential of significant speed ups. To use
+#' \code{redis_queue}, you need to install `Redis` on your computer.
 #' \itemize{
 #'   \item On Mac: use `\code{brew install redis}` to install and
 #'     `\code{brew services start redis}` to start the service
@@ -132,7 +132,8 @@
 #'
 #' \donttest{
 #' # Cross session example
-#' make_forked_clusters()
+#' # If necessary, uncomment the following line to enable multi-core future
+#' # make_forked_clusters()
 #' queue <- txtq_queue()
 #'
 #' # In another process
@@ -142,10 +143,10 @@
 #' }) -> f
 #'
 #' # In current process, get pid
-#' # wait 0.5 seconds, making sure the queue has at least an item
-#' Sys.sleep(0.5)
+#' # wait 0.2 seconds, making sure the queue has at least an item
+#' Sys.sleep(0.2)
 #' message = queue$pop()
-#' message[[1]]$value
+#' message[[1]]
 #' }
 #'
 #' # ----------------------Shiny Example ----------------------

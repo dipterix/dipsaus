@@ -257,6 +257,7 @@ print.dipsaus_compoundInput_data <- function(x, ...){
 #' @param ncomp integer, non-negative number of groups to update, \code{NULL} to
 #' remain unchanged
 #' @param initialization,... named list of other updates
+#' @return none
 #' @examples
 #'
 #' \dontrun{
@@ -329,6 +330,7 @@ updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
   }
 
   session$sendInputMessage(inputId, list(value = value, ncomp = ncomp))
+  invisible()
 }
 
 

@@ -9,9 +9,9 @@
 #' \code{TRUE}, then it's equivalent to
 #' \code{p <- progress2(...); on.exit({p$close()}, add = TRUE)}.
 #'
-#' @return a list
+#' @return A list of functions:
 #' \describe{
-#' \item{\code{$inc(detail, message = NULL, amount = 1, ...)}}{
+#' \item{\code{inc(detail, message = NULL, amount = 1, ...)}}{
 #' Increase progress bar by \code{amount} (default is 1).
 #' }
 #' \item{\code{close()}}{
