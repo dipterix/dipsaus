@@ -25,7 +25,7 @@ RedisQueue <- R6::R6Class(
     },
 
     `@append_header` = function(msg, ...){
-      header_key = sprintf('%s__HEADERS', private$redis_id)
+      header_key <- sprintf('%s__HEADERS', private$redis_id)
       lapply(msg, function(m){
         private$redis$exec(sprintf('RPUSH %s "%s"', header_key, as.character(m)))
       })
@@ -37,7 +37,7 @@ RedisQueue <- R6::R6Class(
       key
     },
     restore_value = function(hash, key, preserve = FALSE){
-      re = private$redis$hget(private$redis_id, key)
+      re <- private$redis$hget(private$redis_id, key)
       if( !preserve ){
         private$redis$hdel(private$redis_id, key)
       }
@@ -45,20 +45,20 @@ RedisQueue <- R6::R6Class(
     },
 
     `@log` = function(n = -1, all = FALSE){
-      header_key = sprintf('%s__HEADERS', private$redis_id)
+      header_key <- sprintf('%s__HEADERS', private$redis_id)
       if( all ){
-        head = 0
+        head <- 0
       }else{
-        head = self$head;
+        head <- self$head
       }
-      total = self$total
-      count = total - head
-      if( n <= 0 ){ n = count }else{ n = min(n, count) }
+      total <- self$total
+      count <- total - head
+      if( n <= 0 ){ n <- count }else{ n <- min(n, count) }
       if( n == 0 ){ return() }
 
-      header = private$redis$exec(sprintf('LRANGE %s %d %d', header_key, head, head + n-1))
-      header = unlist(header)
-      header = stringr::str_remove_all(header, '(^")|("$)')
+      header <- private$redis$exec(sprintf('LRANGE %s %d %d', header_key, head, head + n-1))
+      header <- unlist(header)
+      header <- stringr::str_remove_all(header, '(^")|("$)')
       stringr::str_split_fixed(header, '\\|', 4)
     },
 
@@ -70,22 +70,22 @@ RedisQueue <- R6::R6Class(
     },
 
     `@clean` = function(...) {
-      head = self$head
-      total = self$total
+      head <- self$head
+      total <- self$total
       if( total - head < 1 ){
         self$`@reset`()
       }else{
-        header_key = sprintf('%s__HEADERS', private$redis_id)
+        header_key <- sprintf('%s__HEADERS', private$redis_id)
         if( head > 0 ){
           lapply(seq_len(head), function(ii){
-            header = private$redis$exec(sprintf('LPOP %s', header_key))
-            header = stringr::str_remove_all(header, '(^")|("$)')
-            header = self$print_item(stringr::str_split_fixed(header, '\\|', n = 4))
+            header <- private$redis$exec(sprintf('LPOP %s', header_key))
+            header <- stringr::str_remove_all(header, '(^")|("$)')
+            header <- self$print_item(stringr::str_split_fixed(header, '\\|', n = 4))
             private$redis$hdel(private$redis_id, header$hash)
           })
         }
-        self$head = 0
-        self$total = total - head
+        self$head <- 0
+        self$total <- total - head
       }
     },
     `@validate` = function() {
@@ -107,7 +107,7 @@ RedisQueue <- R6::R6Class(
 
     initialize = function(queue_id = rand_string()){
       tryCatch({
-        private$redis = new( RcppRedis::Redis )
+        private$redis <- new( RcppRedis::Redis )
       }, error = function(e){
         stop('Cannot connect to Redis. Please make sure Redis is installed. \n',
              '  MacOS:\n', '\tInstall: \tbrew install redis\n', '\tTo Start: \tbrew services start redis\n',
@@ -117,14 +117,14 @@ RedisQueue <- R6::R6Class(
       })
 
 
-      private$redis_id = queue_id
-      self$get_locker = function(time_out = Inf, intervals = 10){
+      private$redis_id <- queue_id
+      self$get_locker <- function(time_out = Inf, intervals = 10){
         if( time_out <= 0 ){
           stop('Cannot get locker, timeout!', call. = FALSE)
         }
         # Locker always fails in mac, so lock the file is not enough
         if( private$redis$hexists(private$redis_id, 'LOCK') != 0 ){
-          locker_owner = private$redis$hget(private$redis_id, 'LOCK')
+          locker_owner <- private$redis$hget(private$redis_id, 'LOCK')
           if(length(locker_owner) == 1 && locker_owner != '' && !isTRUE(locker_owner == self$id)){
             Sys.sleep(intervals / 1000)
             return(self$get_locker(time_out - intervals, intervals))
@@ -134,7 +134,7 @@ RedisQueue <- R6::R6Class(
         # write ID
         private$redis$hset(private$redis_id, 'LOCK', self$id)
       }
-      self$free_locker = function(){
+      self$free_locker <- function(){
         private$redis$hset(private$redis_id, 'LOCK', NULL)
       }
       self$connect(queue_id)

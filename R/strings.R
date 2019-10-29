@@ -65,7 +65,7 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 #' @examples
 #' parse_svec('1-10, 13:15,14-20')
 #' @export
-parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
+parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = TRUE){
   connect <- unlist(stringr::str_split(connect, ''))
   connect[connect %in% c('|', ':')] <- paste0('\\', connect[connect %in% c('|', ':')])
   connect <- paste(connect, collapse = '')
@@ -78,7 +78,7 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
   if(is.numeric(text)){
     return(text)
   }
-  s <- as.vector(stringr::str_split(text, sep, simplify = T))
+  s <- as.vector(stringr::str_split(text, sep, simplify = TRUE))
   s <- stringr::str_trim(s)
   s <- s[s!='']
 
@@ -87,7 +87,7 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
   re <- NULL
   for(ss in s){
     if(stringr::str_detect(ss, sprintf('[%s]', connect))){
-      ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = T))
+      ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = TRUE))
       ss <- ss[stringr::str_detect(ss, '^[0-9]+$')]
       ss <- as.numeric(ss)
       if(length(ss) >= 2){
@@ -123,7 +123,7 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = F, unique = T){
 #' @examples
 #' deparse_svec(c(1:10, 15:18))
 #' @export
-deparse_svec <- function(nums, connect = '-', concatenate = T, collapse = ',', max_lag = 1){
+deparse_svec <- function(nums, connect = '-', concatenate = TRUE, collapse = ',', max_lag = 1){
   nums <- nums[is.finite(nums)]
   if(length(nums) == 0){
     return('')
@@ -186,7 +186,7 @@ cat2 <- function(
   if(!level %in% names(pal)){
     level <- 'DEFAULT'
   }
-  bullet_list = list(
+  bullet_list <- list(
     'DEBUG' = 'tick',
     'INFO' = 'heart',
     'WARNING' = 'warning',
@@ -198,7 +198,7 @@ cat2 <- function(
   .col <- pal[[level]]
   if(is.null(.col)){ .col <- '#000000' }
   if( bullet == 'auto' ){
-    bullet = bullet_list[[level]]
+    bullet <- bullet_list[[level]]
     if(is.null(bullet)){ bullet <- 'arrow_right' }
   }
 

@@ -33,15 +33,15 @@ TextQueue <- R6::R6Class(
     },
 
     `@store_value` = function(value, key){
-      con = textConnection('s', 'w')
+      con <- textConnection('s', 'w')
       serialize(value, connection = con)
       close(con)
-      s = paste(s, collapse = '\n')
+      s <- paste(s, collapse = '\n')
       s
     },
     restore_value = function(hash, key, preserve = FALSE){
-      con = textConnection(hash, 'r')
-      re = tryCatch({
+      con <- textConnection(hash, 'r')
+      re <- tryCatch({
         unserialize(connection = con)
       }, error = function(e){
         NULL
@@ -50,15 +50,15 @@ TextQueue <- R6::R6Class(
     },
 
     `@log` = function(n = -1, all = FALSE){
-      if( all ){ head = 0 }else{ head = self$head }
-      total = self$total
-      count = total - head
-      if( n <= 0 ){ n = count }else{ n = min(n, count) }
+      if( all ){ head <- 0 }else{ head <- self$head }
+      total <- self$total
+      count <- total - head
+      if( n <= 0 ){ n <- count }else{ n <- min(n, count) }
       if( n == 0 ){ return() }
       if( all ){
-        tbl = private$txtq$log()
+        tbl <- private$txtq$log()
       }else{
-        tbl = private$txtq$list(n = n)
+        tbl <- private$txtq$list(n = n)
       }
       stringr::str_split_fixed(tbl$message, '\\|', 4)
     },
@@ -79,8 +79,8 @@ TextQueue <- R6::R6Class(
     },
 
     initialize = function(path = tempfile()){
-      private$txtq = txtq::txtq(path)
-      private$txtq_private = private$txtq$.__enclos_env__$private
+      private$txtq <- txtq::txtq(path)
+      private$txtq_private <- private$txtq$.__enclos_env__$private
     },
 
     destroy = function(){

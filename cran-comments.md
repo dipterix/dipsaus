@@ -1,30 +1,18 @@
 ## Resubmission - 2019-10-29
 
-Changes:
+#### Changes:
 
-1. Totally removed function `async_lapply`. I need to re-consider the 
-implementation. Examples in `async_expr` are also removed because they must use 
-at lease 2 cores.
+1. Totally removed function `async_lapply`. I need to re-consider the implementation. Examples in `async_expr` are also removed because they must use at lease 2 cores.
 
 2. `\value` is added to `%?<-%`, `make_forked_clusters`, `updateActionButtonStyled`,
 `updateCompoundInput2`, `registerInputBinding`, `sync_shiny_inputs`, `cat2`.
 
-Updates: I've added functions since last submission. They are:
+3. `\value` is added in `progress2.Rd`, `queue.Rd`, two docs newly added since last submission
 
-1. `R6` class `AbstractQueue` defines an abstract queue class that is designed to 
-push arbitrary R object to a queue in one place and pop in another place (or 
-even another R session). Inherits are `session_queue`, `rds_queue`, 
-`txtq_queue`, `qs_queue`, and `redis_queue`. Two doc files are added: 
-  * `AbstractQueue.rd` describes public, private, and active bindings of class
-  * `queue.rd` provides detailed use cases for five queues implemented.
-2. `progress2` provides alternatives to shiny progress class, allowing debugging
-under non-reactive context.
-3. test units.
-  
+4. The newly added examples have the one `dontrun` case (in `queue.rd`). I expect that line to raise error as a destroyed queue is no longer valid
 
 
-
-Original feedback from `Martina Schmirl`:
+**Original feedback from `Martina Schmirl`:**
 
 ```
 ...

@@ -6,7 +6,7 @@
 
 (stable)}
 \usage{
-deparse_svec(nums, connect = "-", concatenate = T, collapse = ",",
+deparse_svec(nums, connect = "-", concatenate = TRUE, collapse = ",",
   max_lag = 1)
 }
 \arguments{

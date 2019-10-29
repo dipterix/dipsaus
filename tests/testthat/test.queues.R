@@ -4,11 +4,11 @@ context("queue")
 
 
 test_queue <- function(generator, ...){
-  make_queue = function(...){
+  make_queue <- function(...){
     generator$new(...)
   }
 
-  self = make_queue(...)
+  self <- make_queue(...)
   self$reset()
 
   expect_equal(self$total, 0)
@@ -18,7 +18,7 @@ test_queue <- function(generator, ...){
 
   expect_true(self$count == 3)
 
-  re = self$pop()
+  re <- self$pop()
 
   expect_identical(re[[1]]$value, 1)
   expect_true(self$total == 3)
@@ -31,15 +31,15 @@ test_queue <- function(generator, ...){
   expect_true(self$total == 2)
   expect_true(self$head == 0)
 
-  re = self$pop()
+  re <- self$pop()
 
   expect_identical(re[[1]]$value, 1:2)
   expect_true(self$total == 2)
   expect_true(self$head == 1)
 
-  self = make_queue(...)
+  self <- make_queue(...)
 
-  re = self$pop()
+  re <- self$pop()
 
   expect_identical(re[[1]]$value, list(1,2,3))
 
@@ -47,11 +47,11 @@ test_queue <- function(generator, ...){
 
   if( !identical(generator, dipsaus:::TextQueue) ){
     # save environment
-    e = new.env()
-    e$a = 123
+    e <- new.env()
+    e$a <- 123
     self$push(e)
 
-    ep = self$pop()
+    ep <- self$pop()
     expect_equal(ep[[1]]$value$a, 123)
   }
 
@@ -64,30 +64,30 @@ test_queue <- function(generator, ...){
 
 
 test_that('testing SessionQueue', {
-  map = fastmap::fastmap()
+  map <- fastmap::fastmap()
   test_queue(dipsaus:::SessionQueue, map = map)
 })
 
 test_that('testing FileQueue', {
-  path = tempfile()
+  path <- tempfile()
   test_queue(dipsaus:::FileQueue, path)
 })
 
 test_that('testing TextQueue', {
-  path = tempfile()
+  path <- tempfile()
   test_queue(dipsaus:::TextQueue, path)
 })
 
 
 test_that('testing QsQueue', {
-  path = tempfile()
+  path <- tempfile()
   test_queue(dipsaus:::QsQueue, path)
 })
 
 
 
 test_that('testing RedisQueue', {
-  has_redis = tryCatch({
+  has_redis <- tryCatch({
     new( RcppRedis::Redis )
     TRUE
   }, error = function(e){

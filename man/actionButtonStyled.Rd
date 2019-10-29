@@ -44,7 +44,7 @@ server <- function(input, output, session) {
   })
   observeEvent(input$btn2, {
     updateActionButtonStyled(session, 'btn',
-                             disabled = c(F,T)[(input$btn2 \%\% 2) + 1])
+                             disabled = c(FALSE,TRUE)[(input$btn2 \%\% 2) + 1])
   })
 }
 

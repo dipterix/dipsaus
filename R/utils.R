@@ -24,7 +24,7 @@ time_delta <- function(t1, t2, units = 'secs'){
   as.numeric(t2 - t1, units=units)
 }
 
-is_invalid <- function(x, any = F, .invalids = list('is.null', 'is.na'), ...){
+is_invalid <- function(x, any = FALSE, .invalids = list('is.null', 'is.na'), ...){
   .invalids <- c(.invalids, list(...))
   if('is.null' %in% .invalids){
     if(is.null(x) || !length(x)){

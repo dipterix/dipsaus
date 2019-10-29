@@ -66,19 +66,19 @@
 progress2 <- function( title, max = 1, ..., quiet = FALSE,
                        session = shiny::getDefaultReactiveDomain(),
                        shiny_auto_close = FALSE){
-  if(missing(title) || is.null(title)){ title = '' }
-  if( length(title) > 1 ){ title = paste(title, collapse = '')}
+  if(missing(title) || is.null(title)){ title <- '' }
+  if( length(title) > 1 ){ title <- paste(title, collapse = '')}
 
   if( inherits(session, c('ShinySession', 'session_proxy', 'R6')) ){
-    within_shiny = TRUE
+    within_shiny <- TRUE
   }else{
-    within_shiny = FALSE
+    within_shiny <- FALSE
   }
 
   current <- 0
   closed <- FALSE
-  get_value = function(){ current }
-  is_closed = function(){ closed }
+  get_value <- function(){ current }
+  is_closed <- function(){ closed }
   logger <- function(..., .quiet = quiet){
     if(!.quiet){
       cat2(...)
@@ -86,12 +86,12 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
   }
 
   if( quiet || !within_shiny ){
-    progress = NULL
+    progress <- NULL
     logger(sprintf("[%s]: initializing...", title), level = 'DEFAULT', bullet = 'play')
 
-    inc = function(detail, message = NULL, amount = 1, ...){
+    inc <- function(detail, message = NULL, amount = 1, ...){
       stopifnot2(!closed, msg = 'progress is closed')
-      quiet = c(list(...)[['quiet']], quiet)[[1]]
+      quiet <- c(list(...)[['quiet']], quiet)[[1]]
       # if message is updated
       if(!is.null(message) && length(message) == 1){ title <<- message }
       current <<- amount + current
@@ -99,34 +99,34 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
            level = 'DEFAULT', bullet = 'arrow_right', .quiet = quiet)
     }
 
-    close = function(){
+    close <- function(){
       closed <<- TRUE
       logger('Finished', level = 'DEFAULT', bullet = 'stop')
     }
-    reset = function(detail = '', message = '', value = 0){
+    reset <- function(detail = '', message = '', value = 0){
       title <<- message
       current <<- value
     }
 
   }else{
-    progress = shiny::Progress$new(session = session, max = max, ...)
-    inc = function(detail, message = NULL, amount = 1, ...){
+    progress <- shiny::Progress$new(session = session, max = max, ...)
+    inc <- function(detail, message = NULL, amount = 1, ...){
       if(!is.null(message) && length(message) == 1){ title <<- message }
       progress$inc(detail = detail, message = title, amount = amount)
     }
-    close = function(){
+    close <- function(){
       if(!closed){
         progress$close()
         closed <<- TRUE
       }
     }
-    reset = function(detail = '', message = '', value = 0){
+    reset <- function(detail = '', message = '', value = 0){
       title <<- message
       current <<- value
       progress$set(value = value, message = title, detail = detail)
     }
     if(shiny_auto_close){
-      parent_frame = parent.frame()
+      parent_frame <- parent.frame()
       do.call(
         on.exit, list(substitute(close()), add = TRUE),
         envir = parent_frame

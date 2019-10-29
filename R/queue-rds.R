@@ -26,28 +26,28 @@ FileQueue <- R6::R6Class(
     },
 
     `@inc_total` = function(n=1){
-      con = file(description = private$total_file, open = 'r+')
+      con <- file(description = private$total_file, open = 'r+')
       on.exit(close(con))
-      total = scan(file = con, what = integer(), n = 1, quiet = TRUE) + n
+      total <- scan(file = con, what = integer(), n = 1, quiet = TRUE) + n
       write(total, file = con, ncolumns = 1, append = FALSE)
       invisible(total)
     },
 
     `@append_header` = function(msg, ...){
-      con = file(private$header_file, 'a+')
+      con <- file(private$header_file, 'a+')
       on.exit(close(con))
       writeLines(msg, con)
       return(length(msg))
     },
 
     `@store_value` = function(value, key){
-      path = file.path(private$db_dir, key)
+      path <- file.path(private$db_dir, key)
       saveRDS(value, file = path)
       key
     },
     restore_value = function(hash, key, preserve = FALSE){
-      path = file.path(private$db_dir, key)
-      re = tryCatch({
+      path <- file.path(private$db_dir, key)
+      re <- tryCatch({
         readRDS(path)
       }, error = function(e){
         NULL
@@ -59,12 +59,12 @@ FileQueue <- R6::R6Class(
     },
 
     `@log` = function(n = -1, all = FALSE){
-      if( all ){ head = 0 }else{ head = self$head }
-      total = self$total
-      count = total - head
-      if( n <= 0 ){ n = count }else{ n = min(n, count) }
+      if( all ){ head <- 0 }else{ head <- self$head }
+      total <- self$total
+      count <- total - head
+      if( n <= 0 ){ n <- count }else{ n <- min(n, count) }
       if( n == 0 ){ return() }
-      re = read.table(private$header_file, skip = head, header = TRUE, nrows = n)
+      re <- read.table(private$header_file, skip = head, header = TRUE, nrows = n)
       stringr::str_split_fixed(re[[1]], '\\|', 4)
     },
 
@@ -72,26 +72,26 @@ FileQueue <- R6::R6Class(
       self$`@set_head`(0)
       self$`@set_total`(0)
       write('HEADER', file = private$header_file, append = FALSE)
-      fs = list.files(private$db_dir, full.names = TRUE)
+      fs <- list.files(private$db_dir, full.names = TRUE)
       lapply(fs, unlink)
     },
 
     `@clean` = function(preserve = FALSE, ...) {
-      head = self$head
-      total = self$total
+      head <- self$head
+      total <- self$total
       if( total - head < 1 ){
         self$`@reset`()
       }else{
-        re = readLines(private$header_file)
+        re <- readLines(private$header_file)
         if( !preserve && head > 0 ){
           lapply(seq_len(head), function(ii){
-            re = self$print_item(stringr::str_split_fixed(re[[ii+1]], '\\|', n = 4))
+            re <- self$print_item(stringr::str_split_fixed(re[[ii+1]], '\\|', n = 4))
             unlink(file.path(private$db_dir, re$hash))
           })
         }
         writeLines(re[c(1, (head+2) : (total+1))], private$header_file)
-        self$head = 0
-        self$total = total - head
+        self$head <- 0
+        self$total <- total - head
       }
     },
     `@validate` = function() {
@@ -104,44 +104,44 @@ FileQueue <- R6::R6Class(
 
     `@connect` = function(path){
       if(!missing(path)){
-        path = normalizePath(path, mustWork = TRUE)
-        private$root_path = path
+        path <- normalizePath(path, mustWork = TRUE)
+        private$root_path <- path
       }
 
       if( !dir.exists( private$root_path ) ){
         stop('path is not a directory')
       }
 
-      tmp = file.path(private$root_path, 'HEAD')
+      tmp <- file.path(private$root_path, 'HEAD')
       file_create(tmp)
-      private$head_file = normalizePath(tmp, mustWork = TRUE)
+      private$head_file <- normalizePath(tmp, mustWork = TRUE)
 
-      head = scan(tmp, what = integer(), n = 1, nlines = 1, quiet = TRUE)
+      head <- scan(tmp, what = integer(), n = 1, nlines = 1, quiet = TRUE)
       if(length(head) != 1 || !is.numeric(head) || head < 0){
         self$`@set_head`(0)
       }
 
 
-      tmp = file.path(private$root_path, 'TOTAL')
+      tmp <- file.path(private$root_path, 'TOTAL')
       file_create(tmp)
-      private$total_file = normalizePath(tmp, mustWork = TRUE)
+      private$total_file <- normalizePath(tmp, mustWork = TRUE)
 
-      total = scan(tmp, what = integer(), n = 1, nlines = 1, quiet = TRUE)
+      total <- scan(tmp, what = integer(), n = 1, nlines = 1, quiet = TRUE)
       if(length(total) != 1 || !is.numeric(total) || total < 0){
         self$`@set_total`(0)
       }
 
-      tmp = file.path(private$root_path, 'KEYS')
+      tmp <- file.path(private$root_path, 'KEYS')
       if( !file.exists(tmp) ){
         file_create(tmp)
         writeLines('HEADER', tmp)
       }
-      private$header_file = normalizePath(tmp, mustWork = TRUE)
+      private$header_file <- normalizePath(tmp, mustWork = TRUE)
 
 
-      tmp = file.path(private$root_path, 'DB')
+      tmp <- file.path(private$root_path, 'DB')
       dir_create(tmp)
-      private$db_dir = normalizePath(tmp, mustWork = TRUE)
+      private$db_dir <- normalizePath(tmp, mustWork = TRUE)
 
 
       self$clean(preserve = TRUE)
@@ -151,8 +151,8 @@ FileQueue <- R6::R6Class(
 
     initialize = function(path = tempfile()){
       dir_create(path)
-      private$root_path = normalizePath(path)
-      self$lockfile = file.path(path, 'LOCK')
+      private$root_path <- normalizePath(path)
+      self$lockfile <- file.path(path, 'LOCK')
       self$connect()
     },
 

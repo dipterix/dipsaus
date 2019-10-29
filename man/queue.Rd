@@ -28,7 +28,7 @@ redis_queue(name = rand_string())
 will be shared.}
 }
 \value{
-An \code{R6} class inherits \code{\link[dipsaus]{AbstractQueue}}
+An \code{R6} instance that inherits \code{\link[dipsaus]{AbstractQueue}}
 }
 \description{
 Provides five types of queue that fit in different use cases.
@@ -149,8 +149,8 @@ queue$count
 # List what's left
 queue$list()
 
-queue$pop()
-queue$pop()
+val1 <- queue$pop()
+val2 <- queue$pop()
 
 # Destroy the queue's files altogether.
 queue$destroy()
@@ -161,10 +161,10 @@ queue$destroy()
 }
 # ----------------------Cross-Process Usage ----------------------
 
-\donttest{
 # Cross session example
 # If necessary, uncomment the following line to enable multi-core future
 # make_forked_clusters()
+
 queue <- txtq_queue()
 
 # In another process
@@ -178,7 +178,6 @@ future::future({
 Sys.sleep(0.2)
 message = queue$pop()
 message[[1]]
-}
 
 # ----------------------Shiny Example ----------------------
 library(shiny)
@@ -218,14 +217,15 @@ server <- function(input, output, session) {
 
   observeEvent(input$do, {
     updateActionButtonStyled(session, 'do', disabled = TRUE)
-    if(!is.null(progress) && !progress$closed)
+    if(!is.null(progress)){
       progress$close()
-    progress <<- shiny::Progress$new(max = 10)
+    }
+    progress <<- progress2('Analysis [A]', max = 10)
 
     future::future({
       lapply(1:10, function(ii){
         queue$push(rlang::quo(
-          progress$inc(1, detail = !!sprintf('Processing \%d', ii))
+          progress$inc(!!sprintf('Processing \%d', ii))
         ))
         Sys.sleep(0.2)
       })

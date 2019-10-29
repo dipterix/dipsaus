@@ -193,10 +193,10 @@ not_implemented <- function(msg = 'Not yet implemented', default = 0){
   warning(msg)
   default
 }
-rand_string = function(length = 50){
+rand_string <- function(length = 50){
   paste(sample(c(letters, LETTERS, 0:9), length, replace = TRUE), collapse = '')
 }
-null_item = data.frame(
+null_item <- data.frame(
   time = character(0),
   key = character(0),
   hash = character(0),
@@ -240,7 +240,7 @@ AbstractQueue <- R6::R6Class(
         stop('Cannot get locker, timeout!', call. = FALSE)
       }
       # Locker always fails in mac, so lock the file is not enough
-      locker_owner = readLines(self$lockfile)
+      locker_owner <- readLines(self$lockfile)
       if(length(locker_owner) == 1 && locker_owner != '' && !isTRUE(locker_owner == self$id)){
         Sys.sleep(intervals / 1000)
         return(private$default_get_locker(time_out - intervals, intervals))
@@ -255,7 +255,7 @@ AbstractQueue <- R6::R6Class(
       on.exit({
         if( !is.null(private$lock) ){
           filelock::unlock(private$lock)
-          private$lock = NULL
+          private$lock <- NULL
         }
       })
       if( !is.null(private$lock) ){
@@ -290,7 +290,7 @@ AbstractQueue <- R6::R6Class(
     # Increase total, usually this doesn't need to be override, unless you are
     # using files to store total and want to decrease number of file connections
     `@inc_total` = function(n=1){
-      self$total = self$total + n
+      self$total <- self$total + n
     },
 
     # msg will be vector of strings, separated by "|", containing encoded headers
@@ -332,19 +332,19 @@ AbstractQueue <- R6::R6Class(
     push = function(value, message = '', ...){
       time <- base64url::base64_urlencode(microtime())
 
-      digest_val = digest::digest(value)
+      digest_val <- digest::digest(value)
 
-      key = digest::digest(list(self$id, time, digest_val))
+      key <- digest::digest(list(self$id, time, digest_val))
 
-      hash = base64url::base64_urlencode(self$`@store_value`(value, key))
+      hash <- base64url::base64_urlencode(self$`@store_value`(value, key))
 
-      message = base64url::base64_urlencode(message)
+      message <- base64url::base64_urlencode(message)
       if(length(hash) != 1){
         stop('store_value returns hash value that has length != 1')
       }
       out <- paste( time, key, hash, message, sep = "|" )
       private$exclusive({
-        n = self$`@append_header`(msg = out, ...)
+        n <- self$`@append_header`(msg = out, ...)
         if( n > 0 ){
           self$`@inc_total`( n )
         }
@@ -378,15 +378,15 @@ AbstractQueue <- R6::R6Class(
     # self$restore_value(hash, key, preserve=TRUE) to
     # obtain the value. The value is not always available though.
     list = function(n = -1){
-      out = self$log(n=n, all=FALSE)
+      out <- self$log(n=n, all=FALSE)
       if( !length(out) ){ return(null_item) }
       if( !is.matrix(out) && !is.data.frame(out) ){
         stop('list must return a matrix or a data.frame')
       }
-      nrows = nrow(out)
+      nrows <- nrow(out)
       if(!nrows){ return( null_item ) }
-      out = lapply(seq_len(nrows), function(ii){
-        re = self$print_item(out[ii, ])
+      out <- lapply(seq_len(nrows), function(ii){
+        re <- self$print_item(out[ii, ])
         as.data.frame(re, stringsAsFactors=FALSE)
       })
       do.call('rbind', out)
@@ -397,19 +397,19 @@ AbstractQueue <- R6::R6Class(
     pop = function(n = 1, preserve = FALSE) {
       private$exclusive({
         # Check count first, in this case, we don't read header file
-        count = self$count
+        count <- self$count
         if(count < 0.5){ return(list()) }
         out <- self$`@log`(n = n)
         if( !length(out) ){ return(list()) }
         if( !is.matrix(out) && !is.data.frame(out) ){
           stop('list must return a matrix or a data.frame')
         }
-        nrows = nrow(out)
+        nrows <- nrow(out)
         if(!nrows){ return( list() ) }
         # parse time, key, hash
-        out = lapply(seq_len(nrows), function(ii){
-          re = self$print_item(out[ii, ])
-          re$value = self$restore_value( re$hash, re$key, preserve = preserve )
+        out <- lapply(seq_len(nrows), function(ii){
+          re <- self$print_item(out[ii, ])
+          re$value <- self$restore_value( re$hash, re$key, preserve = preserve )
           re
         })
 
@@ -493,7 +493,7 @@ AbstractQueue <- R6::R6Class(
     # 2. set lockfile (if using default lockers)
     # 3. call self$connect
     initialize = function(con = NULL, lockfile, ...){
-      self$lockfile = lockfile
+      self$lockfile <- lockfile
       self$connect(con, ...)
     },
 
@@ -512,7 +512,7 @@ AbstractQueue <- R6::R6Class(
     # one does not always exist
     id = function(){
       if(length(private$.id) != 1){
-        private$.id = rand_string()
+        private$.id <- rand_string()
       }
       private$.id
     },
@@ -521,9 +521,9 @@ AbstractQueue <- R6::R6Class(
     lockfile = function(v){
       if(!missing(v)){
         private$default_free_locker()
-        private$.lockfile = v
+        private$.lockfile <- v
       }else if(!length(private$.lockfile)){
-        private$.lockfile = tempfile(pattern = 'locker')
+        private$.lockfile <- tempfile(pattern = 'locker')
       }
       file_create(private$.lockfile)
       private$.lockfile
