@@ -312,8 +312,8 @@ mem_limit2 <- function(){
 #' @export
 ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
   cat2(..., ' (Yes/no): ', end = end, level = level)
-  answer = readline()
-  answer = stringr::str_trim(stringr::str_to_upper(answer))
+  answer <- readline()
+  answer <- stringr::str_trim(stringr::str_to_upper(answer))
   if( answer %in% c('Y', 'YES') ){ return(TRUE) }
   if( answer %in% c('N', 'NO') ){ return(FALSE) }
   if( answer %in% c('C') ){
@@ -351,9 +351,9 @@ ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
 ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
   cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
        end = end, level = level)
-  answer = stringr::str_trim(readline())
+  answer <- stringr::str_trim(readline())
   if( answer == '' ){
-    answer = default
+    answer <- default
   }
   answer
 }
