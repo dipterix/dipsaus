@@ -1,4 +1,49 @@
-## Resubmission - 2019-10-29
+# Resubmission - 2019-11-01
+
+#### Changes:
+
+1. Removed commented example code lines in `queue.Rd`
+2. Replaced `utils-filesystem.R` with my previous implementations and abandon 
+the licensed functions from package `txtq`. These functions are non-critical 
+and are just wrappers of the base functions for convenience.
+3. Added `LICENSE` file.
+
+**Original feedback from `Martina Schmirl`:**
+
+```
+Thanks,
+
+found: Author: Eli Lilly and Company
+
+Please always add all authors and copyright holders in the Authors@R
+field with the appropriate roles.
+ From CRAN policies you agreed to:
+"The ownership of copyright and intellectual property rights of all
+components of the package must be clear and unambiguous (including from
+the authors specification in the DESCRIPTION file). Where code is copied
+(or derived) from the work of others (including from R itself), care
+must be taken that any copyright/license statements are preserved and
+authorship is not misrepresented.
+Preferably, an ‘Authors@R’ would be used with ‘ctb’ roles for the
+authors of such code. Alternatively, the ‘Author’ field should list
+these authors as contributors.
+Where copyrights are held by an entity other than the package authors,
+this should preferably be indicated via ‘cph’ roles in the ‘Authors@R’
+field, or using a ‘Copyright’ field (if necessary referring to an
+inst/COPYRIGHTS file)."
+Please explain in the submission comments what you did about this issue.
+
+Some code lines in examples are commented out.
+Please never do that.
+e.g. in queue.Rd
+
+Please fix and resubmit.
+```
+
+
+# Previous Records:
+
+## Last Submission - 2019-10-29
 
 #### Changes:
 
@@ -40,8 +85,6 @@ used it's fine.
 
 ```
 
-
-# Previous Records:
 ## Last Submission - 2019-10-25
 
 Changes:
