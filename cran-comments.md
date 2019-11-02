@@ -1,15 +1,15 @@
-# Resubmission - 2019-11-01
+# Resubmission - 2019-11-02
+
 
 #### Changes:
 
 1. Removed commented example code lines in `queue.Rd`
-2. Replaced `utils-filesystem.R` with my previous implementations and abandon 
-the licensed functions from package `txtq`. These functions are non-critical 
-and are just wrappers of the base functions for convenience.
-3. Added `LICENSE` file.
+2. Replaced `utils-filesystem.R` with my previous implementations and abandon the licensed functions from package `txtq`. These functions are non-critical and are just wrappers of the base functions for convenience.
+3. Corrected license in DESCRIPTION from `License: GPL-3 | file LICENSE` to `License: GPL-3`
 
-**Original feedback from `Martina Schmirl`:**
+**Original feedback from `Martina Schmirl` and `Uwe Ligges`:**
 
+* Feedback from `Martina Schmirl`.
 ```
 Thanks,
 
@@ -38,6 +38,18 @@ Please never do that.
 e.g. in queue.Rd
 
 Please fix and resubmit.
+```
+
+* Feedback from `Uwe Ligges`.
+```
+> License: GPL-3 | file LICENSE
+
+Wrong as file KICENSE does not contain an alternative to the GPL-3.
+
+Also note, that you have to license the whole package under one license,
+so the text below is not useful. Decide on a license, if the former
+licneses of the components do not permit the new license, you have o ask
+all copyright holders for permission.
 ```
 
 

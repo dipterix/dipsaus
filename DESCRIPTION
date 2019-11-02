@@ -19,7 +19,7 @@ Description: Works as "add-ons" to packages like 'shiny', 'future', as well as
     limit, etc.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Language: en-US

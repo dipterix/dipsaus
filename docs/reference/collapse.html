@@ -172,8 +172,8 @@ collapsing dimensions</p>
   }
 )</div><div class='output co'>#&gt; Unit: microseconds
 #&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 348.480 348.480 348.480 348.480 348.480 348.480     1
-#&gt;  compare 132.636 132.636 132.636 132.636 132.636 132.636     1</div><div class='input'>
+#&gt;   result 446.085 446.085 446.085 446.085 446.085 446.085     1
+#&gt;  compare 142.782 142.782 142.782 142.782 142.782 142.782     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>)), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span>))
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
@@ -183,8 +183,8 @@ collapsing dimensions</p>
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   })</div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  58.80558  58.80558  58.80558  58.80558  58.80558  58.80558     1
-#&gt;  compare 145.75409 145.75409 145.75409 145.75409 145.75409 145.75409     1</div><div class='input'>
+#&gt;   result  60.91729  60.91729  60.91729  60.91729  60.91729  60.91729     1
+#&gt;  compare 147.34980 147.34980 147.34980 147.34980 147.34980 147.34980     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
