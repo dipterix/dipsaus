@@ -162,8 +162,6 @@ queue$destroy()
 # ----------------------Cross-Process Usage ----------------------
 
 # Cross session example
-# If necessary, uncomment the following line to enable multi-core future
-# make_forked_clusters()
 
 queue <- txtq_queue()
 

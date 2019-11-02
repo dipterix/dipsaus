@@ -285,3 +285,79 @@ mem_limit2 <- function(){
 }
 
 
+#' @title Ask and Return True or False from the Terminal
+#' @description Ask a question and read from the terminal in interactive scenario
+#' @param ...,end,level passed to \code{\link[dipsaus]{cat2}}
+#' @param error_if_canceled raise error if canceled.
+#' @seealso \code{\link[dipsaus]{cat2}}, \code{\link[base]{readline}},
+#' \code{\link[dipsaus]{ask_or_default}}
+#'
+#' @details The prompt string will ask for an yes or no question. Users need to
+#' enter "y", "yes" for yes, "n", "no" or no, and "c" for cancel
+#' (case-insensitive).
+#'
+#' This can only be used in an \code{\link{interactive}} session.
+#'
+#' @return logical or \code{NULL} or raise an error. If "yes" is entered,
+#' returns \code{TRUE}; if "no" is entered, returns \code{FALSE}; if "c" is
+#' entered, \code{error_if_canceled=TRUE} will result in an error, otherwise
+#' return \code{NULL}
+#'
+#' @examples
+#' if(interactive()){
+#' ask_yesno('Do you know how hard it is to submit an R package and ',
+#'           'pass the CRAN checks?')
+#' ask_yesno('Can I pass the CRAN check this time?')
+#' }
+#' @export
+ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
+  cat2(..., ' (Yes/no): ', end = end, level = level)
+  answer = readline()
+  answer = stringr::str_trim(stringr::str_to_upper(answer))
+  if( answer %in% c('Y', 'YES') ){ return(TRUE) }
+  if( answer %in% c('N', 'NO') ){ return(FALSE) }
+  if( answer %in% c('C') ){
+    if( error_if_canceled ){
+      stop('Canceled.', call. = FALSE)
+    }else{
+      return(NULL)
+    }
+  }
+  Recall('Please answer Y/yes, N/no, or c to cancel.', end = '', level = 'WARNING')
+}
+
+
+#' @title Read a Line from the Terminal, but with Default Values
+#' @description Ask a question and read from the terminal in interactive scenario
+#' @param ...,end,level passed to \code{\link[dipsaus]{cat2}}
+#' @param default default value to return in case of blank input
+#' @seealso \code{\link[dipsaus]{cat2}}, \code{\link[base]{readline}},
+#' \code{\link[dipsaus]{ask_yesno}}
+#'
+#' @details The prompt string will ask a question, providing defaults. Users
+#' need to enter the answer. If the answer is blank (no space), then returns the
+#' default, otherwise returns the user input.
+#'
+#' This can only be used in an \code{\link{interactive}} session.
+#'
+#' @return A character from the user's input, or the default value. See details.
+#'
+#' @examples
+#' if(interactive()){
+#' ask_or_default('What is the best programming language?',
+#'                default = 'PHP')
+#' }
+#' @export
+ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
+  cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
+       end = end, level = level)
+  answer = stringr::str_trim(readline())
+  if( answer == '' ){
+    answer = default
+  }
+  answer
+}
+
+
+
+
