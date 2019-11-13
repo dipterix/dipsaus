@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-% • dipsaus</title>
+<title>A JavaScript style of creating functions — %=&gt;% • dipsaus</title>
 
 
 <!-- jquery -->
@@ -38,14 +35,8 @@ Provides a way to assign default values to variables. If the statement
 
 
 
-<meta property="og:title" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-%" />
-<meta property="og:description" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`lhs` is invalid or NULL, this function will try to assign
-value, otherwise nothing happens." />
+<meta property="og:title" content="A JavaScript style of creating functions — %=&gt;%" />
+<meta property="og:description" content="A JavaScript style of creating functions" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,57 +108,69 @@ value, otherwise nothing happens." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens.</h1>
+    <h1>A JavaScript style of creating functions</h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>grapes-help-set-grapes.Rd</code></div>
+    <div class="hidden name"><code>grapes-equals-greater-than-grapes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens.</p>
+    <p>A JavaScript style of creating functions</p>
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%?&lt;-%</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='no'>args</span> <span class='kw'>%=&gt;%</span> <span class='no'>expr</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lhs</th>
-      <td><p>an object to check or assign</p></td>
+      <th>args</th>
+      <td><p>function arguments: see <code><a href='https://rdrr.io/r/base/formals.html'>formals</a></code></p></td>
     </tr>
     <tr>
-      <th>value</th>
-      <td><p>value to be assigned if lhs is NULL</p></td>
+      <th>expr</th>
+      <td><p>R expression that forms the body of functions: see <code><a href='https://rdrr.io/r/base/body.html'>body</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Assign value on the right-hand side to the left-hand side if
-<code>lhs</code> does not exist or is <code>NULL</code></p>
+    <p>A function that takes <code>args</code> as parameters and <code>expr</code> as
+the function body</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Prepare, remove aaa if exists</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='st'>'aaa'</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>(), <span class='kw'>inherits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)){
-  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>aaa</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>())
-}
+    <pre class="examples"><div class='input'><span class='co'># Formal arguments</span>
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>) <span class='kw'>%=&gt;%</span> {
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
+}</div><div class='output co'>#&gt; function (a) 
+#&gt; {
+#&gt;     print(a)
+#&gt; }
+#&gt; &lt;environment: 0x7ff130707790&gt;</div><div class='input'>
+<span class='co'># Informal arguments</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span><span class='kw'>=</span>) <span class='kw'>%=&gt;%</span> {
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
+}</div><div class='output co'>#&gt; function (a) 
+#&gt; {
+#&gt;     print(a)
+#&gt; }
+#&gt; &lt;environment: 0x7ff130707790&gt;</div><div class='input'>
+<span class='co'># Multiple inputs</span>
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>) <span class='kw'>%=&gt;%</span> {
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>...</span>))
+}</div><div class='output co'>#&gt; function (a, b = 2, ...) 
+#&gt; {
+#&gt;     print(c(a, b, ...))
+#&gt; }
+#&gt; &lt;environment: 0x7ff130707790&gt;</div><div class='input'>
+<span class='co'># ----- JavaScript style of forEach -----</span>
+<span class='co'># ### Equivalent JavaScript Code:</span>
+<span class='co'># LETTERS.forEach((el, ii) =&gt; {</span>
+<span class='co'>#   console.log('The index of letter ' + el + ' in "x" is: ' + ii);</span>
+<span class='co'># });</span>
 
-<span class='co'># Assign</span>
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># However, if assigned, nothing happens</span>
-<span class='no'>aaa</span> <span class='kw'>=</span> <span class='fl'>1</span>;
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>;
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># in a list</span>
-<span class='no'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-</div></pre>
+<span class='fu'><a href='iapply.html'>iapply</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>el</span>, <span class='no'>ii</span>) <span class='kw'>%=&gt;%</span> {
+  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'The index of letter '</span>, <span class='no'>el</span>, <span class='st'>' in '</span>, <span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span>(<span class='st'>'x'</span>), <span class='st'>' is: '</span>, <span class='no'>ii</span>)
+}) <span class='kw'>-&gt;</span> <span class='no'>results</span></div><div class='output co'>#&gt; The index of letter  A  in  ‘x’  is:  1The index of letter  B  in  ‘x’  is:  2The index of letter  C  in  ‘x’  is:  3The index of letter  D  in  ‘x’  is:  4The index of letter  E  in  ‘x’  is:  5The index of letter  F  in  ‘x’  is:  6The index of letter  G  in  ‘x’  is:  7The index of letter  H  in  ‘x’  is:  8The index of letter  I  in  ‘x’  is:  9The index of letter  J  in  ‘x’  is:  10The index of letter  K  in  ‘x’  is:  11The index of letter  L  in  ‘x’  is:  12The index of letter  M  in  ‘x’  is:  13The index of letter  N  in  ‘x’  is:  14The index of letter  O  in  ‘x’  is:  15The index of letter  P  in  ‘x’  is:  16The index of letter  Q  in  ‘x’  is:  17The index of letter  R  in  ‘x’  is:  18The index of letter  S  in  ‘x’  is:  19The index of letter  T  in  ‘x’  is:  20The index of letter  U  in  ‘x’  is:  21The index of letter  V  in  ‘x’  is:  22The index of letter  W  in  ‘x’  is:  23The index of letter  X  in  ‘x’  is:  24The index of letter  Y  in  ‘x’  is:  25The index of letter  Z  in  ‘x’  is:  26</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

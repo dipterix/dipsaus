@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-% • dipsaus</title>
+<title>Apply each elements with index as second input — iapply • dipsaus</title>
 
 
 <!-- jquery -->
@@ -38,14 +35,8 @@ Provides a way to assign default values to variables. If the statement
 
 
 
-<meta property="og:title" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-%" />
-<meta property="og:description" content="Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`lhs` is invalid or NULL, this function will try to assign
-value, otherwise nothing happens." />
+<meta property="og:title" content="Apply each elements with index as second input — iapply" />
+<meta property="og:description" content="Apply function with an index variable as the second input." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,64 +108,55 @@ value, otherwise nothing happens." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>grapes-help-set-grapes.Rd</code></div>
+    <h1>Apply each elements with index as second input</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/apply.R'><code>R/apply.R</code></a></small>
+    <div class="hidden name"><code>iapply.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Assign if not exists, or NULL
-Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens.</p>
+    <p>Apply function with an index variable as the second input.</p>
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%?&lt;-%</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='fu'>iapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sapply"</span>, <span class='st'>"lapply"</span>, <span class='st'>"vapply"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lhs</th>
-      <td><p>an object to check or assign</p></td>
+      <th>X</th>
+      <td><p>a vector (atomic or list)</p></td>
     </tr>
     <tr>
-      <th>value</th>
-      <td><p>value to be assigned if lhs is NULL</p></td>
+      <th>FUN</th>
+      <td><p>the function to be applied to each element of <code>X</code>: see `Details`.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>passed to apply methods</p></td>
+    </tr>
+    <tr>
+      <th>.method</th>
+      <td><p>method to use, default is <code><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Assign value on the right-hand side to the left-hand side if
-<code>lhs</code> does not exist or is <code>NULL</code></p>
+    <p>a list or matrix depends on <code>.method</code>. See <code><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></code></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Prepare, remove aaa if exists</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='st'>'aaa'</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>(), <span class='kw'>inherits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)){
-  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>aaa</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>())
-}
+    <p><code>FUN</code> will be further passed to the apply methods. Unlike
+<code><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></code>, <code>FUN</code> is expected to have at least two arguments.
+The first argument is each element of <code>X</code>, the second argument is the
+index number of the element.</p>
 
-<span class='co'># Assign</span>
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># However, if assigned, nothing happens</span>
-<span class='no'>aaa</span> <span class='kw'>=</span> <span class='fl'>1</span>;
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>;
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># in a list</span>
-<span class='no'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

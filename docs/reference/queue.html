@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
       </span>
     </div>
 
@@ -121,7 +121,7 @@
 
 <span class='fu'>rds_queue</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
 
-<span class='fu'>txtq_queue</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='fu'>text_queue</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
 
 <span class='fu'>qs_queue</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
 
@@ -165,26 +165,26 @@ separately in '.rds' files. Compared to session queues, 'RDS' queue can be
 shared across different R process. However, because each value is stored
 as a file, cleaning a queue would be slow, hence it's recommended to store
 large files in <code>rds_queue</code>. If the value is not large in RAM,
-<code>txtq_queue</code> and <code>redis_queue</code> are recommended.</p></dd>
+<code>text_queue</code> and <code>redis_queue</code> are recommended.</p></dd>
 <dt><code>qs_queue</code></dt><dd><p>A 'qs' queue uses package 'qs' as backend. This queue is very similar to
 <code>rds_queue</code>, but is especially designed for large values. For example,
 pushing 1GB data to <code>qs_queue</code> will be 100 times faster than using
-<code>rds_queue</code>, and <code>txtq_queue</code> will almost fail. However, compared
+<code>rds_queue</code>, and <code>text_queue</code> will almost fail. However, compared
 to <code>rds_queue</code> the stored data cannot be normally read by R as they
 are compressed binary files. And <code>qs_queue</code> is heavier than
-<code>txtq_queue</code>.</p></dd>
-<dt><code>txtq_queue</code></dt><dd><p>A 'txtq' queue uses file system to store values. Similar to <code>rds_queue</code>,
+<code>text_queue</code>.</p></dd>
+<dt><code>text_queue</code></dt><dd><p>A 'text' queue uses file system to store values. Similar to <code>rds_queue</code>,
 it can be stored across multiple processes as long as the queues share the
-same file directory. Compared to <code>rds_queue</code>, <code>txtq_queue</code>
+same file directory. Compared to <code>rds_queue</code>, <code>text_queue</code>
 serialize values as strings and stores them as a text table. It's much
 lighter but limited. For example, all other queue types can store environment
-and functions. Though <code>txtq_queue</code> can also store complicated structures,
+and functions. Though <code>text_queue</code> can also store complicated structures,
 The speed is much slower (could freeze the whole process). Therefore, it's
 highly recommended to use <code>redis_queue</code>, <code>qs_queue</code>, and
 <code>rds_queue</code> if speed is not the major concern.</p></dd>
 <dt><code>redis_queue</code></dt><dd><p>A 'Redis' queue uses free open source software `Redis` and R package
 'RcppRedis' as backend. Compared to session queue, 'Redis' queue can be
-shared across sessions. Compared to 'txtq' and 'rds' queues, 'Redis' queue
+shared across sessions. Compared to 'text' and 'rds' queues, 'Redis' queue
 stores data in memory, meaning a potential of significant speed ups. To use
 <code>redis_queue</code>, you need to install `Redis` on your computer.
 <ul>
@@ -239,15 +239,15 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># indicating when the message was pushed. `key` is unique key</span>
 <span class='co'># generated from `time`, `value` and queue internal `ID`</span>
 <span class='no'>queue</span>$<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()</div><div class='output co'>#&gt;                             time                              key
-#&gt; 1 2019-11-02 11:51:05.762064 CDT c3375103efcaf6ac7700f1eae1063dde
-#&gt; 2 2019-11-02 11:51:05.788410 CDT 04f595bf7c818bdbd31315092ed2a3bb
-#&gt; 3 2019-11-02 11:51:05.797612 CDT 633632c304d066704f1428082d6d40e0
-#&gt; 4 2019-11-02 11:51:05.817616 CDT 7f0170f8cec666a1144f98e48d01e8c3
+#&gt; 1 2019-11-13 16:45:52.741236 CST 739043b940646878e1c7d3ee1d061f2e
+#&gt; 2 2019-11-13 16:45:52.755435 CST b826a337f4d36e70a1eb6eb190401b2f
+#&gt; 3 2019-11-13 16:45:52.764857 CST 7bf6895a6ac892d443a83dbbc458107e
+#&gt; 4 2019-11-13 16:45:52.783687 CST ec7fd0e8af4323883517b9e361412d6a
 #&gt;                               hash message
-#&gt; 1 c3375103efcaf6ac7700f1eae1063dde   hello
-#&gt; 2 04f595bf7c818bdbd31315092ed2a3bb    eval
-#&gt; 3 633632c304d066704f1428082d6d40e0     sum
-#&gt; 4 7f0170f8cec666a1144f98e48d01e8c3    stop</div><div class='input'>
+#&gt; 1 739043b940646878e1c7d3ee1d061f2e   hello
+#&gt; 2 b826a337f4d36e70a1eb6eb190401b2f    eval
+#&gt; 3 7bf6895a6ac892d443a83dbbc458107e     sum
+#&gt; 4 ec7fd0e8af4323883517b9e361412d6a    stop</div><div class='input'>
 <span class='co'># Number of messages in the queue.</span>
 <span class='no'>queue</span>$<span class='no'>count</span></div><div class='output co'>#&gt; [1] 4</div><div class='input'>
 <span class='co'># Number of messages that were ever queued.</span>
@@ -255,13 +255,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># Return and remove the first messages that were added.</span>
 <span class='no'>queue</span>$<span class='fu'>pop</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [[1]]$time
-#&gt; [1] "2019-11-02 11:51:05.762064 CDT"
+#&gt; [1] "2019-11-13 16:45:52.741236 CST"
 #&gt; 
 #&gt; [[1]]$key
-#&gt; [1] "c3375103efcaf6ac7700f1eae1063dde"
+#&gt; [1] "739043b940646878e1c7d3ee1d061f2e"
 #&gt; 
 #&gt; [[1]]$hash
-#&gt; [1] "c3375103efcaf6ac7700f1eae1063dde"
+#&gt; [1] "739043b940646878e1c7d3ee1d061f2e"
 #&gt; 
 #&gt; [[1]]$message
 #&gt; [1] "hello"
@@ -272,13 +272,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 #&gt; 
 #&gt; [[2]]
 #&gt; [[2]]$time
-#&gt; [1] "2019-11-02 11:51:05.788410 CDT"
+#&gt; [1] "2019-11-13 16:45:52.755435 CST"
 #&gt; 
 #&gt; [[2]]$key
-#&gt; [1] "04f595bf7c818bdbd31315092ed2a3bb"
+#&gt; [1] "b826a337f4d36e70a1eb6eb190401b2f"
 #&gt; 
 #&gt; [[2]]$hash
-#&gt; [1] "04f595bf7c818bdbd31315092ed2a3bb"
+#&gt; [1] "b826a337f4d36e70a1eb6eb190401b2f"
 #&gt; 
 #&gt; [[2]]$message
 #&gt; [1] "eval"
@@ -288,18 +288,18 @@ stores data in memory, meaning a potential of significant speed ups. To use
 #&gt; expr: </span><span style='color: #0000BB;'>^{
 #&gt;           sqrt(16)
 #&gt;         }</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7fa903090680</span><span>
+#&gt; env:  </span><span style='color: #0000BB;'>0x7ff13041a0e8</span><span>
 #&gt; 
 #&gt; </div><div class='input'>
 <span class='co'># Number of messages in the queue.</span>
 <span class='no'>queue</span>$<span class='no'>count</span></div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='co'># List what's left</span>
 <span class='no'>queue</span>$<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()</div><div class='output co'>#&gt;                             time                              key
-#&gt; 1 2019-11-02 11:51:05.797612 CDT 633632c304d066704f1428082d6d40e0
-#&gt; 2 2019-11-02 11:51:05.817616 CDT 7f0170f8cec666a1144f98e48d01e8c3
+#&gt; 1 2019-11-13 16:45:52.764857 CST 7bf6895a6ac892d443a83dbbc458107e
+#&gt; 2 2019-11-13 16:45:52.783687 CST ec7fd0e8af4323883517b9e361412d6a
 #&gt;                               hash message
-#&gt; 1 633632c304d066704f1428082d6d40e0     sum
-#&gt; 2 7f0170f8cec666a1144f98e48d01e8c3    stop</div><div class='input'>
+#&gt; 1 7bf6895a6ac892d443a83dbbc458107e     sum
+#&gt; 2 ec7fd0e8af4323883517b9e361412d6a    stop</div><div class='input'>
 <span class='no'>val1</span> <span class='kw'>&lt;-</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 <span class='no'>val2</span> <span class='kw'>&lt;-</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 
@@ -314,7 +314,7 @@ stores data in memory, meaning a potential of significant speed ups. To use
 
 <span class='co'># Cross session example</span>
 
-<span class='no'>queue</span> <span class='kw'>&lt;-</span> <span class='fu'>txtq_queue</span>()
+<span class='no'>queue</span> <span class='kw'>&lt;-</span> <span class='fu'>text_queue</span>()
 
 <span class='co'># In another process</span>
 <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/future.html'>future</a></span>({
@@ -327,19 +327,19 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.2</span>)
 <span class='no'>message</span> <span class='kw'>=</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 <span class='no'>message</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; $time
-#&gt; [1] "2019-11-02 11:51:05.994856 CDT"
+#&gt; [1] "2019-11-13 16:45:52.904927 CST"
 #&gt; 
 #&gt; $key
-#&gt; [1] "e8eaba8c7dcfafcec81ab406dfe0df83"
+#&gt; [1] "16247a4eb4f8862ffb60379c5e1b0310"
 #&gt; 
 #&gt; $hash
-#&gt; [1] "A\n3\n198145\n197888\n5\nUTF-8\n13\n1\n52181"
+#&gt; [1] "A\n3\n198145\n197888\n5\nUTF-8\n13\n1\n15668"
 #&gt; 
 #&gt; $message
 #&gt; [1] ""
 #&gt; 
 #&gt; $value
-#&gt; [1] 52181
+#&gt; [1] 15668
 #&gt; </div><div class='input'>
 <span class='co'># ----------------------Shiny Example ----------------------</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
