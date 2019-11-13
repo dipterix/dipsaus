@@ -150,3 +150,156 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 }
 
 
+
+#' A JavaScript style of creating functions
+#' @param args function arguments: see \code{\link[base]{formals}}
+#' @param expr R expression that forms the body of functions: see \code{\link[base]{body}}
+#' @return A function that takes \code{args} as parameters and \code{expr} as
+#' the function body
+#'
+#' @examples
+#' # Formal arguments
+#' c(a) %=>% {
+#'   print(a)
+#' }
+#'
+#' # Informal arguments
+#' list(a=) %=>% {
+#'   print(a)
+#' }
+#'
+#' # Multiple inputs
+#' c(a, b = 2, ...) %=>% {
+#'   print(c(a, b, ...))
+#' }
+#'
+#' # ----- JavaScript style of forEach -----
+#' # ### Equivalent JavaScript Code:
+#' # LETTERS.forEach((el, ii) => {
+#' #   console.log('The index of letter ' + el + ' in "x" is: ' + ii);
+#' # });
+#'
+#' iapply(LETTERS, c(el, ii) %=>% {
+#'   cat2('The index of letter ', el, ' in ', sQuote('x'), ' is: ', ii)
+#' }) -> results
+#' @export
+`%=>%` <- function(args, expr){
+  expr = substitute(expr)
+  parent_env = parent.frame()
+  args = as.list(substitute(args))[-1]
+
+  nms = sapply(seq_along(args), function(ii){
+    nm = names(args[ii])
+    if(is.null(nm) || stringr::str_trim(nm) == ''){
+      nm = args[[ii]]
+      args[[ii]] <<- .missing_arg[[1]]
+    }
+    nm
+  })
+  names(args) <- nms
+  rlang::new_function(args, expr, parent_env)
+}
+
+
+#' Pipe-friendly no-operation function
+#' @description returns the first input with side effects
+#' @param .x any R object
+#' @param .expr R expression that produces side effects
+#' @param ...,.check_fun see `details`
+#' @return The value of \code{.x}
+#' @details
+#' \code{no_op} is a pipe-friendly function that takes any values in,
+#' evaluate expressions but still returns input. This is very useful when
+#' you have the same input across multiple functions and you want to use pipes.
+#'
+#' \code{.expr} is evaluated with a special object \code{'.'}, you can use
+#' \code{'.'} to represent \code{.x} in \code{.expr}. For example, if
+#' \code{.x=1:100}, then \code{plot(x=seq(0,1,length.out = 100), y=.)} is
+#' equivalent to \code{plot(x=seq(0,1,length.out = 100), y=1:100)}.
+#'
+#' \code{.check_fun} checks whether \code{.expr} returns a function, if yes,
+#' then the function is called with argument \code{.x} and \code{...}
+#'
+#' @examples
+#'
+#' library(magrittr)
+#'
+#' ## 1. Basic usage
+#'
+#' # Will print('a') and return 'a'
+#' no_op('a', print)
+#'
+#' # Will do nothing and return 'a' because .check_fun is false
+#' no_op('a', print, .check_fun = FALSE)
+#'
+#' # Will print('a') and return 'a'
+#' no_op('a', print(.), .check_fun = FALSE)
+#'
+#' ## 2. Toy example
+#' library(graphics)
+#'
+#' par(mfrow = c(2,2))
+#' x <- rnorm(100)
+#'
+#' # hist and plot share the same input `rnorm(100)`
+#'
+#' x %>%
+#'   # .expr is a function, all ... are passed as other arguments
+#'   no_op( hist, nclass = 10 ) %>%
+#'   no_op( plot, x = seq(0,1,length.out = 100) ) %>%
+#'
+#'   # Repeat the previous two plots, but with different syntax
+#'   no_op({ hist(., nclass = 10) }) %>%
+#'   no_op({ plot(x = seq(0,1,length.out = 100), y = .) }) %>%
+#'
+#'   # The return statement is ignored
+#'
+#'   no_op({ return(x + 1)}) ->
+#'   y
+#'
+#' # x is returned at the end
+#'
+#' identical(x, y)   # TRUE
+#'
+#' @export
+no_op <- function(.x, .expr, ..., .check_fun = TRUE){
+  .expr <- substitute(.expr)
+  ...parent_env <- parent.frame()
+  ...res <- eval(.expr, envir = list('.' = .x), enclos = ...parent_env)
+  if( .check_fun && is.function(...res) ){
+    ...res( .x, ... )
+  }
+  invisible(.x)
+}
+
+#' Plus-minus operator
+#' @param a,b numeric vectors, matrices or arrays
+#' @return \code{a +/- b}, the dimension depends on \code{a+b}. If \code{a+b} is
+#' a scalar, returns a vector of two; in the case of vector, returns a matrix;
+#' all other cases will return an array with the last dimension equal to 2.
+#' @examples
+#'
+#' # scalar
+#' 1 %+-% 2   # -1, 3
+#'
+#' # vector input
+#' c(1,2,3) %+-% 2   # matrix
+#'
+#' # matrix input
+#' matrix(1:9, 3) %+-% 2   # 3x3x2 array
+#'
+#' @export
+`%+-%` <- function(a, b){
+  re1 <- a + b
+  la <- length( re1 )
+
+  if( la <= 1 ){
+    return( c( re1, a - b) )
+  }else{
+    da <- dim( re1 )
+    if( !length(da) ){
+      da = la
+    }
+    return(array(c( re1, a - b), dim = c(da, 2)))
+  }
+}

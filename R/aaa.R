@@ -4,3 +4,5 @@
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 
+.missing_arg <- alist(x = )
+

@@ -106,6 +106,7 @@ RedisQueue <- R6::R6Class(
     },
 
     initialize = function(queue_id = rand_string()){
+      queue_id = paste0('QUEUE', queue_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
       }, error = function(e){

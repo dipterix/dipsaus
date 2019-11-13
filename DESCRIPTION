@@ -51,7 +51,8 @@ Suggests:
     knitr,
     rmarkdown,
     promises,
-    testthat
+    testthat,
+    magrittr
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make
 LinkingTo: 

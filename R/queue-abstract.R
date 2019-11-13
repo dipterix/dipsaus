@@ -447,7 +447,7 @@ AbstractQueue <- R6::R6Class(
 
 
     # clean all popped items. Usually you don't have to do this manually as
-    # pop(..., preserve=FALSE) will clean automatically (except for `txtq_queue`)
+    # pop(..., preserve=FALSE) will clean automatically (except for `text_queue`)
     `@clean` = function(...) {
       not_implemented()
     },

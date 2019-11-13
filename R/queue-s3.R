@@ -23,24 +23,24 @@
 #' shared across different R process. However, because each value is stored
 #' as a file, cleaning a queue would be slow, hence it's recommended to store
 #' large files in \code{rds_queue}. If the value is not large in RAM,
-#' \code{txtq_queue} and \code{redis_queue} are recommended.
+#' \code{text_queue} and \code{redis_queue} are recommended.
 #' }
 #' \item{\code{\link{qs_queue}}}{
 #' A 'qs' queue uses package 'qs' as backend. This queue is very similar to
 #' \code{rds_queue}, but is especially designed for large values. For example,
 #' pushing 1GB data to \code{qs_queue} will be 100 times faster than using
-#' \code{rds_queue}, and \code{txtq_queue} will almost fail. However, compared
+#' \code{rds_queue}, and \code{text_queue} will almost fail. However, compared
 #' to \code{rds_queue} the stored data cannot be normally read by R as they
 #' are compressed binary files. And \code{qs_queue} is heavier than
-#' \code{txtq_queue}.
+#' \code{text_queue}.
 #' }
-#' \item{\code{\link{txtq_queue}}}{
-#' A 'txtq' queue uses file system to store values. Similar to \code{rds_queue},
+#' \item{\code{\link{text_queue}}}{
+#' A 'text' queue uses file system to store values. Similar to \code{rds_queue},
 #' it can be stored across multiple processes as long as the queues share the
-#' same file directory. Compared to \code{rds_queue}, \code{txtq_queue}
+#' same file directory. Compared to \code{rds_queue}, \code{text_queue}
 #' serialize values as strings and stores them as a text table. It's much
 #' lighter but limited. For example, all other queue types can store environment
-#' and functions. Though \code{txtq_queue} can also store complicated structures,
+#' and functions. Though \code{text_queue} can also store complicated structures,
 #' The speed is much slower (could freeze the whole process). Therefore, it's
 #' highly recommended to use \code{redis_queue}, \code{qs_queue}, and
 #' \code{rds_queue} if speed is not the major concern.
@@ -48,7 +48,7 @@
 #' \item{\code{\link{redis_queue}}}{
 #' A 'Redis' queue uses free open source software `Redis` and R package
 #' 'RcppRedis' as backend. Compared to session queue, 'Redis' queue can be
-#' shared across sessions. Compared to 'txtq' and 'rds' queues, 'Redis' queue
+#' shared across sessions. Compared to 'text' and 'rds' queues, 'Redis' queue
 #' stores data in memory, meaning a potential of significant speed ups. To use
 #' \code{redis_queue}, you need to install `Redis` on your computer.
 #' \itemize{
@@ -132,7 +132,7 @@
 #'
 #' # Cross session example
 #'
-#' queue <- txtq_queue()
+#' queue <- text_queue()
 #'
 #' # In another process
 #' future::future({
@@ -236,7 +236,7 @@ rds_queue <- function(path = tempfile()){
 
 #' @rdname queue
 #' @export
-txtq_queue <- function(path = tempfile()){
+text_queue <- function(path = tempfile()){
   TextQueue$new(path = path)
 }
 

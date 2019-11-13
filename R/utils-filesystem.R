@@ -41,11 +41,15 @@ dir_create <- function(x, showWarnings = FALSE, recursive = TRUE, check = TRUE) 
   invisible(normalizePath(x))
 }
 
-file_create <- function(x, showWarnings = FALSE) {
+file_create <- function(x, showWarnings = FALSE, recursive = TRUE) {
   if (!file.exists(x)) {
+    dir = dirname(x)
+    if( recursive && !dir.exists(dir) ){
+      dir_create(dir)
+    }
     file.create(x, showWarnings = showWarnings)
   }
-  invisible()
+  invisible(normalizePath(x))
 }
 
 microtime <- function() {
