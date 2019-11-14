@@ -152,7 +152,7 @@ I found this input extremely useful in clinic trial when the experiment conditio
 The further details can be found with `demo('example-compountInput2', package='dipsaus')`. The source file can be found using `system.file('demo/example-compountInput2.R', package='dipsaus')`.
 
 
-### Synchronize Multiple Inputs
+### 3. Synchronize Multiple Inputs
 
 `sync_shiny_inputs` provides a way to update among multiple inputs with no dead-locks. For example, input A (`textInput`) shares the same information as input B (`sliderInput`). Updating A would trigger B to update. What if you want A to be updated when B is changed? The following code might cause recursive updates:
 
