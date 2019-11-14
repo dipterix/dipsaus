@@ -33,14 +33,15 @@ TextQueue <- R6::R6Class(
     },
 
     `@store_value` = function(value, key){
-      con <- textConnection('s', 'w')
+      s = ''
+      con <- textConnection('s', 'w', local = TRUE)
       serialize(value, connection = con)
       close(con)
       s <- paste(s, collapse = '\n')
       s
     },
     restore_value = function(hash, key, preserve = FALSE){
-      con <- textConnection(hash, 'r')
+      con <- textConnection(hash, 'r', local = TRUE)
       re <- tryCatch({
         unserialize(connection = con)
       }, error = function(e){

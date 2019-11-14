@@ -58,3 +58,4 @@ SystemRequirements: GNU make
 LinkingTo: 
     Rcpp,
     RcppParallel
+VignetteBuilder: knitr
