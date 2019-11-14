@@ -1,6 +1,8 @@
-pandoc: 2.7.2
+pandoc: 2.3.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  r_expr_addons: r_expr_addons.html
   shiny_customized_widgets: shiny_customized_widgets.html
+  utility_functions: utility_functions.html
 

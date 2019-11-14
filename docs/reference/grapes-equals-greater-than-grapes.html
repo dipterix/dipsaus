@@ -92,7 +92,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+    </li>
+    <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
+    </li>
+    <li>
+      <a href="../articles/utility_functions.html">Utility Functions</a>
     </li>
   </ul>
 </li>
@@ -157,7 +163,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(a)
 #&gt; }
-#&gt; &lt;environment: 0x7f832a4890d8&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7fb432423068&gt;</div><div class='input'>
 <span class='co'># Informal arguments</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span><span class='kw'>=</span>) <span class='kw'>%=&gt;%</span> {
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
@@ -165,7 +171,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(a)
 #&gt; }
-#&gt; &lt;environment: 0x7f832a4890d8&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7fb432423068&gt;</div><div class='input'>
 <span class='co'># Multiple inputs</span>
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>) <span class='kw'>%=&gt;%</span> {
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>...</span>))
@@ -173,7 +179,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(c(a, b, ...))
 #&gt; }
-#&gt; &lt;environment: 0x7f832a4890d8&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7fb432423068&gt;</div><div class='input'>
 <span class='co'># ----- JavaScript style of forEach -----</span>
 <span class='co'># ### Equivalent JavaScript Code:</span>
 <span class='co'># LETTERS.forEach((el, ii) =&gt; {</span>

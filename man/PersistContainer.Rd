@@ -58,6 +58,9 @@ the value will be deleted once the session is closed.
 
 container = PersistContainer$new(tempfile())
 
+# Reset the container so that values are cleared
+container$reset(all = TRUE)
+
 # Store `1` to 'a' with signature 111 to a non-persist map
 # returns 1
 container$cache(key = 'a', value = 1, signature = 111, persist = FALSE)
@@ -70,7 +73,9 @@ container$cache(key = 'a', value = 3, signature = 111,
 # check if 'a' exists with signature 111
 container$has('a', signature = 111)    # TRUE
 # When you only have 'a' but no signature
-container$has('a')                     # FALSE
+container$has('a')                     # TRUE
+# check if 'a' exists with wrong signature 222
+container$has('a', signature = 222)    # FALSE
 
 
 # Store 'a' with 2 with same signature
@@ -81,12 +86,13 @@ container$cache(key = 'a', value = {
   return(2)
 }, signature = 111, replace = FALSE)
 
-# Use different signature will store the value
-# returns 4
+# When no signature is present
+# If the key exists (no signature provided), return stored value
+# returns 3
 container$cache(key = 'a', value = 4)
 
-# 'a' has been cached, use cached value '4' instead of '2'
-container$cache(key = 'a', value = 2)
+# replace is TRUE (no signature provided), signature will be some default value
+container$cache(key = 'a', value = 2, replace = TRUE)
 
 # destroy the container to free disk space
 container$destroy()

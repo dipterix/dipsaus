@@ -97,7 +97,13 @@ sessions. See cache method in 'details'." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+    </li>
+    <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
+    </li>
+    <li>
+      <a href="../articles/utility_functions.html">Utility Functions</a>
     </li>
   </ul>
 </li>
@@ -181,6 +187,9 @@ the value will be deleted once the session is closed.</p></dd>
     <pre class="examples"><div class='input'>
 <span class='no'>container</span> <span class='kw'>=</span> <span class='no'>PersistContainer</span>$<span class='fu'>new</span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
 
+<span class='co'># Reset the container so that values are cleared</span>
+<span class='no'>container</span>$<span class='fu'>reset</span>(<span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'># Store `1` to 'a' with signature 111 to a non-persist map</span>
 <span class='co'># returns 1</span>
 <span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>, <span class='kw'>persist</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
@@ -191,7 +200,9 @@ the value will be deleted once the session is closed.</p></dd>
 <span class='co'># check if 'a' exists with signature 111</span>
 <span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>)    <span class='co'># TRUE</span></div><div class='output co'>#&gt;    a 
 #&gt; TRUE </div><div class='input'><span class='co'># When you only have 'a' but no signature</span>
-<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>)                     <span class='co'># FALSE</span></div><div class='output co'>#&gt;     a 
+<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>)                     <span class='co'># TRUE</span></div><div class='output co'>#&gt;    a 
+#&gt; TRUE </div><div class='input'><span class='co'># check if 'a' exists with wrong signature 222</span>
+<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>222</span>)    <span class='co'># FALSE</span></div><div class='output co'>#&gt;     a 
 #&gt; FALSE </div><div class='input'>
 
 <span class='co'># Store 'a' with 2 with same signature</span>
@@ -201,11 +212,12 @@ the value will be deleted once the session is closed.</p></dd>
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fl'>123</span>)
   <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='fl'>2</span>)
 }, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
-<span class='co'># Use different signature will store the value</span>
-<span class='co'># returns 4</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 4</div><div class='input'>
-<span class='co'># 'a' has been cached, use cached value '4' instead of '2'</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 4</div><div class='input'>
+<span class='co'># When no signature is present</span>
+<span class='co'># If the key exists (no signature provided), return stored value</span>
+<span class='co'># returns 3</span>
+<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='co'># replace is TRUE (no signature provided), signature will be some default value</span>
+<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='co'># destroy the container to free disk space</span>
 <span class='no'>container</span>$<span class='fu'>destroy</span>()</div></pre>
   </div>

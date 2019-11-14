@@ -1,0 +1,112 @@
+---
+title: "Utility Functions"
+output: rmarkdown::html_vignette
+author: Zhengjia Wang
+vignette: >
+  %\VignetteIndexEntry{Utility Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dipsaus)
+```
+
+
+#### 1. Cat strings with levels: `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `FATAL`
+
+```{r, eval=FALSE}
+cat2('Debug passed!', level = 'DEBUG')
+#> ✔ Debug passed!
+
+cat2('You are all set.', level = 'INFO')
+#> ♥ You are all set.
+
+cat2('Wait a second...', level = 'WARNING')
+#> ⚠ Wait a second...
+
+cat2('Ooops', level = 'ERROR')
+#> ✖ Ooops
+
+cat2('Bi--Doop---', level = 'FATAL')
+#> ✖ Bi--Doop---
+#> Error: 
+#> ...
+```
+
+*Level `FATAL` will raise errors.*
+
+#### 2. `parse_svec` and `deparse_svec`
+
+`parse_svec` converts characters like `"7-10,14-15"` to numeric vectors
+
+```{r}
+parse_svec("7-10,14-15")
+```
+
+`deparse_svec` reverse the process
+
+```{r}
+deparse_svec(c(2,5,3,1,7))
+```
+
+Parameter `max_lag` in `deparse_svec` changes the threshold of integers collapsed together:
+
+```{r}
+deparse_svec(c(1,2,4,7,11))
+
+deparse_svec(c(1,2,4,7,11), max_lag = 2)
+
+deparse_svec(c(1,2,4,7,11), max_lag = 3)
+```
+
+#### 3. System Information
+
+The goal is to work as an alternative to retrieve system information. For example, 
+R doesn't provide funcions to get memory limits, or CPU chipset information on Linux or MacOS. 
+
+```{r}
+# Most of the CPU Chipset and vendor
+get_cpu()
+
+# Total RAM in bytes
+get_ram()
+
+# Print-friendly
+to_ram_size(get_ram(), 1024)
+
+# WARNING: $free is the total RAM - R usage, is no the actual free RAM
+mem_limit2()
+```
+
+#### 4. Interactive Questions
+
+`askYesNo` comes with `utils` package allows to ask yes/no questions and returns logical value. If `cancel` is entered, then the function returns `NA`, if answers other than `yes`, `no` or `cancel` is given, it raise an error. `dipsaus::ask_yesno` will ask the question again and again until the user actually say `yes` or `no`
+
+```{r, eval=FALSE}
+> ask_yesno('Please answer an yes/no question, ok?')
+## ♥ Please answer an yes/no question, ok? (Yes/no): 
+> qweee
+## ⚠ Please answer Y/yes, N/no, or c to cancel. (Yes/no): 
+> ttt
+## ⚠ Please answer Y/yes, N/no, or c to cancel. (Yes/no): 
+> y
+## [1] TRUE
+```
+
+`ask_or_default` instead of asking a yes/no question, it asks a question with default answer. User don't have to type the answers if the they accept defaults:
+
+```{r, eval=FALSE}
+> ask_or_default("What is your password", default = 'I will not tell you!')
+## ♥ What is your password
+##   [default is ‘I will not tell you!’] 
+>
+## [1] "I will not tell you!"
+```
