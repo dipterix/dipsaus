@@ -96,16 +96,17 @@ test_that('Persist container', {
   expect_equal(v, 3)
 
   expect_true(container$has('a', signature = 111))
+  expect_true(container$has('a'))
 
   v = container$cache(key = 'a', value = 2, signature = 111, replace = FALSE)
   expect_equal(v, 3)
 
   v = container$cache(key = 'a', value = 4)
-  expect_equal(v, 4)
+  expect_equal(v, 3)
 
   expect_true(container$has('a'))
   v = container$cache(key = 'a', value = 2)
-  expect_equal(v, 4)
+  expect_equal(v, 3)
 
   # We still have 'a' with signature 111 because that value was persisted
   expect_true(container$has('a', signature = 111))
