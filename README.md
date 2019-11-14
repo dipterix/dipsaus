@@ -10,7 +10,7 @@ devtools::install_github('dipterix/dipsaus')
 
 `dipsaus` provides `add-ons` from the following perspectives:
 
-### 1. `Shiny` Customized Widgets ([Vignette](articles/shiny_customized_widgets.html))
+### 1. `Shiny` Customized Widgets ([Vignette](https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html))
 
 * `compoundInput2` assembles any shiny native inputs and create variable-length input;
 * `actionButtonStyled` add styles to shiny default `actionButton` and its updating function can also update the styles or enable/disable the button;
