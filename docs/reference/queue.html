@@ -257,15 +257,15 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># indicating when the message was pushed. `key` is unique key</span>
 <span class='co'># generated from `time`, `value` and queue internal `ID`</span>
 <span class='no'>queue</span>$<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()</div><div class='output co'>#&gt;                             time                              key
-#&gt; 1 2019-11-14 16:23:47.268912 CST b99ff351a22a032ae11111d83156b5e2
-#&gt; 2 2019-11-14 16:23:47.279727 CST 8878b2e2dfe924bb6d52ac29a724d4c1
-#&gt; 3 2019-11-14 16:23:47.288867 CST 4b72a8c8ee78bb3ae92e0549b15e83c3
-#&gt; 4 2019-11-14 16:23:47.308223 CST 8c89fb0c2bffed87ee2efe92996c837a
+#&gt; 1 2019-11-14 16:29:10.972634 CST a3b62761e14ed03700f16e2e52776ca7
+#&gt; 2 2019-11-14 16:29:10.982954 CST 9eb2c94c7b7f2795e97993c1f568aaf2
+#&gt; 3 2019-11-14 16:29:10.991645 CST 95a9d5d3706b4bec7b9de27c08da92e5
+#&gt; 4 2019-11-14 16:29:11.009660 CST 75cc94ccf0513912daa1882b34e9e1da
 #&gt;                               hash message
-#&gt; 1 b99ff351a22a032ae11111d83156b5e2   hello
-#&gt; 2 8878b2e2dfe924bb6d52ac29a724d4c1    eval
-#&gt; 3 4b72a8c8ee78bb3ae92e0549b15e83c3     sum
-#&gt; 4 8c89fb0c2bffed87ee2efe92996c837a    stop</div><div class='input'>
+#&gt; 1 a3b62761e14ed03700f16e2e52776ca7   hello
+#&gt; 2 9eb2c94c7b7f2795e97993c1f568aaf2    eval
+#&gt; 3 95a9d5d3706b4bec7b9de27c08da92e5     sum
+#&gt; 4 75cc94ccf0513912daa1882b34e9e1da    stop</div><div class='input'>
 <span class='co'># Number of messages in the queue.</span>
 <span class='no'>queue</span>$<span class='no'>count</span></div><div class='output co'>#&gt; [1] 4</div><div class='input'>
 <span class='co'># Number of messages that were ever queued.</span>
@@ -273,13 +273,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># Return and remove the first messages that were added.</span>
 <span class='no'>queue</span>$<span class='fu'>pop</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [[1]]$time
-#&gt; [1] "2019-11-14 16:23:47.268912 CST"
+#&gt; [1] "2019-11-14 16:29:10.972634 CST"
 #&gt; 
 #&gt; [[1]]$key
-#&gt; [1] "b99ff351a22a032ae11111d83156b5e2"
+#&gt; [1] "a3b62761e14ed03700f16e2e52776ca7"
 #&gt; 
 #&gt; [[1]]$hash
-#&gt; [1] "b99ff351a22a032ae11111d83156b5e2"
+#&gt; [1] "a3b62761e14ed03700f16e2e52776ca7"
 #&gt; 
 #&gt; [[1]]$message
 #&gt; [1] "hello"
@@ -290,13 +290,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 #&gt; 
 #&gt; [[2]]
 #&gt; [[2]]$time
-#&gt; [1] "2019-11-14 16:23:47.279727 CST"
+#&gt; [1] "2019-11-14 16:29:10.982954 CST"
 #&gt; 
 #&gt; [[2]]$key
-#&gt; [1] "8878b2e2dfe924bb6d52ac29a724d4c1"
+#&gt; [1] "9eb2c94c7b7f2795e97993c1f568aaf2"
 #&gt; 
 #&gt; [[2]]$hash
-#&gt; [1] "8878b2e2dfe924bb6d52ac29a724d4c1"
+#&gt; [1] "9eb2c94c7b7f2795e97993c1f568aaf2"
 #&gt; 
 #&gt; [[2]]$message
 #&gt; [1] "eval"
@@ -306,18 +306,18 @@ stores data in memory, meaning a potential of significant speed ups. To use
 #&gt; expr: </span><span style='color: #0000BB;'>^{
 #&gt;           sqrt(16)
 #&gt;         }</span><span>
-#&gt; env:  </span><span style='color: #0000BB;'>0x7fb43249bac8</span><span>
+#&gt; env:  </span><span style='color: #0000BB;'>0x7fd02c13d348</span><span>
 #&gt; 
 #&gt; </div><div class='input'>
 <span class='co'># Number of messages in the queue.</span>
 <span class='no'>queue</span>$<span class='no'>count</span></div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='co'># List what's left</span>
 <span class='no'>queue</span>$<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()</div><div class='output co'>#&gt;                             time                              key
-#&gt; 1 2019-11-14 16:23:47.288867 CST 4b72a8c8ee78bb3ae92e0549b15e83c3
-#&gt; 2 2019-11-14 16:23:47.308223 CST 8c89fb0c2bffed87ee2efe92996c837a
+#&gt; 1 2019-11-14 16:29:10.991645 CST 95a9d5d3706b4bec7b9de27c08da92e5
+#&gt; 2 2019-11-14 16:29:11.009660 CST 75cc94ccf0513912daa1882b34e9e1da
 #&gt;                               hash message
-#&gt; 1 4b72a8c8ee78bb3ae92e0549b15e83c3     sum
-#&gt; 2 8c89fb0c2bffed87ee2efe92996c837a    stop</div><div class='input'>
+#&gt; 1 95a9d5d3706b4bec7b9de27c08da92e5     sum
+#&gt; 2 75cc94ccf0513912daa1882b34e9e1da    stop</div><div class='input'>
 <span class='no'>val1</span> <span class='kw'>&lt;-</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 <span class='no'>val2</span> <span class='kw'>&lt;-</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 
@@ -345,19 +345,19 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.2</span>)
 <span class='no'>message</span> <span class='kw'>=</span> <span class='no'>queue</span>$<span class='fu'>pop</span>()
 <span class='no'>message</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; $time
-#&gt; [1] "2019-11-14 16:23:47.427717 CST"
+#&gt; [1] "2019-11-14 16:29:11.136639 CST"
 #&gt; 
 #&gt; $key
-#&gt; [1] "6108378cfd59b8128c838caf3ed37b11"
+#&gt; [1] "c32c026f027250644f6a81ef6c46fd9d"
 #&gt; 
 #&gt; $hash
-#&gt; [1] "A\n3\n198145\n197888\n5\nUTF-8\n13\n1\n98725"
+#&gt; [1] "A\n3\n198145\n197888\n5\nUTF-8\n13\n1\n99962"
 #&gt; 
 #&gt; $message
 #&gt; [1] ""
 #&gt; 
 #&gt; $value
-#&gt; [1] 98725
+#&gt; [1] 99962
 #&gt; </div><div class='input'>
 <span class='co'># ----------------------Shiny Example ----------------------</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
