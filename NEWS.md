@@ -1,3 +1,19 @@
+dipsaus 0.0.3
+=======
+
+## Major Changes
+
+### Parallel 
+* Added four cross-session map types `qs_map`, `text_map`, `rds_map`, and `redis_map`
+* Created `R6` class `PersistContainer`, designed to cache key-value pairs on the local hard disk
+* Implemented function `make_async_evaluator` that works as scheduler to queue arbitrary number of tasks without blocking main R session
+
+## Minor Changes
+* Renamed `txtq_queue` to `text_queue`
+* Added vignettes
+* Minor fixes
+
+
 dipsaus 0.0.2
 =======
 
@@ -30,9 +46,6 @@ dipsaus 0.0.2
 * `to_ram_size` provides simple way to convert numbers to printable storage sizes in given units;
 * `time_delta` calculates time differences and returns a number in given units.
 
-## Bug Fixes
-
-
 
 dipsaus 0.0.1
 =======
@@ -46,8 +59,6 @@ dipsaus 0.0.1
 ## Minor Changes
 
 * Added `label_color` to `compoundInput2` to enable colored group labels
-
-## Big Fixes
 
 dipsaus 0.0.0
 =======

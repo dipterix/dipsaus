@@ -16,19 +16,26 @@ devtools::install_github('dipterix/dipsaus')
 * `actionButtonStyled` add styles to shiny default `actionButton` and its updating function can also update the styles or enable/disable the button;
 * `sync_shiny_inputs` synchronize among shiny inputs without causing dead-locks in UI changes;
 
-### 2. High-performance Functions
+### 2. Parallel Functions
 
 * `collapse` is a parallel solution to calculate sum/mean along arrays, providing `4x` speed-ups for large arrays;
 * `make_forked_clusters` enables `multicore` (forked clusters) in `future` package even in `RStudio` environment;
 * `async_expr`, `async_lapply` applies to vectors/lists in parallel ways;
+* `make_async_evaluator` queues arbitrary number of tasks and keeps them running in the background without blocking the main session. ([vignette](https://dipterix.github.io/dipsaus/articles/async_evaluator.html))
 
-### 3. R Expressions ([Vignette](https://dipterix.github.io/dipsaus/articles/r_expr_addons.html))
+### 3. Queue, Maps, Persist Containers
+
+* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions;
+* `qs_map`, `text_map`, `rds_map`, `redis_map` preserve R objects and share across sessions;
+* `PersistContainer` provides two-level cache mechanism to save R objects in current session or preserve them on the local disk.
+
+### 4. R Expressions ([Vignette](https://dipterix.github.io/dipsaus/articles/r_expr_addons.html))
 
 * `eval_dirty` works as `base::eval`, but supports quosures generated from `rlang::quo`;
 * `match_calls` match calls in a nested manner, and support changing the call arguments recursively;
 * `%?<-%` assigns default values to left-hand object. E.g. `a %?<-% 1` assigns `a` to be `1` if `a` is `NULL` or does not exist.
 
-### 4. Utility Functions ([Vignette](https://dipterix.github.io/dipsaus/articles/utility_functions.html))
+### 5. Utility Functions ([Vignette](https://dipterix.github.io/dipsaus/articles/utility_functions.html))
 
 * `cat2` act as base function `cat` but provides different levels with different colored outputs;
 * `check_installed_packages`, `package_installed` checks if package(s) are installed;
