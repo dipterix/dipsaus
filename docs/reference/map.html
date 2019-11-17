@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -91,6 +91,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
+    </li>
     <li>
       <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
     </li>
@@ -196,11 +199,11 @@ it can be stored across multiple processes as long as the maps share the
 same file directory. However, unlike <code>rds_map</code>, <code>text_map</code>
 the <code>text_map</code> can only store basic data values, namely atom data types.
 The supported types are: numeric, character, vector, list, matrix
-It's highly recommeded to convert factors to characters. Do NOT use if the
+It's highly recommended to convert factors to characters. Do NOT use if the
 values are functions or environments. Please check
 <code><a href='https://rdrr.io/pkg/yaml/man/write_yaml.html'>write_yaml</a></code> for details. The recommended use case scenario
 is when the speed is not the major concern, and you want to preserve data
-with back-ward compatibilities. Otherwise it's highly recommended to use
+with backward compatibility. Otherwise it's highly recommended to use
 <code>redis_map</code>, <code>qs_map</code>, and <code>rds_map</code>.</p></dd>
 <dt><code>redis_map</code></dt><dd><p>A 'Redis' map uses free open source software `Redis` and R package
 'RcppRedis' as backend. Compared to session map, 'Redis' map can be

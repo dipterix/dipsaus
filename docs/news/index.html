@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -89,6 +89,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
+    </li>
     <li>
       <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
     </li>
@@ -128,13 +131,42 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dipsaus-0-0-2" class="section level1">
+    <div id="dipsaus-003" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-0-0-2" class="anchor"></a>dipsaus 0.0.2<small> 2019-11-05 </small>
+<a href="#dipsaus-003" class="anchor"></a>dipsaus 0.0.3<small> Unreleased </small>
 </h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major Changes</h2>
+<div id="parallel" class="section level3">
+<h3 class="hasAnchor">
+<a href="#parallel" class="anchor"></a>Parallel</h3>
+<ul>
+<li>Added four cross-session map types <code>qs_map</code>, <code>text_map</code>, <code>rds_map</code>, and <code>redis_map</code>
+</li>
+<li>Created <code>R6</code> class <code>PersistContainer</code>, designed to cache key-value pairs on the local hard disk</li>
+<li>Implemented function <code>make_async_evaluator</code> that works as scheduler to queue arbitrary number of tasks without blocking main R session</li>
+</ul>
+</div>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<ul>
+<li>Renamed <code>txtq_queue</code> to <code>text_queue</code>
+</li>
+<li>Added vignettes</li>
+<li>Minor fixes</li>
+</ul>
+</div>
+</div>
+    <div id="dipsaus-002" class="section level1">
+<h1 class="page-header">
+<a href="#dipsaus-002" class="anchor"></a>dipsaus 0.0.2<small> 2019-11-05 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
 <div id="shiny" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny" class="anchor"></a>Shiny</h3>
@@ -148,9 +180,9 @@
 </li>
 </ul>
 </div>
-<div id="parallel" class="section level3">
+<div id="parallel-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#parallel" class="anchor"></a>Parallel</h3>
+<a href="#parallel-1" class="anchor"></a>Parallel</h3>
 <ul>
 <li>Implemented <code>collapse</code>, a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
 <li>Added <code>async_expr</code> functions using <code>future</code> package for parallel evaluation of R expressions.</li>
@@ -172,9 +204,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -196,39 +228,31 @@
 <code>time_delta</code> calculates time differences and returns a number in given units.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
 </div>
-</div>
-    <div id="dipsaus-0-0-1" class="section level1">
+    <div id="dipsaus-001" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-0-0-1" class="anchor"></a>dipsaus 0.0.1<small> Unreleased </small>
+<a href="#dipsaus-001" class="anchor"></a>dipsaus 0.0.1<small> Unreleased </small>
 </h1>
-<div id="major-changes-1" class="section level2">
+<div id="major-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Implemented full <code>JavaScript</code> support for <code>compoundInput2</code> as a new <code>shiny</code> input to</li>
 <li>Added utility function <code>col2hexStr</code> to convert color to hex value</li>
 <li>Added utility function <code>match_calls</code> to match and modify calls</li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Added <code>label_color</code> to <code>compoundInput2</code> to enable colored group labels</li>
 </ul>
 </div>
-<div id="big-fixes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#big-fixes" class="anchor"></a>Big Fixes</h2>
 </div>
-</div>
-    <div id="dipsaus-0-0-0" class="section level1">
+    <div id="dipsaus-000" class="section level1">
 <h1 class="page-header">
-<a href="#dipsaus-0-0-0" class="anchor"></a>dipsaus 0.0.0<small> Unreleased </small>
+<a href="#dipsaus-000" class="anchor"></a>dipsaus 0.0.0<small> Unreleased </small>
 </h1>
 <ul>
 <li>Initial private beta release!</li>
@@ -240,9 +264,10 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dipsaus-0-0-2">0.0.2</a></li>
-        <li><a href="#dipsaus-0-0-1">0.0.1</a></li>
-        <li><a href="#dipsaus-0-0-0">0.0.0</a></li>
+        <li><a href="#dipsaus-003">0.0.3</a></li>
+        <li><a href="#dipsaus-002">0.0.2</a></li>
+        <li><a href="#dipsaus-001">0.0.1</a></li>
+        <li><a href="#dipsaus-000">0.0.0</a></li>
       </ul>
     </div>
   </div>
