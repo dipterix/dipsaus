@@ -70,7 +70,7 @@ deparse_svec(c(1,2,4,7,11), max_lag = 3)
 #### 3. System Information
 
 The goal is to work as an alternative to retrieve system information. For example, 
-R doesn't provide funcions to get memory limits, or CPU chipset information on Linux or MacOS. 
+R doesn't provide functions to get memory limits, or CPU chipset information on Linux or MacOS. 
 
 ```{r}
 # Most of the CPU Chipset and vendor

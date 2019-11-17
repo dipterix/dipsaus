@@ -40,11 +40,11 @@
 #' same file directory. However, unlike \code{rds_map}, \code{text_map}
 #' the \code{text_map} can only store basic data values, namely atom data types.
 #' The supported types are: numeric, character, vector, list, matrix
-#' It's highly recommeded to convert factors to characters. Do NOT use if the
+#' It's highly recommended to convert factors to characters. Do NOT use if the
 #' values are functions or environments. Please check
 #' \code{\link[yaml]{write_yaml}} for details. The recommended use case scenario
 #' is when the speed is not the major concern, and you want to preserve data
-#' with back-ward compatibilities. Otherwise it's highly recommended to use
+#' with backward compatibility. Otherwise it's highly recommended to use
 #' \code{redis_map}, \code{qs_map}, and \code{rds_map}.
 #' }
 #' \item{\code{\link{redis_map}}}{

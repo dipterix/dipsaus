@@ -33,7 +33,7 @@ if( exists('aa') && !is.null(aa) ){
 }
 ```
 
-Most of time we are repeating ourselve. With `%?<-%` operator, we just need:
+Most of time we are repeating ourselves. With `%?<-%` operator, we just need:
 
 ```{r, eval=TRUE}
 aa %?<-% 1
@@ -146,13 +146,13 @@ match_calls(call = tagList(
 
 ```
 
-### 4. Pipe-friendly functinons
+### 4. Pipe-friendly functions
 
-Pipe functions are gaining popularities these years. The most popular pipe `%>%` allows the left-hand elements to be the first input of the right-hand side functions. `dipsaus` provides several pipe-friendly functions.
+Pipe functions can simplify the workflow and make R code more readable. The most popular pipe `%>%` allows the left-hand elements to be the first input of the right-hand side functions. `dipsaus` provides several pipe-friendly functions.
 
 #### No-operations `no_op`
 
-`no_op` takes whatever input in, and returns the input, with side effects. For example, we want to plot the results from the pipe and continue the analysis, usually this is what happends:
+`no_op` takes whatever input in, and returns the input, with side effects. For example, we want to plot the results from the pipe and continue the analysis, usually this is what happens:
 
 ```{r, eval=FALSE}
 x %>% 
@@ -207,7 +207,7 @@ str(result)
 
 #### `do_aggregate`
 
-This is a wrapper of `aggregate` function. When using formular, `aggregate` requires the formula to be the first element. If the pipe results are `data.frame` and we want to use formular, it's super inconvenient.
+This is a wrapper of `aggregate` function. When using formula, `aggregate` requires the formula to be the first element. If the pipe results are `data.frame` and we want to use formula, it's super inconvenient.
 
 ```
 ## S3 method for class 'formula'

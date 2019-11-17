@@ -30,6 +30,7 @@ Imports:
     shiny,
     cli,
     stringr,
+    parallel,
     jsonlite (>= 1.6),
     future,
     future.apply,

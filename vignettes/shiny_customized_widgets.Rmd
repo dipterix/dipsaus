@@ -42,7 +42,7 @@ full features defined by `HTML`. For example, the button class is always
 `actionButtonStyled` solves these two problems:
 
 * `type` allows you to add `Bootstrap` styles to the button. The supported types are: `default`, `primary`, `info`, `success`, `warning`, `danger`
-* if you have customized css styles, `class` provides more flexible way to add classes
+* if you have customized CSS styles, `class` provides more flexible way to add classes
 * when updating the button, `disabled` allows to disable/enable the button
 
 The usage is listed as follows:
@@ -178,7 +178,7 @@ sync_shiny_inputs(input, session, inputIds = c('A', 'B'), uniform = list(
 ))
 ```
 
-`inputIds` referes to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding `uniform` functions and stored, then `updates` will notify each inputs to update the UI values. The input of `updates` is the stored value.
+`inputIds` refers to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding `uniform` functions and stored, then `updates` will notify each inputs to update the UI values. The input of `updates` is the stored value.
 
 For example, if input `A` is changed from `"0"` to `"1"`, then the first function of `uniform` is triggered, `function(a){as.numeric(a)}` will be evaluated with `a="1"`. The result, which is numeric `1` will be stored. Next, each functions in `updates` will be called, with `1` (stored in the previous step) as input, results in changing the slider input `B` to `1`. This whole process will not trigger `A` to re-update.
 
