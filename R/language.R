@@ -184,14 +184,14 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' }) -> results
 #' @export
 `%=>%` <- function(args, expr){
-  expr = substitute(expr)
-  parent_env = parent.frame()
-  args = as.list(substitute(args))[-1]
+  expr <- substitute(expr)
+  parent_env <- parent.frame()
+  args <- as.list(substitute(args))[-1]
 
-  nms = sapply(seq_along(args), function(ii){
-    nm = names(args[ii])
+  nms <- sapply(seq_along(args), function(ii){
+    nm <- names(args[ii])
     if(is.null(nm) || stringr::str_trim(nm) == ''){
-      nm = args[[ii]]
+      nm <- args[[ii]]
       args[[ii]] <<- .missing_arg[[1]]
     }
     nm
@@ -298,7 +298,7 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
   }else{
     da <- dim( re1 )
     if( !length(da) ){
-      da = la
+      da <- la
     }
     return(array(c( re1, a - b), dim = c(da, 2)))
   }

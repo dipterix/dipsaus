@@ -12,15 +12,15 @@ FileMap <- R6::R6Class(
   public = list(
 
     `@remove` = function(keys){
-      tbl = read.csv(private$header_file, header = TRUE, sep = '|',
+      tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
                      stringsAsFactors = FALSE)
       if(!length(tbl$Key)){ return(invisible()) }
 
-      enkeys = sapply(keys, base64url::base64_urlencode)
-      sel = tbl$Key %in% enkeys
+      enkeys <- sapply(keys, base64url::base64_urlencode)
+      sel <- tbl$Key %in% enkeys
       if( any(sel) ){
-        fs = tbl$Key[sel]
-        tbl = tbl[!sel, ]
+        fs <- tbl$Key[sel]
+        tbl <- tbl[!sel, ]
         write.table(tbl, private$header_file, sep = '|', quote = FALSE,
                     row.names = FALSE, col.names = TRUE, append = FALSE)
         # Unlink files
@@ -35,13 +35,13 @@ FileMap <- R6::R6Class(
     },
 
     keys = function(include_signatures = FALSE){
-      tbl = read.csv(private$header_file, header = TRUE, sep = '|',
+      tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
                      stringsAsFactors = FALSE)
       if(!length(tbl$Key)){ return(NULL) }
 
-      keys = sapply(tbl$Key, base64url::base64_urldecode)
+      keys <- sapply(tbl$Key, base64url::base64_urldecode)
       if(include_signatures){
-        keys = cbind(keys, tbl$Hash)
+        keys <- cbind(keys, tbl$Hash)
       }
 
       keys
@@ -52,11 +52,11 @@ FileMap <- R6::R6Class(
       self$`@remove`(key)
 
       # Generate filename from key
-      encoded_key = base64url::base64_urlencode(key)
+      encoded_key <- base64url::base64_urlencode(key)
       # signature is already hashed
 
       # save value
-      fpath = file.path(private$db_dir, encoded_key)
+      fpath <- file.path(private$db_dir, encoded_key)
       saveRDS(value, file = fpath)
 
       write.table(data.frame(
@@ -72,24 +72,24 @@ FileMap <- R6::R6Class(
       not_implemented()
     },
     get = function(key, missing_default){
-      ekey = base64url::base64_urlencode(key)
-      fpath = file.path(private$db_dir, ekey)
+      ekey <- base64url::base64_urlencode(key)
+      fpath <- file.path(private$db_dir, ekey)
       if( file.exists(fpath) ){
         readRDS(fpath)
       }else{
-        if(missing(missing_default)){ missing_default = self$missing_default }
+        if(missing(missing_default)){ missing_default <- self$missing_default }
         missing_default
       }
     },
 
     mget = function(keys, missing_default){
-      if(missing(missing_default)){ missing_default = self$missing_default }
+      if(missing(missing_default)){ missing_default <- self$missing_default }
       force(missing_default)
 
-      re = lapply(keys, function(key){
+      re <- lapply(keys, function(key){
         self$get(key, missing_default)
       })
-      names(re) = keys
+      names(re) <- keys
       re
     },
 
@@ -106,15 +106,15 @@ FileMap <- R6::R6Class(
     # 2. set lockfile (if using default lockers)
     # 3. call self$connect
     initialize = function(path){
-      path = dir_create(path)
-      private$root_path = path
-      private$db_dir = dir_create(file.path(path, 'MAP-RDSDB'))
-      header_file = file.path(path, 'MAP-RDSHEAD')
+      path <- dir_create(path)
+      private$root_path <- path
+      private$db_dir <- dir_create(file.path(path, 'MAP-RDSDB'))
+      header_file <- file.path(path, 'MAP-RDSHEAD')
       if( !file.exists(header_file) ){
-        header_file = file_create(header_file)
+        header_file <- file_create(header_file)
         writeLines('Key|Hash', con = header_file)
       }
-      private$header_file = header_file
+      private$header_file <- header_file
       self$lockfile <- file.path(path, 'MAP-RDSLOCK')
     },
 
@@ -123,7 +123,7 @@ FileMap <- R6::R6Class(
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
       unlink(self$lockfile)
-      private$valid = FALSE
+      private$valid <- FALSE
       delayedAssign('.lockfile', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
     }
   )

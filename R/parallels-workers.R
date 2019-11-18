@@ -2,7 +2,7 @@
 
 
 # init -> ready, suspended
-.async_evaluator_states = factor(
+.async_evaluator_states <- factor(
   c('init', 'ready', 'running', 'suspend', 'stopped', 'terminated'),
   levels = c('init', 'ready', 'running', 'suspend', 'stopped', 'terminated'),
   ordered = TRUE)
@@ -42,21 +42,21 @@ ChildEvaluator <- R6::R6Class(
       isTRUE(private$master_uuid == session_uuid())
     },
     initialize = function( tmp_path, index, master_uuid, debug = FALSE ){
-      self$DEBUG = debug
-      private$path = dir_create(tmp_path)
-      private$state = .async_evaluator_states[[4]] # 'suspend'
-      private$uuid = session_uuid()
-      private$master_uuid = master_uuid
-      private$index = index
-      private$queue0 = qs_queue(file.path(private$path, 'Q0'))
-      private$queue1 = qs_queue(file.path(private$path, 'Q1'))
-      private$queue2 = qs_queue(file.path(private$path, 'Q2'))
-      private$queue_callback = qs_queue(file.path(private$path, 'Q3'))
-      private$map = qs_map(file.path(private$path, 'M0'))
+      self$DEBUG <- debug
+      private$path <- dir_create(tmp_path)
+      private$state <- .async_evaluator_states[[4]] # 'suspend'
+      private$uuid <- session_uuid()
+      private$master_uuid <- master_uuid
+      private$index <- index
+      private$queue0 <- qs_queue(file.path(private$path, 'Q0'))
+      private$queue1 <- qs_queue(file.path(private$path, 'Q1'))
+      private$queue2 <- qs_queue(file.path(private$path, 'Q2'))
+      private$queue_callback <- qs_queue(file.path(private$path, 'Q3'))
+      private$map <- qs_map(file.path(private$path, 'M0'))
       if(debug){
-        self$logger2 = function(...){cat2(as.character(private$state), ': ', ...)}
+        self$logger2 <- function(...){cat2(as.character(private$state), ': ', ...)}
       }else{
-        self$logger2 = function(...){}
+        self$logger2 <- function(...){}
       }
       private$map$set(sprintf('CHILD_UUID_%d', private$index), private$uuid)
       self$set_state( 'ready' )
@@ -64,8 +64,8 @@ ChildEvaluator <- R6::R6Class(
     set_state = function( state ){
       stopifnot2(state %in% c('init', 'ready', 'suspend', 'stopped', 'running', 'terminated'),
                  msg = 'Wrong state for child session!')
-      state = .async_evaluator_states[.async_evaluator_states == state]
-      private$state = state
+      state <- .async_evaluator_states[.async_evaluator_states == state]
+      private$state <- state
       private$map$set(sprintf('CHILD_STATE_%d', private$index), state)
       self$logger2('Set state - ', as.character(state))
     },
@@ -73,14 +73,14 @@ ChildEvaluator <- R6::R6Class(
       if(private$state %in% c('ready')){
         # Get from queue and run
         # TODO: Implement this
-        item = private$queue1$pop()
+        item <- private$queue1$pop()
         if(!length(item)){
-          item = private$queue0$pop()
+          item <- private$queue0$pop()
         }
         if(!length(item)){ return() }
 
-        value = item[[1]]$value
-        message = item[[1]]$message
+        value <- item[[1]]$value
+        message <- item[[1]]$message
 
         if( length(value$id)!= 1 || !is.character(value$id)){
           return()
@@ -117,14 +117,14 @@ ChildEvaluator <- R6::R6Class(
         },
         'eval' = {
           # Value: id (key), at_global (T/F), expr
-          d = private$map$get(key = value$id, missing_default = list())
+          d <- private$map$get(key = value$id, missing_default = list())
           private$map$remove( value$id )
           if( isTRUE(value$at_global) ){
-            env = .GlobalEnv
+            env <- .GlobalEnv
           }else{
-            env = new.env(parent = .GlobalEnv)
+            env <- new.env(parent = .GlobalEnv)
           }
-          re = eval_dirty(value$expr, env = env, data = d)
+          re <- eval_dirty(value$expr, env = env, data = d)
 
           private$queue2$push(value = list(
             passed = TRUE,
@@ -152,12 +152,12 @@ ChildEvaluator <- R6::R6Class(
 )
 
 child_evaluator_singleton <- local({
-  env = environment()
+  env <- environment()
   evaluator <- NULL
   ncores <- 0
   last_n <- 0
   # ffs = list()
-  check = function(){
+  check <- function(){
     evaluator$n_running
     # n = length(ffs)
     # if(n){
@@ -169,7 +169,7 @@ child_evaluator_singleton <- local({
     # }
     # n
   }
-  new = function( path, idx, master_uuid, ncores = 1, debug = FALSE ){
+  new <- function( path, idx, master_uuid, ncores = 1, debug = FALSE ){
     if( is.null(evaluator) ){
       env$evaluator <- ChildEvaluator$new( tmp_path = path, index = idx,
                                         master_uuid = master_uuid, debug = debug )
@@ -180,17 +180,17 @@ child_evaluator_singleton <- local({
     }
     evaluator$id
   }
-  get = function(){
+  get <- function(){
     evaluator
   }
 
-  run = function(){
+  run <- function(){
     if( is.null(evaluator) ){ return() }
     # n = length(ffs)
     # if( ncores <= n){
     #   n = check()
     # }
-    n = check()
+    n <- check()
     if( ncores > n){
       evaluator$set_state( 'ready' )
       # returns a list
@@ -200,7 +200,7 @@ child_evaluator_singleton <- local({
       f <- drop_nulls(f)
       if( length(f) ){
         # env$ffs <- c(ffs, f)
-        n = n + length(f)
+        n <- n + length(f)
       }
     }else{
       evaluator$set_state( 'running' )
@@ -256,30 +256,30 @@ MasterEvaluator <- R6::R6Class(
 
     get_active_idx = function( which, exclude = 'terminated' ){
       if( !length(private$cl) ){ return(NULL) }
-      actives = which(!private$child_states %in% exclude)
+      actives <- which(!private$child_states %in% exclude)
       if( !length(actives) ){ return(NULL) }
       if( length(which) == 1 && which <= 0 ){
-        which = actives
+        which <- actives
       }else{
-        which = which[which %in% actives]
+        which <- which[which %in% actives]
       }
       which
     },
 
     initialize = function( tmp_path = tempfile(), debug = FALSE ){
-      private$path = dir_create(tmp_path)
-      private$state = .async_evaluator_states[[4]] # 'suspend'
-      private$uuid = session_uuid()
-      private$queue0 = qs_queue(file.path(private$path, 'Q0'))
-      private$queue1 = qs_queue(file.path(private$path, 'Q1'))
-      private$queue2 = qs_queue(file.path(private$path, 'Q2'))
-      private$map_callback = session_map()
-      private$map = qs_map(file.path(private$path, 'M0'))
-      private$`@later_loop` = later::create_loop(autorun = FALSE)
+      private$path <- dir_create(tmp_path)
+      private$state <- .async_evaluator_states[[4]] # 'suspend'
+      private$uuid <- session_uuid()
+      private$queue0 <- qs_queue(file.path(private$path, 'Q0'))
+      private$queue1 <- qs_queue(file.path(private$path, 'Q1'))
+      private$queue2 <- qs_queue(file.path(private$path, 'Q2'))
+      private$map_callback <- session_map()
+      private$map <- qs_map(file.path(private$path, 'M0'))
+      private$`@later_loop` <- later::create_loop(autorun = FALSE)
       if(debug){
-        self$logger2 = function(...){cat2(as.character(private$state), ': ', ...)}
+        self$logger2 <- function(...){cat2(as.character(private$state), ': ', ...)}
       }else{
-        self$logger2 = function(...){}
+        self$logger2 <- function(...){}
       }
       private$map$set('MASTER_UUID', private$uuid)
       self$set_state( 'ready' )
@@ -291,7 +291,7 @@ MasterEvaluator <- R6::R6Class(
         tryCatch({
           self$set_state( 'terminated' )
         }, error = function(e){
-          private$state = .async_evaluator_states[[6]]
+          private$state <- .async_evaluator_states[[6]]
         })
         self$logger2('Finalizing - closing clusters')
         later::destroy_loop( private$`@later_loop` )
@@ -309,8 +309,8 @@ MasterEvaluator <- R6::R6Class(
     set_state = function( state ){
       stopifnot2(state %in% c('init', 'ready', 'suspend', 'stopped', 'running', 'terminated'),
                  msg = 'Wrong state for master session!')
-      state = .async_evaluator_states[.async_evaluator_states == state]
-      private$state = state
+      state <- .async_evaluator_states[.async_evaluator_states == state]
+      private$state <- state
       private$map$set('MASTER_STATE', state)
       self$logger2('Set state - ', as.character(state))
     },
@@ -325,7 +325,7 @@ MasterEvaluator <- R6::R6Class(
       if(!length(private$cl)){ return( 0 ) }
 
       if( deep ){
-        currect_state = private$state
+        currect_state <- private$state
         on.exit({
           if( currect_state == 'running' ){
             self$listen()
@@ -336,9 +336,9 @@ MasterEvaluator <- R6::R6Class(
         self$set_state( 'suspend' )
         self$check_state( which = -1 )
 
-        sel = private$child_states <= max_state &
+        sel <- private$child_states <= max_state &
           private$child_states >= min_state
-        not_running = private$child_states %in% c('ready') & sel
+        not_running <- private$child_states %in% c('ready') & sel
 
         if(any(not_running)){
           # TODO: ping-pong and check results
@@ -347,7 +347,7 @@ MasterEvaluator <- R6::R6Class(
       }else{
         # self$check_state( which = -1 )
 
-        sel = private$child_states <= max_state &
+        sel <- private$child_states <= max_state &
           private$child_states >= min_state
       }
 
@@ -361,7 +361,7 @@ MasterEvaluator <- R6::R6Class(
     },
 
     ramp_up = function( n, subs = 1, ... ){
-      previous_state = private$state
+      previous_state <- private$state
       stopifnot2(previous_state < 'stopped', msg = 'The evaluator is stopped. Cannot ramp up.')
 
       # Suspend and stop listen in case of failure
@@ -371,41 +371,41 @@ MasterEvaluator <- R6::R6Class(
         cat2('You are not in the master session, cannot ramp up more workers.')
         return(FALSE)
       }
-      m = self$n_workers( deep = TRUE, min_state = 'init' )
-      more = n - m
+      m <- self$n_workers( deep = TRUE, min_state = 'init' )
+      more <- n - m
       if( more <= 0 ){ return(FALSE) }
       cat2('Initializing ', more, ' workers with ', subs, ' sub-workers. Total workers will be (',
            m, '+', more, ') x ', subs)
-      new_cl = future::makeClusterPSOCK(worker = more, ... )
+      new_cl <- future::makeClusterPSOCK(worker = more, ... )
 
       # Add clusters first
       if(!length(private$cl)){
-        private$cl = new_cl
-        private$child_states = rep(.async_evaluator_states[[4]], more)
+        private$cl <- new_cl
+        private$child_states <- rep(.async_evaluator_states[[4]], more)
       }else{
-        private$cl = c(private$cl, new_cl)
-        states = c(private$child_states, rep(.async_evaluator_states[[4]], more))
+        private$cl <- c(private$cl, new_cl)
+        states <- c(private$child_states, rep(.async_evaluator_states[[4]], more))
         if(is.numeric(states)){
-          states = .async_evaluator_states[states]
+          states <- .async_evaluator_states[states]
         }
-        private$child_states = states
+        private$child_states <- states
       }
 
       # TODO: Initialize clusters
       self$logger2('Clusters created. TODO: Initialize clusters')
 
-      tmp_path = private$path
-      master_uuid = private$uuid
-      new_idx = seq_len(more) + length(private$cl) - more
+      tmp_path <- private$path
+      master_uuid <- private$uuid
+      new_idx <- seq_len(more) + length(private$cl) - more
       lapply(new_idx, function(ii){
         f <- self$fire_direct(rlang::quo({
           local({
-            dipsaus = asNamespace('dipsaus')
+            dipsaus <- asNamespace('dipsaus')
             dipsaus$launch_child_evaluator(!!tmp_path, !!ii, !!master_uuid, !!subs)
           }, envir = new.env(parent = globalenv()))
         }), which = ii, force = TRUE, quoted = TRUE)
         uuid <- f[[1]]
-        private$child_uuids = c(private$child_uuids, uuid)
+        private$child_uuids <- c(private$child_uuids, uuid)
       })
       self$check_state(which = new_idx)
 
@@ -417,20 +417,20 @@ MasterEvaluator <- R6::R6Class(
 
     shutdown = function( which = -1, force = FALSE ){
       if(!self$in_master_session() ){ return(FALSE) }
-      n = self$n_workers(deep = FALSE)
+      n <- self$n_workers(deep = FALSE)
       if( n <= 0 ){ return(FALSE) }
 
-      which = self$get_active_idx( which )
+      which <- self$get_active_idx( which )
       if(!length(which)){ return(TRUE) }
       if(!force){
         # TODO: implement
         cat2('force = FALSE is not implemented, force shut-down')
-        force = TRUE
+        force <- TRUE
       }
 
       if( force ){
         # terminated
-        private$child_states[which] = .async_evaluator_states[[6]]
+        private$child_states[which] <- .async_evaluator_states[[6]]
         lapply(which, function(ii){
           tryCatch({
             parallel::stopCluster(private$cl[ii])
@@ -442,7 +442,7 @@ MasterEvaluator <- R6::R6Class(
           }, silent = TRUE)
         })
         # Set again in case re-opened
-        private$child_states[which] = .async_evaluator_states[[6]]
+        private$child_states[which] <- .async_evaluator_states[[6]]
       }
     },
 
@@ -457,35 +457,35 @@ MasterEvaluator <- R6::R6Class(
       #   later::run_now(0, loop = private$`@later_loop`)
       # }, delay = self$listen_interval + 0.01)
       # Check queues
-      n_queue = private$queue0$count + private$queue1$count
-      no_await = FALSE
+      n_queue <- private$queue0$count + private$queue1$count
+      no_await <- FALSE
       if( n_queue > 0 ){
         # Let child sessions to work
         # Check how many readys
         self$check_state()
         self$fire_direct(rlang::quo({
           local({
-            dipsaus = asNamespace('dipsaus')
+            dipsaus <- asNamespace('dipsaus')
             dipsaus$run_child_evaluator()
           })
         }), run_one = FALSE, which = -1, quoted = TRUE, force = TRUE)
       }else{
-        no_await = TRUE
+        no_await <- TRUE
       }
 
       # Check feedbacks
-      q2_count = private$queue2$count
+      q2_count <- private$queue2$count
       if( q2_count > 0 ){
         self$logger2('Capture ', q2_count, ' results.')
         # get all results
-        items = private$queue2$pop( q2_count )
-        private$finished = private$finished + q2_count
+        items <- private$queue2$pop( q2_count )
+        private$finished <- private$finished + q2_count
         lapply(items, function(item){
-          event_id = item$message
-          passed = isTRUE(item$value$passed)
+          event_id <- item$message
+          passed <- isTRUE(item$value$passed)
           if(isTRUE(is.character(event_id)) && length(event_id) == 1){
             on.exit({private$map_callback$remove(keys = event_id)}, add = TRUE)
-            fb = private$map_callback$get(key = event_id)
+            fb <- private$map_callback$get(key = event_id)
             tryCatch({
               if( passed && is.function(fb$success) ){
                 fb$success( item$value$result )
@@ -498,10 +498,10 @@ MasterEvaluator <- R6::R6Class(
           }
         })
       }else{
-        no_await = TRUE
+        no_await <- TRUE
       }
       if( no_await ){
-        pg = self$progress()
+        pg <- self$progress()
         # Every thing is finished, no need to listen
         if( pg[[1]] <= pg[[4]] ){
           self$set_state('ready')
@@ -511,7 +511,7 @@ MasterEvaluator <- R6::R6Class(
           # Evaluated, but somehow the result is no returned
           self$fire_direct(rlang::quo({
             local({
-              dipsaus = asNamespace('dipsaus')
+              dipsaus <- asNamespace('dipsaus')
               dipsaus$child_evaluator_singleton$check()
             })
           }), run_one = FALSE, which = -1, quoted = TRUE, force = TRUE)
@@ -530,14 +530,14 @@ MasterEvaluator <- R6::R6Class(
     check_state = function( which = -1 ){
       # check children state from the map
       if( length(which) == 1 && which <= 0 ){
-        which = seq_along(private$cl)
+        which <- seq_along(private$cl)
       }else{
-        which =  which[which %in% seq_along(private$cl)]
+        which <-  which[which %in% seq_along(private$cl)]
       }
       if( !length(which) ){ return(0) }
 
       lapply(which, function(ii){
-        s = private$map$get(sprintf('CHILD_STATE_%d' , ii))
+        s <- private$map$get(sprintf('CHILD_STATE_%d' , ii))
         if( length(s) ){
           private$child_states[[ii]] <- s
         }
@@ -550,18 +550,18 @@ MasterEvaluator <- R6::R6Class(
       # get state
       self$check_state()
       if( !force ){
-        which = self$get_active_idx( which, exclude = .async_evaluator_states[-2] )
+        which <- self$get_active_idx( which, exclude = .async_evaluator_states[-2] )
       }else{
-        which = self$get_active_idx( which, exclude = c('stopped', 'terminated') )
+        which <- self$get_active_idx( which, exclude = c('stopped', 'terminated') )
       }
       # Then there is no active cluster, no future is fired
       if( !length(which) ){ return( FALSE ) }
 
-      if( run_one ){ which = which[[1]] }
+      if( run_one ){ which <- which[[1]] }
       if(!quoted){
-        expr = substitute(expr)
+        expr <- substitute(expr)
       }else if(rlang::is_quosure(expr)){
-        expr = rlang::quo_squash(expr)
+        expr <- rlang::quo_squash(expr)
       }
 
       do.call(parallel::clusterEvalQ, list(
@@ -583,11 +583,11 @@ MasterEvaluator <- R6::R6Class(
       if(!quoted){ expr <- rlang::enquo(expr) }
 
       event_id <- rand_string()
-      addons = c(list(...), .list)
+      addons <- c(list(...), .list)
       if(length(addons)){
         private$map$set(event_id, addons)
       }
-      queue_name = paste0('queue', priority)
+      queue_name <- paste0('queue', priority)
 
       private$map_callback$set(value = list(
         success = success,
@@ -600,7 +600,7 @@ MasterEvaluator <- R6::R6Class(
         expr = expr
       ), message = 'eval')
 
-      private$total = private$total + 1
+      private$total <- private$total + 1
 
       # Make sure the child process is running
       self$listen()
@@ -619,21 +619,21 @@ MasterEvaluator <- R6::R6Class(
       private$queue0$reset()
       private$map$reset()
       private$queue2$reset()
-      private$total = private$finished
-      pg = self$progress()
+      private$total <- private$finished
+      pg <- self$progress()
       pg
     },
 
     progress = function(){
-      total = private$total
-      await = private$queue0$count + private$queue1$count
+      total <- private$total
+      await <- private$queue0$count + private$queue1$count
 
-      finished = private$finished + private$queue2$count
-      running = total - await - finished
+      finished <- private$finished + private$queue2$count
+      running <- total - await - finished
       if( running < 0 ){
-        total = total - running
-        running = 0
-        private$total = total
+        total <- total - running
+        running <- 0
+        private$total <- total
       }
 
       # idx = self$n_workers(return_index = TRUE)
@@ -678,10 +678,10 @@ MasterEvaluator <- R6::R6Class(
 
 .async_master_globals <- local({
   # name - instance pair
-  instances = list()
+  instances <- list()
 
   # Path - name pair
-  paths = list()
+  paths <- list()
 
   get <- function(name){
     instances[[name]]
@@ -698,8 +698,8 @@ MasterEvaluator <- R6::R6Class(
     }
 
     if(dir.exists(path)){
-      path = normalizePath(path)
-      nm = paths[[path]]
+      path <- normalizePath(path)
+      nm <- paths[[path]]
       if( !is.null(nm) ){
         stopifnot2(nm == name, msg = sprintf(
           'An instance %s  already exists at current path.',  sQuote(nm)
@@ -718,9 +718,9 @@ MasterEvaluator <- R6::R6Class(
                  msg = 'path already exists and is not empty. Need a new path or empty directory.')
     }
 
-    path = dir_create(path)
+    path <- dir_create(path)
     paths[[path]] <<- name
-    self = MasterEvaluator$new(path, ...)
+    self <- MasterEvaluator$new(path, ...)
     instances[[name]] <<- self
 
     # Ramp-up
@@ -730,13 +730,13 @@ MasterEvaluator <- R6::R6Class(
   }
 
   terminate <- function(name){
-    instance = instances[[name]]
+    instance <- instances[[name]]
     if(!is.null(instance)){
       instance$finalize()
 
-      idx = vapply(paths, function(nm){ nm == name }, FALSE)
+      idx <- vapply(paths, function(nm){ nm == name }, FALSE)
       if( any(idx) ){
-        idx = which(idx)[[1]]
+        idx <- which(idx)[[1]]
         paths[[idx]] <<- NULL
         instances[[name]] <<- NULL
       }
@@ -746,7 +746,7 @@ MasterEvaluator <- R6::R6Class(
   }
 
   stop <- function(name){
-    self = instances[[name]]
+    self <- instances[[name]]
     if(!is.null(self)){
       self$reset()
       return(invisible(TRUE))
@@ -754,7 +754,7 @@ MasterEvaluator <- R6::R6Class(
     return(invisible(FALSE))
   }
   suspend <- function(name){
-    self = instances[[name]]
+    self <- instances[[name]]
     if(!is.null(self)){
       self$set_state('suspend')
       return(invisible(TRUE))
@@ -764,10 +764,10 @@ MasterEvaluator <- R6::R6Class(
 
   run <- function(name, expr, success = NULL, failure = NULL,
                   priority = 0, persist = FALSE, quoted = FALSE, ..., .list = NULL){
-    instance = instances[[name]]
+    instance <- instances[[name]]
     if(!is.null(instance)){
       if( !quoted ){
-        expr = rlang::enquo(expr)
+        expr <- rlang::enquo(expr)
       }
       instance$exec(expr = expr,success = success, failure = failure,
                 priority = priority, persist = persist,
@@ -783,21 +783,21 @@ MasterEvaluator <- R6::R6Class(
     stopifnot2(isTRUE(n_nodes >= 1),
                msg = 'Cannot trim to less than 1 cores. Use asynceval_shutdown to shut down the evaluator')
 
-    self = instances[[name]]
+    self <- instances[[name]]
     if(!is.null(self)){
       # Ramp-up
-      idx = self$n_workers(deep = TRUE, min_state = 'init', return_index = TRUE)
+      idx <- self$n_workers(deep = TRUE, min_state = 'init', return_index = TRUE)
       if( length(idx) > n_nodes ){
         self$shutdown(which = idx[-seq_len(n_nodes)])
-        idx = idx[seq_len(n_nodes)]
+        idx <- idx[seq_len(n_nodes)]
       }
-      file_path = self$file_path
-      master_uuid = self$id
+      file_path <- self$file_path
+      master_uuid <- self$id
 
       lapply(idx, function(ii){
         self$fire_direct(rlang::quo({
           local({
-            dipsaus = asNamespace('dipsaus')
+            dipsaus <- asNamespace('dipsaus')
             dipsaus$launch_child_evaluator(!!file_path, !!ii, !!master_uuid, !!n_subnodes)
           }, envir = new.env(parent = globalenv()))
         }), which = ii, force = TRUE, quoted = TRUE)
@@ -810,7 +810,7 @@ MasterEvaluator <- R6::R6Class(
 
   scale_up <- function(name, n_nodes, n_subnodes = 1,
                        create_if_missing = FALSE, path = tempfile()){
-    self = instances[[name]]
+    self <- instances[[name]]
     if( is.null(self) ){
       if( create_if_missing ){
         new(name, path, n_nodes = n_nodes, n_subnodes = n_subnodes)
@@ -820,14 +820,14 @@ MasterEvaluator <- R6::R6Class(
       }
     }
 
-    idx = self$n_workers(deep = TRUE, min_state = 'init', return_index = TRUE)
-    file_path = self$file_path
-    master_uuid = self$id
+    idx <- self$n_workers(deep = TRUE, min_state = 'init', return_index = TRUE)
+    file_path <- self$file_path
+    master_uuid <- self$id
 
     lapply(idx, function(ii){
       self$fire_direct(rlang::quo({
         local({
-          dipsaus = asNamespace('dipsaus')
+          dipsaus <- asNamespace('dipsaus')
           dipsaus$launch_child_evaluator(!!file_path, !!ii, !!master_uuid, !!n_subnodes)
         }, envir = new.env(parent = globalenv()))
       }), which = ii, force = TRUE, quoted = TRUE)
@@ -839,13 +839,13 @@ MasterEvaluator <- R6::R6Class(
   }
 
   workers <- function(name, ...){
-    self = instances[[name]]
+    self <- instances[[name]]
     if(is.null(self)){ return(0) }
     self$n_workers(...)
   }
 
   progress <- function(name){
-    self = instances[[name]]
+    self <- instances[[name]]
     if(is.null(self)){ return(c(0,0,0,0)) }
     self$progress()
   }
@@ -994,7 +994,7 @@ make_async_evaluator <- function(
   name, path = tempfile(), n_nodes = 1,
   n_subnodes = future::availableCores() - 1, verbose = FALSE, ...){
 
-  .async_eval_name = name
+  .async_eval_name <- name
 
   .async_master_globals$new(name = .async_eval_name, path = path,
                             n_nodes = n_nodes, n_subnodes = n_subnodes,
@@ -1010,7 +1010,7 @@ make_async_evaluator <- function(
                    priority = 0, persist = FALSE, quoted = FALSE, ...,
                    .list = NULL){
       if( !quoted ){
-        expr = rlang::enquo(expr)
+        expr <- rlang::enquo(expr)
       }
       .async_master_globals$run(
         name = .async_eval_name, expr = expr, success = success,

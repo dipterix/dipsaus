@@ -110,7 +110,7 @@ RedisQueue <- R6::R6Class(
         stop('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
              'install.packages("RcppRedis")')
       }
-      queue_id = paste0('QUEUE', queue_id)
+      queue_id <- paste0('QUEUE', queue_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
       }, error = function(e){

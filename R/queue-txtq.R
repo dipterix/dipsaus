@@ -33,7 +33,7 @@ TextQueue <- R6::R6Class(
     },
 
     `@store_value` = function(value, key){
-      s = ''
+      s <- ''
       con <- textConnection('s', 'w', local = TRUE)
       serialize(value, connection = con)
       close(con)

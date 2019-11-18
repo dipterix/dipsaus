@@ -19,7 +19,7 @@ RedisMap <- R6::R6Class(
     },
     remove = function(keys){
       lapply(keys, function(key){
-        enkey = base64url::base64_urlencode(key)
+        enkey <- base64url::base64_urlencode(key)
         private$redis$hdel(sprintf('%s-signature', private$redis_id), enkey)
         private$redis$hdel(private$redis_id, enkey)
       })
@@ -32,14 +32,14 @@ RedisMap <- R6::R6Class(
     keys = function(include_signatures = FALSE){
 
       if( !include_signatures ){
-        keys = private$redis$hkeys(sprintf('%s-signature', private$redis_id))
+        keys <- private$redis$hkeys(sprintf('%s-signature', private$redis_id))
         if(!length(keys)){ return(NULL) }
-        keys = sapply(keys, base64url::base64_urldecode)
+        keys <- sapply(keys, base64url::base64_urldecode)
       }else{
-        keys = private$redis$hgetall(sprintf('%s-signature', private$redis_id))
+        keys <- private$redis$hgetall(sprintf('%s-signature', private$redis_id))
         if(!length(keys)){ return(NULL) }
-        nms = names(keys)
-        keys = t(sapply(seq_along(keys), function(ii){
+        nms <- names(keys)
+        keys <- t(sapply(seq_along(keys), function(ii){
           c(base64url::base64_urldecode(nms[[ii]]), keys[[ii]][[1]])
         }))
       }
@@ -62,20 +62,20 @@ RedisMap <- R6::R6Class(
       if( self$size() == 0 ){
         return(rep(FALSE, length(keys)))
       }
-      has_sig = !missing(signature)
+      has_sig <- !missing(signature)
 
       if( !sig_encoded && has_sig ){
-        signature = self$digest(signature)
+        signature <- self$digest(signature)
       }
 
-      sig_key = sprintf('%s-signature', private$redis_id)
+      sig_key <- sprintf('%s-signature', private$redis_id)
 
       vapply(keys, function(k){
-        enkey = base64url::base64_urlencode(k)
-        has_key = private$redis$hexists(sig_key, enkey) > 0
+        enkey <- base64url::base64_urlencode(k)
+        has_key <- private$redis$hexists(sig_key, enkey) > 0
         if( has_key && has_sig ){
-          sig = private$redis$hget(sig_key, enkey)
-          has_key = isTRUE(sig[[1]] == signature)
+          sig <- private$redis$hget(sig_key, enkey)
+          has_key <- isTRUE(sig[[1]] == signature)
         }
         has_key
       }, FUN.VALUE = FALSE)
@@ -88,12 +88,12 @@ RedisMap <- R6::R6Class(
     set = function(key, value, signature){
       force(value)
       if( missing(signature) ){
-        signature = self$digest( value )
+        signature <- self$digest( value )
       }else{
-        signature = self$digest( signature )
+        signature <- self$digest( signature )
       }
 
-      key = base64url::base64_urlencode(key)
+      key <- base64url::base64_urlencode(key)
 
       private$redis$hset(private$redis_id, key, value)
       private$redis$hset(sprintf('%s-signature', private$redis_id), key, signature)
@@ -103,9 +103,9 @@ RedisMap <- R6::R6Class(
 
 
     get = function(key, missing_default){
-      if(missing(missing_default)){ missing_default = self$missing_default }
+      if(missing(missing_default)){ missing_default <- self$missing_default }
 
-      enkey = base64url::base64_urlencode(key)
+      enkey <- base64url::base64_urlencode(key)
 
       if(private$redis$hexists(private$redis_id, enkey)){
         private$redis$hget(private$redis_id, enkey)
@@ -115,7 +115,7 @@ RedisMap <- R6::R6Class(
     },
 
     mget = function(keys, missing_default){
-      if(missing(missing_default)){ missing_default = self$missing_default }
+      if(missing(missing_default)){ missing_default <- self$missing_default }
 
       sapply(keys, self$get, simplify = FALSE, USE.NAMES = TRUE)
     },
@@ -126,11 +126,11 @@ RedisMap <- R6::R6Class(
       if(self$size() == 0){
         return(list())
       }
-      re = private$redis$hgetall(private$redis_id)
-      names(re) = sapply(names(re), base64url::base64_urldecode)
+      re <- private$redis$hgetall(private$redis_id)
+      names(re) <- sapply(names(re), base64url::base64_urldecode)
       if(sort){
-        ord = order(names(re))
-        re = re[ord]
+        ord <- order(names(re))
+        re <- re[ord]
       }
       re
     },
@@ -144,7 +144,7 @@ RedisMap <- R6::R6Class(
         stop('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
              'install.packages("RcppRedis")')
       }
-      map_id = paste0('MAP', map_id)
+      map_id <- paste0('MAP', map_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
       }, error = function(e){
@@ -163,7 +163,7 @@ RedisMap <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
-      private$valid = FALSE
+      private$valid <- FALSE
       delayedAssign('redis', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
       delayedAssign('redis_id', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
     }

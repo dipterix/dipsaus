@@ -5,8 +5,8 @@ test_map <- function(generator, ...){
   make_map <- function(...){
     generator$new(...)
   }
-  self = make_map(...)
-  private = self$.__enclos_env__$private
+  self <- make_map(...)
+  private <- self$.__enclos_env__$private
   self$reset()
   self$validate()
   expect_equal(self$size(), 0)
@@ -36,13 +36,13 @@ test_map <- function(generator, ...){
 
   expect_null( self$get('c') )
   expect_equal( self$get('c', missing_default = 'aaa'), 'aaa' )
-  self$missing_default = 'hahaha'
+  self$missing_default <- 'hahaha'
   expect_equal(self$get('c'), 'hahaha')
   expect_equal( self$get('c', missing_default = 'aaa'), 'aaa' )
 
   self$remove('a')
 
-  self = make_map(...)
+  self <- make_map(...)
 
   expect_equivalent(self$has(c('a', 'b')), c(FALSE, TRUE))
 
@@ -62,17 +62,17 @@ test_map <- function(generator, ...){
 
 
 test_that('Session map', {
-  map = fastmap::fastmap()
+  map <- fastmap::fastmap()
   test_map( dipsaus:::SessionMap, map )
 })
 
 test_that('RDS map', {
-  path = tempfile()
+  path <- tempfile()
   test_map( dipsaus:::FileMap, path )
 })
 
 test_that('QS map', {
-  path = tempfile()
+  path <- tempfile()
   test_map( dipsaus:::QsMap, path )
 })
 
@@ -88,30 +88,30 @@ test_that('Redis map', {
 })
 
 test_that('Persist container', {
-  container = dipsaus::PersistContainer$new(tempfile())
+  container <- dipsaus::PersistContainer$new(tempfile())
 
-  v = container$cache(key = 'a', value = 1, signature = 111, persist = FALSE)
+  v <- container$cache(key = 'a', value = 1, signature = 111, persist = FALSE)
   expect_equal(v, 1)
-  v = container$cache(key = 'a', value = 3, signature = 111, persist = TRUE, replace = TRUE)
+  v <- container$cache(key = 'a', value = 3, signature = 111, persist = TRUE, replace = TRUE)
   expect_equal(v, 3)
 
   expect_true(container$has('a', signature = 111))
   expect_true(container$has('a'))
 
-  v = container$cache(key = 'a', value = 2, signature = 111, replace = FALSE)
+  v <- container$cache(key = 'a', value = 2, signature = 111, replace = FALSE)
   expect_equal(v, 3)
 
-  v = container$cache(key = 'a', value = 4)
+  v <- container$cache(key = 'a', value = 4)
   expect_equal(v, 3)
 
   expect_true(container$has('a'))
-  v = container$cache(key = 'a', value = 2)
+  v <- container$cache(key = 'a', value = 2)
   expect_equal(v, 3)
 
   # We still have 'a' with signature 111 because that value was persisted
   expect_true(container$has('a', signature = 111))
 
-  v = container$cache(key = 'a', value = 4, persist = TRUE, replace = TRUE)
+  v <- container$cache(key = 'a', value = 4, persist = TRUE, replace = TRUE)
   expect_equal(v, 4)
 
   # persisted value is overwritten

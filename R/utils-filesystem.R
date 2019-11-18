@@ -43,7 +43,7 @@ dir_create <- function(x, showWarnings = FALSE, recursive = TRUE, check = TRUE) 
 
 file_create <- function(x, showWarnings = FALSE, recursive = TRUE) {
   if (!file.exists(x)) {
-    dir = dirname(x)
+    dir <- dirname(x)
     if( recursive && !dir.exists(dir) ){
       dir_create(dir)
     }

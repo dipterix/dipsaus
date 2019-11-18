@@ -101,7 +101,7 @@ PersistContainer <- R6::R6Class(
   public = list(
 
     initialize = function(..., backend = text_map){
-      args = list(...)
+      args <- list(...)
       m <- tryCatch({
         do.call(backend, args)
       }, error = function(e){
@@ -130,9 +130,9 @@ PersistContainer <- R6::R6Class(
     has = function(key, signature, sig_encoded = FALSE){
       if(!length(key)){ return(NULL) }
 
-      mis_sig = missing(signature)
+      mis_sig <- missing(signature)
 
-      re = tryCatch({
+      re <- tryCatch({
         if( mis_sig ){
           private$local_map$has(key) | private$map$has(key)
         }else{
@@ -154,9 +154,9 @@ PersistContainer <- R6::R6Class(
 
     cache = function(key, value, signature, replace = FALSE, persist = FALSE){
 
-      map = private$map
-      local_map = private$local_map
-      has_sig = !missing(signature)
+      map <- private$map
+      local_map <- private$local_map
+      has_sig <- !missing(signature)
 
       save_item <- function(force_value = TRUE){
         try({
@@ -166,19 +166,19 @@ PersistContainer <- R6::R6Class(
           if(force_value) force(value)
 
           if( persist ){
-            mp = map
+            mp <- map
 
             if( inherits(map, 'TextMap' ) ){
               # check value is basic types
               if(!(is.atomic( value ) || is.list( value ) || is.data.frame( value ))){
                 cat2('value must be atomic, list, or data.frame if you want to persist while using TextMap.\n  ',
                      'Switch to non-persist mode', level = 'WARNING')
-                mp = local_map
+                mp <- local_map
               }
             }
 
           }else{
-            mp = local_map
+            mp <- local_map
           }
 
           if(has_sig){

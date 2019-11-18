@@ -15,9 +15,9 @@ SessionMap <- R6::R6Class(
       private$map$reset()
     },
     keys = function(include_signatures = FALSE){
-      keys = private$map$keys()
+      keys <- private$map$keys()
       if( include_signatures ){
-        keys = t(sapply(keys, function(k){
+        keys <- t(sapply(keys, function(k){
           c(k, private$map$get(k)$signature)
         }))
       }
@@ -39,12 +39,12 @@ SessionMap <- R6::R6Class(
       return( private$map$get(key)$value )
     },
     as_list = function(sort = FALSE){
-      keys = self$keys(include_signatures = FALSE)
+      keys <- self$keys(include_signatures = FALSE)
       if(!length(keys)){
         return(list())
       }
       if( sort ){
-        keys = sort(keys)
+        keys <- sort(keys)
       }
 
       self$mget(keys)
@@ -54,11 +54,11 @@ SessionMap <- R6::R6Class(
     },
 
     initialize = function( map = fastmap::fastmap() ){
-      private$map = map
+      private$map <- map
     },
 
     destroy = function(){
-      private$valid = FALSE
+      private$valid <- FALSE
     }
   ),
   active = list(

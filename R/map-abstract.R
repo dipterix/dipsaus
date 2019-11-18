@@ -89,7 +89,7 @@ AbstractMap <- R6::R6Class(
       })
     },
     reset = function(...){
-      keys = self$keys(include_signatures = FALSE)
+      keys <- self$keys(include_signatures = FALSE)
       self$remove( keys )
     },
 
@@ -98,11 +98,11 @@ AbstractMap <- R6::R6Class(
     keys = function(include_signatures = FALSE){
       not_implemented()
 
-      keys = private$map$keys()
+      keys <- private$map$keys()
       if( include_signatures ){
         # Returns two columns: key digest
 
-        keys = t(sapply(keys, function(k){
+        keys <- t(sapply(keys, function(k){
           c(k, private$map$get(k)$signature)
         }))
       }
@@ -127,16 +127,16 @@ AbstractMap <- R6::R6Class(
 
       if(!length(all_keys)){ return(rep(FALSE, length(keys))) }
 
-      has_sig = !missing(signature)
+      has_sig <- !missing(signature)
 
       if( !sig_encoded && has_sig ){
-        signature = self$digest(signature)
+        signature <- self$digest(signature)
       }
 
       vapply(keys, function(k){
-        sel = all_keys[,1] == k
-        has_key = any(sel)
-        if( has_sig && has_key ){ has_key = all_keys[sel, 2] == signature }
+        sel <- all_keys[,1] == k
+        has_key <- any(sel)
+        if( has_sig && has_key ){ has_key <- all_keys[sel, 2] == signature }
         has_key
       }, FUN.VALUE = FALSE)
     },
@@ -155,9 +155,9 @@ AbstractMap <- R6::R6Class(
     set = function(key, value, signature){
       force(value)
       if( missing(signature) ){
-        signature = self$digest( value )
+        signature <- self$digest( value )
       }else{
-        signature = self$digest( signature )
+        signature <- self$digest( signature )
       }
       private$exclusive({
         self$`@set`(key, value, signature = signature)
@@ -166,8 +166,8 @@ AbstractMap <- R6::R6Class(
     },
 
     mset = function(..., .list = NULL){
-      .list = c(list(...), .list)
-      nms = names(.list)
+      .list <- c(list(...), .list)
+      nms <- names(.list)
       lapply(nms, function(nm){
         self$set(nm, .list[[nm]])
       })
@@ -180,7 +180,7 @@ AbstractMap <- R6::R6Class(
       return( private$map$get(key)$value )
     },
     get = function(key, missing_default){
-      if(missing(missing_default)){ missing_default = self$missing_default }
+      if(missing(missing_default)){ missing_default <- self$missing_default }
       if( self$has( key ) ){
         self$`@get`(key)
       }else{
@@ -189,30 +189,30 @@ AbstractMap <- R6::R6Class(
     },
 
     mget = function(keys, missing_default){
-      if(missing(missing_default)){ missing_default = self$missing_default }
+      if(missing(missing_default)){ missing_default <- self$missing_default }
 
-      has_keys = self$has( keys )
+      has_keys <- self$has( keys )
 
-      re = lapply(seq_along( keys ), function(ii){
+      re <- lapply(seq_along( keys ), function(ii){
         if( has_keys[[ii]] ){
           self$`@get`(keys[[ ii ]])
         }else{
           missing_default
         }
       })
-      names(re) = keys
+      names(re) <- keys
       re
     },
 
 
 
     as_list = function(sort = FALSE){
-      keys = self$keys(include_signatures = FALSE)
+      keys <- self$keys(include_signatures = FALSE)
       if(!length(keys)){
         return(list())
       }
       if( sort ){
-        keys = sort(keys)
+        keys <- sort(keys)
       }
 
       self$mget(keys)
@@ -234,7 +234,7 @@ AbstractMap <- R6::R6Class(
     # queue
     `@connect` = function(...){
       not_implemented()
-      private$map = fastmap::fastmap()
+      private$map <- fastmap::fastmap()
     },
     # thread-safe version. sometimes you need to override this function instead
     # of `@connect`, because `private$exclusive` requires lockfile to be locked
@@ -262,7 +262,7 @@ AbstractMap <- R6::R6Class(
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
       unlink(self$lockfile)
-      private$valid = FALSE
+      private$valid <- FALSE
       delayedAssign('.lockfile', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
     }
   ),
