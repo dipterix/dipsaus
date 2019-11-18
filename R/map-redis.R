@@ -140,6 +140,10 @@ RedisMap <- R6::R6Class(
     },
 
     initialize = function(map_id){
+      if( !requireNamespace('RcppRedis') ){
+        stop('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
+             'install.packages("RcppRedis")')
+      }
       map_id = paste0('MAP', map_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
