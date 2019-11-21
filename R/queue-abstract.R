@@ -332,7 +332,7 @@ AbstractQueue <- R6::R6Class(
     push = function(value, message = '', ...){
       time <- base64url::base64_urlencode(microtime())
 
-      digest_val <- digest::digest(value)
+      digest_val <- digest::digest(message)
 
       key <- digest::digest(list(self$id, time, digest_val))
 

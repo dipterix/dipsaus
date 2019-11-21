@@ -135,7 +135,7 @@ ChildEvaluator <- R6::R6Class(
     },
 
     save_map = function(key, value, ...){
-      private$map$set(key = sprintf('%s_%d', key, private$index), value = value, ...)
+      private$map$set(key = sprintf('%s_%d', key, private$index), value = value, signature = NULL, ...)
     },
 
     logger2 = NULL
@@ -585,14 +585,14 @@ MasterEvaluator <- R6::R6Class(
       event_id <- rand_string()
       addons <- c(list(...), .list)
       if(length(addons)){
-        private$map$set(event_id, addons)
+        private$map$set(event_id, addons, signature = NULL)
       }
       queue_name <- paste0('queue', priority)
 
       private$map_callback$set(value = list(
         success = success,
         failure = failure
-      ), key = event_id)
+      ), key = event_id, signature = NULL)
 
       private[[queue_name]]$push(value = list(
         id = event_id,
