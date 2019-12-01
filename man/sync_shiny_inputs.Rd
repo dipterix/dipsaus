@@ -4,8 +4,14 @@
 \alias{sync_shiny_inputs}
 \title{Synchronize Shiny Inputs}
 \usage{
-sync_shiny_inputs(input, session, inputIds, uniform = rep("I",
-  length(inputIds)), updates, snap = 250)
+sync_shiny_inputs(
+  input,
+  session,
+  inputIds,
+  uniform = rep("I", length(inputIds)),
+  updates,
+  snap = 250
+)
 }
 \arguments{
 \item{input, session}{shiny reactive objects}

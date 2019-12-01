@@ -6,8 +6,13 @@
 
 (stable)}
 \usage{
-deparse_svec(nums, connect = "-", concatenate = TRUE, collapse = ",",
-  max_lag = 1)
+deparse_svec(
+  nums,
+  connect = "-",
+  concatenate = TRUE,
+  collapse = ",",
+  max_lag = 1
+)
 }
 \arguments{
 \item{nums}{integer vector}

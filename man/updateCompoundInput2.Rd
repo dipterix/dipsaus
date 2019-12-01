@@ -4,8 +4,14 @@
 \alias{updateCompoundInput2}
 \title{Update compound inputs}
 \usage{
-updateCompoundInput2(session, inputId, value = NULL, ncomp = NULL,
-  initialization = NULL, ...)
+updateCompoundInput2(
+  session,
+  inputId,
+  value = NULL,
+  ncomp = NULL,
+  initialization = NULL,
+  ...
+)
 }
 \arguments{
 \item{session}{shiny session or session proxy}

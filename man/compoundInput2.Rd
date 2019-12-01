@@ -4,9 +4,17 @@
 \alias{compoundInput2}
 \title{Compound input that combines and extends shiny inputs}
 \usage{
-compoundInput2(inputId, label = "Group", components = shiny::tagList(),
-  initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10, value = NULL,
-  label_color = 1, ...)
+compoundInput2(
+  inputId,
+  label = "Group",
+  components = shiny::tagList(),
+  initial_ncomp = 1,
+  min_ncomp = 0,
+  max_ncomp = 10,
+  value = NULL,
+  label_color = 1,
+  ...
+)
 }
 \arguments{
 \item{inputId}{character, shiny input ID}

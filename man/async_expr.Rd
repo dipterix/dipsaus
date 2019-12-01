@@ -4,8 +4,15 @@
 \alias{async_expr}
 \title{Apply R expressions in a parallel way}
 \usage{
-async_expr(.X, .expr, .varname = "x", envir = parent.frame(),
-  .pre_run = NULL, .ncore = future::availableCores(), ...)
+async_expr(
+  .X,
+  .expr,
+  .varname = "x",
+  envir = parent.frame(),
+  .pre_run = NULL,
+  .ncore = future::availableCores(),
+  ...
+)
 }
 \arguments{
 \item{.X}{a vector or a list to apply evaluation on}

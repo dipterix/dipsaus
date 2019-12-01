@@ -6,8 +6,7 @@
 
 (stable)}
 \usage{
-parse_svec(text, sep = ",", connect = "-:|", sort = FALSE,
-  unique = TRUE)
+parse_svec(text, sep = ",", connect = "-:|", sort = FALSE, unique = TRUE)
 }
 \arguments{
 \item{text}{string with chunks, e.g. \code{"1-10, 14, 16-20, 18-30"} has 4 chunks}

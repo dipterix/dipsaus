@@ -4,8 +4,12 @@
 \alias{check_installed_packages}
 \title{Check If Packages Are Installed, Returns Missing Packages}
 \usage{
-check_installed_packages(pkgs, libs = base::.libPaths(),
-  auto_install = FALSE, ...)
+check_installed_packages(
+  pkgs,
+  libs = base::.libPaths(),
+  auto_install = FALSE,
+  ...
+)
 }
 \arguments{
 \item{pkgs}{vector of packages to install}

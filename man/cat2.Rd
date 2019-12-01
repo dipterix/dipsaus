@@ -4,11 +4,21 @@
 \alias{cat2}
 \title{Color Output}
 \usage{
-cat2(..., level = "DEBUG", print_level = FALSE, file = "",
-  sep = " ", fill = FALSE, labels = NULL, append = FALSE,
-  end = "\\n", pal = list(DEBUG = "grey60", INFO = "#1d9f34", WARNING =
-  "#ec942c", ERROR = "#f02c2c", FATAL = "#763053", DEFAULT = "grey60"),
-  use_cli = TRUE, bullet = "auto")
+cat2(
+  ...,
+  level = "DEBUG",
+  print_level = FALSE,
+  file = "",
+  sep = " ",
+  fill = FALSE,
+  labels = NULL,
+  append = FALSE,
+  end = "\\n",
+  pal = list(DEBUG = "grey60", INFO = "#1d9f34", WARNING = "#ec942c", ERROR = "#f02c2c",
+    FATAL = "#763053", DEFAULT = "grey60"),
+  use_cli = TRUE,
+  bullet = "auto"
+)
 }
 \arguments{
 \item{...}{to be printed}

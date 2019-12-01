@@ -4,8 +4,15 @@
 \alias{updateActionButtonStyled}
 \title{Update styled action button}
 \usage{
-updateActionButtonStyled(session, inputId, label = NULL, icon = NULL,
-  type = NULL, disabled = NULL, ...)
+updateActionButtonStyled(
+  session,
+  inputId,
+  label = NULL,
+  icon = NULL,
+  type = NULL,
+  disabled = NULL,
+  ...
+)
 }
 \arguments{
 \item{session, inputId, label, icon}{passed to \code{shiny::updateActionButton}}

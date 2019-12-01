@@ -4,8 +4,14 @@
 \alias{make_async_evaluator}
 \title{Create Asynchronous Evaluator to Queue Tasks}
 \usage{
-make_async_evaluator(name, path = tempfile(), n_nodes = 1,
-  n_subnodes = future::availableCores() - 1, verbose = FALSE, ...)
+make_async_evaluator(
+  name,
+  path = tempfile(),
+  n_nodes = 1,
+  n_subnodes = future::availableCores() - 1,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{name}{unique name for the evaluator}

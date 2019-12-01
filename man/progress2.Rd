@@ -4,9 +4,14 @@
 \alias{progress2}
 \title{'Shiny' progress bar, but can run without reactive context}
 \usage{
-progress2(title, max = 1, ..., quiet = FALSE,
+progress2(
+  title,
+  max = 1,
+  ...,
+  quiet = FALSE,
   session = shiny::getDefaultReactiveDomain(),
-  shiny_auto_close = FALSE)
+  shiny_auto_close = FALSE
+)
 }
 \arguments{
 \item{title}{character, task description}

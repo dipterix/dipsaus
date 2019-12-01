@@ -4,8 +4,16 @@
 \alias{actionButtonStyled}
 \title{Action Button but with customized styles}
 \usage{
-actionButtonStyled(inputId, label, icon = NULL, width = NULL,
-  type = "primary", btn_type = "button", class = "", ...)
+actionButtonStyled(
+  inputId,
+  label,
+  icon = NULL,
+  width = NULL,
+  type = "primary",
+  btn_type = "button",
+  class = "",
+  ...
+)
 }
 \arguments{
 \item{inputId, label, icon, width, ...}{passed to \code{shiny::actionButton}}

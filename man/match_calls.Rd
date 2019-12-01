@@ -4,8 +4,14 @@
 \alias{match_calls}
 \title{Recursively match calls and modify arguments}
 \usage{
-match_calls(call, recursive = TRUE, replace_args = list(),
-  quoted = FALSE, envir = parent.frame(), ...)
+match_calls(
+  call,
+  recursive = TRUE,
+  replace_args = list(),
+  quoted = FALSE,
+  envir = parent.frame(),
+  ...
+)
 }
 \arguments{
 \item{call}{an \code{R} expression}

@@ -193,9 +193,11 @@ class shiny_input_compound_CompountInputItem{
     this._initialized = false;
     this.shiny = Shiny;
 
+    // window.jjj = this;
     // Get initialisation data
     this.header = el.getElementsByClassName('dipsaus-compound-input-header')[0];
     const g = JSON.parse( this.header.innerText );
+    this.construct_params = g;
 
     g.template = g.template[0];
     g.initial_ncomp = g.initial_ncomp[0];
@@ -207,7 +209,7 @@ class shiny_input_compound_CompountInputItem{
     if( typeof g.initial_ncomp !== 'number' || g.initial_ncomp < 0 ){
       g.initial_ncomp = 0;
     }
-    this.construct_params = g;
+
 
     // get body, add components
     this.body = el.getElementsByClassName('dipsaus-compound-input-body')[0];
@@ -319,7 +321,8 @@ class shiny_input_compound_CompountInputItem{
     const idx = this.items.length + 1;
 
     const _i = {
-      value : {}
+      value : {},
+      bindings : {}
     };
 
 
@@ -357,6 +360,10 @@ class shiny_input_compound_CompountInputItem{
 
 
             _i.value[input_id] = _b.getValue( _el );
+            _i.bindings[input_id] = {
+              binding : _b,
+              el : _el
+            };
           }
         };
 
@@ -383,7 +390,20 @@ class shiny_input_compound_CompountInputItem{
     }
     this._results = {};
     for( let ii = 0; ii < this._n; ii++ ){
+
+      let _i = this.items[ ii ];
+
+      for( let k in _i.bindings ){
+        _i.value[k] = _i.bindings[k].binding.getValue(_i.bindings[k].el);
+      }
+
       this._results[ String(ii + 1) ] = this.items[ ii ].value;
+      /*
+      _i.bindings[input_id] = {
+              binding : _b,
+              el : _el
+            };*/
+
     }
     this._results.meta = this.construct_params;
     return( this._results );
@@ -420,24 +440,29 @@ class shiny_input_compound_CompountInputItem{
   }
 
   receive_message( data ){
-    data.value.forEach((_i) => {
-      if( _i && typeof(_i) === 'object' ){
-        let idx = _i['.__item'];
-        if( idx ){ idx = idx - 1; }
-
-        if( idx < this.construct_params.max_ncomp ){
-          for( let k in _i ){
-            const binding = this.get_sub_binding( idx, k );
-            if( binding ){
-              binding.shiny_binding.setValue( binding.el, _i[ k ] );
-            }
-          }
-        }
-      }
-    });
     if( typeof data.ncomp === 'number' ){
       this.set_item_size( data.ncomp );
     }
+
+    if(Array.isArray(data.value)){
+      data.value.forEach((_i) => {
+        if( _i && typeof(_i) === 'object' ){
+          let idx = _i['.__item'];
+          if( idx ){ idx = idx - 1; }
+
+          if( idx < this.construct_params.max_ncomp ){
+            for( let k in _i ){
+              const binding = this.get_sub_binding( idx, k );
+              if( binding ){
+                binding.shiny_binding.setValue( binding.el, _i[ k ] );
+              }
+            }
+          }
+        }
+      });
+    }
+
+
   }
 }
 
