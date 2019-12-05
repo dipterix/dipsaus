@@ -11,7 +11,7 @@ TextMap <- R6::R6Class(
       self$`@remove`(key)
 
       # Generate filename from key
-      encoded_key <- base64url::base64_urlencode(key)
+      encoded_key <- safe_urlencode(key)
       # signature is already hashed
 
       # save value
@@ -28,7 +28,7 @@ TextMap <- R6::R6Class(
     },
 
     get = function(key, missing_default){
-      ekey <- base64url::base64_urlencode(key)
+      ekey <- safe_urlencode(key)
       fpath <- file.path(private$db_dir, ekey)
       if( file.exists(fpath) ){
         yaml::read_yaml(fpath)

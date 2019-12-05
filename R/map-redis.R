@@ -19,7 +19,7 @@ RedisMap <- R6::R6Class(
     },
     remove = function(keys){
       lapply(keys, function(key){
-        enkey <- base64url::base64_urlencode(key)
+        enkey <- safe_urlencode(key)
         private$redis$hdel(sprintf('%s-signature', private$redis_id), enkey)
         private$redis$hdel(private$redis_id, enkey)
       })
@@ -34,13 +34,13 @@ RedisMap <- R6::R6Class(
       if( !include_signatures ){
         keys <- private$redis$hkeys(sprintf('%s-signature', private$redis_id))
         if(!length(keys)){ return(NULL) }
-        keys <- sapply(keys, base64url::base64_urldecode)
+        keys <- sapply(keys, safe_urldecode)
       }else{
         keys <- private$redis$hgetall(sprintf('%s-signature', private$redis_id))
         if(!length(keys)){ return(NULL) }
         nms <- names(keys)
         keys <- t(sapply(seq_along(keys), function(ii){
-          c(base64url::base64_urldecode(nms[[ii]]), keys[[ii]][[1]])
+          c(safe_urldecode(nms[[ii]]), keys[[ii]][[1]])
         }))
       }
 
@@ -71,7 +71,7 @@ RedisMap <- R6::R6Class(
       sig_key <- sprintf('%s-signature', private$redis_id)
 
       vapply(keys, function(k){
-        enkey <- base64url::base64_urlencode(k)
+        enkey <- safe_urlencode(k)
         has_key <- private$redis$hexists(sig_key, enkey) > 0
         if( has_key && has_sig ){
           sig <- private$redis$hget(sig_key, enkey)
@@ -93,7 +93,7 @@ RedisMap <- R6::R6Class(
         signature <- self$digest( signature )
       }
 
-      key <- base64url::base64_urlencode(key)
+      key <- safe_urlencode(key)
 
       private$redis$hset(private$redis_id, key, value)
       private$redis$hset(sprintf('%s-signature', private$redis_id), key, signature)
@@ -105,7 +105,7 @@ RedisMap <- R6::R6Class(
     get = function(key, missing_default){
       if(missing(missing_default)){ missing_default <- self$missing_default }
 
-      enkey <- base64url::base64_urlencode(key)
+      enkey <- safe_urlencode(key)
 
       if(private$redis$hexists(private$redis_id, enkey)){
         private$redis$hget(private$redis_id, enkey)
@@ -127,7 +127,7 @@ RedisMap <- R6::R6Class(
         return(list())
       }
       re <- private$redis$hgetall(private$redis_id)
-      names(re) <- sapply(names(re), base64url::base64_urldecode)
+      names(re) <- sapply(names(re), safe_urldecode)
       if(sort){
         ord <- order(names(re))
         re <- re[ord]

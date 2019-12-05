@@ -330,15 +330,15 @@ AbstractQueue <- R6::R6Class(
 
     # Fixed usage, don't override unless you know what's inside
     push = function(value, message = '', ...){
-      time <- base64url::base64_urlencode(microtime())
+      time <- safe_urlencode(microtime())
 
       digest_val <- digest::digest(message)
 
       key <- digest::digest(list(self$id, time, digest_val))
 
-      hash <- base64url::base64_urlencode(self$`@store_value`(value, key))
+      hash <- safe_urlencode(self$`@store_value`(value, key))
 
-      message <- base64url::base64_urlencode(message)
+      message <- safe_urlencode(message)
       if(length(hash) != 1){
         stop('store_value returns hash value that has length != 1')
       }
@@ -364,10 +364,10 @@ AbstractQueue <- R6::R6Class(
     # Print single item, similar to `print_items`, returns a list
     print_item = function(item){
       list(
-        time = base64url::base64_urldecode(item[[1]]),
+        time = safe_urldecode(item[[1]]),
         key = item[[2]],
-        hash = base64url::base64_urldecode(item[[3]]),
-        message = base64url::base64_urldecode(item[[4]])
+        hash = safe_urldecode(item[[3]]),
+        message = safe_urldecode(item[[4]])
       )
     },
 

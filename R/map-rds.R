@@ -13,10 +13,10 @@ FileMap <- R6::R6Class(
 
     `@remove` = function(keys){
       tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
-                     stringsAsFactors = FALSE)
+                     stringsAsFactors = FALSE, na.strings = 'NA', colClasses = 'character')
       if(!length(tbl$Key)){ return(invisible()) }
 
-      enkeys <- sapply(keys, base64url::base64_urlencode)
+      enkeys <- sapply(keys, safe_urlencode)
       sel <- tbl$Key %in% enkeys
       if( any(sel) ){
         fs <- tbl$Key[sel]
@@ -36,10 +36,10 @@ FileMap <- R6::R6Class(
 
     keys = function(include_signatures = FALSE){
       tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
-                     stringsAsFactors = FALSE)
+                     stringsAsFactors = FALSE, na.strings = 'NA', colClasses = 'character')
       if(!length(tbl$Key)){ return(NULL) }
 
-      keys <- sapply(tbl$Key, base64url::base64_urldecode)
+      keys <- sapply(tbl$Key, safe_urldecode)
       if(include_signatures){
         keys <- cbind(keys, tbl$Hash)
       }
@@ -52,7 +52,7 @@ FileMap <- R6::R6Class(
       self$`@remove`(key)
 
       # Generate filename from key
-      encoded_key <- base64url::base64_urlencode(key)
+      encoded_key <- safe_urlencode(key)
       # signature is already hashed
 
       # save value
@@ -72,7 +72,7 @@ FileMap <- R6::R6Class(
       not_implemented()
     },
     get = function(key, missing_default){
-      ekey <- base64url::base64_urlencode(key)
+      ekey <- safe_urlencode(key)
       fpath <- file.path(private$db_dir, ekey)
       if( file.exists(fpath) ){
         readRDS(fpath)

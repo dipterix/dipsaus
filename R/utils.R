@@ -1,3 +1,13 @@
+safe_urlencode <- function(x){
+  re <- base64url::base64_urlencode(as.character(x))
+  paste0('==', re)
+}
+safe_urldecode <- function(x){
+  x <- stringr::str_replace(as.character(x), pattern = '^==', '')
+  base64url::base64_urldecode(x)
+}
+
+
 stopifnot2 <- function(..., msg = 'Condition not satisfied'){
   if(!all(c(...))){
     stop(msg, call. = FALSE)
@@ -64,3 +74,5 @@ is_invalid <- function(x, any = FALSE, .invalids = list('is.null', 'is.na'), ...
 drop_nulls <- function (x, .invalids = list('is.null')) {
   x[!vapply(x, is_invalid, FUN.VALUE = logical(1), .invalids = .invalids)]
 }
+
+
