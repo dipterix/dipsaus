@@ -74,3 +74,36 @@ collapse <- function(x, keep, average = FALSE) {
 
   return(re)
 }
+
+
+#' @export
+shift_array <- function(x, time_idx, shift_idx, shift_amount) {
+  dims <- dim(x)
+  if(is.null(dims)){
+    dims <- c(length(x), 1)
+  }
+  ndims = length(dims)
+
+  time_idx = as.integer(time_idx - 1L)
+  shift_idx = as.integer(shift_idx - 1L)
+  shift_amount = as.integer(shift_amount)
+
+  stopifnot2(time_idx < ndims && shift_idx < ndims &&
+               time_idx >= 0 && shift_idx >= 0,
+             msg = "Indices exceed maximum dimension")
+
+  stopifnot2(dims[shift_idx] == length(shift_amount),
+             msg = "shift_amount must have equal length to the dimension at shift_idx")
+
+  stopifnot2(is.numeric(x) || is.complex(x), msg = "x must be numeric")
+
+  if(is.complex(x)){
+    y = .Call("_dipsaus_arrayShift", Re(x), time_idx, shift_idx, shift_amount, dims)
+    x = .Call("_dipsaus_arrayShift", Im(x), time_idx, shift_idx, shift_amount, dims)
+    y + 1i * x
+
+  }else{
+    .Call("_dipsaus_arrayShift", x, time_idx, shift_idx, shift_amount, as.integer(dims))
+  }
+
+}

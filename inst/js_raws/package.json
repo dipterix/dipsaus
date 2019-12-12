@@ -5,13 +5,15 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "path": "^0.12.7"
+    "html2canvas": "^1.0.0-rc.5",
+    "path": "^0.12.7",
+    "serialize-javascript": "^2.1.1"
   },
   "devDependencies": {
     "serve": "^11.2.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
     "build": "npx webpack",

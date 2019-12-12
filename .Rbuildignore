@@ -18,3 +18,4 @@
 CRAN-RELEASE
 ^CRAN-RELEASE$
 ^LICENSE\.md$
+^\.httr-oauth$

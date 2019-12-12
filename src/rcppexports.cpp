@@ -5,6 +5,21 @@
 
 using namespace Rcpp;
 
+// arrayShift
+Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x, const int tidx, const int sidx, const Rcpp::IntegerVector& shift, const Rcpp::IntegerVector& dims);
+RcppExport SEXP _dipsaus_arrayShift(SEXP xSEXP, SEXP tidxSEXP, SEXP sidxSEXP, SEXP shiftSEXP, SEXP dimsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const int >::type tidx(tidxSEXP);
+    Rcpp::traits::input_parameter< const int >::type sidx(sidxSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type shift(shiftSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type dims(dimsSEXP);
+    rcpp_result_gen = Rcpp::wrap(arrayShift(x, tidx, sidx, shift, dims));
+    return rcpp_result_gen;
+END_RCPP
+}
 // collapser
 Rcpp::NumericVector collapser(Rcpp::NumericVector x, Rcpp::IntegerVector dims, Rcpp::IntegerVector keep);
 RcppExport SEXP _dipsaus_collapser(SEXP xSEXP, SEXP dimsSEXP, SEXP keepSEXP) {

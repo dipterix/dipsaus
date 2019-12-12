@@ -86,9 +86,12 @@ TextQueue <- R6::R6Class(
 
     destroy = function(){
       private$txtq$destroy()
-      delayedAssign('.lockfile', {stop('Queue destroyed')}, assign.env = private)
-      delayedAssign('txtq', {stop('Queue destroyed')}, assign.env = private)
-      delayedAssign('txtq_private', {stop('Queue destroyed')}, assign.env = private)
+      delayedAssign('.lockfile', {cat2('Queue destroyed', level = 'FATAL')},
+                    assign.env = private)
+      delayedAssign('txtq', {cat2('Queue destroyed', level = 'FATAL')},
+                    assign.env = private)
+      delayedAssign('txtq_private', {cat2('Queue destroyed', level = 'FATAL')},
+                    assign.env = private)
       invisible()
     }
   )

@@ -237,7 +237,7 @@ AbstractQueue <- R6::R6Class(
 
     default_get_locker = function(time_out = Inf, intervals = 10){
       if( time_out <= 0 ){
-        stop('Cannot get locker, timeout!', call. = FALSE)
+        cat2('Cannot get locker, timeout!', level = 'FATAL')
       }
       # Locker always fails in mac, so lock the file is not enough
       locker_owner <- readLines(self$lockfile)
@@ -340,7 +340,7 @@ AbstractQueue <- R6::R6Class(
 
       message <- safe_urlencode(message)
       if(length(hash) != 1){
-        stop('store_value returns hash value that has length != 1')
+        cat2('store_value returns hash value that has length != 1', level = 'FATAL')
       }
       out <- paste( time, key, hash, message, sep = "|" )
       private$exclusive({
@@ -381,7 +381,7 @@ AbstractQueue <- R6::R6Class(
       out <- self$log(n=n, all=FALSE)
       if( !length(out) ){ return(null_item) }
       if( !is.matrix(out) && !is.data.frame(out) ){
-        stop('list must return a matrix or a data.frame')
+        cat2('list must return a matrix or a data.frame', level = 'FATAL')
       }
       nrows <- nrow(out)
       if(!nrows){ return( null_item ) }
@@ -402,7 +402,7 @@ AbstractQueue <- R6::R6Class(
         out <- self$`@log`(n = n)
         if( !length(out) ){ return(list()) }
         if( !is.matrix(out) && !is.data.frame(out) ){
-          stop('list must return a matrix or a data.frame')
+          cat2('list must return a matrix or a data.frame', level = 'FATAL')
         }
         nrows <- nrow(out)
         if(!nrows){ return( list() ) }
@@ -502,7 +502,7 @@ AbstractQueue <- R6::R6Class(
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
       delayedAssign('.lockfile', {
-        stop("Queue is destroyed", call. = FALSE)
+        cat2("Queue is destroyed", level = 'FATAL')
       }, assign.env=private)
     }
   ),
@@ -532,17 +532,20 @@ AbstractQueue <- R6::R6Class(
     # a safe wrapper for `@get_head` and `@set_head`
     head = function(v) {
       if(missing(v)){ return(as.integer(self$`@get_head`())) }
-      if( length(v) != 1 ){ stop('head must be a number') }
-      if( !is.numeric(v) || v < 0 ){ stop('head must be a non-negative integer') }
-      if( v > self$total ){ stop('head must not exceed total') }
+      if( length(v) != 1 ){ cat2('head must be a number',level = 'FATAL') }
+      if( !is.numeric(v) || v < 0 ){ cat2('head must be a non-negative integer',
+                                          level = 'FATAL') }
+      if( v > self$total ){ cat2('head must not exceed total',
+                                 level = 'FATAL') }
       self$`@set_head`( v )
     },
 
     # a safe wrapper for `@get_total` and `@set_total`
     total = function(v){
       if(missing(v)){ return(as.integer(self$`@get_total`())) }
-      if( length(v) != 1 ){ stop('total must be a number') }
-      if( !is.numeric(v) || v < 0 ){ stop('total must be a non-negative integer') }
+      if( length(v) != 1 ){ cat2('total must be a number', level = 'FATAL') }
+      if( !is.numeric(v) || v < 0 ){ cat2('total must be a non-negative integer',
+                                          level = 'FATAL') }
       self$`@set_total`( v )
     },
 

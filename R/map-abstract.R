@@ -35,7 +35,7 @@ AbstractMap <- R6::R6Class(
 
     default_get_locker = function(time_out = Inf, intervals = 10){
       if( time_out <= 0 ){
-        stop('Cannot get locker, timeout!', call. = FALSE)
+        cat2('Cannot get locker, timeout!', level = 'FATAL')
       }
       # Locker always fails in mac, so lock the file is not enough
       locker_owner <- readLines(self$lockfile)
@@ -263,7 +263,7 @@ AbstractMap <- R6::R6Class(
     destroy = function(){
       unlink(self$lockfile)
       private$valid <- FALSE
-      delayedAssign('.lockfile', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
+      delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
     }
   ),
   active = list(

@@ -9,9 +9,11 @@
 
 /* .Call calls */
 extern SEXP _dipsaus_collapser(SEXP, SEXP, SEXP);
+extern SEXP _dipsaus_arrayShift(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"_dipsaus_collapser",   (DL_FUNC) &_dipsaus_collapser,   3},
+  {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
+  {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
   {NULL, NULL, 0}
 };
 

@@ -109,7 +109,7 @@ FileQueue <- R6::R6Class(
       }
 
       if( !dir.exists( private$root_path ) ){
-        stop('path is not a directory')
+        cat2('path is not a directory', level = 'FATAL')
       }
 
       tmp <- file.path(private$root_path, 'HEAD')
@@ -166,7 +166,7 @@ FileQueue <- R6::R6Class(
       # If user accidentally set root_path to be '/', removing it would be a disaster
       unlink(private$root_path, recursive = FALSE, force = FALSE)
 
-      delayedAssign('.lockfile', {stop('Queue destroyed')}, assign.env = private)
+      delayedAssign('.lockfile', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
 
       invisible()
     }

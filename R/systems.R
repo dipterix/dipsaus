@@ -139,3 +139,13 @@ session_uuid <- local({
     uuid
   }
 })
+
+
+running_master_session <- local({
+  pid = Sys.getpid()
+  uuid = session_uuid()
+  function(){
+    session_uuid(pid = Sys.getpid()) == uuid
+  }
+})
+

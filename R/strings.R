@@ -218,14 +218,31 @@ cat2 <- function(
                 labels = labels, append = append)
     }
 
+    # Update: not print anything
   }else{
-    # Just use cat
-    base::cat(...)
+    # Whether running in the future session
+    if(running_master_session()){
+      # Just use cat
+      base::cat(..., end = end)
+    }
   }
 
   if(level == 'FATAL'){
     # stop!
-    stop(call. = FALSE)
+    err <- simpleError(paste(..., collapse = '', sep = ''), call = NULL)
+    trace <- rlang::trace_back()
+    trace <- as.list(utils::capture.output(print(trace)))
+    if(length(trace) > 1){
+      trace = c('Full call trees:', trace)
+      err$trace <- trace
+      class(err) = c('dipsausError', "simpleError", "error", "condition")
+    }
+
+    logger(sprintf('[FATAL] %s', utils::capture.output(traceback(trace))), flush = TRUE)
+
+    stop(err)
+  }else{
+    logger(sprintf('%s %s', level, paste(..., collapse = '', sep = '')), flush = FALSE)
   }
 
   invisible()
@@ -318,7 +335,7 @@ ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
   if( answer %in% c('N', 'NO') ){ return(FALSE) }
   if( answer %in% c('C') ){
     if( error_if_canceled ){
-      stop('Canceled.', call. = FALSE)
+      cat2('Canceled.', level = 'FATAL')
     }else{
       return(NULL)
     }

@@ -10,7 +10,7 @@ safe_urldecode <- function(x){
 
 stopifnot2 <- function(..., msg = 'Condition not satisfied'){
   if(!all(c(...))){
-    stop(msg, call. = FALSE)
+    cat2(msg, level = 'FATAL')
   }
 }
 

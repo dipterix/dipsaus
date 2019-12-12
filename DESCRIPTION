@@ -40,6 +40,7 @@ Imports:
     crayon,
     fastmap,
     base64url,
+    base64enc,
     txtq,
     filelock,
     digest,
@@ -49,6 +50,7 @@ Imports:
 Suggests:
     microbenchmark,
     knitr,
+    blastula,
     rmarkdown,
     RcppRedis,
     promises,

@@ -93,7 +93,7 @@ SessionQueue <- R6::R6Class(
 
     `@validate` = function() {
       if( self$count < 0 ){
-        stop('Negative items in the queue')
+        cat2('Negative items in the queue', level = 'FATAL')
       }
 
       total <- private$.map$get('total')
@@ -149,15 +149,15 @@ SessionQueue <- R6::R6Class(
     initialize = function(map){
       nms <- c('reset','set','mset','get','mget','has','remove','keys','size','as_list')
       if(!is.list(map) || !all(nms %in% names(map))){
-        stop('Please use fastmap::fastmap() as input to avoid memory leak')
+        cat2('Please use fastmap::fastmap() as input to avoid memory leak', level = 'FATAL')
       }
       self$connect(map)
     },
     destroy = function(){
       private$.map$reset()
       private$.lockfile
-      delayedAssign('.lockfile', {stop('Queue destroyed')}, assign.env = private)
-      delayedAssign('.map', {stop('Queue destroyed')}, assign.env = private)
+      delayedAssign('.lockfile', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
+      delayedAssign('.map', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
     }
   )
 )

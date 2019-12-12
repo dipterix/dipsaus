@@ -107,25 +107,26 @@ RedisQueue <- R6::R6Class(
 
     initialize = function(queue_id = rand_string()){
       if( !requireNamespace('RcppRedis') ){
-        stop('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
-             'install.packages("RcppRedis")')
+        cat2('RcppRedis is not installed. Please download, install, ',
+             'and launch Redis, then\n  ',
+             'install.packages("RcppRedis")', level = 'FATAL')
       }
       queue_id <- paste0('QUEUE', queue_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
       }, error = function(e){
-        stop('Cannot connect to Redis. Please make sure Redis is installed. \n',
+        cat2('Cannot connect to Redis. Please make sure Redis is installed. \n',
              '  MacOS:\n', '\tInstall: \tbrew install redis\n', '\tTo Start: \tbrew services start redis\n',
              '  Linux:\n', '\tInstall: \tsudo apt-get install redis-server\n',
              '\tTo Start: \tsudo systemctl enable redis-server.service\n',
              '  Windows:\n', '\tCheck: https://github.com/dmajkic/redis/downloads')
-      })
+      }, level = 'FATAL')
 
 
       private$redis_id <- queue_id
       self$get_locker <- function(time_out = Inf, intervals = 10){
         if( time_out <= 0 ){
-          stop('Cannot get locker, timeout!', call. = FALSE)
+          cat2('Cannot get locker, timeout!', level = 'FATAL')
         }
         # Locker always fails in mac, so lock the file is not enough
         if( private$redis$hexists(private$redis_id, 'LOCK') != 0 ){
@@ -148,13 +149,13 @@ RedisQueue <- R6::R6Class(
     destroy = function(){
       private$redis$exec(sprintf('DEL %s__HEADERS', private$redis_id))
       private$redis$exec(sprintf('DEL %s', private$redis_id))
-      delayedAssign('redis', {stop('Queue destroyed.', call. = FALSE)}, assign.env = private)
+      delayedAssign('redis', {cat2('Queue destroyed.', level = 'FATAL')}, assign.env = private)
       invisible()
     }
   ),
   active = list(
     lockfile = function(v){
-      stop("Using Redis backend, in-memory lock")
+      cat2("Using Redis backend, in-memory lock", level = 'FATAL')
     }
   )
 )

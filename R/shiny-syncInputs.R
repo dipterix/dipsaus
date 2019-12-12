@@ -96,3 +96,8 @@ sync_shiny_inputs <- function(input, session, inputIds,
   invisible()
 }
 
+
+
+
+
+

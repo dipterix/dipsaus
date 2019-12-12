@@ -141,18 +141,18 @@ RedisMap <- R6::R6Class(
 
     initialize = function(map_id){
       if( !requireNamespace('RcppRedis') ){
-        stop('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
-             'install.packages("RcppRedis")')
+        cat2('RcppRedis is not installed. Please download, install, and launch Redis, then\n  ',
+             'install.packages("RcppRedis")', level = 'FATAL')
       }
       map_id <- paste0('MAP', map_id)
       tryCatch({
         private$redis <- new( RcppRedis::Redis )
       }, error = function(e){
-        stop('Cannot connect to Redis. Please make sure Redis is installed. \n',
+        cat2('Cannot connect to Redis. Please make sure Redis is installed. \n',
              '  MacOS:\n', '\tInstall: \tbrew install redis\n', '\tTo Start: \tbrew services start redis\n',
              '  Linux:\n', '\tInstall: \tsudo apt-get install redis-server\n',
              '\tTo Start: \tsudo systemctl enable redis-server.service\n',
-             '  Windows:\n', '\tCheck: https://github.com/dmajkic/redis/downloads')
+             '  Windows:\n', '\tCheck: https://github.com/dmajkic/redis/downloads', level = 'FATAL')
       })
 
 
@@ -164,8 +164,8 @@ RedisMap <- R6::R6Class(
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
       private$valid <- FALSE
-      delayedAssign('redis', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
-      delayedAssign('redis_id', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
+      delayedAssign('redis', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
+      delayedAssign('redis_id', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
     }
   )
 )

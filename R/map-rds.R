@@ -124,7 +124,7 @@ FileMap <- R6::R6Class(
     destroy = function(){
       unlink(self$lockfile)
       private$valid <- FALSE
-      delayedAssign('.lockfile', { stop("Map is destroyed", call. = FALSE) }, assign.env=private)
+      delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
     }
   )
 )

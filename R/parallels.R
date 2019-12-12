@@ -101,7 +101,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 #' @seealso \code{\link[dipsaus]{async_expr}}
 #' @export
 async <- function(expr){
-  stop('async must be evaluated in function async_expr')
+  cat2('async must be evaluated in function async_expr', level = 'FATAL')
 }
 
 

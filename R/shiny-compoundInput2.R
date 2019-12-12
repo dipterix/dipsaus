@@ -98,7 +98,7 @@ compoundInput2 <- function(
   add_js_script()
   if( length(label_color) == 0 ){ label_color <- 1 }
   if( !length(label_color) %in% c(1, max_ncomp)){
-    stop('label_color must be length of 1 or equal to max_ncomp')
+    cat2('label_color must be length of 1 or equal to max_ncomp', level = 'FATAL')
   }
   label_color <- col2hexStr( label_color )
   if( length(label_color) == 1 ){

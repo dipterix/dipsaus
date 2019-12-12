@@ -4,12 +4,27 @@ add_js_script <- function(){
   )
 }
 
+register_shiny <- function(){
+
+  # register CompoundInput2
+  registerCompoundInput2()
+
+  registerSetInputs()
+
+}
+
 .onLoad <- function(libname, pkgname){
 
   add_js_script()
 
-  registerCompoundInput2()
+  register_shiny()
 
+  reg.finalizer(session_log, function(x){
+    x$finalize()
+  }, onexit = TRUE)
 }
 
 
+.onUnload <- function(libpath){
+  session_log$finalize()
+}

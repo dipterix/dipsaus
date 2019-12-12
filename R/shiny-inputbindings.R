@@ -104,7 +104,7 @@ list2env(list(
 registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL){
   ns <- asNamespace(pkg)
   if( !is.function(ns[[fname]]) ){
-    stop(sprintf('%s::%s is not a function', pkg, fname))
+    cat2(sprintf('%s::%s is not a function', pkg, fname), level = 'FATAL')
   }
   binding <- list(
     binding = shiny_binding,
@@ -181,16 +181,16 @@ getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
   }
   # Check whether fname exists
   if(is.null(pkg)){
-    stop(sprintf('Cannot find function %s in any package loaded from envir. Please provide package name', fname))
+    cat2(sprintf('Cannot find function %s in any package loaded from envir. Please provide package name', fname), level = 'FATAL')
   }
   ns <- asNamespace(pkg)
   if(!is.function(ns[[fname]])){
-    stop(sprintf('Cannot find function %s in namespace %s', fname, pkg))
+    cat2(sprintf('Cannot find function %s in namespace %s', fname, pkg), level = 'FATAL')
   }
   binding_key <- sprintf('%s.%s', pkg, fname)
   binding_re <- shiny_input_bindings[[ binding_key ]]
   if(is.null(binding_re)){
-    stop(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding(%s, %s, shiny_binding, update_function = NULL)\n  to register this input type.', binding_key, fname, pkg))
+    cat2(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding(%s, %s, shiny_binding, update_function = NULL)\n  to register this input type.', binding_key, fname, pkg), level = 'FATAL')
   }
   binding_re$call_function <- sprintf('%s::%s', pkg, fname)
   binding_re
