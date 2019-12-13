@@ -1,6 +1,44 @@
 
 
 
+#' @title Take a screenshot in shiny apps
+#' @description Take a screenshot of the whole page and save encoded
+#' \code{DataURI} that can be accessed via \code{input[[inputId]]}.
+#' @param inputId the input id where the screenshot should be
+#' @param session shiny session
+#' @return None. However, the screenshot results can be accessed from
+#' shiny input
+#' @examples
+#' library(shiny)
+#' library(dipsaus)
+#' ui <- fluidPage(
+#'   tagList(
+#'     shiny::singleton(shiny::tags$head(
+#'       shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
+#'       shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
+#'     ))
+#'   ),
+#'   actionButtonStyled('do', 'Take Screenshot'),
+#'   compoundInput2('group', label = 'Group', components = list(
+#'     textInput('txt', 'Enter something here')
+#'   ))
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   observeEvent(input$do, {
+#'     screenshot('screeshot_result')
+#'   })
+#'   observeEvent(input$screeshot_result, {
+#'     showModal(modalDialog(
+#'       tags$img(src = input$screeshot_result, width = '100%')
+#'     ))
+#'   })
+#' }
+#'
+#' if(interactive()){
+#'   shinyApp(ui, server)
+#' }
+#'
 #' @export
 screenshot <- function(inputId, session = shiny::getDefaultReactiveDomain()){
   if(inherits(session, c('session_proxy', 'ShinySession'))){
@@ -8,8 +46,13 @@ screenshot <- function(inputId, session = shiny::getDefaultReactiveDomain()){
       inputId = session$ns(inputId)
     ))
   }
+  invisible()
 }
 
+#' @title Save "Base64" Data to Images
+#' @param data characters, encoded "Base64" data for images
+#' @param path file path to save to
+#' @return Absolute path of the saved file
 #' @export
 base64_to_image <- function(data, path){
 

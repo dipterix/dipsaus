@@ -1,4 +1,18 @@
 
+#' @title Set Shiny Input
+#' @description Shiny `input' object is read-only reactive list. When try to
+#' assign values to input, errors usually occur. This method provides several
+#' work-around to set values to input.
+#' @param session shiny session, see \code{\link[shiny]{getDefaultReactiveDomain}}
+#' @param inputId character, input ID
+#' @param value the value to assign
+#' @param priority characters, options are "event", "deferred", and "immediate".
+#' "event" and "immediate" are similar, they always fire changes. "deferred"
+#' fire signals to other reactive/observers only when the input value has been
+#' changed
+#' @param method characters, options are "proxy", "serialize", "value",
+#' "expression". "proxy" is recommended, other methods are experimental.
+#' @param quoted is value quoted? Only used when method is "expression"
 #' @export
 set_shiny_input <- function(
   session, inputId, value, priority = c('event', 'deferred', 'immediate'),

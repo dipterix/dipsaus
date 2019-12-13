@@ -74,34 +74,78 @@ collapse <- function(x, keep, average = FALSE) {
 }
 
 
+
+#' @title Shift Array by Index
+#' @description Re-arrange arrays in parallel
+#' @param x array, must have at least matrix
+#' @param shift_idx which index is to be shifted
+#' @param shift_by which dimension decides \code{shift_amount}
+#' @param shift_amount shift amount along \code{shift_idx}
+#' @details
+#' A simple use-case for this function is to think of a matrix where each row
+#' is a signal and columns stand for time. The objective is to align (time-lock)
+#' each signal according to certain events. For each signal, we want to shift
+#' the time points by certain amount.
+#'
+#' In this case, the shift amount is defined by \code{shift_amount}, whose
+#' length equals to number of signals. \code{shift_idx=2} as we want to shift
+#' time points (column, the second dimension) for each signal. \code{shift_by=1}
+#' because the shift amount is depend on the signal number.
+#'
+#' @examples
+#' x <- matrix(1:10, nrow = 2, byrow = TRUE)
+#' z <- shift_array(x, 2, 1, c(1,2))
+#'
+#' y <- NA * x
+#' y[1,1:4] = x[1,2:5]
+#' y[2,1:3] = x[2,3:5]
+#'
+#' # Check if z ang y are the same
+#' z - y
+#'
+#' # array case
+#' # x is Trial x Frequency x Time
+#' x <- array(1:27, c(3,3,3))
+#'
+#' # Shift time for each trial, amount is 1, -1, 0
+#' shift_amount <- c(1,-1,0)
+#' z <- shift_array(x, 3, 1, shift_amount)
+#' par(mfrow = c(3, 2))
+#' for( ii in 1:3 ){
+#'   image(t(x[ii, ,]), ylab = 'Frequency', xlab = 'Time',
+#'         main = paste('Trial', ii))
+#'   image(t(z[ii, ,]), ylab = 'Frequency', xlab = 'Time',
+#'         main = paste('Shifted amount:', shift_amount[ii]))
+#' }
+#'
 #' @export
-shift_array <- function(x, time_idx, shift_idx, shift_amount) {
+shift_array <- function(x, shift_idx, shift_by, shift_amount) {
   dims <- dim(x)
   if(is.null(dims)){
     dims <- c(length(x), 1)
   }
   ndims = length(dims)
 
-  time_idx = as.integer(time_idx - 1L)
   shift_idx = as.integer(shift_idx - 1L)
+  shift_by = as.integer(shift_by - 1L)
   shift_amount = as.integer(shift_amount)
 
-  stopifnot2(time_idx < ndims && shift_idx < ndims &&
-               time_idx >= 0 && shift_idx >= 0,
+  stopifnot2(shift_idx < ndims && shift_by < ndims &&
+               shift_idx >= 0 && shift_by >= 0,
              msg = "Indices exceed maximum dimension")
 
-  stopifnot2(dims[shift_idx] == length(shift_amount),
-             msg = "shift_amount must have equal length to the dimension at shift_idx")
+  stopifnot2(dims[shift_by] == length(shift_amount),
+             msg = "shift_amount must have equal length to the dimension at shift_by")
 
   stopifnot2(is.numeric(x) || is.complex(x), msg = "x must be numeric")
 
   if(is.complex(x)){
-    y = .Call("_dipsaus_arrayShift", Re(x), time_idx, shift_idx, shift_amount, dims)
-    x = .Call("_dipsaus_arrayShift", Im(x), time_idx, shift_idx, shift_amount, dims)
+    y = .Call("_dipsaus_arrayShift", Re(x), shift_idx, shift_by, shift_amount, dims)
+    x = .Call("_dipsaus_arrayShift", Im(x), shift_idx, shift_by, shift_amount, dims)
     y + 1i * x
 
   }else{
-    .Call("_dipsaus_arrayShift", x, time_idx, shift_idx, shift_amount, as.integer(dims))
+    .Call("_dipsaus_arrayShift", x, shift_idx, shift_by, shift_amount, as.integer(dims))
   }
 
 }
