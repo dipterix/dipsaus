@@ -72,7 +72,13 @@ struct Collapse : public RcppParallel::Worker
         for(p = input_size-1; p >= 0 ; p--){
           c += input_ind[p] + c * (dims[p] - 1);
         }
-        re += x[c];
+        if(::R_finite(x[c])){
+          re += x[c];
+        }else{
+          re += NA_REAL;
+        }
+
+
       }
 
       /*
@@ -126,10 +132,13 @@ Rcpp::NumericVector collapser(
 }
 
 /*** R
-# RcppParallel::setThreadOptions(numThreads = 4)
-# dat = array(1:16, c(4,4))
-# re = collapser(dat, dim(dat), 1); re
-# rowSums(dat)
+RcppParallel::setThreadOptions(numThreads = 4)
+dat = array(1:16, c(4,4))
+dat[1,1] = NA
+dat[2,1] = Inf
+dat[3,1] = NaN
+re = collapser(dat, dim(dat), 1); re
+rowSums(dat)
 # dat = array(rnorm(240), c(300,200,105,1))
 # re = collapser(dat, dim(dat), 1:2); dim(re) = dim(dat)[1:2]; re
 # re0 = apply(dat, c(1,2), sum); re0

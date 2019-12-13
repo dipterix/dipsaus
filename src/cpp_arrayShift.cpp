@@ -2,23 +2,9 @@
 #include <Rcpp.h>
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
+#include "utils.h"
 
 using namespace Rcpp;
-
-std::vector<int> get_index(long int ii,
-               const Rcpp::IntegerVector& dims){
-  long int rem = 0;
-  long int leap = 1;
-  int jj;
-  std::vector<int> idx = std::vector<int>(dims.length());
-
-  for( jj = 0; jj < dims.length(); jj++ ){
-    idx[jj] = ((ii - rem) / leap) % dims[jj];
-    rem = idx[jj] * leap + rem;
-    leap = leap * dims[jj];
-  }
-  return idx;
-}
 
 struct ArrShift : public RcppParallel::Worker
 {
@@ -37,16 +23,17 @@ struct ArrShift : public RcppParallel::Worker
     const int sidx,
     const Rcpp::IntegerVector shift,
     const Rcpp::IntegerVector dims,
-    long int leap,
+    const long int leap,
     const Rcpp::NumericVector y
   ): x(x), dims(dims), tidx(tidx), sidx(sidx), shift(shift), leap(leap), y(y){}
 
   void operator()(std::size_t begin, std::size_t end) {
-    std::vector<int> idx;
+    std::vector<int> idx = std::vector<int>(dims.length());
 
     int ii, jj, trial, new_t;
 
-    idx = get_index(begin, dims);
+    // idx = get_index(begin, dims);
+    get_index(idx.begin(), begin, dims);
 
     idx[0] -= 1;
 
@@ -100,15 +87,17 @@ Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
     leap = leap * dims[jj];
   }
 
-  // for( ii = 0; ii < len; ii++ ){
+  // int trial, new_t;
+  // for( long int ii = 0; ii < len; ii++ ){
   //   // Calculate current index
-  //   idx[0] = idx[0] + 1;
-  //   for( jj = 0; jj < dims.length() - 1 ; jj++ ){
-  //     if( idx[jj] == dims[jj] ){
-  //       idx[jj] = 0;
-  //       idx[jj + 1] = idx[jj + 1] + 1;
-  //     }
-  //   }
+  //   // idx[0] = idx[0] + 1;
+  //   // for( jj = 0; jj < dims.length() - 1 ; jj++ ){
+  //   //   if( idx[jj] == dims[jj] ){
+  //   //     idx[jj] = 0;
+  //   //     idx[jj + 1] = idx[jj + 1] + 1;
+  //   //   }
+  //   // }
+  //   get_index(idx.begin(), ii, dims);
   //
   //   trial = idx[sidx];
   //

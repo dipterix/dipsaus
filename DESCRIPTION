@@ -59,7 +59,8 @@ Suggests:
     glue
 Roxygen: list(r6 = FALSE)
 RoxygenNote: 7.0.2
-SystemRequirements: GNU make
+SystemRequirements: 
+    GNU make
 LinkingTo: 
     Rcpp,
     RcppParallel

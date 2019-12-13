@@ -48,15 +48,13 @@
 #' @export
 collapse <- function(x, keep, average = FALSE) {
 
-  if(any(!is.finite(x))){
-    x[!is.finite(x)] <- 0
-  }
-
   if(any(is.complex(x))){
     re <- collapse(Re(x), keep = keep, average = average)
     im <- collapse(Im(x), keep = keep, average = average)
     return(re + 1i * im)
   }
+
+  stopifnot2(is.numeric(x), msg = 'x must be numeric or complex')
 
   dims <- dim(x)
   keep_sorted <- sort(keep)

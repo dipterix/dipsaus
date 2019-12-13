@@ -5,6 +5,10 @@ arrayShift <- function(x, tidx, sidx, shift, dims) {
     .Call(`_dipsaus_arrayShift`, x, tidx, sidx, shift, dims)
 }
 
+baselineArray <- function(x, dims, tidx, tbegin, tend, per, perDims, method) {
+    .Call(`_dipsaus_baselineArray`, x, dims, tidx, tbegin, tend, per, perDims, method)
+}
+
 collapser <- function(x, dims, keep) {
     .Call(`_dipsaus_collapser`, x, dims, keep)
 }
