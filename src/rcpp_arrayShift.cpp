@@ -28,7 +28,7 @@ struct ArrShift : public RcppParallel::Worker
   ): x(x), dims(dims), tidx(tidx), sidx(sidx), shift(shift), leap(leap), y(y){}
 
   void operator()(std::size_t begin, std::size_t end) {
-    std::vector<int> idx = std::vector<int>(dims.length());
+    Rcpp::IntegerVector idx = Rcpp::IntegerVector(dims.length());
 
     int ii, jj, trial, new_t;
 

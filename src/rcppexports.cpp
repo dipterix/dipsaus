@@ -21,20 +21,20 @@ BEGIN_RCPP
 END_RCPP
 }
 // baselineArray
-Rcpp::NumericVector baselineArray(const Rcpp::NumericVector& x, const Rcpp::IntegerVector& dims, const int tidx, const int tbegin, const int tend, const Rcpp::IntegerVector& per, const Rcpp::IntegerVector& perDims, const int method);
-RcppExport SEXP _dipsaus_baselineArray(SEXP xSEXP, SEXP dimsSEXP, SEXP tidxSEXP, SEXP tbeginSEXP, SEXP tendSEXP, SEXP perSEXP, SEXP perDimsSEXP, SEXP methodSEXP) {
+Rcpp::NumericVector baselineArray(const Rcpp::NumericVector& x, const Rcpp::NumericVector& bl, const Rcpp::IntegerVector dims, const Rcpp::IntegerVector bldims, const int tidx, const Rcpp::IntegerVector& per, const Rcpp::IntegerVector& rest, const int method);
+RcppExport SEXP _dipsaus_baselineArray(SEXP xSEXP, SEXP blSEXP, SEXP dimsSEXP, SEXP bldimsSEXP, SEXP tidxSEXP, SEXP perSEXP, SEXP restSEXP, SEXP methodSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type dims(dimsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type bl(blSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type dims(dimsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type bldims(bldimsSEXP);
     Rcpp::traits::input_parameter< const int >::type tidx(tidxSEXP);
-    Rcpp::traits::input_parameter< const int >::type tbegin(tbeginSEXP);
-    Rcpp::traits::input_parameter< const int >::type tend(tendSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type per(perSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type perDims(perDimsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type rest(restSEXP);
     Rcpp::traits::input_parameter< const int >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(baselineArray(x, dims, tidx, tbegin, tend, per, perDims, method));
+    rcpp_result_gen = Rcpp::wrap(baselineArray(x, bl, dims, bldims, tidx, per, rest, method));
     return rcpp_result_gen;
 END_RCPP
 }
