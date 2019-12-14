@@ -1,6 +1,9 @@
 # A Dipping Sauce to Data Analysis and Visualization
 
 [![Travis build status](https://travis-ci.org/dipterix/dipsaus.svg?branch=master)](https://travis-ci.org/dipterix/dipsaus)
+[![Cran-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
+<!-- [![Cran-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus) -->
+
 
 Package `dipsaus` provides `add-ons` to various packages such as `shiny`, `rlang`, `future`, etc. to enhance these packages. To install the development version package from `Github`,
 

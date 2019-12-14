@@ -272,11 +272,10 @@ f2 = function(method = 0L){
 
 f3 = function(){
   x = power$get_data()
-  re = apply(x, c(1,2,4), function(y){
+  aperm(apply(x, c(1,2,4), function(y){
     m = mean(y[seq_len(101)])
     (y/m - 1) * 100
-  })
-  aperm(re, c(2,3,1,4))
+  }), c(2,3,1,4))
 }
 # f3 = function(){
 #   x = sqrt(power$get_data())

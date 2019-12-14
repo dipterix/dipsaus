@@ -27,8 +27,9 @@ struct ArrShift : public RcppParallel::Worker
     const Rcpp::NumericVector y
   ): x(x), dims(dims), tidx(tidx), sidx(sidx), shift(shift), leap(leap), y(y){}
 
-  void operator()(std::size_t begin, std::size_t end) {
-    Rcpp::IntegerVector idx = Rcpp::IntegerVector(dims.length());
+
+  void do_shift(std::size_t begin, std::size_t end){
+    std::vector<int> idx = std::vector<int>(dims.length());
 
     int ii, jj, trial, new_t;
 
@@ -65,6 +66,10 @@ struct ArrShift : public RcppParallel::Worker
     }
   }
 
+
+  void operator()(std::size_t begin, std::size_t end) {
+    do_shift(begin, end);
+  }
 };
 
 
@@ -116,6 +121,7 @@ Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
 
   ArrShift arrShift(x, tidx, sidx, shift, dims, leap, re);
 
+  // arrShift.do_shift(0, len);
   parallelFor(0, len, arrShift);
 
   re.attr("dim") = dims;
@@ -150,5 +156,5 @@ f2 = function(){
 }
 
 range(f2()-f1(), na.rm = TRUE)
-microbenchmark::microbenchmark({f1()}, {f2()}, times = 10)
+# microbenchmark::microbenchmark({f1()}, {f2()}, times = 10)
 */

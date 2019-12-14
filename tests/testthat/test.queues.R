@@ -59,7 +59,7 @@ test_queue <- function(generator, ...){
   self$destroy()
 
 
-  expect_error(suppressWarnings(self$validate()))
+  utils::capture.output(expect_error(suppressWarnings(self$validate())))
 }
 
 

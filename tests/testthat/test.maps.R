@@ -57,7 +57,7 @@ test_map <- function(generator, ...){
 
   expect_false(self$is_valid)
 
-  expect_error(suppressWarnings(self$validate()))
+  utils::capture.output(expect_error(suppressWarnings(self$validate())))
 }
 
 

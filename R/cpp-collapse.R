@@ -134,7 +134,7 @@ shift_array <- function(x, shift_idx, shift_by, shift_amount) {
                shift_idx >= 0 && shift_by >= 0,
              msg = "Indices exceed maximum dimension")
 
-  stopifnot2(dims[shift_by] == length(shift_amount),
+  stopifnot2(dims[shift_by + 1] == length(shift_amount),
              msg = "shift_amount must have equal length to the dimension at shift_by")
 
   stopifnot2(is.numeric(x) || is.complex(x), msg = "x must be numeric")
