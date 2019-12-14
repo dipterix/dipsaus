@@ -38,7 +38,7 @@ R_xlen_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim){
   R_xlen_t ii = 0;
   R_xlen_t leap = 1;
 
-  for(int j = 0; j < idx.size(); j++ ){
+  for(R_xlen_t j = 0; j < idx.size(); j++ ){
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }
@@ -50,7 +50,7 @@ R_xlen_t get_ii(std::vector<int> idx, Rcpp::IntegerVector dim){
   R_xlen_t ii = 0;
   R_xlen_t leap = 1;
 
-  for(int j = 0; j < idx.size(); j++ ){
+  for(unsigned int j = 0; j < idx.size(); j++ ){
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }
@@ -61,7 +61,7 @@ R_xlen_t get_ii(RcppParallel::RVector<int> idx, Rcpp::IntegerVector dim){
   R_xlen_t ii = 0;
   R_xlen_t leap = 1;
 
-  for(int j = 0; j < idx.size(); j++ ){
+  for(unsigned int j = 0; j < idx.size(); j++ ){
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }

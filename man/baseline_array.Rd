@@ -15,14 +15,14 @@ baseline_array(
 \arguments{
 \item{x}{array (tensor) to calculate contrast}
 
-\item{along_dim}{interger range from 1 to the maximum dimension of \code{x}.
+\item{along_dim}{integer range from 1 to the maximum dimension of \code{x}.
 baseline along this dimension, this is usually the time dimension.}
 
 \item{baseline_indexpoints}{integer vector, which index points are counted
 into baseline window? Each index ranges from 1 to \code{dim(x)[[along_dim]]}.
 See Details.}
 
-\item{unit_dims}{interger vector, baseline unit: see Details.}
+\item{unit_dims}{integer vector, baseline unit: see Details.}
 
 \item{method}{character, baseline method options are:
 \code{"percentage"}, \code{"sqrt_percentage"}, \code{"decibel"},
@@ -53,7 +53,7 @@ means the unit signal is per session (first dimension), per frequency
 
 In some other cases, we might want to calculate baseline across frequencies
 then the unit signal is \eqn{frequency x time}, i.e. signals that share the
-same session andlocation also share the same baseline. In this case,
+same session and location also share the same baseline. In this case,
 we assign \code{unit_dims=c(1,4)}.
 
 There are five baseline methods. They fit for different types of data.

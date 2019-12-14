@@ -31,7 +31,9 @@ struct ArrShift : public RcppParallel::Worker
   void do_shift(std::size_t begin, std::size_t end){
     std::vector<int> idx = std::vector<int>(dims.length());
 
-    int ii, jj, trial, new_t;
+    std::size_t ii;
+    R_xlen_t jj;
+    int trial, new_t;
 
     // idx = get_index(begin, dims);
     get_index(idx.begin(), begin, dims);
