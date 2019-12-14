@@ -38,8 +38,7 @@ void next_array_index( Rcpp::IntegerVector::iterator begin, Rcpp::IntegerVector:
 /**
  * Operator for std::accumulate calculate sum of square root
  */
-float add_sqrtf(const float e1, const float e2);
-double add_sqrtl(const double e1, const double e2);
+double add_sqrt(const double e1, const double e2);
 double add_log10(const double e1, const double e2);
 double add_square(const double e1, const double e2);
 

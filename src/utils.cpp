@@ -104,12 +104,9 @@ void next_array_index(
 
 
 
-float add_sqrtf(const float e1, const float e2){
-  return e1 + std::sqrtf(e2);
-}
 
-double add_sqrtl(const double e1, const double e2){
-  return e1 + std::sqrtl(e2);
+double add_sqrt(const double e1, const double e2){
+  return e1 + std::sqrt(e2);
 }
 
 double add_log10(const double e1, const double e2){

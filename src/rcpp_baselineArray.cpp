@@ -91,11 +91,11 @@ struct Baseliner : public RcppParallel::Worker
         break;
 
       case 1: // 1. sqrt then baseline
-        bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0, add_sqrtl) / bl_len;
+        bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0, add_sqrt) / bl_len;
         // Element-wise (e1 / e2 - 1) * 100
         for(; ptr_cpp_int_1 != dat_vec_idx.end(); ptr_cpp_int_1++ ){
           arr_idx = *ptr_cpp_int_1 + dat_partial_ii;
-          y[ arr_idx ] = (std::sqrtl(x[ arr_idx ]) / bl_mean - 1.0) * 100.0;
+          y[ arr_idx ] = (std::sqrt(x[ arr_idx ]) / bl_mean - 1.0) * 100.0;
         }
         break;
 
@@ -112,7 +112,7 @@ struct Baseliner : public RcppParallel::Worker
       case 3: // 3. z-score then baseline
         bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0) / bl_len;
         bl_sd = std::accumulate( bl_container.begin(), bl_container.end(), 0.0, add_square) / bl_len;
-        bl_sd = std::sqrtl( (bl_sd - bl_mean*bl_mean) / ( bl_len - 1 ) * bl_len );
+        bl_sd = std::sqrt( (bl_sd - bl_mean*bl_mean) / ( bl_len - 1 ) * bl_len );
         // Element-wise (e1 - e2) / sd
         for(; ptr_cpp_int_1 != dat_vec_idx.end(); ptr_cpp_int_1++ ){
           arr_idx = *ptr_cpp_int_1 + dat_partial_ii;
@@ -122,13 +122,13 @@ struct Baseliner : public RcppParallel::Worker
 
 
       case 4: // 4. sqrt,z-score and baseline
-        bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0, add_sqrtl) / bl_len;
+        bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0, add_sqrt) / bl_len;
         bl_sd = std::accumulate( bl_container.begin(), bl_container.end(), 0.0) / bl_len;
-        bl_sd = std::sqrtl( (bl_sd - bl_mean*bl_mean) / ( bl_len - 1 ) * bl_len );
+        bl_sd = std::sqrt( (bl_sd - bl_mean*bl_mean) / ( bl_len - 1 ) * bl_len );
         // Element-wise (e1 - e2) / sd
         for(; ptr_cpp_int_1 != dat_vec_idx.end(); ptr_cpp_int_1++ ){
           arr_idx = *ptr_cpp_int_1 + dat_partial_ii;
-          y[ arr_idx ] = (std::sqrtl(x[ arr_idx ]) - bl_mean) / bl_sd;
+          y[ arr_idx ] = (std::sqrt(x[ arr_idx ]) - bl_mean) / bl_sd;
         }
         break;
 
