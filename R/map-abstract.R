@@ -15,15 +15,16 @@ AbstractMap <- R6::R6Class(
     # Run expr making sure that locker is locked to be exclusive (for write-only)
     exclusive = function(expr, ...) {
       stopifnot2(private$valid, msg = 'Map is not valid')
+      custom_locker = is.function(self$get_locker) && is.function(self$free_locker)
       if(self$has_locker){
         on.exit({
-          if(is.function(self$free_locker)){
+          if(custom_locker){
             self$free_locker()
           }else{
             private$default_free_locker()
           }
         })
-        if(is.function(self$get_locker)){
+        if(custom_locker){
           self$get_locker(...)
         }else{
           private$default_get_locker(...)
@@ -33,32 +34,13 @@ AbstractMap <- R6::R6Class(
       force(expr)
     },
 
-    default_get_locker = function(time_out = Inf, intervals = 10){
-      if( time_out <= 0 ){
-        cat2('Cannot get locker, timeout!', level = 'FATAL')
-      }
-      # Locker always fails in mac, so lock the file is not enough
-      locker_owner <- readLines(self$lockfile)
-      if(length(locker_owner) == 1 && locker_owner != '' && !isTRUE(locker_owner == self$id)){
-        Sys.sleep(intervals / 1000)
-        return(private$default_get_locker(time_out - intervals, intervals))
-      }
-      # Lock the file, exclude all others
-      private$lock <- filelock::lock(self$lockfile, timeout = time_out)
+    default_get_locker = function(timeout = 10){
 
-      # write ID
-      write(self$id, self$lockfile, append = FALSE)
+      dipsaus_lock(self$lockfile, timeout = timeout)
+
     },
     default_free_locker = function(){
-      on.exit({
-        if( !is.null(private$lock) ){
-          filelock::unlock(private$lock)
-          private$lock <- NULL
-        }
-      })
-      if( !is.null(private$lock) ){
-        write('', self$lockfile, append = FALSE)
-      }
+      dipsaus_unlock(self$lockfile)
     },
 
     map = NULL,
@@ -261,7 +243,7 @@ AbstractMap <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
-      unlink(self$lockfile)
+      private$default_free_locker()
       private$valid <- FALSE
       delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
     }
@@ -283,9 +265,8 @@ AbstractMap <- R6::R6Class(
         private$default_free_locker()
         private$.lockfile <- v
       }else if(!length(private$.lockfile)){
-        private$.lockfile <- tempfile(pattern = 'locker')
+        private$.lockfile <- rand_string()
       }
-      file_create(private$.lockfile)
       private$.lockfile
     },
 

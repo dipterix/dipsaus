@@ -127,12 +127,12 @@ SessionQueue <- R6::R6Class(
       has_lockfile <- map$has('lockfile')
       if( has_lockfile ){
         lockfile <- map$get('lockfile')
-        if( !(length( lockfile ) == 1 && is.character( lockfile ) && file.exists( lockfile )) ){
+        if( !(length( lockfile ) == 1 && is.character( lockfile ) ) ){
           has_lockfile <- FALSE
         }
       }
       if( !has_lockfile ){
-        lockfile <- tempfile()
+        lockfile <- rand_string()
       }
 
       private$.map <- map
@@ -155,7 +155,9 @@ SessionQueue <- R6::R6Class(
     },
     destroy = function(){
       private$.map$reset()
-      private$.lockfile
+      if(!is.null(private$lock)){
+        synchronicity::unlock(private$lock)
+      }
       delayedAssign('.lockfile', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
       delayedAssign('.map', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
     }

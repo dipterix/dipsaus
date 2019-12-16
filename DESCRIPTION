@@ -42,7 +42,7 @@ Imports:
     base64url,
     base64enc,
     txtq,
-    filelock,
+    synchronicity,
     digest,
     R6,
     qs,

@@ -94,7 +94,6 @@ FileMap <- R6::R6Class(
     },
 
     `@validate` = function(...){
-      stopifnot2(file.exists(self$lockfile), msg = 'Lock-file is missing')
       stopifnot2(file.exists(private$header_file), msg = 'Header-file is missing')
       stopifnot2(dir.exists(private$db_dir), msg = 'Database directory is missing')
       stopifnot2(isTRUE(readLines(private$header_file, n = 1) == "Key|Hash"),
@@ -115,14 +114,27 @@ FileMap <- R6::R6Class(
         writeLines('Key|Hash', con = header_file)
       }
       private$header_file <- header_file
-      self$lockfile <- file.path(path, 'MAP-RDSLOCK')
+      lockpath <- file.path(path, 'MAP-RDSLOCK')
+      if(!file.exists(lockpath)){
+        writeLines(rand_string(), lockpath)
+      }
+      self$lockfile <- readLines(lockpath, n = 1)
     },
 
     # destroy a queue, free up space
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
-      unlink(self$lockfile)
+      lockpath <- file.path(private$root_path, 'MAP-RDSLOCK')
+      unlink(lockpath)
+      if(dir.exists(private$db_dir)){
+        unlink(private$db_dir, recursive = TRUE)
+      }
+      if(file.exists(private$header_file)){
+        unlink(private$header_file)
+      }
+      unlink(private$root_path, recursive = FALSE, force = FALSE)
+
       private$valid <- FALSE
       delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
     }

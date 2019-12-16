@@ -14,7 +14,7 @@ set_shiny_input(
 )
 }
 \arguments{
-\item{session}{shiny session, see \code{\link[shiny]{getDefaultReactiveDomain}}}
+\item{session}{shiny session, see shiny \code{\link[shiny]{domains}}}
 
 \item{inputId}{character, input ID}
 

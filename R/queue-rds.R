@@ -144,21 +144,26 @@ FileQueue <- R6::R6Class(
       private$db_dir <- normalizePath(tmp, mustWork = TRUE)
 
 
-      self$clean(preserve = TRUE)
-      self$validate()
+      self$`@clean`(preserve = TRUE)
+      self$`@validate`()
 
     },
 
     initialize = function(path = tempfile()){
       dir_create(path)
       private$root_path <- normalizePath(path)
-      self$lockfile <- file.path(path, 'LOCK')
+      lockpath <- file.path(path, 'LOCK')
+      if(!file.exists(lockpath)){
+        writeLines(rand_string(), lockpath)
+      }
+      self$lockfile <- readLines(con = lockpath, n = 1)
       self$connect()
     },
 
     destroy = function(){
+      dipsaus_unlock(self$lockfile)
       unlink(private$db_dir, recursive = TRUE, force = TRUE)
-      unlink(self$lockfile, force = TRUE)
+      unlink(file.path(private$root_path, 'LOCK'), force = TRUE)
       unlink(private$head_file, force = TRUE)
       unlink(private$total_file, force = TRUE)
       unlink(private$header_file, force = TRUE)

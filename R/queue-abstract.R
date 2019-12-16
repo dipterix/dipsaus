@@ -235,32 +235,11 @@ AbstractQueue <- R6::R6Class(
       force(expr)
     },
 
-    default_get_locker = function(time_out = Inf, intervals = 10){
-      if( time_out <= 0 ){
-        cat2('Cannot get locker, timeout!', level = 'FATAL')
-      }
-      # Locker always fails in mac, so lock the file is not enough
-      locker_owner <- readLines(self$lockfile)
-      if(length(locker_owner) == 1 && locker_owner != '' && !isTRUE(locker_owner == self$id)){
-        Sys.sleep(intervals / 1000)
-        return(private$default_get_locker(time_out - intervals, intervals))
-      }
-      # Lock the file, exclude all others
-      private$lock <- filelock::lock(self$lockfile, timeout = time_out)
-
-      # write ID
-      write(self$id, self$lockfile, append = FALSE)
+    default_get_locker = function(timeout = 5){
+      dipsaus_lock(self$lockfile, timeout = timeout)
     },
     default_free_locker = function(){
-      on.exit({
-        if( !is.null(private$lock) ){
-          filelock::unlock(private$lock)
-          private$lock <- NULL
-        }
-      })
-      if( !is.null(private$lock) ){
-        write('', self$lockfile, append = FALSE)
-      }
+      dipsaus_unlock(self$lockfile)
     }
 
   ),
@@ -501,6 +480,7 @@ AbstractQueue <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
+      private$default_free_locker()
       delayedAssign('.lockfile', {
         cat2("Queue is destroyed", level = 'FATAL')
       }, assign.env=private)
@@ -523,9 +503,8 @@ AbstractQueue <- R6::R6Class(
         private$default_free_locker()
         private$.lockfile <- v
       }else if(!length(private$.lockfile)){
-        private$.lockfile <- tempfile(pattern = 'locker')
+        private$.lockfile <- rand_string()
       }
-      file_create(private$.lockfile)
       private$.lockfile
     },
 

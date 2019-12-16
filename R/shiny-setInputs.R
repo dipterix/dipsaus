@@ -3,7 +3,7 @@
 #' @description Shiny `input' object is read-only reactive list. When try to
 #' assign values to input, errors usually occur. This method provides several
 #' work-around to set values to input.
-#' @param session shiny session, see \code{\link[shiny]{getDefaultReactiveDomain}}
+#' @param session shiny session, see shiny \code{\link[shiny]{domains}}
 #' @param inputId character, input ID
 #' @param value the value to assign
 #' @param priority characters, options are "event", "deferred", and "immediate".
