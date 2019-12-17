@@ -8,6 +8,14 @@ void get_index(Rcpp::IntegerVector::iterator ptr, R_xlen_t ii,
   R_xlen_t leap = 1;
   int jj;
 
+  if(ii == NA_INTEGER){
+    for( jj = 0; jj < dims.length(); jj++ ){
+      *ptr = NA_INTEGER;
+      ptr++;
+    }
+    return;
+  }
+
   for( jj = 0; jj < dims.length(); jj++ ){
     *ptr = ((ii - rem) / leap) % dims[jj];
     rem = *ptr * leap + rem;
@@ -21,6 +29,14 @@ void get_index(std::vector<int>::iterator ptr, R_xlen_t ii,
   R_xlen_t rem = 0;
   R_xlen_t leap = 1;
   int jj;
+
+  if(ii == NA_INTEGER){
+    for( jj = 0; jj < dims.length(); jj++ ){
+      *ptr = NA_INTEGER;
+      ptr++;
+    }
+    return;
+  }
 
   for( jj = 0; jj < dims.length(); jj++ ){
     *ptr = ((ii - rem) / leap) % dims[jj];
@@ -39,6 +55,9 @@ R_xlen_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim){
   R_xlen_t leap = 1;
 
   for(R_xlen_t j = 0; j < idx.size(); j++ ){
+    if(idx[j] == NA_INTEGER){
+      return NA_INTEGER;
+    }
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }
@@ -51,6 +70,9 @@ R_xlen_t get_ii(std::vector<int> idx, Rcpp::IntegerVector dim){
   R_xlen_t leap = 1;
 
   for(unsigned int j = 0; j < idx.size(); j++ ){
+    if(idx[j] == NA_INTEGER){
+      return NA_INTEGER;
+    }
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }
@@ -62,6 +84,9 @@ R_xlen_t get_ii(RcppParallel::RVector<int> idx, Rcpp::IntegerVector dim){
   R_xlen_t leap = 1;
 
   for(unsigned int j = 0; j < idx.size(); j++ ){
+    if(idx[j] == NA_INTEGER){
+      return NA_INTEGER;
+    }
     ii += (idx[j]) * leap;
     leap *= dim[j];
   }

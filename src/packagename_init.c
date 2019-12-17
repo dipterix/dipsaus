@@ -7,7 +7,7 @@
  Check these declarations against the C/Fortran source code.
  */
 
-/* .Call calls */
+/* .Call calls *
 extern SEXP _dipsaus_collapser(SEXP, SEXP, SEXP);
 extern SEXP _dipsaus_arrayShift(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _dipsaus_baselineArray(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -24,4 +24,4 @@ void R_init_dipsaus(DllInfo *dll)
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
 }
-
+*/

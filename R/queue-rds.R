@@ -169,7 +169,7 @@ FileQueue <- R6::R6Class(
       unlink(private$header_file, force = TRUE)
 
       # If user accidentally set root_path to be '/', removing it would be a disaster
-      unlink(private$root_path, recursive = FALSE, force = FALSE)
+      unlink(private$root_path, recursive = TRUE, force = FALSE)
 
       delayedAssign('.lockfile', {cat2('Queue destroyed', level = 'FATAL')}, assign.env = private)
 

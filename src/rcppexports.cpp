@@ -51,3 +51,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
+    {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
+    {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_dipsaus(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

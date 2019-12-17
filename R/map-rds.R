@@ -133,7 +133,7 @@ FileMap <- R6::R6Class(
       if(file.exists(private$header_file)){
         unlink(private$header_file)
       }
-      unlink(private$root_path, recursive = FALSE, force = FALSE)
+      unlink(private$root_path, recursive = TRUE, force = FALSE)
 
       private$valid <- FALSE
       delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
