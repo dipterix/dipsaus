@@ -3,14 +3,14 @@ using namespace Rcpp;
 
 struct Baseliner : public RcppParallel::Worker
 {
-  const Rcpp::NumericVector x;
-  const Rcpp::IntegerVector dims;
-  Rcpp::IntegerVector dat_vec_idx;
+  const RcppParallel::RVector<double> x;
+  const RcppParallel::RVector<int> dims;
+  RcppParallel::RVector<int> dat_vec_idx;
   const Rcpp::NumericVector bl;
-  const Rcpp::IntegerVector bldims;
-  Rcpp::IntegerVector bl_vec_idx;
-  const Rcpp::IntegerVector per;
-  const Rcpp::IntegerVector per_dim;
+  const RcppParallel::RVector<int> bldims;
+  RcppParallel::RVector<int> bl_vec_idx;
+  const RcppParallel::RVector<int> per;
+  const RcppParallel::RVector<int> per_dim;
   const int method;
   const R_xlen_t blloop_len;
   const R_xlen_t innerloop_len;
@@ -36,8 +36,8 @@ struct Baseliner : public RcppParallel::Worker
     blloop_len(blloop_len), innerloop_len(innerloop_len), y(y){}
 
   void do_baseline(std::size_t begin, std::size_t end){
-    std::vector<int> per_idx = std::vector<int>(per_dim.length());
-    std::vector<int> subset_idx = std::vector<int>(dims.length());
+    std::vector<R_xlen_t> per_idx = std::vector<R_xlen_t>(per_dim.length());
+    std::vector<R_xlen_t> subset_idx = std::vector<R_xlen_t>(dims.length());
     // per_idx.fill(0);
     // subset_idx.fill(0);
 
@@ -240,8 +240,13 @@ Rcpp::NumericVector baselineArray(
                       blloop_len, innerloop_len, y);
 
 
-  // parallelFor(0, loop_len, baseliner);
-  baseliner.do_baseline(0, loop_len);
+  // Last parameter - grain size is very important
+  // When data is large, or some recursive calls,
+  // C stack will goes to the limit quickly
+  // Setting x.size() / 500 will allow a block size not small such that
+  // there will only be 500 threads created
+  parallelFor(0, loop_len, baseliner, loop_len / 24);
+  // baseliner.do_baseline(0, loop_len);
 
   return y;
 }

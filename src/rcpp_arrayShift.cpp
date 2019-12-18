@@ -8,32 +8,32 @@ using namespace Rcpp;
 
 struct ArrShift : public RcppParallel::Worker
 {
-  const Rcpp::NumericVector x;
-  const Rcpp::IntegerVector dims;
-  const int tidx;
-  const int sidx;
-  const Rcpp::IntegerVector shift;
-  long int leap;
+  const RcppParallel::RVector<double> x;
+  const RcppParallel::RVector<int> dims;
+  const R_xlen_t tidx;
+  const R_xlen_t sidx;
+  const RcppParallel::RVector<int> shift;
+  R_xlen_t leap;
 
   RcppParallel::RVector<double> y;
 
   ArrShift(
     const Rcpp::NumericVector x,
-    const int tidx,
-    const int sidx,
+    const R_xlen_t tidx,
+    const R_xlen_t sidx,
     const Rcpp::IntegerVector shift,
     const Rcpp::IntegerVector dims,
-    const long int leap,
+    const R_xlen_t leap,
     const Rcpp::NumericVector y
   ): x(x), dims(dims), tidx(tidx), sidx(sidx), shift(shift), leap(leap), y(y){}
 
 
   void do_shift(std::size_t begin, std::size_t end){
-    std::vector<int> idx = std::vector<int>(dims.length());
+    std::vector<R_xlen_t> idx = std::vector<R_xlen_t>(dims.length());
 
     std::size_t ii;
     R_xlen_t jj;
-    int trial, new_t;
+    R_xlen_t trial, new_t;
 
     // idx = get_index(begin, dims);
     get_index(idx.begin(), begin, dims);
@@ -77,16 +77,16 @@ struct ArrShift : public RcppParallel::Worker
 
 // [[Rcpp::export]]
 Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
-                         const int tidx,
-                         const int sidx,
+                         const R_xlen_t tidx,
+                         const R_xlen_t sidx,
                          const Rcpp::IntegerVector& shift,
                          const Rcpp::IntegerVector& dims) {
 
-  long int len = x.length();
-  long int leap = 1;
-  int jj;
+  R_xlen_t len = x.length();
+  R_xlen_t leap = 1;
+  R_xlen_t jj;
 
-  std::vector<int> idx = std::vector<int>(dims.length());
+  std::vector<R_xlen_t> idx = std::vector<R_xlen_t>(dims.length());
   idx[0] = -1;
   Rcpp::NumericVector re = Rcpp::NumericVector( len );
 
@@ -124,7 +124,7 @@ Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
   ArrShift arrShift(x, tidx, sidx, shift, dims, leap, re);
 
   // arrShift.do_shift(0, len);
-  parallelFor(0, len, arrShift);
+  parallelFor(0, len, arrShift, len / 24);
 
   re.attr("dim") = dims;
   return re;

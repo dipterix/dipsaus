@@ -14,7 +14,9 @@
  * @return void
  */
 void get_index(Rcpp::IntegerVector::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
-void get_index(std::vector<int>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const RcppParallel::RVector<int>& dims);
 
 
 
@@ -25,8 +27,9 @@ void get_index(std::vector<int>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerV
  * @return index in vectorized array (scalar)
  */
 R_xlen_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim);
-R_xlen_t get_ii(std::vector<int> idx, Rcpp::IntegerVector dim);
-R_xlen_t get_ii(RcppParallel::RVector<int> idx, Rcpp::IntegerVector dim);
+R_xlen_t get_ii(std::vector<R_xlen_t> idx, Rcpp::IntegerVector dim);
+R_xlen_t get_ii(std::vector<R_xlen_t> idx, RcppParallel::RVector<int> dim);
+R_xlen_t get_ii(RcppParallel::RVector<R_xlen_t> idx, Rcpp::IntegerVector dim);
 
 
 
