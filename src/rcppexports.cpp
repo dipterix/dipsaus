@@ -51,11 +51,169 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// pwelch
+NumericVector pwelch(NumericVector x, double fs, R_xlen_t winLen, R_xlen_t noverlap, R_xlen_t nfft, const R_xlen_t nthread);
+RcppExport SEXP _dipsaus_pwelch(SEXP xSEXP, SEXP fsSEXP, SEXP winLenSEXP, SEXP noverlapSEXP, SEXP nfftSEXP, SEXP nthreadSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type fs(fsSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type winLen(winLenSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type noverlap(noverlapSEXP);
+    Rcpp::traits::input_parameter< R_xlen_t >::type nfft(nfftSEXP);
+    Rcpp::traits::input_parameter< const R_xlen_t >::type nthread(nthreadSEXP);
+    rcpp_result_gen = Rcpp::wrap(pwelch(x, fs, winLen, noverlap, nfft, nthread));
+    return rcpp_result_gen;
+END_RCPP
+}
+// wavelet_kernels
+List wavelet_kernels(NumericVector freqs, const double srate, NumericVector wave_cycles, const int nthread);
+RcppExport SEXP _dipsaus_wavelet_kernels(SEXP freqsSEXP, SEXP srateSEXP, SEXP wave_cyclesSEXP, SEXP nthreadSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type freqs(freqsSEXP);
+    Rcpp::traits::input_parameter< const double >::type srate(srateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type wave_cycles(wave_cyclesSEXP);
+    Rcpp::traits::input_parameter< const int >::type nthread(nthreadSEXP);
+    rcpp_result_gen = Rcpp::wrap(wavelet_kernels(freqs, srate, wave_cycles, nthread));
+    return rcpp_result_gen;
+END_RCPP
+}
+// wavelet
+List wavelet(NumericVector data, NumericVector freqs, const double srate, NumericVector wave_cycles, const int nthread, bool demean, bool power, bool phase, bool ampl, bool cplx, bool knel, bool transpose);
+RcppExport SEXP _dipsaus_wavelet(SEXP dataSEXP, SEXP freqsSEXP, SEXP srateSEXP, SEXP wave_cyclesSEXP, SEXP nthreadSEXP, SEXP demeanSEXP, SEXP powerSEXP, SEXP phaseSEXP, SEXP amplSEXP, SEXP cplxSEXP, SEXP knelSEXP, SEXP transposeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type freqs(freqsSEXP);
+    Rcpp::traits::input_parameter< const double >::type srate(srateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type wave_cycles(wave_cyclesSEXP);
+    Rcpp::traits::input_parameter< const int >::type nthread(nthreadSEXP);
+    Rcpp::traits::input_parameter< bool >::type demean(demeanSEXP);
+    Rcpp::traits::input_parameter< bool >::type power(powerSEXP);
+    Rcpp::traits::input_parameter< bool >::type phase(phaseSEXP);
+    Rcpp::traits::input_parameter< bool >::type ampl(amplSEXP);
+    Rcpp::traits::input_parameter< bool >::type cplx(cplxSEXP);
+    Rcpp::traits::input_parameter< bool >::type knel(knelSEXP);
+    Rcpp::traits::input_parameter< bool >::type transpose(transposeSEXP);
+    rcpp_result_gen = Rcpp::wrap(wavelet(data, freqs, srate, wave_cycles, nthread, demean, power, phase, ampl, cplx, knel, transpose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// guard_length
+bool guard_length(const R_xlen_t n);
+RcppExport SEXP _dipsaus_guard_length(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const R_xlen_t >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(guard_length(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cosine_gen
+NumericVector cosine_gen(R_xlen_t n, NumericVector a, const bool sym);
+RcppExport SEXP _dipsaus_cosine_gen(SEXP nSEXP, SEXP aSEXP, SEXP symSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< R_xlen_t >::type n(nSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< const bool >::type sym(symSEXP);
+    rcpp_result_gen = Rcpp::wrap(cosine_gen(n, a, sym));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hamming_gen
+NumericVector hamming_gen(const R_xlen_t n, double alpha, bool sym);
+RcppExport SEXP _dipsaus_hamming_gen(SEXP nSEXP, SEXP alphaSEXP, SEXP symSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const R_xlen_t >::type n(nSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sym(symSEXP);
+    rcpp_result_gen = Rcpp::wrap(hamming_gen(n, alpha, sym));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hann
+NumericVector hann(const R_xlen_t n, bool sym);
+RcppExport SEXP _dipsaus_hann(SEXP nSEXP, SEXP symSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const R_xlen_t >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type sym(symSEXP);
+    rcpp_result_gen = Rcpp::wrap(hann(n, sym));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hanning
+NumericVector hanning(const R_xlen_t n);
+RcppExport SEXP _dipsaus_hanning(SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const R_xlen_t >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(hanning(n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// detrend_naive
+NumericVector detrend_naive(const NumericVector& y, NumericVector input);
+RcppExport SEXP _dipsaus_detrend_naive(SEXP ySEXP, SEXP inputSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type input(inputSEXP);
+    rcpp_result_gen = Rcpp::wrap(detrend_naive(y, input));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fftw_r2c
+ComplexVector fftw_r2c(const R_xlen_t N, NumericVector data, bool retConj, bool gc);
+RcppExport SEXP _dipsaus_fftw_r2c(SEXP NSEXP, SEXP dataSEXP, SEXP retConjSEXP, SEXP gcSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const R_xlen_t >::type N(NSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< bool >::type retConj(retConjSEXP);
+    Rcpp::traits::input_parameter< bool >::type gc(gcSEXP);
+    rcpp_result_gen = Rcpp::wrap(fftw_r2c(N, data, retConj, gc));
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_dipsaus_signals
+void test_dipsaus_signals();
+RcppExport SEXP _dipsaus_test_dipsaus_signals() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    test_dipsaus_signals();
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
     {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
+    {"_dipsaus_pwelch", (DL_FUNC) &_dipsaus_pwelch, 6},
+    {"_dipsaus_wavelet_kernels", (DL_FUNC) &_dipsaus_wavelet_kernels, 4},
+    {"_dipsaus_wavelet", (DL_FUNC) &_dipsaus_wavelet, 12},
+    {"_dipsaus_guard_length", (DL_FUNC) &_dipsaus_guard_length, 1},
+    {"_dipsaus_cosine_gen", (DL_FUNC) &_dipsaus_cosine_gen, 3},
+    {"_dipsaus_hamming_gen", (DL_FUNC) &_dipsaus_hamming_gen, 3},
+    {"_dipsaus_hann", (DL_FUNC) &_dipsaus_hann, 2},
+    {"_dipsaus_hanning", (DL_FUNC) &_dipsaus_hanning, 1},
+    {"_dipsaus_detrend_naive", (DL_FUNC) &_dipsaus_detrend_naive, 2},
+    {"_dipsaus_fftw_r2c", (DL_FUNC) &_dipsaus_fftw_r2c, 4},
+    {"_dipsaus_test_dipsaus_signals", (DL_FUNC) &_dipsaus_test_dipsaus_signals, 0},
     {NULL, NULL, 0}
 };
 
