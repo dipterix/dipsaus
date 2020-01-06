@@ -19,3 +19,7 @@ CRAN-RELEASE
 ^CRAN-RELEASE$
 ^LICENSE\.md$
 ^\.httr-oauth$
+autom4te.cache
+^\config-log$
+^\config-status$
+^src/Makevars$

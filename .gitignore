@@ -11,3 +11,12 @@ inst/doc
 adhoc
 vignettes/intro.html
 .httr-oauth
+autom4te.cache
+*~
+*.Rcheck
+*.o
+*.so
+.#*
+config.log
+config.status
+src/Makevars

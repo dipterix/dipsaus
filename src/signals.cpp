@@ -186,7 +186,7 @@ ComplexVector fftw_r2c(const R_xlen_t N, NumericVector data, bool retConj, bool 
 
 ComplexVector fftw_c2c(const R_xlen_t N, const ComplexVector& data, bool reverse, bool gc = true){
   R_xlen_t n = N;
-  R_xlen_t nc = n / 2 + 1;
+  // R_xlen_t nc = n / 2 + 1;
   R_xlen_t i;
 
   fftw_plan p;
