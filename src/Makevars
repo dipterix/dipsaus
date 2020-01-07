@@ -1,6 +1,4 @@
 CXX_STD = CXX11
-PKG_CPPFLAGS +=  -I/usr/local/Cellar/fftw/3.3.8_1/include
-PKG_LIBS =  -L/usr/local/Cellar/fftw/3.3.8_1/lib -lfftw3
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()")
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
 
