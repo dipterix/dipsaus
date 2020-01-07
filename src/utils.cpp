@@ -7,7 +7,7 @@
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims){
   int64_t rem = 0;
   int64_t leap = 1;
-  int64_t jj;
+  std::size_t jj;
 
   if(ii == NA_INTEGER){
     for( jj = 0; jj < dims.length(); jj++ ){
@@ -29,7 +29,7 @@ void get_index(Rcpp::IntegerVector::iterator ptr, int64_t ii,
                const Rcpp::IntegerVector& dims){
   int64_t rem = 0;
   int64_t leap = 1;
-  int64_t jj;
+  std::size_t jj;
 
   if(ii == NA_INTEGER){
     for( jj = 0; jj < dims.length(); jj++ ){
@@ -51,7 +51,7 @@ void get_index(std::vector<int64_t>::iterator ptr, int64_t ii,
                const Rcpp::IntegerVector& dims){
   int64_t rem = 0;
   int64_t leap = 1;
-  int64_t jj;
+  std::size_t jj;
 
   if(ii == NA_INTEGER){
     for( jj = 0; jj < dims.length(); jj++ ){
@@ -77,7 +77,7 @@ int64_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim){
   int64_t ii = 0;
   int64_t leap = 1;
 
-  for(int64_t j = 0; j < idx.size(); j++ ){
+  for(std::size_t j = 0; j < idx.size(); j++ ){
     if(idx[j] == NA_INTEGER){
       return NA_INTEGER;
     }
@@ -92,7 +92,7 @@ int64_t get_ii(std::vector<int64_t> idx, Rcpp::IntegerVector dim){
   int64_t ii = 0;
   int64_t leap = 1;
 
-  for(int64_t j = 0; j < idx.size(); j++ ){
+  for(std::size_t j = 0; j < idx.size(); j++ ){
     if(idx[j] == NA_INTEGER){
       return NA_INTEGER;
     }
@@ -106,7 +106,7 @@ int64_t get_ii(RcppParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim){
   int64_t ii = 0;
   int64_t leap = 1;
 
-  for(int64_t j = 0; j < idx.size(); j++ ){
+  for(std::size_t j = 0; j < idx.size(); j++ ){
     if(idx[j] == NA_INTEGER){
       return NA_INTEGER;
     }
@@ -120,7 +120,7 @@ int64_t get_ii(std::vector<int64_t> idx, RcppParallel::RVector<int> dim){
   int64_t ii = 0;
   int64_t leap = 1;
 
-  for(int64_t j = 0; j < idx.size(); j++ ){
+  for(std::size_t j = 0; j < idx.size(); j++ ){
     if(idx[j] == NA_INTEGER){
       return NA_INTEGER;
     }

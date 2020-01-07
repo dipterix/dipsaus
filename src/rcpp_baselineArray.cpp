@@ -48,7 +48,7 @@ struct Baseliner : public RcppParallel::Worker
     int64_t bl_len = bl_vec_idx.length();
     std::vector<double> bl_container = std::vector<double>(bl_len);
 
-    R_len_t tmp_idx, arr_idx;
+    std::size_t tmp_idx, arr_idx;
     std::vector<double>::iterator ptr_std_int_1;
     Rcpp::IntegerVector::iterator ptr_cpp_int_1;
 
