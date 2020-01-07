@@ -13,8 +13,8 @@ struct Baseliner : public RcppParallel::Worker
   const RcppParallel::RVector<int> per;
   const RcppParallel::RVector<int> per_dim;
   const int method;
-  const R_xlen_t blloop_len;
-  const R_xlen_t innerloop_len;
+  const int64_t blloop_len;
+  const int64_t innerloop_len;
 
   RcppParallel::RVector<double> y;
 
@@ -28,8 +28,8 @@ struct Baseliner : public RcppParallel::Worker
     const Rcpp::IntegerVector per,
     const Rcpp::IntegerVector per_dim,
     const int method,
-    const R_xlen_t blloop_len,
-    const R_xlen_t innerloop_len,
+    const int64_t blloop_len,
+    const int64_t innerloop_len,
     const Rcpp::NumericVector y
   ):x(x), dims(dims), dat_vec_idx(dat_vec_idx),
     bl(bl), bldims(bldims), bl_vec_idx(bl_vec_idx),
@@ -37,15 +37,15 @@ struct Baseliner : public RcppParallel::Worker
     blloop_len(blloop_len), innerloop_len(innerloop_len), y(y){}
 
   void do_baseline(std::size_t begin, std::size_t end){
-    std::vector<R_xlen_t> per_idx = std::vector<R_xlen_t>(per_dim.length());
-    std::vector<R_xlen_t> subset_idx = std::vector<R_xlen_t>(dims.length());
+    std::vector<int64_t> per_idx = std::vector<int64_t>(per_dim.length());
+    std::vector<int64_t> subset_idx = std::vector<int64_t>(dims.length());
     // per_idx.fill(0);
     // subset_idx.fill(0);
 
-    R_xlen_t dat_partial_ii, bl_partial_ii;
+    int64_t dat_partial_ii, bl_partial_ii;
     double bl_mean = 0;
     double bl_sd = 0;
-    R_xlen_t bl_len = bl_vec_idx.length();
+    int64_t bl_len = bl_vec_idx.length();
     std::vector<double> bl_container = std::vector<double>(bl_len);
 
     R_len_t tmp_idx, arr_idx;
@@ -175,15 +175,15 @@ Rcpp::NumericVector baselineArray(
 
   // Generate subset index
   Rcpp::IntegerVector per_dim = dims[per];
-  R_xlen_t loop_len = length_from_dim(per_dim);
+  int64_t loop_len = length_from_dim(per_dim);
 
   Rcpp::IntegerVector subset_idx = Rcpp::IntegerVector(dims.length());
   Rcpp::IntegerVector per_idx = Rcpp::IntegerVector(per_dim.length());
 
   // Callculate baseline inner loop length
   Rcpp::IntegerVector rest_dim = dims[rest];
-  R_xlen_t innerloop_len = length_from_dim(rest_dim);
-  R_xlen_t blloop_len = length_from_dim(bldims[rest]);
+  int64_t innerloop_len = length_from_dim(rest_dim);
+  int64_t blloop_len = length_from_dim(bldims[rest]);
   Rcpp::IntegerVector rest_idx = Rcpp::IntegerVector(rest_dim.length());
 
   // calculate baseline indices in vector (partial index)
@@ -210,12 +210,12 @@ Rcpp::NumericVector baselineArray(
 
   // subset_idx.fill(0);
   //
-  // R_xlen_t dat_partial_ii, bl_partial_ii;
+  // int64_t dat_partial_ii, bl_partial_ii;
   // double bl_mean = 0;
   // NumericVector bl_container = NumericVector(blloop_len);
   // NumericVector dat_container = NumericVector(innerloop_len);
   // IntegerVector dat_idx_tmp = IntegerVector(innerloop_len);
-  // for( R_xlen_t ii = 0; ii < loop_len; ii++ ){
+  // for( int64_t ii = 0; ii < loop_len; ii++ ){
   //   get_index(per_idx.begin(), ii, per_dim);
   //   subset_idx[per] = per_idx;
   //   // Calculate another partial of the index

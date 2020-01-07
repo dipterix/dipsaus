@@ -13,10 +13,10 @@
  * @param dims array dimensions
  * @return void
  */
-void get_index(Rcpp::IntegerVector::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
-void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
-void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const Rcpp::IntegerVector& dims);
-void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const RcppParallel::RVector<int>& dims);
+void get_index(Rcpp::IntegerVector::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
+void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims);
 
 
 
@@ -26,14 +26,14 @@ void get_index(std::vector<R_xlen_t>::iterator ptr, R_xlen_t ii, const RcppParal
  * @param dim dimension of the array
  * @return index in vectorized array (scalar)
  */
-R_xlen_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim);
-R_xlen_t get_ii(std::vector<R_xlen_t> idx, Rcpp::IntegerVector dim);
-R_xlen_t get_ii(std::vector<R_xlen_t> idx, RcppParallel::RVector<int> dim);
-R_xlen_t get_ii(RcppParallel::RVector<R_xlen_t> idx, Rcpp::IntegerVector dim);
+int64_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim);
+int64_t get_ii(std::vector<int64_t> idx, Rcpp::IntegerVector dim);
+int64_t get_ii(std::vector<int64_t> idx, RcppParallel::RVector<int> dim);
+int64_t get_ii(RcppParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim);
 
 
 
-R_xlen_t length_from_dim(Rcpp::IntegerVector dim);
+int64_t length_from_dim(Rcpp::IntegerVector dim);
 void next_array_index( Rcpp::IntegerVector::iterator begin, Rcpp::IntegerVector::iterator end, Rcpp::IntegerVector::iterator dim);
 
 

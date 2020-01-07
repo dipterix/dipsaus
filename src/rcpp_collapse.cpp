@@ -115,7 +115,7 @@ Rcpp::NumericVector collapser(
   int remsize = dims.size() - keep.size();
   bool is_in;
   Rcpp::IntegerVector remain(remsize);
-  for(R_xlen_t j = dims.size(); j > 0; j-- ){
+  for(int64_t j = dims.size(); j > 0; j-- ){
     is_in = std::find(keep.begin(), keep.end(), j) != keep.end();
     if(!is_in){
       remain[--remsize] = j - 1;

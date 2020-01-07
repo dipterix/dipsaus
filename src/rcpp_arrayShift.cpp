@@ -11,30 +11,30 @@ struct ArrShift : public RcppParallel::Worker
 {
   const RcppParallel::RVector<double> x;
   const RcppParallel::RVector<int> dims;
-  const R_xlen_t tidx;
-  const R_xlen_t sidx;
+  const int64_t tidx;
+  const int64_t sidx;
   const RcppParallel::RVector<int> shift;
-  R_xlen_t leap;
+  int64_t leap;
 
   RcppParallel::RVector<double> y;
 
   ArrShift(
     const Rcpp::NumericVector x,
-    const R_xlen_t tidx,
-    const R_xlen_t sidx,
+    const int64_t tidx,
+    const int64_t sidx,
     const Rcpp::IntegerVector shift,
     const Rcpp::IntegerVector dims,
-    const R_xlen_t leap,
+    const int64_t leap,
     const Rcpp::NumericVector y
   ): x(x), dims(dims), tidx(tidx), sidx(sidx), shift(shift), leap(leap), y(y){}
 
 
   void do_shift(std::size_t begin, std::size_t end){
-    std::vector<R_xlen_t> idx = std::vector<R_xlen_t>(dims.length());
+    std::vector<int64_t> idx = std::vector<int64_t>(dims.length());
 
     std::size_t ii;
-    R_xlen_t jj;
-    R_xlen_t trial, new_t;
+    int64_t jj;
+    int64_t trial, new_t;
 
     // idx = get_index(begin, dims);
     get_index(idx.begin(), begin, dims);
@@ -78,16 +78,16 @@ struct ArrShift : public RcppParallel::Worker
 
 // [[Rcpp::export]]
 Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
-                         const R_xlen_t tidx,
-                         const R_xlen_t sidx,
+                         const int64_t tidx,
+                         const int64_t sidx,
                          const Rcpp::IntegerVector& shift,
                          const Rcpp::IntegerVector& dims) {
 
-  R_xlen_t len = x.length();
-  R_xlen_t leap = 1;
-  R_xlen_t jj;
+  int64_t len = x.length();
+  int64_t leap = 1;
+  int64_t jj;
 
-  std::vector<R_xlen_t> idx = std::vector<R_xlen_t>(dims.length());
+  std::vector<int64_t> idx = std::vector<int64_t>(dims.length());
   idx[0] = -1;
   Rcpp::NumericVector re = Rcpp::NumericVector( len );
 
