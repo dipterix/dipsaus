@@ -1,4 +1,5 @@
 #include "utils.h"
+// [[Rcpp::plugins(cpp11)]]
 using namespace Rcpp;
 
 struct Baseliner : public RcppParallel::Worker

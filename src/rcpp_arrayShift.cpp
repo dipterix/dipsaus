@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <Rcpp.h>
+// [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
 #include "utils.h"

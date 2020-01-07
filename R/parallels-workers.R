@@ -915,7 +915,7 @@ MasterEvaluator <- R6::R6Class(
 #' \item{\code{expr}}{
 #'  can be anything except for
 #' \code{q()}, which terminates the session. \code{'rlang'}
-#' \code{\link[rlang]{quasiquotation}} is also supported. For example, you
+#' \code{\link[rlang]{nse-force}} is also supported. For example, you
 #' can use \code{`!!`} to quasi-quote the expression and unquote the values.
 #' }
 #'
