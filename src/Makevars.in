@@ -1,6 +1,4 @@
 CXX_STD = CXX11
-PKG_CPPFLAGS += @CPPFLAGS@ @FFTW_CFLAGS@
-PKG_LIBS = @LIBS@ @FFTW_LIBS@
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()")
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
 

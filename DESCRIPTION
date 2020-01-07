@@ -60,8 +60,7 @@ Suggests:
 Roxygen: list(r6 = FALSE)
 RoxygenNote: 7.0.2
 SystemRequirements: 
-    GNU make,
-    fftw3 (>= 3.1.2)
+    GNU make
 LinkingTo: 
     Rcpp,
     RcppParallel
