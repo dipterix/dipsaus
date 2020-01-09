@@ -217,39 +217,29 @@
 #' if( interactive() ){
 #'   shinyApp(ui, server)
 #' }
-#'
+#' @param map a \code{fastmap::fastmap()} list
+#' @param path directory path where queue data should be stored
+#' @param name character, queue name. If queue name are the same, the data
+#' will be shared.
+#' @noRd
 NULL
 
-#' @rdname queue
-#' @param map a \code{fastmap::fastmap()} list
-#' @export
 session_queue <- function(map = fastmap::fastmap()){
   SessionQueue$new(map = map)
 }
 
-#' @rdname queue
-#' @param path directory path where queue data should be stored
-#' @export
 rds_queue <- function(path = tempfile()){
   FileQueue$new(path = path)
 }
 
-#' @rdname queue
-#' @export
 text_queue <- function(path = tempfile()){
   TextQueue$new(path = path)
 }
 
-#' @rdname queue
-#' @export
 qs_queue <- function(path = tempfile()){
   QsQueue$new(path = path)
 }
 
-#' @rdname queue
-#' @param name character, queue name. If queue name are the same, the data
-#' will be shared.
-#' @export
 redis_queue <- function(name = rand_string()){
   RedisQueue$new(queue_id = name)
 }
