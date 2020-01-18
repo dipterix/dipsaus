@@ -233,9 +233,9 @@ cat2 <- function(
     trace <- rlang::trace_back()
     trace <- as.list(utils::capture.output(print(trace)))
     if(length(trace) > 1){
-      trace = c('Full call trees:', trace)
+      trace <- c('Full call trees:', trace)
       err$trace <- trace
-      class(err) = c('dipsausError', "simpleError", "error", "condition")
+      class(err) <- c('dipsausError', "simpleError", "error", "condition")
     }
 
     logger(sprintf('[FATAL] %s', utils::capture.output(traceback(trace))), flush = TRUE)

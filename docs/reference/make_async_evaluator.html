@@ -71,7 +71,7 @@ without blocking the main session. It's based on 'parallel' and
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -142,8 +142,14 @@ without blocking the main session. It's based on <code>'parallel'</code> and
 <code>'future'</code> packages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_async_evaluator</span>(<span class='no'>name</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(), <span class='kw'>n_nodes</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>n_subnodes</span> <span class='kw'>=</span> <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/availableCores.html'>availableCores</a></span>() - <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>make_async_evaluator</span>(
+  <span class='no'>name</span>,
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(),
+  <span class='kw'>n_nodes</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>n_subnodes</span> <span class='kw'>=</span> <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/availableCores.html'>availableCores</a></span>() - <span class='fl'>1</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,7 +207,7 @@ every 1 second. Therefore if each of the process can be finished within
 <dt><code>run(expr, success = NULL, failure = NULL, priority = 0,
 persist = FALSE, quoted = FALSE, ..., .list = NULL)</code></dt><dd><p>Queue and run an R expression.<dl class='dl-horizontal'><dt><code>expr</code></dt><dd><p>can be anything except for
 <code><a href='https://rdrr.io/r/base/quit.html'>q()</a></code>, which terminates the session. <code>'rlang'</code>
-<code><a href='https://rlang.r-lib.org/reference/quasiquotation.html'>quasiquotation</a></code> is also supported. For example, you
+<code><a href='https://rlang.r-lib.org/reference/nse-force.html'>nse-force</a></code> is also supported. For example, you
 can use <code>`!!`</code> to quasi-quote the expression and unquote the values.</p></dd><dt><code>..., .list</code></dt><dd><p>provides additional data for <code>expr</code>. For example,
 <code>expr</code> uses a large data object <code>dat</code> in the main session, which
 might not be available to the child sessions. Also because the object

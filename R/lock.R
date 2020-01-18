@@ -7,7 +7,7 @@
       locks <<- new.env(parent = emptyenv())
     }
 
-    name = stringr::str_remove_all(name, '[^a-zA-Z0-9]')
+    name <- stringr::str_remove_all(name, '[^a-zA-Z0-9]')
 
 
     if(!exists(name, envir = locks)){
@@ -19,7 +19,7 @@
       # C++ errors might not be captured?
       capture.output({
         mutex <- tryCatch({
-          re = synchronicity::boost.mutex(sharedName = name,
+          re <- synchronicity::boost.mutex(sharedName = name,
                                           timeout = 0.01,
                                           create = TRUE)
           force(re)
@@ -45,7 +45,7 @@
   }
 
   lock <- function(name, exclusive = TRUE, timeout = 10){
-    name = stringr::str_remove_all(name, '[^a-zA-Z0-9]')
+    name <- stringr::str_remove_all(name, '[^a-zA-Z0-9]')
     l <- create_lock(name)
     if(exclusive){
       f <- synchronicity::lock
@@ -58,17 +58,17 @@
     while (timeout > 0) {
       locked <- f(l, timeout = 0.5)
       if(locked){
-        locks[[name]][['nlocks']] = locks[[name]][['nlocks']] + 1
+        locks[[name]][['nlocks']] <- locks[[name]][['nlocks']] + 1
         return(locked)
       }
       Sys.sleep(min(timeout, 0.5))
-      timeout = timeout - 0.5
+      timeout <- timeout - 0.5
     }
     return(FALSE)
   }
 
   unlock <- function(name, exclusive = TRUE, timeout = 10){
-    name = stringr::str_remove_all(name, '[^a-zA-Z0-9]')
+    name <- stringr::str_remove_all(name, '[^a-zA-Z0-9]')
     l <- create_lock(name, create = FALSE)
     if(is.null(l)){
       return(TRUE)
@@ -80,7 +80,7 @@
     }
     unlocked <- u(l, timeout = timeout)
     if(unlocked){
-      locks[[name]][['nlocks']] = locks[[name]][['nlocks']] - 1
+      locks[[name]][['nlocks']] <- locks[[name]][['nlocks']] - 1
       if(locks[[name]][['nlocks']] < 0){
         # remove lock and free up space
         rm(list = name, envir = locks)

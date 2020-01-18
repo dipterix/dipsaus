@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert color to Hex string — col2hexStr • dipsaus</title>
+<title>Shift Array by Index — shift_array • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Convert color to Hex string — col2hexStr" />
-<meta property="og:description" content="Convert color to Hex string" />
+<meta property="og:title" content="Shift Array by Index — shift_array" />
+<meta property="og:description" content="Re-arrange arrays in parallel" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,69 +129,82 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert color to Hex string</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/strings.R'><code>R/strings.R</code></a></small>
-    <div class="hidden name"><code>col2hexStr.Rd</code></div>
+    <h1>Shift Array by Index</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/cpp-collapse.R'><code>R/cpp-collapse.R</code></a></small>
+    <div class="hidden name"><code>shift_array.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Convert color to Hex string</p>
+    <p>Re-arrange arrays in parallel</p>
     </div>
 
-    <pre class="usage"><span class='fu'>col2hexStr</span>(<span class='no'>col</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>"#"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='no'>shift_idx</span>, <span class='no'>shift_by</span>, <span class='no'>shift_amount</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>col</th>
-      <td><p>character or integer indicating color</p></td>
+      <th>x</th>
+      <td><p>array, must have at least matrix</p></td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td><p><code>NULL</code> or numeric, transparency. See <code><a href='https://rdrr.io/r/grDevices/rgb.html'>grDevices::rgb</a></code></p></td>
+      <th>shift_idx</th>
+      <td><p>which index is to be shifted</p></td>
     </tr>
     <tr>
-      <th>prefix</th>
-      <td><p>character, default is <code>"#"</code></p></td>
+      <th>shift_by</th>
+      <td><p>which dimension decides <code>shift_amount</code></p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>passing to  <code><a href='https://rdrr.io/r/grDevices/adjustcolor.html'>adjustcolor</a></code></p></td>
+      <th>shift_amount</th>
+      <td><p>shift amount along <code>shift_idx</code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>characters containing the hex value of each color. See details</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>col2hexStr</code> converts colors such as 1, 2, 3, "red", "blue", ... into
-hex strings that can be easily recognized by `HTML`, `CSS` and `JavaScript`.
-Internally this function uses <code><a href='https://rdrr.io/r/grDevices/adjustcolor.html'>adjustcolor</a></code> with two differences:</p><ol>
-<li><p>the returned hex string does not contain alpha value if <code>alpha</code> is <code>NULL</code>;</p></li>
-<li><p>the leading prefix "#" can be customized</p></li>
-</ol>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='https://rdrr.io/r/grDevices/adjustcolor.html'>adjustcolor</a></code></p></div>
+    <p>A simple use-case for this function is to think of a matrix where each row
+is a signal and columns stand for time. The objective is to align (time-lock)
+each signal according to certain events. For each signal, we want to shift
+the time points by certain amount.</p>
+<p>In this case, the shift amount is defined by <code>shift_amount</code>, whose
+length equals to number of signals. <code>shift_idx=2</code> as we want to shift
+time points (column, the second dimension) for each signal. <code>shift_by=1</code>
+because the shift amount is depend on the signal number.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>col2hexStr</span>(<span class='fl'>1</span>, <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='st'>'0x'</span>)      <span class='co'># "0x000000"</span></div><div class='output co'>#&gt; [1] "0x000000"</div><div class='input'><span class='fu'>col2hexStr</span>(<span class='st'>'blue'</span>)                <span class='co'># "#0000FF"</span></div><div class='output co'>#&gt; [1] "#0000FF"</div><div class='input'>
-<span class='co'># Change default palette, see "grDevices::colors()"</span>
-<span class='kw pkg'>grDevices</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palette.html'>palette</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'orange3'</span>, <span class='st'>'skyblue1'</span>))
-<span class='fu'>col2hexStr</span>(<span class='fl'>1</span>)                     <span class='co'># Instead of #000000, #CD8500</span></div><div class='output co'>#&gt; [1] "#CD8500"</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
+
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fl'>NA</span> * <span class='no'>x</span>
+<span class='no'>y</span>[<span class='fl'>1</span>,<span class='fl'>1</span>:<span class='fl'>4</span>] <span class='kw'>=</span> <span class='no'>x</span>[<span class='fl'>1</span>,<span class='fl'>2</span>:<span class='fl'>5</span>]
+<span class='no'>y</span>[<span class='fl'>2</span>,<span class='fl'>1</span>:<span class='fl'>3</span>] <span class='kw'>=</span> <span class='no'>x</span>[<span class='fl'>2</span>,<span class='fl'>3</span>:<span class='fl'>5</span>]
+
+<span class='co'># Check if z ang y are the same</span>
+<span class='no'>z</span> - <span class='no'>y</span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
+#&gt; [1,]    0    0    0    0   NA
+#&gt; [2,]    0    0    0   NA   NA</div><div class='input'>
+<span class='co'># array case</span>
+<span class='co'># x is Trial x Frequency x Time</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fl'>1</span>:<span class='fl'>27</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>))
+
+<span class='co'># Shift time for each trial, amount is 1, -1, 0</span>
+<span class='no'>shift_amount</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,-<span class='fl'>1</span>,<span class='fl'>0</span>)
+<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='no'>shift_amount</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>))
+<span class='kw'>for</span>( <span class='no'>ii</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span> ){
+  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>x</span>[<span class='no'>ii</span>, ,]), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Frequency'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Time'</span>,
+        <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Trial'</span>, <span class='no'>ii</span>))
+  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>z</span>[<span class='no'>ii</span>, ,]), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Frequency'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Time'</span>,
+        <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Shifted amount:'</span>, <span class='no'>shift_amount</span>[<span class='no'>ii</span>]))
+}</div><div class='img'><img src='shift_array-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

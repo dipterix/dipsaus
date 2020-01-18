@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -118,6 +118,8 @@
 <code>actionButtonStyled</code> add styles to shiny default <code>actionButton</code> and its updating function can also update the styles or enable/disable the button;</li>
 <li>
 <code>sync_shiny_inputs</code> synchronize among shiny inputs without causing dead-locks in UI changes;</li>
+<li>
+<code>set_shiny_input</code> to set shiny <code>input</code> object;</li>
 </ul>
 </div>
 <div id="2-parallel-functions" class="section level3">
@@ -131,15 +133,18 @@
 <li>
 <code>async_expr</code>, <code>async_lapply</code> applies to vectors/lists in parallel ways;</li>
 <li>
-<code>make_async_evaluator</code> queues arbitrary number of tasks and keeps them running in the background without blocking the main session. (<a href="https://dipterix.github.io/dipsaus/articles/async_evaluator.html">vignette</a>)</li>
+<code>make_async_evaluator</code> queues arbitrary number of tasks and keeps them running in the background without blocking the main session. (<a href="https://dipterix.github.io/dipsaus/articles/async_evaluator.html">vignette</a>);</li>
+<li>
+<code>baseline_array</code> to baseline arrays in <code>RcppParallel</code>;</li>
+<li>
+<code>shift_array</code> to shift arrays along given dimensions;</li>
 </ul>
 </div>
 <div id="3-queue-maps-persist-containers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#3-queue-maps-persist-containers" class="anchor"></a>3. Queue, Maps, Persist Containers</h3>
+<!--* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions; -->
 <ul>
-<li>
-<code>qs_queue</code>, <code>text_queue</code>, <code>rds_queue</code>, <code>redis_queue</code> queue R objects and share across sessions;</li>
 <li>
 <code>qs_map</code>, <code>text_map</code>, <code>rds_map</code>, <code>redis_map</code> preserve R objects and share across sessions;</li>
 <li>
@@ -151,7 +156,7 @@
 <a href="#4-r-expressions-vignette" class="anchor"></a>4. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
 <ul>
 <li>
-<code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/quotation.html">rlang::quo</a></code>;</li>
+<code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::quo</a></code>;</li>
 <li>
 <code>match_calls</code> match calls in a nested manner, and support changing the call arguments recursively;</li>
 <li>
@@ -200,7 +205,8 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
 </ul>
 </div>
 <div class="developers">
@@ -214,6 +220,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/dipterix/dipsaus"><img src="https://travis-ci.org/dipterix/dipsaus.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=dipsaus"><img src="https://www.r-pkg.org/badges/version/dipsaus" alt="CRAN-version"></a></li>
 </ul>
 </div>
 </div>

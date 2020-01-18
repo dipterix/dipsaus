@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply R expressions in a parallel way — async_expr • dipsaus</title>
+<title>Create or Unlock a Lock — lock • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Apply R expressions in a parallel way — async_expr" />
-<meta property="og:description" content="Apply R expressions in a parallel way" />
+<meta property="og:title" content="Create or Unlock a Lock — lock" />
+<meta property="og:description" content="A wrapper for lock, but user can
+interrupt the lock procedure anytime, and don't have to worry about
+whether the lock exists or not." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,90 +131,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply R expressions in a parallel way</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/parallels.R'><code>R/parallels.R</code></a></small>
-    <div class="hidden name"><code>async_expr.Rd</code></div>
+    <h1>Create or Unlock a Lock</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/lock.R'><code>R/lock.R</code></a></small>
+    <div class="hidden name"><code>lock.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply R expressions in a parallel way</p>
+    <p>A wrapper for <code><a href='https://rdrr.io/pkg/synchronicity/man/lock-and-unlock-methods.html'>lock</a></code>, but user can
+interrupt the lock procedure anytime, and don't have to worry about
+whether the lock exists or not.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>async_expr</span>(
-  <span class='no'>.X</span>,
-  <span class='no'>.expr</span>,
-  <span class='kw'>.varname</span> <span class='kw'>=</span> <span class='st'>"x"</span>,
-  <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>.pre_run</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.ncore</span> <span class='kw'>=</span> <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/availableCores.html'>availableCores</a></span>(),
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dipsaus_lock</span>(<span class='no'>name</span>, <span class='kw'>exclusive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+
+<span class='fu'>dipsaus_unlock</span>(<span class='no'>name</span>, <span class='kw'>exclusive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.X</th>
-      <td><p>a vector or a list to apply evaluation on</p></td>
+      <th>name</th>
+      <td><p>character, the locker's name, must be only letters and digits</p></td>
     </tr>
     <tr>
-      <th>.expr</th>
-      <td><p>R expression, unquoted</p></td>
+      <th>exclusive</th>
+      <td><p>logical whether the locker is exclusive. True for write
+access, False for read access. Default is true.</p></td>
     </tr>
     <tr>
-      <th>.varname</th>
-      <td><p>variable name representing element of each <code>.X</code></p></td>
-    </tr>
-    <tr>
-      <th>envir</th>
-      <td><p>environment to evaluate expressions</p></td>
-    </tr>
-    <tr>
-      <th>.pre_run</th>
-      <td><p>expressions to be evaluated before looping.</p></td>
-    </tr>
-    <tr>
-      <th>.ncore</th>
-      <td><p>number of CPU cores</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed to <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code></p></td>
+      <th>timeout</th>
+      <td><p>numeric, seconds to wait for the locker to lock or unlock</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list whose length equals to <code>.X</code>. The value of each item
-returned depends on whether <code>async</code> is called. See details for workflow.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>Logical, whether the operation succeed.</p>
 
-    <p><code>async_expr</code> uses <code>lapply</code> and <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code> internally.
-Within each loop, an item in <code>".X"</code> will be assigned to variable <code>"x"</code>
-(defined by <code>".varname"</code>) and enter the evaluation. During the evaluation,
-function <code>async</code> is provided. Expressions within <code>async</code> will be
-evaluated in another session, otherwise will be evaluated in current session.
-Below is the workflow:</p><ul>
-<li><p>Run <code>.pre_run</code></p></li>
-<li><p>For <code>i</code> in <code><a href='https://rdrr.io/r/base/seq.html'>seq_along(.X)</a></code>:</p><ul>
-<li><p>1. Assign <code>x</code> with <code>.X[[i]]</code>, variable name <code>x</code> is
-    defined by <code>.varname</code></p></li>
-<li><p>2. Evaluate <code>expr</code> in current session.</p><ul>
-<li><p>a. If <code>async</code> is not called, return evaluated <code>expr</code></p></li>
-<li><p>b. If <code><a href='async.html'>async(aync_expr)</a></code> is called, evaluate <code>aync_expr</code>
-      in another session, and return the evaluation results if <code>aync_expr</code></p></li>
-</ul></li>
-</ul></li>
-</ul>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># unlock to prepare for the example</span>
+<span class='fu'>dipsaus_unlock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># Create a locker, return TRUE</span>
+<span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>)
+<span class='kw'>if</span>(<span class='no'>lock_success</span>){
+  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'testlocker has been locked'</span>)
+}
 
+<span class='co'># test whether locker has been locked</span>
+<span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
+<span class='kw'>if</span>(!<span class='no'>lock_success</span>){
+  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'attempt to lock testlocker failed'</span>)
+}
 
+<span class='co'># unlock</span>
+<span class='fu'>dipsaus_unlock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

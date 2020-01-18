@@ -15,7 +15,7 @@ AbstractMap <- R6::R6Class(
     # Run expr making sure that locker is locked to be exclusive (for write-only)
     exclusive = function(expr, ...) {
       stopifnot2(private$valid, msg = 'Map is not valid')
-      custom_locker = is.function(self$get_locker) && is.function(self$free_locker)
+      custom_locker <- is.function(self$get_locker) && is.function(self$free_locker)
       if(self$has_locker){
         on.exit({
           if(custom_locker){

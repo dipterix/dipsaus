@@ -34,7 +34,7 @@ set_shiny_input <- function(
     },
     'expression' = {
       if(!quoted){
-        value = substitute(value)
+        value <- substitute(value)
       }
       raw <- paste(deparse(value), collapse = '\n')
       raw <- jsonlite::toJSON(raw, auto_unbox = TRUE)
@@ -43,7 +43,7 @@ set_shiny_input <- function(
     'proxy' = {
       session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
       session$userData$dipsaus_reserved$proxy_data %?<-% new.env(parent = emptyenv())
-      session$userData$dipsaus_reserved$proxy_data[[inputId]] = value
+      session$userData$dipsaus_reserved$proxy_data[[inputId]] <- value
       raw <- inputId
     }
   )
@@ -63,7 +63,7 @@ registerSetInputs <- function(){
     if(!is.list(data)){
       return(NULL)
     }
-    proxy = match.arg(data$proxy, c('serialize', 'value', 'expression', 'proxy'))
+    proxy <- match.arg(data$proxy, c('serialize', 'value', 'expression', 'proxy'))
 
     raw <- data$value
     switch (

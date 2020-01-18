@@ -1,7 +1,7 @@
 # A Dipping Sauce to Data Analysis and Visualization
 
 [![Travis build status](https://travis-ci.org/dipterix/dipsaus.svg?branch=master)](https://travis-ci.org/dipterix/dipsaus)
-[![Cran-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
+[![CRAN-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
 <!-- [![Cran-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus) -->
 
 
@@ -18,17 +18,20 @@ devtools::install_github('dipterix/dipsaus')
 * `compoundInput2` assembles any shiny native inputs and create variable-length input;
 * `actionButtonStyled` add styles to shiny default `actionButton` and its updating function can also update the styles or enable/disable the button;
 * `sync_shiny_inputs` synchronize among shiny inputs without causing dead-locks in UI changes;
+* `set_shiny_input` to set shiny `input` object;
 
 ### 2. Parallel Functions
 
 * `collapse` is a parallel solution to calculate sum/mean along arrays, providing `4x` speed-ups for large arrays;
 * `make_forked_clusters` enables `multicore` (forked clusters) in `future` package even in `RStudio` environment;
 * `async_expr`, `async_lapply` applies to vectors/lists in parallel ways;
-* `make_async_evaluator` queues arbitrary number of tasks and keeps them running in the background without blocking the main session. ([vignette](https://dipterix.github.io/dipsaus/articles/async_evaluator.html))
+* `make_async_evaluator` queues arbitrary number of tasks and keeps them running in the background without blocking the main session. ([vignette](https://dipterix.github.io/dipsaus/articles/async_evaluator.html));
+* `baseline_array` to baseline arrays in `RcppParallel`;
+* `shift_array` to shift arrays along given dimensions;
 
 ### 3. Queue, Maps, Persist Containers
 
-* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions;
+<!--* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions; -->
 * `qs_map`, `text_map`, `rds_map`, `redis_map` preserve R objects and share across sessions;
 * `PersistContainer` provides two-level cache mechanism to save R objects in current session or preserve them on the local disk.
 

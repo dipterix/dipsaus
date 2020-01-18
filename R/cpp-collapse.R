@@ -124,11 +124,11 @@ shift_array <- function(x, shift_idx, shift_by, shift_amount) {
   if(is.null(dims)){
     dims <- c(length(x), 1)
   }
-  ndims = length(dims)
+  ndims <- length(dims)
 
-  shift_idx = as.integer(shift_idx - 1L)
-  shift_by = as.integer(shift_by - 1L)
-  shift_amount = as.integer(shift_amount)
+  shift_idx <- as.integer(shift_idx - 1L)
+  shift_by <- as.integer(shift_by - 1L)
+  shift_amount <- as.integer(shift_amount)
 
   stopifnot2(shift_idx < ndims && shift_by < ndims &&
                shift_idx >= 0 && shift_by >= 0,
@@ -140,8 +140,8 @@ shift_array <- function(x, shift_idx, shift_by, shift_amount) {
   stopifnot2(is.numeric(x) || is.complex(x), msg = "x must be numeric")
 
   if(is.complex(x)){
-    y = .Call("_dipsaus_arrayShift", Re(x), shift_idx, shift_by, shift_amount, dims)
-    x = .Call("_dipsaus_arrayShift", Im(x), shift_idx, shift_by, shift_amount, dims)
+    y <- .Call("_dipsaus_arrayShift", Re(x), shift_idx, shift_by, shift_amount, dims)
+    x <- .Call("_dipsaus_arrayShift", Im(x), shift_idx, shift_by, shift_amount, dims)
     y + 1i * x
 
   }else{

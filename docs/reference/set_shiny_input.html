@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply R expressions in a parallel way — async_expr • dipsaus</title>
+<title>Set Shiny Input — set_shiny_input • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Apply R expressions in a parallel way — async_expr" />
-<meta property="og:description" content="Apply R expressions in a parallel way" />
+<meta property="og:title" content="Set Shiny Input — set_shiny_input" />
+<meta property="og:description" content="Shiny `input' object is read-only reactive list. When try to
+assign values to input, errors usually occur. This method provides several
+work-around to set values to input." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,81 +131,58 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply R expressions in a parallel way</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/parallels.R'><code>R/parallels.R</code></a></small>
-    <div class="hidden name"><code>async_expr.Rd</code></div>
+    <h1>Set Shiny Input</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-setInputs.R'><code>R/shiny-setInputs.R</code></a></small>
+    <div class="hidden name"><code>set_shiny_input.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply R expressions in a parallel way</p>
+    <p>Shiny `input' object is read-only reactive list. When try to
+assign values to input, errors usually occur. This method provides several
+work-around to set values to input.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>async_expr</span>(
-  <span class='no'>.X</span>,
-  <span class='no'>.expr</span>,
-  <span class='kw'>.varname</span> <span class='kw'>=</span> <span class='st'>"x"</span>,
-  <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>.pre_run</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.ncore</span> <span class='kw'>=</span> <span class='kw pkg'>future</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/availableCores.html'>availableCores</a></span>(),
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'>set_shiny_input</span>(
+  <span class='no'>session</span>,
+  <span class='no'>inputId</span>,
+  <span class='no'>value</span>,
+  <span class='kw'>priority</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"event"</span>, <span class='st'>"deferred"</span>, <span class='st'>"immediate"</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"proxy"</span>, <span class='st'>"serialize"</span>, <span class='st'>"value"</span>, <span class='st'>"expression"</span>),
+  <span class='kw'>quoted</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.X</th>
-      <td><p>a vector or a list to apply evaluation on</p></td>
+      <th>session</th>
+      <td><p>shiny session, see shiny <code><a href='https://rdrr.io/pkg/shiny/man/domains.html'>domains</a></code></p></td>
     </tr>
     <tr>
-      <th>.expr</th>
-      <td><p>R expression, unquoted</p></td>
+      <th>inputId</th>
+      <td><p>character, input ID</p></td>
     </tr>
     <tr>
-      <th>.varname</th>
-      <td><p>variable name representing element of each <code>.X</code></p></td>
+      <th>value</th>
+      <td><p>the value to assign</p></td>
     </tr>
     <tr>
-      <th>envir</th>
-      <td><p>environment to evaluate expressions</p></td>
+      <th>priority</th>
+      <td><p>characters, options are "event", "deferred", and "immediate".
+"event" and "immediate" are similar, they always fire changes. "deferred"
+fire signals to other reactive/observers only when the input value has been
+changed</p></td>
     </tr>
     <tr>
-      <th>.pre_run</th>
-      <td><p>expressions to be evaluated before looping.</p></td>
+      <th>method</th>
+      <td><p>characters, options are "proxy", "serialize", "value",
+"expression". "proxy" is recommended, other methods are experimental.</p></td>
     </tr>
     <tr>
-      <th>.ncore</th>
-      <td><p>number of CPU cores</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed to <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code></p></td>
+      <th>quoted</th>
+      <td><p>is value quoted? Only used when method is "expression"</p></td>
     </tr>
     </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a list whose length equals to <code>.X</code>. The value of each item
-returned depends on whether <code>async</code> is called. See details for workflow.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>async_expr</code> uses <code>lapply</code> and <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code> internally.
-Within each loop, an item in <code>".X"</code> will be assigned to variable <code>"x"</code>
-(defined by <code>".varname"</code>) and enter the evaluation. During the evaluation,
-function <code>async</code> is provided. Expressions within <code>async</code> will be
-evaluated in another session, otherwise will be evaluated in current session.
-Below is the workflow:</p><ul>
-<li><p>Run <code>.pre_run</code></p></li>
-<li><p>For <code>i</code> in <code><a href='https://rdrr.io/r/base/seq.html'>seq_along(.X)</a></code>:</p><ul>
-<li><p>1. Assign <code>x</code> with <code>.X[[i]]</code>, variable name <code>x</code> is
-    defined by <code>.varname</code></p></li>
-<li><p>2. Evaluate <code>expr</code> in current session.</p><ul>
-<li><p>a. If <code>async</code> is not called, return evaluated <code>expr</code></p></li>
-<li><p>b. If <code><a href='async.html'>async(aync_expr)</a></code> is called, evaluate <code>aync_expr</code>
-      in another session, and return the evaluation results if <code>aync_expr</code></p></li>
-</ul></li>
-</ul></li>
-</ul>
 
 
   </div>
@@ -211,8 +190,6 @@ Below is the workflow:</p><ul>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

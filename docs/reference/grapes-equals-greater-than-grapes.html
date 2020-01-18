@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(a)
 #&gt; }
-#&gt; &lt;environment: 0x7fb473cb78e0&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7faea4a8a288&gt;</div><div class='input'>
 <span class='co'># Informal arguments</span>
 <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span><span class='kw'>=</span>) <span class='kw'>%=&gt;%</span> {
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
@@ -174,7 +174,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(a)
 #&gt; }
-#&gt; &lt;environment: 0x7fb473cb78e0&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7faea4a8a288&gt;</div><div class='input'>
 <span class='co'># Multiple inputs</span>
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>) <span class='kw'>%=&gt;%</span> {
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>...</span>))
@@ -182,7 +182,7 @@ the function body</p>
 #&gt; {
 #&gt;     print(c(a, b, ...))
 #&gt; }
-#&gt; &lt;environment: 0x7fb473cb78e0&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7faea4a8a288&gt;</div><div class='input'>
 <span class='co'># ----- JavaScript style of forEach -----</span>
 <span class='co'># ### Equivalent JavaScript Code:</span>
 <span class='co'># LETTERS.forEach((el, ii) =&gt; {</span>
@@ -191,7 +191,7 @@ the function body</p>
 
 <span class='fu'><a href='iapply.html'>iapply</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>el</span>, <span class='no'>ii</span>) <span class='kw'>%=&gt;%</span> {
   <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'The index of letter '</span>, <span class='no'>el</span>, <span class='st'>' in '</span>, <span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span>(<span class='st'>'x'</span>), <span class='st'>' is: '</span>, <span class='no'>ii</span>)
-}) <span class='kw'>-&gt;</span> <span class='no'>results</span></div><div class='output co'>#&gt; The index of letter  A  in  ‘x’  is:  1The index of letter  B  in  ‘x’  is:  2The index of letter  C  in  ‘x’  is:  3The index of letter  D  in  ‘x’  is:  4The index of letter  E  in  ‘x’  is:  5The index of letter  F  in  ‘x’  is:  6The index of letter  G  in  ‘x’  is:  7The index of letter  H  in  ‘x’  is:  8The index of letter  I  in  ‘x’  is:  9The index of letter  J  in  ‘x’  is:  10The index of letter  K  in  ‘x’  is:  11The index of letter  L  in  ‘x’  is:  12The index of letter  M  in  ‘x’  is:  13The index of letter  N  in  ‘x’  is:  14The index of letter  O  in  ‘x’  is:  15The index of letter  P  in  ‘x’  is:  16The index of letter  Q  in  ‘x’  is:  17The index of letter  R  in  ‘x’  is:  18The index of letter  S  in  ‘x’  is:  19The index of letter  T  in  ‘x’  is:  20The index of letter  U  in  ‘x’  is:  21The index of letter  V  in  ‘x’  is:  22The index of letter  W  in  ‘x’  is:  23The index of letter  X  in  ‘x’  is:  24The index of letter  Y  in  ‘x’  is:  25The index of letter  Z  in  ‘x’  is:  26</div></pre>
+}) <span class='kw'>-&gt;</span> <span class='no'>results</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

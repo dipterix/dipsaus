@@ -1,3 +1,18 @@
+dipsaus 0.0.4
+=======
+
+## Major Changes
+* Canceled exporting queues because of strange behavior in windows. (plan to fix this for the next version)
+* Implemented function to convert Base64 `DataURI` string to image
+* `cat2` now persist logger files on local drive, and can be exported via `packup_logger`
+* `set_shiny_input` to set shiny `input` object
+* `baselineArray` calculates baseline for arrays with internal parallel support
+* `shift_array` to fast shift array along certain dimension
+* `%+-%` plus-minus operator; `%=>%` a "JavaScript" style of creating functions
+
+## Bug Fixes
+* Fixed `compoundInput2` not initialized when rendered in `shiny::renderUI`
+
 dipsaus 0.0.3
 =======
 

@@ -198,15 +198,15 @@ compoundInput2 <- function(
 
 
 
-  re = eval(comp_ui, envir = list(
+  re <- eval(comp_ui, envir = list(
     inputId = inputId, ...make_ui = ...make_ui, ...initial_ncomp = initial_ncomp,
     ...min_ncomp = min_ncomp, ...max_ncomp = max_ncomp, ...label = label,
     ...label_color = label_color, ...value = value, ...this_env = ...this_env
   ), enclos = parent_env)
 
 
-  value = as.list(value)
-  value$meta = list(
+  value <- as.list(value)
+  value$meta <- list(
     initial_ncomp = initial_ncomp,
     min_ncomp = min_ncomp,
     max_ncomp = max_ncomp,
@@ -235,11 +235,11 @@ translate_compoundInput <- function(data, session, name){
   meta <- as.list(data$meta)
   data$meta <- NULL
   # shinysession$ns(name)
-  mis_sess = missing(session)
+  mis_sess <- missing(session)
 
   if(!mis_sess && !length(meta) && is.environment(session$userData$dipsaus_reserved)){
     default_val <- session$userData$dipsaus_reserved$compount_inputs$get(session$ns(name))
-    meta = as.list(default_val$meta)
+    meta <- as.list(default_val$meta)
   }
 
   inner_ids <- names(meta$bind_infos)
@@ -365,7 +365,7 @@ updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
   meta <- attr(sample, 'meta')
   max_ncomp <- meta$max_ncomp
   if(!length(max_ncomp) || !is.numeric(max_ncomp) || max_ncomp <= 0){
-    max_ncomp = 100
+    max_ncomp <- 100
   }
 
   if(!is.list(update_functions)){
