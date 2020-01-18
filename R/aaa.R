@@ -9,8 +9,6 @@
 #' @importFrom fastmap fastmap
 #' @importFrom parallel clusterEvalQ
 #' @importFrom parallel stopCluster
-#' @importFrom qs qsave
-#' @importFrom qs qread
 #' @importFrom txtq txtq
 #' @useDynLib dipsaus, .registration = TRUE
 NULL

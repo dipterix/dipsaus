@@ -25,7 +25,7 @@ set_shiny_input <- function(
 
   switch (method,
     'serialize' = {
-      raw <- qs::qserialize(value, preset = 'fast', algorithm = 'lz4')
+      raw <- serialize(value, ascii = FALSE, connection = NULL)
       raw <- base64enc::base64encode(raw)
     },
     'value' = {
@@ -70,7 +70,7 @@ registerSetInputs <- function(){
       proxy,
 
       'serialize' = {
-        qs::qdeserialize(base64enc::base64decode(raw))
+        unserialize(base64enc::base64decode(raw))
       },
 
       'value' = {
