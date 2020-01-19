@@ -238,11 +238,11 @@ cat2 <- function(
       class(err) <- c('dipsausError', "simpleError", "error", "condition")
     }
 
-    logger(sprintf('[FATAL] %s', utils::capture.output(traceback(trace))), flush = TRUE)
+    # logger(sprintf('[FATAL] %s', utils::capture.output(traceback(trace))), flush = TRUE)
 
     stop(err)
-  }else{
-    logger(sprintf('%s %s', level, paste(..., collapse = '', sep = '')), flush = FALSE)
+  # }else{
+  #   logger(sprintf('%s %s', level, paste(..., collapse = '', sep = '')), flush = FALSE)
   }
 
   invisible()

@@ -19,12 +19,12 @@ register_shiny <- function(){
 
   register_shiny()
 
-  reg.finalizer(session_log, function(x){
-    x$finalize()
-  }, onexit = TRUE)
+  # reg.finalizer(session_log, function(x){
+  #   x$finalize()
+  # }, onexit = TRUE)
 }
 
 
-.onUnload <- function(libpath){
-  session_log$finalize()
-}
+# .onUnload <- function(libpath){
+#   session_log$finalize()
+# }
