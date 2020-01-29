@@ -79,8 +79,9 @@ dev_create <- function(..., env = parent.frame()){
     ii = dev_which(dev_name)
     if(!is.na(ii)){
       grDevices::dev.set(ii)
+      return(TRUE)
     }
-
+    return(FALSE)
   }
 
   dev_names <- function(){
