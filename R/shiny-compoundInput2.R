@@ -242,13 +242,8 @@ translate_compoundInput <- function(data, session, name){
     meta <- as.list(default_val$meta)
   }
 
-  session_scope = character(0)
-  if( !mis_sess ){
-    session_scope = session$ns(NULL)
-  }
-
   inner_ids <- names(meta$bind_infos)
-  update_functions <- sapply(inner_ids, function(id, ...){
+  update_functions <- sapply(inner_ids, function(id){
     bind_info <- meta$bind_infos[[id]]
     if(is.list(bind_info) && 'update_function' %in% names(bind_info)){
       update_function <- bind_info$update_function
@@ -256,52 +251,23 @@ translate_compoundInput <- function(data, session, name){
         update_function <- str2lang(update_function[[1]])
         input_names <- names(formals(eval(update_function)))
 
-        # in case R says ii not found when checking
-        ii = NULL
-        fbody = rlang::quo({
-          if(!!length(session_scope)){
-            session = .session$makeScope(namespace = !!session_scope)
-          }else{
-            session = .session
+        f <- function(ii, ...){
+          if(mis_sess){
+            session <- shiny::getDefaultReactiveDomain()
           }
-
-          inputId <- sprintf('%s_%s_%s', !!name, !!id, ii)
-          call <- as.call(list(!!update_function, session = quote(session),
+          inputId <- sprintf('%s_%s_%s', name, id, ii)
+          call <- as.call(list(update_function, session = quote(session),
                                inputId = inputId, ...))
-          if( !'...' %in% !!input_names){
+          if( !'...' %in% input_names){
             # Need to match call
             nms <- names(call)
-            sel <- nms %in% c('', !!input_names)
+            sel <- nms %in% c('', input_names)
             if(!all(sel)){
               call <- call[sel]
             }
           }
-          re = eval(call)
-          # clean up in case of large memory leak?
-          rm(session)
-          re
-        })
-
-        f <- function(ii, ..., .session = shiny::getDefaultReactiveDomain()){
-          # if(mis_sess){
-          #   session <- shiny::getDefaultReactiveDomain()
-          # }
-          # inputId <- sprintf('%s_%s_%s', name, id, ii)
-          # call <- as.call(list(update_function, session = quote(session),
-          #                      inputId = inputId, ...))
-          # if( !'...' %in% input_names){
-          #   # Need to match call
-          #   nms <- names(call)
-          #   sel <- nms %in% c('', input_names)
-          #   if(!all(sel)){
-          #     call <- call[sel]
-          #   }
-          # }
-          # eval(call)
+          eval(call)
         }
-
-        body(f) <- rlang::quo_squash(fbody)
-        environment(f) = baseenv()
         return( f )
       }
     }
