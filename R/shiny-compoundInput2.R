@@ -258,6 +258,7 @@ translate_compoundInput <- function(data, session, name){
 
         # in case R says ii not found when checking
         ii = NULL
+        .session = NULL
         fbody = rlang::quo({
           session_scope = .session$ns(NULL)
           session = .session
