@@ -257,22 +257,22 @@ translate_compoundInput <- function(data, session, name){
         input_names <- names(formals(eval(update_function)))
 
         # in case R says ii not found when checking
-        ii = NULL
-        .session = NULL
-        fbody = rlang::quo({
-          session_scope = .session$ns(NULL)
-          session = .session
-          widget_name = !!name
+        ii <- NULL
+        .session <- NULL
+        fbody <- rlang::quo({
+          session_scope <- .session$ns(NULL)
+          session <- .session
+          widget_name <- !!name
           if((length(session_scope) == 1) && session_scope != ''){
             # check whether name starts with session_scope if yes, this means
             # we register submodule in root session,
             # and we need to go back and remove session_scope in name
-            slen = stringr::str_length(session_scope)
-            nlen = stringr::str_length(widget_name)
+            slen <- stringr::str_length(session_scope)
+            nlen <- stringr::str_length(widget_name)
             if( slen < nlen - 1 ){
               if( stringr::str_sub(widget_name, end = slen + 1) == sprintf('%s-', session_scope) ){
                 # need to remove scope from widget_name
-                widget_name = stringr::str_sub(widget_name, start = slen + 2)
+                widget_name <- stringr::str_sub(widget_name, start = slen + 2)
               }
             }
           }
@@ -288,7 +288,7 @@ translate_compoundInput <- function(data, session, name){
               call <- call[sel]
             }
           }
-          re = eval(call)
+          re <- eval(call)
           # clean up in case of large memory leak?
           rm(session)
           re
@@ -313,7 +313,7 @@ translate_compoundInput <- function(data, session, name){
         }
 
         body(f) <- rlang::quo_squash(fbody)
-        environment(f) = baseenv()
+        environment(f) <- baseenv()
         return( f )
       }
     }

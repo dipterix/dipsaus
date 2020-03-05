@@ -36,18 +36,18 @@
 #' }
 #' @export
 dev_create <- function(..., env = parent.frame()){
-  quos = rlang::quos(..., .ignore_empty = 'all', .named = TRUE)
+  quos <- rlang::quos(..., .ignore_empty = 'all', .named = TRUE)
   devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
   n_devs <- unlist(devs)
   n_devs <- sum(n_devs != "")
 
-  private_id = rand_string(6)
+  private_id <- rand_string(6)
 
-  nms = names(quos)
+  nms <- names(quos)
 
   # create devices
   for(ii in seq_along(quos)){
-    quo = quos[[ii]]
+    quo <- quos[[ii]]
     rlang::eval_tidy(quo, env = env)
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
     n <- sum(unlist(devs) != "")
@@ -56,7 +56,7 @@ dev_create <- function(..., env = parent.frame()){
     }
     # assign back to baseenv
     assign('.Devices', devs, envir = baseenv())
-    n_devs = n
+    n_devs <- n
   }
 
   dev_which <- function(dev_name){
@@ -64,7 +64,7 @@ dev_create <- function(..., env = parent.frame()){
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
     for(ii in seq_along(devs)){
       if(ii == 1) next()
-      dev = devs[[ii]]
+      dev <- devs[[ii]]
       if( dev != '' ){
         nm <- attr(dev, 'dipsaus_dev_name')
         if(isTRUE(paste0(private_id, dev_name) == nm)){
@@ -76,7 +76,7 @@ dev_create <- function(..., env = parent.frame()){
   }
 
   dev_switch <- function(dev_name){
-    ii = dev_which(dev_name)
+    ii <- dev_which(dev_name)
     if(!is.na(ii)){
       grDevices::dev.set(ii)
       return(TRUE)
@@ -88,8 +88,8 @@ dev_create <- function(..., env = parent.frame()){
     # only returns active device names
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
     re <- lapply(devs, function(dev){
-      dev_name = attr(dev, 'dipsaus_dev_name')
-      id = stringr::str_sub(dev_name, end = 6)
+      dev_name <- attr(dev, 'dipsaus_dev_name')
+      id <- stringr::str_sub(dev_name, end = 6)
       if(length(id) == 1 && isTRUE(id == private_id)){
         return(stringr::str_sub(dev_name, start = 7))
       }else{
