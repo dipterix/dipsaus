@@ -33,5 +33,40 @@ changed}
 \description{
 Shiny `input' object is read-only reactive list. When try to
 assign values to input, errors usually occur. This method provides several
-work-around to set values to input.
+work-around to set values to input. Please use along with
+\code{\link{use_shiny_dipsaus}}.
+}
+\examples{
+
+library(shiny)
+library(dipsaus)
+ui <- fluidPage(
+  # Register widgets
+  use_shiny_dipsaus(),
+  actionButton('run', 'Set Input'),
+  verbatimTextOutput('input_value')
+)
+
+server <- function(input, output, session) {
+  start = Sys.time()
+
+  output$input_value <- renderPrint({
+
+    now <- input$key
+    now \%?<-\% start
+    cat('This app has been opened for ',
+        difftime(now, start, units = 'sec'), ' seconds')
+  })
+
+  observeEvent(input$run, {
+    # setting input$key to Sys.time()
+    set_shiny_input(session, 'key', Sys.time())
+  })
+}
+
+if(interactive()){
+  shinyApp(ui, server)
+}
+
+
 }
