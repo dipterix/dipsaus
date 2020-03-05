@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -117,10 +117,6 @@
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.35;
-}
-
-#header {
-  text-align: center;
 }
 
 #TOC {
@@ -310,7 +306,7 @@ code > span.st { color: #d14; } /* String */
 code > span.co { color: #888888; font-style: italic; } /* Comment */
 code > span.ot { color: #007020; } /* OtherToken */
 code > span.al { color: #ff0000; font-weight: bold; } /* AlertToken */
-code > span.fu { color: #900; font-weight: bold; } /* Function calls */ 
+code > span.fu { color: #900; font-weight: bold; } /* Function calls */
 code > span.er { color: #a61717; background-color: #e3d2d2; } /* ErrorTok */
 </style><style type="text/css">/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -8113,14 +8109,14 @@ register_set_input( src_Shiny, DEBUG );
 <li>when updating the button, <code>disabled</code> allows to disable/enable the button</li>
 </ul>
 <p>The usage is listed as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="co"># UI function</span></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="../reference/actionButtonStyled.html">actionButtonStyled</a></span>(inputId, label, <span class="dt">icon =</span> <span class="ot">NULL</span>, <span class="dt">width =</span> <span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb1-4" title="4">                   <span class="dt">btn_type =</span> <span class="st">"button"</span>, <span class="dt">type =</span> <span class="st">"primary"</span>, <span class="dt">class =</span> <span class="st">""</span>, ...)</a>
-<a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co"># Update function</span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="kw"><a href="../reference/updateActionButtonStyled.html">updateActionButtonStyled</a></span>(session, inputId, <span class="dt">label =</span> <span class="ot">NULL</span>, <span class="dt">icon =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb1-8" title="8">                         <span class="dt">type =</span> <span class="ot">NULL</span>, <span class="dt">disabled =</span> <span class="ot">NULL</span>, ...)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># UI function</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../reference/actionButtonStyled.html">actionButtonStyled</a></span>(inputId, label, <span class="dt">icon =</span> <span class="ot">NULL</span>, <span class="dt">width =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">                   <span class="dt">btn_type =</span> <span class="st">"button"</span>, <span class="dt">type =</span> <span class="st">"primary"</span>, <span class="dt">class =</span> <span class="st">""</span>, ...)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Update function</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="../reference/updateActionButtonStyled.html">updateActionButtonStyled</a></span>(session, inputId, <span class="dt">label =</span> <span class="ot">NULL</span>, <span class="dt">icon =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">                         <span class="dt">type =</span> <span class="ot">NULL</span>, <span class="dt">disabled =</span> <span class="ot">NULL</span>, ...)</a></code></pre></div>
 <p>Show-case:</p>
 <table class="table table table-bordered text-center"><tbody>
 <tr>
@@ -8321,14 +8317,14 @@ Danger
 <h3 class="hasAnchor">
 <a href="#compound-inputs-grouped-inputs" class="anchor"></a>2. Compound Inputs (grouped Inputs)</h3>
 <p><code>compoundInput2</code> provides group inputs where each group contains multiple shiny inputs. For examples</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/compoundInput2.html">compoundInput2</a></span>(</a>
-<a class="sourceLine" id="cb2-2" title="2">  <span class="st">'compound'</span>, <span class="st">'Group Label'</span>, <span class="dt">label_color =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb2-3" title="3">  <span class="dt">components =</span> <span class="kw">div</span>(</a>
-<a class="sourceLine" id="cb2-4" title="4">    <span class="kw">textInput</span>(<span class="st">'txt'</span>, <span class="st">'Text'</span>),</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="kw">selectInput</span>(<span class="st">'sel'</span>, <span class="st">'Select'</span>, <span class="dt">choices =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">multiple =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb2-6" title="6">    <span class="kw">sliderInput</span>(<span class="st">'sli'</span>, <span class="st">'Slider'</span>, <span class="dt">max=</span><span class="dv">1</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">val=</span><span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb2-7" title="7">  ), <span class="dt">max_ncomp =</span> <span class="dv">10</span>, <span class="dt">min_ncomp =</span> <span class="dv">0</span>, <span class="dt">initial_ncomp =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb2-8" title="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/compoundInput2.html">compoundInput2</a></span>(</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="st">'compound'</span>, <span class="st">'Group Label'</span>, <span class="dt">label_color =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">components =</span> <span class="kw">div</span>(</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="kw">textInput</span>(<span class="st">'txt'</span>, <span class="st">'Text'</span>),</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="kw">selectInput</span>(<span class="st">'sel'</span>, <span class="st">'Select'</span>, <span class="dt">choices =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">multiple =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="kw">sliderInput</span>(<span class="st">'sli'</span>, <span class="st">'Slider'</span>, <span class="dt">max=</span><span class="dv">1</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">val=</span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  ), <span class="dt">max_ncomp =</span> <span class="dv">10</span>, <span class="dt">min_ncomp =</span> <span class="dv">0</span>, <span class="dt">initial_ncomp =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">)</a></code></pre></div>
 <p>will create a list of input groups with minimum of 0 but maximum of 10. User can control the size of groups by pressing <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> buttons. The value <code>input$components</code> looks like this:</p>
 <pre><code>#&gt; [[1]]
 #&gt; [[1]]$txt
@@ -8349,21 +8345,21 @@ Danger
 <h3 class="hasAnchor">
 <a href="#synchronize-multiple-inputs" class="anchor"></a>3. Synchronize Multiple Inputs</h3>
 <p><code>sync_shiny_inputs</code> provides a way to update among multiple inputs with no dead-locks. For example, input A (<code>textInput</code>) shares the same information as input B (<code>sliderInput</code>). Updating A would trigger B to update. What if you want A to be updated when B is changed? The following code might cause recursive updates:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Bad example</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">observeEvent</span>(input<span class="op">$</span>A, {</a>
-<a class="sourceLine" id="cb4-3" title="3">  <span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> input<span class="op">$</span>A)</a>
-<a class="sourceLine" id="cb4-4" title="4">})</a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="kw">observeEvent</span>(input<span class="op">$</span>B, {</a>
-<a class="sourceLine" id="cb4-6" title="6">  <span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> input<span class="op">$</span>B)</a>
-<a class="sourceLine" id="cb4-7" title="7">})</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Bad example</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">observeEvent</span>(input<span class="op">$</span>A, {</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> input<span class="op">$</span>A)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">})</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">observeEvent</span>(input<span class="op">$</span>B, {</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> input<span class="op">$</span>B)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">})</a></code></pre></div>
 <p>In this case, you can use <code>sync_shiny_inputs</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span>(input, session, <span class="dt">inputIds =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'B'</span>), <span class="dt">uniform =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb5-2" title="2">  <span class="cf">function</span>(a){<span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(a)},</a>
-<a class="sourceLine" id="cb5-3" title="3">  <span class="cf">function</span>(b){ b }</a>
-<a class="sourceLine" id="cb5-4" title="4">), <span class="dt">updates =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb5-5" title="5">  <span class="cf">function</span>(a){<span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> a)},</a>
-<a class="sourceLine" id="cb5-6" title="6">  <span class="cf">function</span>(b){<span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> b)}</a>
-<a class="sourceLine" id="cb5-7" title="7">))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span>(input, session, <span class="dt">inputIds =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'B'</span>), <span class="dt">uniform =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="cf">function</span>(a){<span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(a)},</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="cf">function</span>(b){ b }</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">), <span class="dt">updates =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="cf">function</span>(a){<span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> a)},</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="cf">function</span>(b){<span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> b)}</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">))</a></code></pre></div>
 <p><code>inputIds</code> refers to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding <code>uniform</code> functions and stored, then <code>updates</code> will notify each inputs to update the UI values. The input of <code>updates</code> is the stored value.</p>
 <p>For example, if input <code>A</code> is changed from <code>"0"</code> to <code>"1"</code>, then the first function of <code>uniform</code> is triggered, <code>function(a){as.numeric(a)}</code> will be evaluated with <code>a="1"</code>. The result, which is numeric <code>1</code> will be stored. Next, each functions in <code>updates</code> will be called, with <code>1</code> (stored in the previous step) as input, results in changing the slider input <code>B</code> to <code>1</code>. This whole process will not trigger <code>A</code> to re-update.</p>
 </div>

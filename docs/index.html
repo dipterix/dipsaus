@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -106,11 +106,11 @@
 <a href="#a-dipping-sauce-to-data-analysis-and-visualization" class="anchor"></a>A Dipping Sauce to Data Analysis and Visualization</h1></div>
 
 <p>Package <code>dipsaus</code> provides <code>add-ons</code> to various packages such as <code>shiny</code>, <code>rlang</code>, <code>future</code>, etc. to enhance these packages. To install the development version package from <code>Github</code>,</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">'dipterix/dipsaus'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">'dipterix/dipsaus'</span>)</a></code></pre></div>
 <p><code>dipsaus</code> provides <code>add-ons</code> from the following perspectives:</p>
-<div id="1-shiny-customized-widgets-vignette" class="section level3">
+<div id="shiny-customized-widgets-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#1-shiny-customized-widgets-vignette" class="anchor"></a>1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html">Vignette</a>)</h3>
+<a href="#shiny-customized-widgets-vignette" class="anchor"></a>1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>compoundInput2</code> assembles any shiny native inputs and create variable-length input;</li>
@@ -122,9 +122,9 @@
 <code>set_shiny_input</code> to set shiny <code>input</code> object;</li>
 </ul>
 </div>
-<div id="2-parallel-functions" class="section level3">
+<div id="parallel-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#2-parallel-functions" class="anchor"></a>2. Parallel Functions</h3>
+<a href="#parallel-functions" class="anchor"></a>2. Parallel Functions</h3>
 <ul>
 <li>
 <code>collapse</code> is a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
@@ -140,9 +140,9 @@
 <code>shift_array</code> to shift arrays along given dimensions;</li>
 </ul>
 </div>
-<div id="3-queue-maps-persist-containers" class="section level3">
+<div id="queue-maps-persist-containers" class="section level3">
 <h3 class="hasAnchor">
-<a href="#3-queue-maps-persist-containers" class="anchor"></a>3. Queue, Maps, Persist Containers</h3>
+<a href="#queue-maps-persist-containers" class="anchor"></a>3. Queue, Maps, Persist Containers</h3>
 <!--* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions; -->
 <ul>
 <li>
@@ -151,9 +151,9 @@
 <code>PersistContainer</code> provides two-level cache mechanism to save R objects in current session or preserve them on the local disk.</li>
 </ul>
 </div>
-<div id="4-r-expressions-vignette" class="section level3">
+<div id="r-expressions-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#4-r-expressions-vignette" class="anchor"></a>4. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
+<a href="#r-expressions-vignette" class="anchor"></a>4. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::quo</a></code>;</li>
@@ -163,9 +163,9 @@
 <code><a href="reference/grapes-help-set-grapes.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist.</li>
 </ul>
 </div>
-<div id="5-utility-functions-vignette" class="section level3">
+<div id="utility-functions-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#5-utility-functions-vignette" class="anchor"></a>5. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html">Vignette</a>)</h3>
+<a href="#utility-functions-vignette" class="anchor"></a>5. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>

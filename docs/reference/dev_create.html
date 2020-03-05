@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Recursively match calls and modify arguments — match_calls • dipsaus</title>
+<title>Create a group of named graphic devices — dev_create • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Recursively match calls and modify arguments — match_calls" />
-<meta property="og:description" content="Recursively match calls and modify arguments" />
+<meta property="og:title" content="Create a group of named graphic devices — dev_create" />
+<meta property="og:description" content="Create a group of named graphic devices" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,70 +129,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Recursively match calls and modify arguments</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>match_calls.Rd</code></div>
+    <h1>Create a group of named graphic devices</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/graphics.R'><code>R/graphics.R</code></a></small>
+    <div class="hidden name"><code>dev_create.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Recursively match calls and modify arguments</p>
+    <p>Create a group of named graphic devices</p>
     </div>
 
-    <pre class="usage"><span class='fu'>match_calls</span>(
-  <span class='no'>call</span>,
-  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>replace_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>quoted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dev_create</span>(<span class='no'>...</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>call</th>
-      <td><p>an <code>R</code> expression</p></td>
-    </tr>
-    <tr>
-      <th>recursive</th>
-      <td><p>logical, recursively match calls, default is true</p></td>
-    </tr>
-    <tr>
-      <th>replace_args</th>
-      <td><p>named list of functions, see examples</p></td>
-    </tr>
-    <tr>
-      <th>quoted</th>
-      <td><p>logical, is <code>call</code> quoted</p></td>
-    </tr>
-    <tr>
-      <th>envir</th>
-      <td><p>which environment should call be evaluated</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>other parameters passing to <code>match.call</code></p></td>
+      <td><p>named expressions to launch devices</p></td>
+    </tr>
+    <tr>
+      <th>env</th>
+      <td><p>environment to evaluate expressions</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A nested call with all arguments matched</p>
+    <p>A list of functions to query, control, and switch between devices</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>)  <span class='co'>## Unix-specific example</span>
 
-<span class='co'># In shiny modules, we might want to add ns() to inputIds</span>
-<span class='co'># In this example, textInput(id) will become textInput(ns(id))</span>
-<span class='fu'>match_calls</span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>){
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'id_'</span>, <span class='no'>i</span>), <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Label '</span>, <span class='no'>i</span>))
-}), <span class='kw'>replace_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='kw'>inputId</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>arg</span>, <span class='no'>call</span>){ <span class='fu'><a href='https://rdrr.io/r/base/call.html'>as.call</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>(<span class='no'>ns</span>), <span class='no'>arg</span>)) }
-))</div><div class='output co'>#&gt; lapply(X = 1:20, FUN = function(i) {
-#&gt;     textInput(inputId = ns(paste("id_", i)), label = paste("Label ", 
-#&gt;         i))
-#&gt; })</div><div class='input'>
+<span class='co'># Create multiple named devices</span>
+<span class='no'>devs</span> <span class='kw'>&lt;-</span> <span class='fu'>dev_create</span>(<span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/x11.html'>X11</a></span>(), <span class='kw'>points</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/x11.html'>x11</a></span>())
+
+<span class='co'># switch to device named "points"</span>
+
+<span class='no'>devs</span>$<span class='fu'>dev_which</span>(<span class='st'>'points'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'devs' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='img'><img src='dev_create-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># switch to "line" device</span>
+<span class='no'>devs</span>$<span class='fu'>dev_switch</span>(<span class='st'>'line'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'devs' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>)</div><div class='img'><img src='dev_create-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Create another group with conflict name</span>
+<span class='no'>dev_another</span> <span class='kw'>&lt;-</span> <span class='fu'>dev_create</span>(<span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/x11.html'>X11</a></span>())
+
+<span class='co'># Query device name with 'line'</span>
+<span class='no'>dev_another</span>$<span class='fu'>dev_which</span>(<span class='st'>'line'</span>)  <span class='co'># 4</span></div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='no'>devs</span>$<span class='fu'>dev_which</span>(<span class='st'>'line'</span>)  <span class='co'># 2, doesn't conflict with the new groups</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'devs' not found</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.list</a></span>()</div><div class='output co'>#&gt; pdf X11 
+#&gt;   2   3 </div><div class='input'><span class='co'># close one or more device</span>
+<span class='no'>dev_another</span>$<span class='fu'>dev_off</span>(<span class='st'>'line'</span>)
+<span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.list</a></span>()</div><div class='output co'>#&gt; pdf 
+#&gt;   2 </div><div class='input'>
+<span class='co'># close all devices</span>
+<span class='no'>devs</span>$<span class='fu'>dev_off</span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'devs' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.list</a></span>()</div><div class='output co'>#&gt; pdf 
+#&gt;   2 </div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
