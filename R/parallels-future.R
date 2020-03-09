@@ -69,7 +69,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         fs <- future.apply::future_lapply(x, function(el){
           p(message = eval(callback_call))
           eval(call)
-        }, future.chunk.size = 1L)
+        })#, future.chunk.size = 1L)
       })
     # }else{
     #   progressr::withProgressShiny({
