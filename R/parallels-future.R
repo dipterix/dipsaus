@@ -4,7 +4,6 @@
 #' @param x vector, list
 #' @param FUN function to apply on each element of \code{x}
 #' @param FUN.args more arguments to feed into \code{FUN}
-#' @param env environment to run, default to \code{FUN}'s environment
 #' @param plan logical, or character or \code{future} plan; see Details.
 #' @param callback function to run after each iteration
 #' @param ... passed to \code{\link[future]{plan}}
@@ -18,7 +17,7 @@
 #' @return same as
 #' \code{with(FUN.args, lapply(x, function(el){eval(body(FUN))}))}
 #' @export
-lapply_async2 <- function(x, FUN, FUN.args = list(), env = environment(FUN),
+lapply_async2 <- function(x, FUN, FUN.args = list(),
                           callback = NULL, plan = TRUE, ...){
   if(length(plan) && !isFALSE(plan)){
     if(isTRUE(plan)){
@@ -34,11 +33,10 @@ lapply_async2 <- function(x, FUN, FUN.args = list(), env = environment(FUN),
   }
 
   if( is.function(callback) ){
+
     callback_formals <- formals(callback)
-    if(length(callback_formals) >= 2 || '...' %in% names(callback_formals)){
-      callback_call <- quote(callback(x[[ii]], ii))
-    }else if (length(callback_formals)){
-      callback_call <- quote(callback(ii))
+    if (length(callback_formals)){
+      callback_call <- quote(callback(el))
     }else{
       callback_call <- quote(callback())
     }
@@ -46,26 +44,65 @@ lapply_async2 <- function(x, FUN, FUN.args = list(), env = environment(FUN),
     callback_call <- NULL
   }
 
-  fun_body <- body(FUN)
-  fun_param <- str2lang(names(formals(FUN)[1]))
+  # fun_body <- body(FUN)
+  # fun_param <- str2lang(names(formals(FUN)[1]))
 
-  fs <- lapply(seq_along(x), function(ii){
 
-    on.exit(eval(callback_call))
+  call <- as_call(quote(FUN), quote(el), .list = FUN.args)
+  if(is.null(callback_call)){
+    fs <- future.apply::future_lapply(x, function(el){
+      eval(call)
+    })
+  }else{
 
-    call <- as_call(
-      quote(future::future),
-      as_call(
-        quote(`{`),
-        as_call(quote(`<-`), fun_param, x[[ii]]),
-        fun_body
-      ),
-      substitute = TRUE,
-      globals = TRUE
-    )
+    old.handlers <- progressr::handlers(handler_dipsaus_progress())
+    on.exit({
+      try({
+        progressr::handlers(old.handlers)
+      }, silent = TRUE)
+    }, add = TRUE)
 
-    eval_dirty(call, env = env, data = FUN.args)
-  })
-  fs = future::values(fs)
+    # if(is.null(shiny::getDefaultReactiveDomain())){
+
+      progressr::with_progress({
+        p <- progressr::progressor(along = x)
+        fs <- future.apply::future_lapply(x, function(el){
+          p(message = eval(callback_call))
+          eval(call)
+        }, future.chunk.size = 1L)
+      })
+    # }else{
+    #   progressr::withProgressShiny({
+    #     p <- progressr::progressor(along = x)
+    #     fs <- future.apply::future_lapply(x, function(el){
+    #       p(message = eval(callback_call))
+    #       eval(call)
+    #     })
+    #   }, handlers = handler_dipsaus_progress)
+    # }
+
+
+  }
+
+
+
+  # fs <- lapply(seq_along(x), function(ii){
+  #
+  #   on.exit(eval(callback_call))
+  #
+  #   call <- as_call(
+  #     quote(future::future),
+  #     as_call(
+  #       quote(`{`),
+  #       as_call(quote(`<-`), fun_param, x[[ii]]),
+  #       fun_body
+  #     ),
+  #     substitute = TRUE,
+  #     globals = TRUE
+  #   )
+  #
+  #   eval_dirty(call, env = env, data = FUN.args)
+  # })
+  # fs = future::values(fs)
   fs
 }

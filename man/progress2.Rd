@@ -10,7 +10,8 @@ progress2(
   ...,
   quiet = FALSE,
   session = shiny::getDefaultReactiveDomain(),
-  shiny_auto_close = FALSE
+  shiny_auto_close = FALSE,
+  log = NULL
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ progress2(
 once current observer is over. Default is \code{FALSE}. If setting to
 \code{TRUE}, then it's equivalent to
 \code{p <- progress2(...); on.exit({p$close()}, add = TRUE)}.}
+
+\item{log}{function when running locally, default is \code{NULL},
+which redirects to \code{\link{cat2}}}
 }
 \value{
 A list of functions:

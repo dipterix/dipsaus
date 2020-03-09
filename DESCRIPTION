@@ -34,6 +34,7 @@ Imports:
     jsonlite (>= 1.6),
     future,
     future.apply,
+    progressr,
     Rcpp,
     RcppParallel,
     crayon,

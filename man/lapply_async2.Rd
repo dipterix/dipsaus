@@ -4,15 +4,7 @@
 \alias{lapply_async2}
 \title{Apply, but in parallel}
 \usage{
-lapply_async2(
-  x,
-  FUN,
-  FUN.args = list(),
-  env = environment(FUN),
-  callback = NULL,
-  plan = TRUE,
-  ...
-)
+lapply_async2(x, FUN, FUN.args = list(), callback = NULL, plan = TRUE, ...)
 }
 \arguments{
 \item{x}{vector, list}
@@ -20,8 +12,6 @@ lapply_async2(
 \item{FUN}{function to apply on each element of \code{x}}
 
 \item{FUN.args}{more arguments to feed into \code{FUN}}
-
-\item{env}{environment to run, default to \code{FUN}'s environment}
 
 \item{callback}{function to run after each iteration}
 

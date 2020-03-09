@@ -4,6 +4,8 @@
 #' @param ... passed to \code{shiny::Progress$new(...)}
 #' @param quiet suppress console output, ignored in shiny context.
 #' @param session 'shiny' session, default is current reactive domain
+#' @param log function when running locally, default is \code{NULL},
+#' which redirects to \code{\link{cat2}}
 #' @param shiny_auto_close logical, automatically close 'shiny' progress bar
 #' once current observer is over. Default is \code{FALSE}. If setting to
 #' \code{TRUE}, then it's equivalent to
@@ -65,7 +67,7 @@
 #' @export
 progress2 <- function( title, max = 1, ..., quiet = FALSE,
                        session = shiny::getDefaultReactiveDomain(),
-                       shiny_auto_close = FALSE){
+                       shiny_auto_close = FALSE, log = NULL){
   if(missing(title) || is.null(title)){ title <- '' }
   if( length(title) > 1 ){ title <- paste(title, collapse = '')}
 
@@ -79,11 +81,17 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
   closed <- FALSE
   get_value <- function(){ current }
   is_closed <- function(){ closed }
-  logger <- function(..., .quiet = quiet){
+  logger <- function(..., .quiet = quiet, level = 'DEFAULT', bullet = 'play'){
     if(!.quiet){
-      cat2(...)
+      if(is.function(log)){
+        log(...)
+      }else{
+        cat2(..., level=level, bullet=bullet)
+      }
     }
   }
+
+
 
   if( quiet || !within_shiny ){
     progress <- NULL
@@ -99,9 +107,9 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
            level = 'DEFAULT', bullet = 'arrow_right', .quiet = quiet)
     }
 
-    close <- function(){
+    close <- function(message = 'Finished'){
       closed <<- TRUE
-      logger('Finished', level = 'DEFAULT', bullet = 'stop')
+      logger(message, level = 'DEFAULT', bullet = 'stop')
     }
     reset <- function(detail = '', message = '', value = 0){
       title <<- message
@@ -114,7 +122,7 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
       if(!is.null(message) && length(message) == 1){ title <<- message }
       progress$inc(detail = detail, message = title, amount = amount)
     }
-    close <- function(){
+    close <- function(message = 'Finished'){
       if(!closed){
         progress$close()
         closed <<- TRUE
@@ -132,6 +140,7 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
         envir = parent_frame
       )
     }
+    inc(detail = 'Initializing...', amount = 0)
 
   }
 
@@ -145,4 +154,143 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
   ))
 }
 
-
+#' @title Progress-bar Handler
+#' @description Handler for \code{\link{progress2}} to support
+#' \code{progressr::handlers}. See examples for detailed use case
+#' @param title default title of \code{\link{progress2}}
+#' @param intrusiveness A non-negative scalar on how intrusive
+#' (disruptive) the reporter to the user
+#' @param target where progression updates are rendered
+#' @param ... passed to \code{\link[progressr]{make_progression_handler}}
+#' @examples
+#'
+#'
+#' library(progressr)
+#' library(shiny)
+#' library(future)
+#'
+#' ## ------------------------------ Setup! -------------------------------
+#' handlers(handler_dipsaus_progress())
+#'
+#' # ------------------------------ A simple usage ------------------------
+#' xs <- 1:5
+#' handlers(handler_dipsaus_progress())
+#' with_progress({
+#'   p <- progressor(along = xs)
+#'   y <- lapply(xs, function(x) {
+#'     p(sprintf("x=%g", x))
+#'     Sys.sleep(0.1)
+#'     sqrt(x)
+#'   })
+#' })
+#'
+#' # ------------------------ A future.apply case -------------------------
+#' plan(sequential)
+#' # test it yourself with plan(multisession)
+#'
+#' handlers(handler_dipsaus_progress())
+#' with_progress({
+#'   p <- progressor(along = xs)
+#'   y <- future.apply::future_lapply(xs, function(x) {
+#'     p(sprintf("x=%g", x))
+#'     Sys.sleep(0.1)
+#'     sqrt(x)
+#'   })
+#' })
+#'
+#' # ------------------------ A shiny case --------------------------------
+#'
+#' ui <- fluidPage(
+#'   actionButton('ok', 'Run Demo')
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   handlers(handler_dipsaus_progress())
+#'   make_forked_clusters()
+#'
+#'   observeEvent(input$ok, {
+#'     with_progress({
+#'       p <- progressor(along = 1:100)
+#'       y <- future.apply::future_lapply(1:100, function(x) {
+#'         p(sprintf("Input %d|Result %d", x, x+1))
+#'         Sys.sleep(1)
+#'         x+1
+#'       })
+#'     })
+#'   })
+#' }
+#'
+#' if(interactive()){
+#'   shinyApp(ui, server)
+#' }
+#'
+#'
+#'
+#' @export
+handler_dipsaus_progress <- function (
+  title = getOption("dipsaus.progressr.title", "Progress"),
+  intrusiveness = getOption("progressr.intrusiveness.gui", 1),
+  target = if (is.null(shiny::getDefaultReactiveDomain())) "terminal" else "gui",
+  ...)
+{
+  reporter <- local({
+    pb <- NULL
+    make_pb <- function(title, max, ...) {
+      if (!is.null(pb) && !pb$is_closed())
+        return(pb)
+      pb <<- progress2(title, max, ..., log = function(...){
+        msg = paste(..., sep = '', collapse = ' ')
+        msg = gsub(pattern = '[\n]+$', replacement = '', msg)
+        cw = getOption('width', 80)
+        message('\r', paste(rep(' ', cw), collapse = ''), appendLF = FALSE)
+        message('\r', msg, appendLF = FALSE)
+        flush.console()
+      })
+      pb
+    }
+    list(
+      reset = function(...) {
+        if(!is.null(pb)){
+          pb$close()
+        }
+        pb <<- NULL
+      },
+      initiate = function(config, state, progression, ...) {
+        if (!state$enabled || config$times == 1L) return()
+        make_pb(title = title, max = config$max_steps)
+      },
+      update = function(config, state, progression, ...) {
+        if (!state$enabled || config$times <= 2L) return()
+        # make sure pb exists
+        make_pb(title = title, max = config$max_steps)
+        if( state$delta > 0 ){
+          # message|details
+          msg <- strsplit(state$message, '|', TRUE)[[1]]
+          if(length(msg) > 1){
+            message = msg[[1]]
+            detail = paste(msg[-1], collapse = '|')
+          }else{
+            message = NULL
+            detail = state$message
+          }
+          pb$inc(message = message, detail = detail,
+                 amount = state$delta)
+        }
+      },
+      finish = function(config, state, progression, ...) {
+        if( is.null(pb) || pb$is_closed() ) return()
+        if( pb$get_value() < config$max_steps ){
+          state$step = config$max_steps
+          reporter$update(config = config, state = state,
+                          progression = progression, ...)
+        }
+        if (config$clear ) {
+          pb$close(sprintf('%s - Finished\r\n', title))
+        }
+      }
+    )
+  })
+  progressr::make_progression_handler(
+    name = "dipsaus_progress", reporter,
+    intrusiveness = intrusiveness, ...)
+}
