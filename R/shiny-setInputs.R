@@ -49,7 +49,8 @@
 #'
 #' @export
 set_shiny_input <- function(
-  session, inputId, value, priority = c('event', 'deferred', 'immediate'),
+  session = shiny::getDefaultReactiveDomain(), inputId, value,
+  priority = c('event', 'deferred', 'immediate'),
   method = c('proxy', 'serialize', 'value', 'expression'), quoted = TRUE){
 
   priority <- match.arg(priority)
@@ -76,7 +77,7 @@ set_shiny_input <- function(
     },
     'proxy' = {
       session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
-      session$userData$dipsaus_reserved$proxy_data %?<-% new.env(parent = emptyenv())
+      session$userData$dipsaus_reserved$proxy_data %?<-% fastmap2()
       session$userData$dipsaus_reserved$proxy_data[[inputId]] <- value
       raw <- inputId
     }
@@ -88,6 +89,7 @@ set_shiny_input <- function(
     value = raw,
     priority = priority
   ))
+  invisible()
 }
 
 
@@ -131,9 +133,9 @@ registerSetInputs <- function(){
       },
 
       'proxy' = {
-        if(is.environment(session$userData$dipsaus_reserved$proxy_data)){
+        if(inherits(session$userData$dipsaus_reserved$proxy_data, 'fastmap2')){
           re <- session$userData$dipsaus_reserved$proxy_data[[raw]]
-          rm(list = raw, envir = session$userData$dipsaus_reserved$proxy_data)
+          session$userData$dipsaus_reserved$proxy_data$`@remove`(raw)
           re
         }else{
           NULL

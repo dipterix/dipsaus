@@ -5,7 +5,7 @@
 \title{Set Shiny Input}
 \usage{
 set_shiny_input(
-  session,
+  session = shiny::getDefaultReactiveDomain(),
   inputId,
   value,
   priority = c("event", "deferred", "immediate"),

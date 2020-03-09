@@ -303,3 +303,12 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
     return(array(c( re1, a - b), dim = c(da, 2)))
   }
 }
+
+
+as_call <- function(..., .list=list(), .drop_nulls = FALSE){
+  call = c(list(...), .list)
+  if (.drop_nulls) {
+    call = call[!vapply(call, is.null, FUN.VALUE = FALSE)]
+  }
+  as.call(call)
+}

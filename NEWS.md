@@ -1,3 +1,16 @@
+dipsaus 0.0.5
+=======
+
+## Major Changes
+* Added `dev_create` to control switching among graphical devices
+* Added `use_shiny_dipsaus()` to import all styles and JavaScripts
+* Added a wrapper for `fastmap::fastmap` - `fastmap2`, which provides several generic functions, making the original `fastmap` more like an environment
+* Added `lapply_async2`, a naive version of `future.lapply`, but with callbacks, which is useful if play-back message is required. This is experimental. In the future when package `progressr` is online, this function will be adjusted.
+
+## Bug Fixes
+* Resolved memory leaks in `compoundInput2`
+* Use `fastmap2` instead of environments to manage `set_shiny_input`
+
 dipsaus 0.0.4
 =======
 
