@@ -10,3 +10,4 @@ cache:
 r:
   - release
   - devel
+  - oldrel

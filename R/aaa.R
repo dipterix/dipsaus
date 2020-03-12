@@ -14,3 +14,15 @@ NULL
 
 .missing_arg <- alist(x = )
 
+# Compatibility issue
+
+str2lang_alt <- function(s){
+  s <- sprintf('quote(%s)', stringr::str_trim(s))
+  eval(parse(text = s))
+}
+
+str2lang <- function(s){
+  get0('str2lang', envir = baseenv(), ifnotfound = str2lang_alt)(s)
+}
+
+
