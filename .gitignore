@@ -21,3 +21,4 @@ config.log
 config.status
 src/Makevars
 checkbashisms
+revdep

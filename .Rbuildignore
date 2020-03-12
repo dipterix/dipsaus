@@ -5,6 +5,7 @@
 ^Meta$
 ^doc$
 ^docs/
+^revdep/
 ^cran-comments\.md$
 ^shortcuts\.md$
 ^README\.md$
