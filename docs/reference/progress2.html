@@ -144,7 +144,8 @@
   <span class='no'>...</span>,
   <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span>(),
-  <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>log</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -176,6 +177,11 @@
 once current observer is over. Default is <code>FALSE</code>. If setting to
 <code>TRUE</code>, then it's equivalent to
 <code>p &lt;- progress2(...); on.exit({p$close()}, add = TRUE)</code>.</p></td>
+    </tr>
+    <tr>
+      <th>log</th>
+      <td><p>function when running locally, default is <code>NULL</code>,
+which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
     </tr>
     </table>
 

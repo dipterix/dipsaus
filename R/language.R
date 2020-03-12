@@ -306,9 +306,9 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
 
 
 as_call <- function(..., .list=list(), .drop_nulls = FALSE){
-  call = c(list(...), .list)
+  call <- c(list(...), .list)
   if (.drop_nulls) {
-    call = call[!vapply(call, is.null, FUN.VALUE = FALSE)]
+    call <- call[!vapply(call, is.null, FUN.VALUE = FALSE)]
   }
   as.call(call)
 }

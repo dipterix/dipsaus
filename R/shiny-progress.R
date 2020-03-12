@@ -239,9 +239,9 @@ handler_dipsaus_progress <- function (
       if (!is.null(pb) && !pb$is_closed())
         return(pb)
       pb <<- progress2(title, max, ..., log = function(...){
-        msg = paste(..., sep = '', collapse = ' ')
-        msg = gsub(pattern = '[\n]+$', replacement = '', msg)
-        cw = getOption('width', 80)
+        msg <- paste(..., sep = '', collapse = ' ')
+        msg <- gsub(pattern = '[\n]+$', replacement = '', msg)
+        cw <- getOption('width', 80)
         message('\r', paste(rep(' ', cw), collapse = ''), appendLF = FALSE)
         message('\r', msg, appendLF = FALSE)
         flush.console()
@@ -267,11 +267,11 @@ handler_dipsaus_progress <- function (
           # message|details
           msg <- strsplit(state$message, '|', TRUE)[[1]]
           if(length(msg) > 1){
-            message = msg[[1]]
-            detail = paste(msg[-1], collapse = '|')
+            message <- msg[[1]]
+            detail <- paste(msg[-1], collapse = '|')
           }else{
-            message = NULL
-            detail = state$message
+            message <- NULL
+            detail <- state$message
           }
           pb$inc(message = message, detail = detail,
                  amount = state$delta)
@@ -280,7 +280,7 @@ handler_dipsaus_progress <- function (
       finish = function(config, state, progression, ...) {
         if( is.null(pb) || pb$is_closed() ) return()
         if( pb$get_value() < config$max_steps ){
-          state$step = config$max_steps
+          state$step <- config$max_steps
           reporter$update(config = config, state = state,
                           progression = progression, ...)
         }

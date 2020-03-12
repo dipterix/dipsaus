@@ -5,7 +5,7 @@
 #' \code{\link[fastmap]{fastmap}} avoids memory leak. \code{fastmap2}
 #' is a wrapper for \code{fastmap}, which provides several generic
 #' functions such that it has similar behaviors to lists or
-#' envitonments.
+#' environments
 #' @param missing_default passed to \code{fastmap::fastmap}
 #' @param i,j vector of names
 #' @param name name, or key of the value
@@ -109,7 +109,7 @@ fastmap2 <- function(missing_default = NULL){
 #' @export
 `names.fastmap2` <- function(x){
   re <- .subset2(x, 'keys')()
-  if(!length(re)){ re = NULL }
+  if(!length(re)){ re <- NULL }
   re
 }
 

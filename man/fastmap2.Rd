@@ -59,7 +59,7 @@ values are any R objects. It differs from normal environment that
 \code{\link[fastmap]{fastmap}} avoids memory leak. \code{fastmap2}
 is a wrapper for \code{fastmap}, which provides several generic
 functions such that it has similar behaviors to lists or
-envitonments.
+environments
 }
 \examples{
 

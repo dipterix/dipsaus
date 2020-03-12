@@ -16,6 +16,28 @@
 #' objects.
 #' @return same as
 #' \code{with(FUN.args, lapply(x, function(el){eval(body(FUN))}))}
+#' @examples
+#'
+#' library(future)
+#' plan(sequential)
+#'
+#' # Use sequential plan
+#' # 1. Change `plan` to 'multicore', 'multisession', or TRUE to enable
+#' # multi-core, but still with progress information
+#' # 2. Change plan=FALSE will use current future plan
+#' res <- lapply_async2(100:200, function(x){
+#'   return(x+1)
+#' }, callback = function(e){
+#'   sprintf('Input=%d', e)
+#' }, plan = 'sequential')
+#'
+#' # Disable callback message, then the function reduce to
+#' # `future.apply::future_lapply`
+#' res <- lapply_async2(100:200, function(x){
+#'   return(x+1)
+#' }, callback = NULL, plan = FALSE)
+#'
+#'
 #' @export
 lapply_async2 <- function(x, FUN, FUN.args = list(),
                           callback = NULL, plan = TRUE, ...){
