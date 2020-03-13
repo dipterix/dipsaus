@@ -5,6 +5,19 @@
 
 using namespace Rcpp;
 
+// cpp_forelse
+SEXP cpp_forelse(Rcpp::List data, Rcpp::Function fun, Rcpp::Function alt);
+RcppExport SEXP _dipsaus_cpp_forelse(SEXP dataSEXP, SEXP funSEXP, SEXP altSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Function >::type fun(funSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Function >::type alt(altSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_forelse(data, fun, alt));
+    return rcpp_result_gen;
+END_RCPP
+}
 // arrayShift
 Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x, const int64_t tidx, const int64_t sidx, const Rcpp::IntegerVector& shift, const Rcpp::IntegerVector& dims);
 RcppExport SEXP _dipsaus_arrayShift(SEXP xSEXP, SEXP tidxSEXP, SEXP sidxSEXP, SEXP shiftSEXP, SEXP dimsSEXP) {
@@ -53,6 +66,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_dipsaus_cpp_forelse", (DL_FUNC) &_dipsaus_cpp_forelse, 3},
     {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
     {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},

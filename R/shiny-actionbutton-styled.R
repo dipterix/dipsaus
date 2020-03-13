@@ -16,7 +16,7 @@
 #'
 #' ui <- fluidPage(
 #'   actionButtonStyled('btn', label = 'Click me', type = 'default'),
-#'   actionButtonStyled('btn2', label = 'Click me2', type = 'primary'),
+#'   actionButtonStyled('btn2', label = 'Click me2', type = 'primary')
 #' )
 #'
 #'
