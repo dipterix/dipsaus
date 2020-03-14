@@ -396,9 +396,58 @@ decorate_function <- function(orig, decor, env = parent.frame()){
 }
 
 
-
-
-
-
-
+#' @title Get element from dots \code{'...'}
+#' @description Get specific key values from \code{'...'} without
+#' evaluating the rest of arguments
+#' @param ..name character name of the argument
+#' @param ..default R object to return if argument not found
+#' @param ... dots that contains argument
+#' @details One could use \code{list(...)[[name]]} to extract any keys
+#' from the dots. However, such way reduces code readability. If
+#' some arguments have not evaluated, \code{list(...)} will
+#' @examples
+#'
+#'
+#' # ------------------------ Basic Usage ---------------------------
+#' plot2 <- function(...){
+#'   title = get_dots('main', 'There is no title', ...)
+#'   plot(...)
+#'   title
+#' }
+#'
+#' plot2(1:10)
+#' plot2(1:10, main = 'Scatter Plot of 1:10')
+#'
+#' # ------------------------ Comparisons ----------------------------
+#' f1 <- function(...){ get_dots('x', ...) }
+#' f2 <- function(...){ list(...)[['x']] }
+#' delayedAssign('y', { cat('y is evaluated!') })
+#'
+#' # y will not evaluate
+#' f1(x = 1, y = y)
+#'
+#' # y gets evaluated
+#' f2(x = 1, y = y)
+#'
+#' # -------------------- Decorator example --------------------------
+#'
+#' plot_ret_range <- plot %@% (function(f, ...){
+#'   f(...)
+#'   y_range <- range(get_dots('y', 0, ...))
+#'   y_range
+#' })
+#' plot_ret_range(1:10, rnorm(10))
+#'
+#'
+#' @export
+get_dots <- function(..name, ..default = NULL, ...){
+  call <- as.list(match.call(expand.dots = TRUE))[-1]
+  call <- call[!names(call) %in% c('..name', '..default')]
+  if(..name %in% names(call)){
+    idx <- which(names(call) == ..name)[1]
+    return(...elt(idx))
+  }else{
+    return(..default)
+  }
+}
 
