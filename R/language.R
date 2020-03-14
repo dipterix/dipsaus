@@ -320,8 +320,8 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 
 #' @name decorate_function
 #' @title Python-style decorator
-#' @param orig any function
-#' @param decor decorator function that takes \code{orig} as its first
+#' @param orig,lhs any function
+#' @param decor,rhs decorator function that takes \code{orig} as its first
 #' argument
 #' @param env environment where new function should be defined
 #' @examples
@@ -389,7 +389,7 @@ decorate_function <- function(orig, decor, env = parent.frame()){
 #' @rdname decorate_function
 #' @export
 `%@%` <- function(lhs, rhs){
-  print(rhs)
+  # print(rhs)
   # print(substitute(rhs))
   parent_env <- parent.frame()
   return(decorate_function(lhs, rhs, env = parent_env))

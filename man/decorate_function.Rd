@@ -10,9 +10,9 @@ decorate_function(orig, decor, env = parent.frame())
 lhs \%@\% rhs
 }
 \arguments{
-\item{orig}{any function}
+\item{orig, lhs}{any function}
 
-\item{decor}{decorator function that takes \code{orig} as its first
+\item{decor, rhs}{decorator function that takes \code{orig} as its first
 argument}
 
 \item{env}{environment where new function should be defined}
