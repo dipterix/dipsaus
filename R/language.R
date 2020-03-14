@@ -307,8 +307,98 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
 
 as_call <- function(..., .list=list(), .drop_nulls = FALSE){
   call <- c(list(...), .list)
+  if('...' %in% names(call)){
+    call[['...']] <- NULL
+    call[[length(call) + 1]] <- quote(...)
+  }
   if (.drop_nulls) {
     call <- call[!vapply(call, is.null, FUN.VALUE = FALSE)]
   }
   as.call(call)
 }
+
+
+#' @name decorate_function
+#' @title Python-style decorator
+#' @param orig any function
+#' @param decor decorator function that takes \code{orig} as its first
+#' argument
+#' @param env environment where new function should be defined
+#' @examples
+#'
+#'
+#' # Example 1: basic usage
+#' # Decorator that prints summary of results and return results itself
+#' verbose_summary <- function(f, ...){
+#'   results <- f(...)
+#'   print(summary(results))
+#'   return(results)
+#' }
+#'
+#' # runs as.list, but through verbose_summary
+#' as_list2 <- decorate_function(as.list, verbose_summary)
+#'
+#' # run test
+#' res <- as_list2(1:3)  # will verbose summary
+#' identical(res, as.list(1:3))
+#'
+#' # Example 2
+#' x <- 1:20
+#' y <- x + rnorm(20)
+#'
+#' # decorator, add a line with slope 1 with given intercept
+#' abline_xy <- function(f, intercept, ...){
+#'   f(..., intercept = intercept)
+#'   abline(a = intercept, b = 1)
+#'   return(intercept)
+#' }
+#'
+#' # orig, plot whatever x vs jittered+intercept
+#' plot_xy <- function(x, intercept = rnorm(1)){
+#'   plot(x, jitter(x, amount = 3) + intercept)
+#' }
+#'
+#' # new function that decorate plot_xy with abline_xy, and
+#' # returns the intercept
+#' plot_xy2 <- decorate_function(plot_xy, abline_xy)
+#'
+#' # alternatively, you might also want to try
+#' plot_xy2 <- plot_xy %@% abline_xy
+#'
+#' plot_xy2(x = 1:20)
+#'
+#' @export
+decorate_function <- function(orig, decor, env = parent.frame()){
+  force(orig)
+  force(decor)
+  args <- as.list(formals(orig))
+  argnames <- names(args)
+  argnames[argnames == '...'] = ''
+  call <- as_call(
+    decor, orig, .list = structure(
+      lapply(names(args), str2lang),
+      names = argnames))
+  # print(as_call(substitute(decor), substitute(orig),
+  #               .list = unname(lapply(names(args), str2lang))))
+  args[[length(args) + 1]] = call
+  # print(args)
+  as.function(args, envir = env)
+  # args
+}
+
+#' @rdname decorate_function
+#' @export
+`%@%` <- function(lhs, rhs){
+  print(rhs)
+  # print(substitute(rhs))
+  parent_env <- parent.frame()
+  return(decorate_function(lhs, rhs, env = parent_env))
+}
+
+
+
+
+
+
+
+
