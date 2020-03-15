@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A JavaScript style of creating functions — %=&gt;% • dipsaus</title>
+<title>Python-style decorator — decorate_function • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="A JavaScript style of creating functions — %=&gt;%" />
-<meta property="og:description" content="A JavaScript style of creating functions" />
+<meta property="og:title" content="Python-style decorator — decorate_function" />
+<meta property="og:description" content="Python-style decorator" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,75 +129,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A JavaScript style of creating functions</h1>
+    <h1>Python-style decorator</h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>grapes-equals-greater-than-grapes.Rd</code></div>
+    <div class="hidden name"><code>decorate_function.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A JavaScript style of creating functions</p>
+    <p>Python-style decorator</p>
     </div>
 
-    <pre class="usage"><span class='no'>args</span> <span class='kw'>%=&gt;%</span> <span class='no'>expr</span></pre>
+    <pre class="usage"><span class='fu'>decorate_function</span>(<span class='no'>orig</span>, <span class='no'>decor</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+
+<span class='no'>lhs</span> <span class='kw'>%@%</span> <span class='no'>rhs</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>args</th>
-      <td><p>function arguments: see <code><a href='https://rdrr.io/r/base/formals.html'>formals</a></code></p></td>
+      <th>orig, lhs</th>
+      <td><p>any function</p></td>
     </tr>
     <tr>
-      <th>expr</th>
-      <td><p>R expression that forms the body of functions: see <code><a href='https://rdrr.io/r/base/body.html'>body</a></code></p></td>
+      <th>decor, rhs</th>
+      <td><p>decorator function that takes <code>orig</code> as its first
+argument</p></td>
+    </tr>
+    <tr>
+      <th>env</th>
+      <td><p>environment where new function should be defined</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A function that takes <code>args</code> as parameters and <code>expr</code> as
-the function body</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Formal arguments</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
-}</div><div class='output co'>#&gt; function (a) 
-#&gt; {
-#&gt;     print(a)
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># Informal arguments</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span><span class='kw'>=</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
-}</div><div class='output co'>#&gt; function (a) 
-#&gt; {
-#&gt;     print(a)
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># Multiple inputs</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>...</span>))
-}</div><div class='output co'>#&gt; function (a, b = 2, ...) 
-#&gt; {
-#&gt;     print(c(a, b, ...))
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># ----- JavaScript style of forEach -----</span>
-<span class='co'># ### Equivalent JavaScript Code:</span>
-<span class='co'># LETTERS.forEach((el, ii) =&gt; {</span>
-<span class='co'>#   console.log('The index of letter ' + el + ' in "x" is: ' + ii);</span>
-<span class='co'># });</span>
+    <pre class="examples"><div class='input'>
 
-<span class='fu'><a href='iapply.html'>iapply</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>el</span>, <span class='no'>ii</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'The index of letter '</span>, <span class='no'>el</span>, <span class='st'>' in '</span>, <span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span>(<span class='st'>'x'</span>), <span class='st'>' is: '</span>, <span class='no'>ii</span>)
-}) <span class='kw'>-&gt;</span> <span class='no'>results</span></div></pre>
+<span class='co'># Example 1: basic usage</span>
+<span class='co'># Decorator that prints summary of results and return results itself</span>
+<span class='no'>verbose_summary</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>f</span>, <span class='no'>...</span>){
+  <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>f</span>(<span class='no'>...</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>results</span>))
+  <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='no'>results</span>)
+}
+
+<span class='co'># runs as.list, but through verbose_summary</span>
+<span class='no'>as_list2</span> <span class='kw'>&lt;-</span> <span class='fu'>decorate_function</span>(<span class='no'>as.list</span>, <span class='no'>verbose_summary</span>)
+
+<span class='co'># run test</span>
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>as_list2</span>(<span class='fl'>1</span>:<span class='fl'>3</span>)  <span class='co'># will verbose summary</span></div><div class='output co'>#&gt;      Length Class  Mode   
+#&gt; [1,] 1      -none- numeric
+#&gt; [2,] 1      -none- numeric
+#&gt; [3,] 1      -none- numeric</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='no'>res</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>as.list</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># Example 2</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>20</span>
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>x</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>)
+
+<span class='co'># decorator, add a line with slope 1 with given intercept</span>
+<span class='no'>abline_xy</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>f</span>, <span class='no'>intercept</span>, <span class='no'>...</span>){
+  <span class='fu'>f</span>(<span class='no'>...</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='no'>intercept</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>intercept</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='no'>intercept</span>)
+}
+
+<span class='co'># orig, plot whatever x vs jittered+intercept</span>
+<span class='no'>plot_xy</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>intercept</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1</span>)){
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/jitter.html'>jitter</a></span>(<span class='no'>x</span>, <span class='kw'>amount</span> <span class='kw'>=</span> <span class='fl'>3</span>) + <span class='no'>intercept</span>)
+}
+
+<span class='co'># new function that decorate plot_xy with abline_xy, and</span>
+<span class='co'># returns the intercept</span>
+<span class='no'>plot_xy2</span> <span class='kw'>&lt;-</span> <span class='fu'>decorate_function</span>(<span class='no'>plot_xy</span>, <span class='no'>abline_xy</span>)
+
+<span class='co'># alternatively, you might also want to try</span>
+<span class='no'>plot_xy2</span> <span class='kw'>&lt;-</span> <span class='no'>plot_xy</span> <span class='kw'>%@%</span> <span class='no'>abline_xy</span>
+
+<span class='fu'>plot_xy2</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>)</div><div class='img'><img src='decorate_function-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] 0.01313255</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

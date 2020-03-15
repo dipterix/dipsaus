@@ -5,7 +5,7 @@
 \alias{\%@\%}
 \title{Python-style decorator}
 \usage{
-decorate_function(orig, decor, env = parent.frame())
+decorate_function(orig, decor, ...)
 
 lhs \%@\% rhs
 }
@@ -15,7 +15,7 @@ lhs \%@\% rhs
 \item{decor, rhs}{decorator function that takes \code{orig} as its first
 argument}
 
-\item{env}{environment where new function should be defined}
+\item{...}{passed to \code{decor}}
 }
 \description{
 Python-style decorator
@@ -25,10 +25,22 @@ Python-style decorator
 
 # Example 1: basic usage
 # Decorator that prints summary of results and return results itself
-verbose_summary <- function(f, ...){
-  results <- f(...)
-  print(summary(results))
-  return(results)
+verbose_summary <- function(...){
+  summary_args <- list(...)
+  function(f){
+    function(...){
+      results <- f(...)
+
+
+      print(do.call(
+        summary,
+        c(list(results), summary_args)
+      ))
+      results
+
+    }
+  }
+
 }
 
 # runs as.list, but through verbose_summary
@@ -43,10 +55,14 @@ x <- 1:20
 y <- x + rnorm(20)
 
 # decorator, add a line with slope 1 with given intercept
-abline_xy <- function(f, intercept, ...){
-  f(..., intercept = intercept)
-  abline(a = intercept, b = 1)
-  return(intercept)
+abline_xy <- function(b){
+  function(f){
+    function(...){
+      f(...)
+      intercept <- get_dots('intercept', 0, ...)
+      abline(a = intercept, b = b)
+    }
+  }
 }
 
 # orig, plot whatever x vs jittered+intercept
@@ -56,10 +72,10 @@ plot_xy <- function(x, intercept = rnorm(1)){
 
 # new function that decorate plot_xy with abline_xy, and
 # returns the intercept
-plot_xy2 <- decorate_function(plot_xy, abline_xy)
+plot_xy2 <- decorate_function(plot_xy, abline_xy, b = 1)
 
 # alternatively, you might also want to try
-plot_xy2 <- plot_xy \%@\% abline_xy
+plot_xy2 <- plot_xy \%@\% abline_xy(b = 1)
 
 plot_xy2(x = 1:20)
 

@@ -18,6 +18,8 @@ SEXP cpp_forelse(Rcpp::List data, Rcpp::Function fun, Rcpp::Function alt){
   return( ans );
 }
 
+
+
 // You can include R code blocks in C++ files processed with sourceCpp
 // (useful for testing and development). The R code will be automatically
 // run after the compilation.

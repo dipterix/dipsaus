@@ -323,16 +323,28 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' @param orig,lhs any function
 #' @param decor,rhs decorator function that takes \code{orig} as its first
 #' argument
-#' @param env environment where new function should be defined
+#' @param ... passed to \code{decor}
 #' @examples
 #'
 #'
 #' # Example 1: basic usage
 #' # Decorator that prints summary of results and return results itself
-#' verbose_summary <- function(f, ...){
-#'   results <- f(...)
-#'   print(summary(results))
-#'   return(results)
+#' verbose_summary <- function(...){
+#'   summary_args <- list(...)
+#'   function(f){
+#'     function(...){
+#'       results <- f(...)
+#'
+#'
+#'       print(do.call(
+#'         summary,
+#'         c(list(results), summary_args)
+#'       ))
+#'       results
+#'
+#'     }
+#'   }
+#'
 #' }
 #'
 #' # runs as.list, but through verbose_summary
@@ -347,10 +359,14 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' y <- x + rnorm(20)
 #'
 #' # decorator, add a line with slope 1 with given intercept
-#' abline_xy <- function(f, intercept, ...){
-#'   f(..., intercept = intercept)
-#'   abline(a = intercept, b = 1)
-#'   return(intercept)
+#' abline_xy <- function(b){
+#'   function(f){
+#'     function(...){
+#'       f(...)
+#'       intercept <- get_dots('intercept', 0, ...)
+#'       abline(a = intercept, b = b)
+#'     }
+#'   }
 #' }
 #'
 #' # orig, plot whatever x vs jittered+intercept
@@ -360,51 +376,83 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #'
 #' # new function that decorate plot_xy with abline_xy, and
 #' # returns the intercept
-#' plot_xy2 <- decorate_function(plot_xy, abline_xy)
+#' plot_xy2 <- decorate_function(plot_xy, abline_xy, b = 1)
 #'
 #' # alternatively, you might also want to try
-#' plot_xy2 <- plot_xy %@% abline_xy
+#' plot_xy2 <- plot_xy %@% abline_xy(b = 1)
 #'
 #' plot_xy2(x = 1:20)
 #'
 #' @export
-decorate_function <- function(orig, decor, env = parent.frame()){
-  force(orig)
-  force(decor)
-  args <- as.list(formals(orig))
-  argnames <- names(args)
-  argnames[argnames == '...'] = ''
-  call <- as_call(
-    decor, orig, .list = structure(
-      lapply(names(args), str2lang),
-      names = argnames))
-  # print(as_call(substitute(decor), substitute(orig),
-  #               .list = unname(lapply(names(args), str2lang))))
-  args[[length(args) + 1]] = call
-  # print(args)
-  as.function(args, envir = env)
-  # args
+decorate_function <- function(orig, decor, ...){
+
+  stopifnot2(is.function(orig) && is.function(decor),
+             msg = 'Decoration orig and decor must be functions')
+  current_call <- match.call()
+  current_call[['orig']] <- NULL
+  current_call[['decor']] <- NULL
+  decor_name <- match.call(decor, call = current_call)
+  decor_name[[1]] <- substitute(decor)
+  re <- decor(...)(orig)
+
+  stopifnot2(is.function(re), msg = 'Decoration must return a function')
+
+  orig_name <- attr(orig, 'dipsaus_decorators')
+  if(is.null(orig_name)){
+    attr(re, 'dipsaus_origin') = orig
+  } else {
+    attr(re, 'dipsaus_origin') <- attr(orig, 'dipsaus_origin')
+  }
+  attr(re, 'dipsaus_decorators') <- c(
+    decor_name,
+    orig_name
+  )
+
+  class(re) <- c('dipsaus_decorated', class(re))
+  re
 }
 
 #' @rdname decorate_function
 #' @export
 `%@%` <- function(lhs, rhs){
-  # print(rhs)
-  # print(substitute(rhs))
+  rhs <- substitute(rhs)
   parent_env <- parent.frame()
-  return(decorate_function(lhs, rhs, env = parent_env))
+  call <- as_call(decorate_function, orig = lhs, decor = rhs[[1]], .list = as.list(rhs)[-1])
+
+  return(eval(call, envir = parent_env))
+}
+
+#' @export
+print.dipsaus_decorated <- function(x, ...){
+
+  call <- as_call(quote(list), .list = formals(x))
+  call[[1]] <- quote('Decorated function')
+  print(call)
+  calls <- attr(x, 'dipsaus_decorators')
+  cat('- Decorators: \n')
+  for(d in rev(calls)){
+    cat('  ', end = '')
+    print(d)
+  }
+  cat('- Original function:\n')
+  fs <- utils::capture.output(print(attr(x, 'dipsaus_origin')))
+  cat(paste0('  ', fs, collapse = '\n'))
 }
 
 
 #' @title Get element from dots \code{'...'}
 #' @description Get specific key values from \code{'...'} without
-#' evaluating the rest of arguments
+#' evaluating the rest of arguments.
 #' @param ..name character name of the argument
 #' @param ..default R object to return if argument not found
 #' @param ... dots that contains argument
 #' @details One could use \code{list(...)[[name]]} to extract any keys
 #' from the dots. However, such way reduces code readability. If
 #' some arguments have not evaluated, \code{list(...)} will
+#' \code{\link{force}} evaluating them. Normally it's fine if
+#' unevaluated expressions take little time to run, but if the
+#' expression require time to run, \code{\link{get_dots}} avoids
+#' unnecessary evaluations.
 #' @examples
 #'
 #'
@@ -430,13 +478,17 @@ decorate_function <- function(orig, decor, env = parent.frame()){
 #' f2(x = 1, y = y)
 #'
 #' # -------------------- Decorator example --------------------------
-#'
-#' plot_ret_range <- plot %@% (function(f, ...){
-#'   f(...)
-#'   y_range <- range(get_dots('y', 0, ...))
-#'   y_range
-#' })
-#' plot_ret_range(1:10, rnorm(10))
+#' ret_range <- function(which_range = 'y'){
+#'   function(f){
+#'     function(...){
+#'       f(...)
+#'       y_range <- range(get_dots(which_range, 0, ...))
+#'       y_range
+#'     }
+#'   }
+#' }
+#' plot_ret_yrange <- plot %@% ret_range('y')
+#' plot_ret_yrange(x = 1:10, y = rnorm(10))
 #'
 #'
 #' @export

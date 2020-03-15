@@ -64,13 +64,32 @@ fastmap2 <- function(missing_default = NULL){
   map
 }
 
+#' @title Migrate a \code{fastmap2} object to a new one
+#' @param from,to \code{fastmap2} object
+#' @param override whether to override keys in \code{to} if they exist
+#' @return Map \code{to}
+#' @seealso \code{\link{fastmap2}}
+update_fastmap2 <- function(from, to, override = TRUE){
+  if(override){
+    new_list <- .subset2(from, 'as_list')()
+  } else{
+    keys <- .subset2(from, 'keys')()
+    keys <- keys[!keys %in% .subset2(to, 'keys')()]
+    new_list <- .subset2(from, 'mget')(keys)
+  }
+  if(length(new_list)){
+    .subset2(to, 'mset')(.list = new_list)
+  }
+  return(to)
+}
+
 #' @rdname fastmap2
 #' @export
 `[[.fastmap2` <- function(x, name){
   if( startsWith(name, '@') ){
     .subset2(x, substring(name, 2))
   }else{
-    .subset2(x, 'get')(name)
+    .subset2(x, 'get')(as.character(name))
   }
 }
 
@@ -81,7 +100,7 @@ fastmap2 <- function(missing_default = NULL){
 #' @rdname fastmap2
 #' @export
 `[[<-.fastmap2` <- function(x, name, value){
-  .subset2(x, 'set')(name, value)
+  .subset2(x, 'set')(as.character(name), value)
   return(x)
 }
 
@@ -92,7 +111,7 @@ fastmap2 <- function(missing_default = NULL){
 #' @rdname fastmap2
 #' @export
 `[.fastmap2` <- function(x, i, j = NULL, ...){
-  .subset2(x, 'mget')(unlist(c(i, j, ...)))
+  .subset2(x, 'mget')(as.character(unlist(c(i, j, ...))))
 }
 
 #' @rdname fastmap2
@@ -101,7 +120,7 @@ fastmap2 <- function(missing_default = NULL){
   i <- unlist(c(i, j, ...))
   stopifnot2(length(value) == length(i),
              msg='value must be the same length as name')
-  do.call(.subset2(x, 'mset'), structure(as.list(value), names = i))
+  do.call(.subset2(x, 'mset'), structure(as.list(value), names = as.character(i)))
   x
 }
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A JavaScript style of creating functions — %=&gt;% • dipsaus</title>
+<title>Get element from dots <code>'...'</code> — get_dots • dipsaus</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="A JavaScript style of creating functions — %=&gt;%" />
-<meta property="og:description" content="A JavaScript style of creating functions" />
+<meta property="og:title" content="Get element from dots <code>'...'</code> — get_dots" />
+<meta property="og:description" content="Get specific key values from '...' without
+evaluating the rest of arguments" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,75 +130,77 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A JavaScript style of creating functions</h1>
+    <h1>Get element from dots <code>'...'</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>grapes-equals-greater-than-grapes.Rd</code></div>
+    <div class="hidden name"><code>get_dots.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A JavaScript style of creating functions</p>
+    <p>Get specific key values from <code>'...'</code> without
+evaluating the rest of arguments</p>
     </div>
 
-    <pre class="usage"><span class='no'>args</span> <span class='kw'>%=&gt;%</span> <span class='no'>expr</span></pre>
+    <pre class="usage"><span class='fu'>get_dots</span>(<span class='no'>..name</span>, <span class='kw'>..default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>args</th>
-      <td><p>function arguments: see <code><a href='https://rdrr.io/r/base/formals.html'>formals</a></code></p></td>
+      <th>..name</th>
+      <td><p>character name of the argument</p></td>
     </tr>
     <tr>
-      <th>expr</th>
-      <td><p>R expression that forms the body of functions: see <code><a href='https://rdrr.io/r/base/body.html'>body</a></code></p></td>
+      <th>..default</th>
+      <td><p>R object to return if argument not found</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>dots that contains argument</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A function that takes <code>args</code> as parameters and <code>expr</code> as
-the function body</p>
+    <p>One could use <code>list(...)[[name]]</code> to extract any keys
+from the dots. However, such way reduces code readability. If
+some arguments have not evaluated, <code><a href='https://rdrr.io/r/base/list.html'>list(...)</a></code> will</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Formal arguments</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
-}</div><div class='output co'>#&gt; function (a) 
-#&gt; {
-#&gt;     print(a)
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># Informal arguments</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span><span class='kw'>=</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>)
-}</div><div class='output co'>#&gt; function (a) 
-#&gt; {
-#&gt;     print(a)
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># Multiple inputs</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>...</span>))
-}</div><div class='output co'>#&gt; function (a, b = 2, ...) 
-#&gt; {
-#&gt;     print(c(a, b, ...))
-#&gt; }
-#&gt; &lt;environment: 0x7f84b0141d58&gt;</div><div class='input'>
-<span class='co'># ----- JavaScript style of forEach -----</span>
-<span class='co'># ### Equivalent JavaScript Code:</span>
-<span class='co'># LETTERS.forEach((el, ii) =&gt; {</span>
-<span class='co'>#   console.log('The index of letter ' + el + ' in "x" is: ' + ii);</span>
-<span class='co'># });</span>
+    <pre class="examples"><div class='input'>
 
-<span class='fu'><a href='iapply.html'>iapply</a></span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>el</span>, <span class='no'>ii</span>) <span class='kw'>%=&gt;%</span> {
-  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'The index of letter '</span>, <span class='no'>el</span>, <span class='st'>' in '</span>, <span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span>(<span class='st'>'x'</span>), <span class='st'>' is: '</span>, <span class='no'>ii</span>)
-}) <span class='kw'>-&gt;</span> <span class='no'>results</span></div></pre>
+<span class='co'># ------------------------ Basic Usage ---------------------------</span>
+<span class='no'>plot2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){
+  <span class='no'>title</span> <span class='kw'>=</span> <span class='fu'>get_dots</span>(<span class='st'>'main'</span>, <span class='st'>'There is no title'</span>, <span class='no'>...</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>...</span>)
+  <span class='no'>title</span>
+}
+
+<span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='img'><img src='get_dots-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "There is no title"</div><div class='input'><span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>'Scatter Plot of 1:10'</span>)</div><div class='img'><img src='get_dots-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "Scatter Plot of 1:10"</div><div class='input'>
+<span class='co'># ------------------------ Comparisons ----------------------------</span>
+<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'>get_dots</span>(<span class='st'>'x'</span>, <span class='no'>...</span>) }
+<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>)<span class='kw'>[[</span><span class='st'>'x'</span>]] }
+<span class='fu'><a href='https://rdrr.io/r/base/delayedAssign.html'>delayedAssign</a></span>(<span class='st'>'y'</span>, { <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'y is evaluated!'</span>) })
+
+<span class='co'># y will not evaluate</span>
+<span class='fu'>f1</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='co'># y gets evaluated</span>
+<span class='fu'>f2</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; y is evaluated!</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='co'># -------------------- Decorator example --------------------------</span>
+
+<span class='no'>plot_ret_range</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span> <span class='kw'>%@%</span> (<span class='kw'>function</span>(<span class='no'>f</span>, <span class='no'>...</span>){
+  <span class='fu'>f</span>(<span class='no'>...</span>)
+  <span class='no'>y_range</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'>get_dots</span>(<span class='st'>'y'</span>, <span class='fl'>0</span>, <span class='no'>...</span>))
+  <span class='no'>y_range</span>
+})
+<span class='fu'>plot_ret_range</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>))</div><div class='img'><img src='get_dots-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] -1.234114  2.134560</div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

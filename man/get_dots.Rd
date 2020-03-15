@@ -15,12 +15,16 @@ get_dots(..name, ..default = NULL, ...)
 }
 \description{
 Get specific key values from \code{'...'} without
-evaluating the rest of arguments
+evaluating the rest of arguments.
 }
 \details{
 One could use \code{list(...)[[name]]} to extract any keys
 from the dots. However, such way reduces code readability. If
 some arguments have not evaluated, \code{list(...)} will
+\code{\link{force}} evaluating them. Normally it's fine if
+unevaluated expressions take little time to run, but if the
+expression require time to run, \code{\link{get_dots}} avoids
+unnecessary evaluations.
 }
 \examples{
 
@@ -47,13 +51,17 @@ f1(x = 1, y = y)
 f2(x = 1, y = y)
 
 # -------------------- Decorator example --------------------------
-
-plot_ret_range <- plot \%@\% (function(f, ...){
-  f(...)
-  y_range <- range(get_dots('y', 0, ...))
-  y_range
-})
-plot_ret_range(1:10, rnorm(10))
+ret_range <- function(which_range = 'y'){
+  function(f){
+    function(...){
+      f(...)
+      y_range <- range(get_dots(which_range, 0, ...))
+      y_range
+    }
+  }
+}
+plot_ret_yrange <- plot \%@\% ret_range('y')
+plot_ret_yrange(x = 1:10, y = rnorm(10))
 
 
 }
