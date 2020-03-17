@@ -7,6 +7,7 @@
 #' @param plan logical, or character or \code{future} plan; see Details.
 #' @param callback function to run after each iteration
 #' @param ... passed to \code{\link[future]{plan}}
+#' @param future.chunk.size see also \code{\link[future.apply]{future_eapply}}
 #' @details
 #' When \code{plan} is logical, \code{FALSE} means use current plan.
 #' If \code{plan=TRUE}, then it equals to \code{plan='multicore'}. For
@@ -40,7 +41,8 @@
 #'
 #' @export
 lapply_async2 <- function(x, FUN, FUN.args = list(),
-                          callback = NULL, plan = TRUE, ...){
+                          callback = NULL, plan = TRUE,
+                          future.chunk.size = NULL, ...){
   if(length(plan) && !isFALSE(plan)){
     if(isTRUE(plan)){
       make_forked_clusters(...)
@@ -91,7 +93,9 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         fs <- future.apply::future_lapply(x, function(el){
           p(message = eval(callback_call))
           eval(call)
-        })#, future.chunk.size = 1L)
+        },
+        future.scheduling = TRUE,
+        future.chunk.size = future.chunk.size)
       })
     # }else{
     #   progressr::withProgressShiny({

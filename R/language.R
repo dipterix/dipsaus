@@ -436,7 +436,7 @@ print.dipsaus_decorated <- function(x, ...){
   }
   cat('- Original function:\n')
   fs <- utils::capture.output(print(attr(x, 'dipsaus_origin')))
-  cat(paste0('  ', fs, collapse = '\n'))
+  cat(paste0('  ', fs, collapse = '\n'), end = '\n')
 }
 
 

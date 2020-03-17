@@ -4,7 +4,15 @@
 \alias{lapply_async2}
 \title{Apply, but in parallel}
 \usage{
-lapply_async2(x, FUN, FUN.args = list(), callback = NULL, plan = TRUE, ...)
+lapply_async2(
+  x,
+  FUN,
+  FUN.args = list(),
+  callback = NULL,
+  plan = TRUE,
+  future.chunk.size = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{vector, list}
@@ -16,6 +24,8 @@ lapply_async2(x, FUN, FUN.args = list(), callback = NULL, plan = TRUE, ...)
 \item{callback}{function to run after each iteration}
 
 \item{plan}{logical, or character or \code{future} plan; see Details.}
+
+\item{future.chunk.size}{see also \code{\link[future.apply]{future_eapply}}}
 
 \item{...}{passed to \code{\link[future]{plan}}}
 }
