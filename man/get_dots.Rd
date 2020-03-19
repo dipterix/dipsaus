@@ -22,7 +22,7 @@ One could use \code{list(...)[[name]]} to extract any keys
 from the dots. However, such way reduces code readability. If
 some arguments have not evaluated, \code{list(...)} will
 \code{\link{force}} evaluating them. Normally it's fine if
-unevaluated expressions take little time to run, but if the
+these expressions take little time to run, but if the
 expression require time to run, \code{\link{get_dots}} avoids
 unnecessary evaluations.
 }
@@ -60,7 +60,7 @@ ret_range <- function(which_range = 'y'){
     }
   }
 }
-plot_ret_yrange <- plot \%@\% ret_range('y')
+plot_ret_yrange <- plot \%D\% ret_range('y')
 plot_ret_yrange(x = 1:10, y = rnorm(10))
 
 

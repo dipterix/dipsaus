@@ -12,6 +12,7 @@
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 
+# Same as rlang::sym('')
 .missing_arg <- alist(x = )
 
 # Compatibility issue

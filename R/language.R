@@ -379,7 +379,7 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' plot_xy2 <- decorate_function(plot_xy, abline_xy, b = 1)
 #'
 #' # alternatively, you might also want to try
-#' plot_xy2 <- plot_xy %@% abline_xy(b = 1)
+#' plot_xy2 <- plot_xy %D% abline_xy(b = 1)
 #'
 #' plot_xy2(x = 1:20)
 #'
@@ -414,7 +414,7 @@ decorate_function <- function(orig, decor, ...){
 
 #' @rdname decorate_function
 #' @export
-`%@%` <- function(lhs, rhs){
+`%D%` <- function(lhs, rhs){
   rhs <- substitute(rhs)
   parent_env <- parent.frame()
   call <- as_call(decorate_function, orig = lhs, decor = rhs[[1]], .list = as.list(rhs)[-1])
@@ -450,7 +450,7 @@ print.dipsaus_decorated <- function(x, ...){
 #' from the dots. However, such way reduces code readability. If
 #' some arguments have not evaluated, \code{list(...)} will
 #' \code{\link{force}} evaluating them. Normally it's fine if
-#' unevaluated expressions take little time to run, but if the
+#' these expressions take little time to run, but if the
 #' expression require time to run, \code{\link{get_dots}} avoids
 #' unnecessary evaluations.
 #' @examples
@@ -487,7 +487,7 @@ print.dipsaus_decorated <- function(x, ...){
 #'     }
 #'   }
 #' }
-#' plot_ret_yrange <- plot %@% ret_range('y')
+#' plot_ret_yrange <- plot %D% ret_range('y')
 #' plot_ret_yrange(x = 1:10, y = rnorm(10))
 #'
 #'

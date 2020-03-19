@@ -7,7 +7,10 @@
 #' @param plan logical, or character or \code{future} plan; see Details.
 #' @param callback function to run after each iteration
 #' @param ... passed to \code{\link[future]{plan}}
-#' @param future.chunk.size see also \code{\link[future.apply]{future_eapply}}
+#' @param future.chunk.size see also
+#' \code{\link[future.apply]{future_eapply}}. If you want the callbacks
+#' to be called immediately after each loop, then set it to \code{1},
+#' which is not optimal but the only way right now.
 #' @details
 #' When \code{plan} is logical, \code{FALSE} means use current plan.
 #' If \code{plan=TRUE}, then it equals to \code{plan='multicore'}. For
@@ -33,7 +36,7 @@
 #' }, plan = 'sequential')
 #'
 #' # Disable callback message, then the function reduce to
-#' # `future.apply::future_lapply`
+#' # normal `future.apply::future_lapply`
 #' res <- lapply_async2(100:200, function(x){
 #'   return(x+1)
 #' }, callback = NULL, plan = FALSE)

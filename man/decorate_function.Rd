@@ -2,12 +2,12 @@
 % Please edit documentation in R/language.R
 \name{decorate_function}
 \alias{decorate_function}
-\alias{\%@\%}
+\alias{\%D\%}
 \title{Python-style decorator}
 \usage{
 decorate_function(orig, decor, ...)
 
-lhs \%@\% rhs
+lhs \%D\% rhs
 }
 \arguments{
 \item{orig, lhs}{any function}
@@ -75,7 +75,7 @@ plot_xy <- function(x, intercept = rnorm(1)){
 plot_xy2 <- decorate_function(plot_xy, abline_xy, b = 1)
 
 # alternatively, you might also want to try
-plot_xy2 <- plot_xy \%@\% abline_xy(b = 1)
+plot_xy2 <- plot_xy \%D\% abline_xy(b = 1)
 
 plot_xy2(x = 1:20)
 
