@@ -4,13 +4,20 @@
 \alias{prepare_install}
 \title{Install Packages at Next Startup}
 \usage{
-prepare_install(packages, update_all = FALSE, repos = getOption("repos"))
+prepare_install(
+  packages,
+  update_all = FALSE,
+  restart = FALSE,
+  repos = getOption("repos")
+)
 }
 \arguments{
 \item{packages}{characters, vector of package names}
 
 \item{update_all}{whether to update all installed packages before
 installation; default is false}
+
+\item{restart}{whether to restart session automatically}
 
 \item{repos}{repositories to search for packages}
 }

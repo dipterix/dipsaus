@@ -52,6 +52,7 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' @param packages characters, vector of package names
 #' @param update_all whether to update all installed packages before
 #' installation; default is false
+#' @param restart whether to restart session automatically
 #' @param repos repositories to search for packages
 #' @return None
 #' @details Installing packages in R session could require restarts if
@@ -65,6 +66,7 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' it will be removed from startup profile.
 #' @export
 prepare_install <- function(packages, update_all = FALSE,
+                            restart = FALSE,
                             repos = getOption('repos')){
   profile <- startup::find_rprofile()
   if(!length(profile)){
@@ -83,7 +85,7 @@ prepare_install <- function(packages, update_all = FALSE,
   if(!length(repos)){
     repos <- c()
   }
-  if(!'CRAN' %in% names(repos)){
+  if(!'CRAN' %in% names(repos) || repos[['CRAN']] == '@CRAN@'){
     repos[['CRAN']] <- 'https://cran.rstudio.com/'
   }
   # Add two alternative repositories that provide patches
@@ -132,12 +134,31 @@ tryCatch({
     writeLines(s, con = profile)
   }
 })
+message('Done.')
 # --- dipsaus temporary startup (END)---", collapse = '\n')
 
-  pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
-                 paste(deparse(update_all), collapse = ''),
-                 paste(deparse(packages), collapse = ''))
+  if(length(packages)){
+    pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
+                   paste(deparse(update_all), collapse = ''),
+                   paste(deparse(packages), collapse = ''))
+  } else {
+    pre <- NULL
+  }
+
   writeLines(c(pre, s), con = profile)
 
+  if(restart){
+    f <- get0('.rs.restartR')
+    if(is.function(f)){
+      message('Restarting RStudio rsession. Might take a while. Please wait...')
+      f()
+      return(invisible())
+    }
+    # Not in rstudio session
+    message('Using startup::restart()')
+    startup::restart()
+    return(invisible())
+  }
   message('Please restart ALL R session now. Next startup might take a while. Please wait until finished')
+  return(invisible())
 }

@@ -143,7 +143,12 @@ next session. The code will be automatically removed once executed." />
 next session. The code will be automatically removed once executed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>prepare_install</span>(<span class='no'>packages</span>, <span class='kw'>update_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>repos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"repos"</span>))</pre>
+    <pre class="usage"><span class='fu'>prepare_install</span>(
+  <span class='no'>packages</span>,
+  <span class='kw'>update_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>restart</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>repos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"repos"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +161,10 @@ next session. The code will be automatically removed once executed.</p>
       <th>update_all</th>
       <td><p>whether to update all installed packages before
 installation; default is false</p></td>
+    </tr>
+    <tr>
+      <th>restart</th>
+      <td><p>whether to restart session automatically</p></td>
     </tr>
     <tr>
       <th>repos</th>
