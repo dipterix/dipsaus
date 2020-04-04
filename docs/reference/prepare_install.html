@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply each elements with index as second input — iapply • dipsaus</title>
+<title>Install Packages at Next Startup — prepare_install • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Apply each elements with index as second input — iapply" />
-<meta property="og:description" content="Apply function with an index variable as the second input." />
+<meta property="og:title" content="Install Packages at Next Startup — prepare_install" />
+<meta property="og:description" content="Register temporary code that will install packages at
+next session. The code will be automatically removed once executed." />
 
 
 
@@ -132,47 +133,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply each elements with index as second input</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/apply.R'><code>R/apply.R</code></a></small>
-    <div class="hidden name"><code>iapply.Rd</code></div>
+    <h1>Install Packages at Next Startup</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/utils-package.R'><code>R/utils-package.R</code></a></small>
+    <div class="hidden name"><code>prepare_install.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Apply function with an index variable as the second input.</p>
+    <p>Register temporary code that will install packages at
+next session. The code will be automatically removed once executed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>iapply</span>(<span class='no'>X</span>, <span class='no'>FUN</span>, <span class='no'>...</span>, <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sapply"</span>, <span class='st'>"lapply"</span>, <span class='st'>"vapply"</span>))</pre>
+    <pre class="usage"><span class='fu'>prepare_install</span>(<span class='no'>packages</span>, <span class='kw'>update_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>repos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"repos"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>a vector (atomic or list)</p></td>
+      <th>packages</th>
+      <td><p>characters, vector of package names</p></td>
     </tr>
     <tr>
-      <th>FUN</th>
-      <td><p>the function to be applied to each element of <code>X</code>: see `Details`.</p></td>
+      <th>update_all</th>
+      <td><p>whether to update all installed packages before
+installation; default is false</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>passed to apply methods</p></td>
-    </tr>
-    <tr>
-      <th>.method</th>
-      <td><p>method to use, default is <code><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></code></p></td>
+      <th>repos</th>
+      <td><p>repositories to search for packages</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list or matrix depends on <code>.method</code>. See <code><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></code></p>
+    <p>None</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>FUN</code> will be further passed to the apply methods. Unlike
-<code><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></code>, <code>FUN</code> is expected to have at least two arguments.
-The first argument is each element of <code>X</code>, the second argument is the
-index number of the element.</p>
+    <p>Installing packages in R session could require restarts if
+a package to be updated has been loaded. Normally restarting R
+fixes the problem. However, under some circumstances, such as with a
+startup code in profile, restarting R might still fail the
+installation. <code>prepare_install</code> inserts the installation
+code prior to the startup code so that next time the code will get
+executed before any other packages are loaded.
+Once the temporary code get executed, no matter succeeded or not,
+it will be removed from startup profile.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

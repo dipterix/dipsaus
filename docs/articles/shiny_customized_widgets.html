@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shiny Customized Widgets • dipsaus</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Shiny Customized Widgets">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="dipsaus">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dipterix/dipsaus">
+  <a href="https://github.com/dipterix/dipsaus/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -91,7 +91,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Shiny Customized Widgets</h1>
+      <h1 data-toc-skip>Shiny Customized Widgets</h1>
                         <h4 class="author">Zhengjia Wang</h4>
             
       
@@ -7438,6 +7438,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; } /* ErrorTok */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/utils.js
@@ -8109,14 +8110,14 @@ register_set_input( src_Shiny, DEBUG );
 <li>when updating the button, <code>disabled</code> allows to disable/enable the button</li>
 </ul>
 <p>The usage is listed as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># UI function</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../reference/actionButtonStyled.html">actionButtonStyled</a></span>(inputId, label, <span class="dt">icon =</span> <span class="ot">NULL</span>, <span class="dt">width =</span> <span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">                   <span class="dt">btn_type =</span> <span class="st">"button"</span>, <span class="dt">type =</span> <span class="st">"primary"</span>, <span class="dt">class =</span> <span class="st">""</span>, ...)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Update function</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="../reference/updateActionButtonStyled.html">updateActionButtonStyled</a></span>(session, inputId, <span class="dt">label =</span> <span class="ot">NULL</span>, <span class="dt">icon =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">                         <span class="dt">type =</span> <span class="ot">NULL</span>, <span class="dt">disabled =</span> <span class="ot">NULL</span>, ...)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r">
+<span class="co"># UI function</span>
+<span class="fu"><a href="../reference/actionButtonStyled.html">actionButtonStyled</a></span>(<span class="no">inputId</span>, <span class="no">label</span>, <span class="kw">icon</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">width</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+                   <span class="kw">btn_type</span> <span class="kw">=</span> <span class="st">"button"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"primary"</span>, <span class="kw">class</span> <span class="kw">=</span> <span class="st">""</span>, <span class="no">...</span>)
+
+<span class="co"># Update function</span>
+<span class="fu"><a href="../reference/updateActionButtonStyled.html">updateActionButtonStyled</a></span>(<span class="no">session</span>, <span class="no">inputId</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">icon</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+                         <span class="kw">type</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">disabled</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="no">...</span>)</pre></body></html></div>
 <p>Show-case:</p>
 <table class="table table table-bordered text-center"><tbody>
 <tr>
@@ -8317,14 +8318,14 @@ Danger
 <h3 class="hasAnchor">
 <a href="#compound-inputs-grouped-inputs" class="anchor"></a>2. Compound Inputs (grouped Inputs)</h3>
 <p><code>compoundInput2</code> provides group inputs where each group contains multiple shiny inputs. For examples</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/compoundInput2.html">compoundInput2</a></span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="st">'compound'</span>, <span class="st">'Group Label'</span>, <span class="dt">label_color =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">components =</span> <span class="kw">div</span>(</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="kw">textInput</span>(<span class="st">'txt'</span>, <span class="st">'Text'</span>),</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="kw">selectInput</span>(<span class="st">'sel'</span>, <span class="st">'Select'</span>, <span class="dt">choices =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">multiple =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="kw">sliderInput</span>(<span class="st">'sli'</span>, <span class="st">'Slider'</span>, <span class="dt">max=</span><span class="dv">1</span>, <span class="dt">min=</span><span class="dv">0</span>, <span class="dt">val=</span><span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">  ), <span class="dt">max_ncomp =</span> <span class="dv">10</span>, <span class="dt">min_ncomp =</span> <span class="dv">0</span>, <span class="dt">initial_ncomp =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/compoundInput2.html">compoundInput2</a></span>(
+  <span class="st">'compound'</span>, <span class="st">'Group Label'</span>, <span class="kw">label_color</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">10</span>,
+  <span class="kw">components</span> <span class="kw">=</span> <span class="fu">div</span>(
+    <span class="fu">textInput</span>(<span class="st">'txt'</span>, <span class="st">'Text'</span>),
+    <span class="fu">selectInput</span>(<span class="st">'sel'</span>, <span class="st">'Select'</span>, <span class="kw">choices</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">10</span>, <span class="kw">multiple</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+    <span class="fu">sliderInput</span>(<span class="st">'sli'</span>, <span class="st">'Slider'</span>, <span class="kw">max</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">min</span><span class="kw">=</span><span class="fl">0</span>, <span class="kw">val</span><span class="kw">=</span><span class="fl">0.5</span>)
+  ), <span class="kw">max_ncomp</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">min_ncomp</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">initial_ncomp</span> <span class="kw">=</span> <span class="fl">1</span>
+)</pre></body></html></div>
 <p>will create a list of input groups with minimum of 0 but maximum of 10. User can control the size of groups by pressing <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> buttons. The value <code>input$components</code> looks like this:</p>
 <pre><code>#&gt; [[1]]
 #&gt; [[1]]$txt
@@ -8345,27 +8346,27 @@ Danger
 <h3 class="hasAnchor">
 <a href="#synchronize-multiple-inputs" class="anchor"></a>3. Synchronize Multiple Inputs</h3>
 <p><code>sync_shiny_inputs</code> provides a way to update among multiple inputs with no dead-locks. For example, input A (<code>textInput</code>) shares the same information as input B (<code>sliderInput</code>). Updating A would trigger B to update. What if you want A to be updated when B is changed? The following code might cause recursive updates:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Bad example</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">observeEvent</span>(input<span class="op">$</span>A, {</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> input<span class="op">$</span>A)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">})</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">observeEvent</span>(input<span class="op">$</span>B, {</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> input<span class="op">$</span>B)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">})</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Bad example</span>
+<span class="fu">observeEvent</span>(<span class="no">input</span>$<span class="no">A</span>, {
+  <span class="fu">updateSliderInput</span>(<span class="no">session</span>, <span class="st">'B'</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">A</span>)
+})
+<span class="fu">observeEvent</span>(<span class="no">input</span>$<span class="no">B</span>, {
+  <span class="fu">updateTextInput</span>(<span class="no">session</span>, <span class="st">'A'</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">B</span>)
+})</pre></body></html></div>
 <p>In this case, you can use <code>sync_shiny_inputs</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span>(input, session, <span class="dt">inputIds =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'B'</span>), <span class="dt">uniform =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="cf">function</span>(a){<span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(a)},</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="cf">function</span>(b){ b }</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">), <span class="dt">updates =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="cf">function</span>(a){<span class="kw">updateTextInput</span>(session, <span class="st">'A'</span>, <span class="dt">value =</span> a)},</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="cf">function</span>(b){<span class="kw">updateSliderInput</span>(session, <span class="st">'B'</span>, <span class="dt">value =</span> b)}</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span>(<span class="no">input</span>, <span class="no">session</span>, <span class="kw">inputIds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'A'</span>, <span class="st">'B'</span>), <span class="kw">uniform</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+  <span class="kw">function</span>(<span class="no">a</span>){<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">a</span>)},
+  <span class="kw">function</span>(<span class="no">b</span>){ <span class="no">b</span> }
+), <span class="kw">updates</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+  <span class="kw">function</span>(<span class="no">a</span>){<span class="fu">updateTextInput</span>(<span class="no">session</span>, <span class="st">'A'</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">a</span>)},
+  <span class="kw">function</span>(<span class="no">b</span>){<span class="fu">updateSliderInput</span>(<span class="no">session</span>, <span class="st">'B'</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">b</span>)}
+))</pre></body></html></div>
 <p><code>inputIds</code> refers to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding <code>uniform</code> functions and stored, then <code>updates</code> will notify each inputs to update the UI values. The input of <code>updates</code> is the stored value.</p>
 <p>For example, if input <code>A</code> is changed from <code>"0"</code> to <code>"1"</code>, then the first function of <code>uniform</code> is triggered, <code>function(a){as.numeric(a)}</code> will be evaluated with <code>a="1"</code>. The result, which is numeric <code>1</code> will be stored. Next, each functions in <code>updates</code> will be called, with <code>1</code> (stored in the previous step) as input, results in changing the slider input <code>B</code> to <code>1</code>. This whole process will not trigger <code>A</code> to re-update.</p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -8378,7 +8379,7 @@ Danger
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>
