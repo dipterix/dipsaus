@@ -141,8 +141,8 @@ if(interactive()){
     }), c(2,3,1,4))
   }
   f2 <- function(){
-    # bl = x[,,baseline_window, ]
-    # dipsaus:::baselineArray(x, bl, dim(x), dim(bl), 2L, c(0L, 1L, 3L), c(2L), method)
+    # equivalent as bl = x[,,baseline_window, ]
+    #
     baseline_array(x, along_dim = 3,
                    baseline_indexpoints = baseline_window,
                    unit_dims = c(1,2,4), method = 'sqrt_percentage')

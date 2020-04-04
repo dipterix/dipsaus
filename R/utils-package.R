@@ -44,3 +44,98 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
   }
   return(pkgs)
 }
+
+
+#' Install Packages at Next Startup
+#' @description Register temporary code that will install packages at
+#' next session. The code will be automatically removed once executed.
+#' @param packages characters, vector of package names
+#' @param update_all whether to update all installed packages before
+#' installation; default is false
+#' @param repos repositories to search for packages
+#' @return None
+#' @details Installing packages in R session could require restarts if
+#' a package to be updated has been loaded. Normally restarting R
+#' fixes the problem. However, under some circumstances, such as with a
+#' startup code in profile, restarting R might still fail the
+#' installation. \code{prepare_install} inserts the installation
+#' code prior to the startup code so that next time the code will get
+#' executed before any other packages are loaded.
+#' Once the temporary code get executed, no matter succeeded or not,
+#' it will be removed from startup profile.
+#' @export
+prepare_install <- function(packages, update_all = FALSE,
+                            repos = getOption('repos')){
+  profile <- startup::find_rprofile()
+  if(!length(profile)){
+    startup::install()
+  }
+  profile <- startup::find_rprofile()
+
+  s <- readLines(profile)
+
+  lines <- grep('^#\\ \\-\\-\\-\\ dipsaus\\ temporary', s)
+  if(length(lines) >= 2) {
+    message('Previous installation code found. Remove and replace with new one...')
+    s <- s[-(seq(min(lines), max(lines)))]
+  }
+
+  if(!length(repos)){
+    repos = c()
+  }
+  if(!'CRAN' %in% names(repos)){
+    repos[['CRAN']] <- 'https://cran.rstudio.com/'
+  }
+  # Add two alternative repositories that provide patches
+  repos[['RcppCore']] <- 'https://RcppCore.github.io/drat/'
+  repos[['dipterix']] <- 'https://dipterix.github.io/drat/'
+
+  # prepend lines to s
+
+  pre <- paste("# --- dipsaus temporary startup (BEGIN)---
+# This is one-time startup code REMOVE the block once finished
+message('Execute temporary startup code to install packages...')
+tryCatch({
+  # Add repository
+  repos <- %s
+  if(%s){
+    utils::update.packages(ask = FALSE, repos = repos)
+  }
+  packages <- %s
+  installed <- utils::installed.packages()
+  for(p in packages){
+    if(system.file('', package = p) != '' && p %%in%% installed[,1]){
+      pver <- packageVersion(p)[[1]]
+      sver <- installed[installed[,1] == p, 3]
+      if(utils::compareVersion(as.character(pver), sver) > 0){
+        # newly installed
+        next()
+      }
+    }
+    tryCatch({
+      utils::install.packages(p, repos = repos, type = 'binary')
+    }, error = function(e){
+      utils::install.packages(p, repos = repos, type = 'source')
+    })
+
+  }
+}, error = function(e){
+  message('Error found during installation procedure')
+  print(traceback(e))
+}, finally = {
+  message('Removing temporary installation scripts.')
+  profile <- startup::find_rprofile()
+  s <- readLines(profile)
+  lines <- grep('^#\\\\ \\\\-\\\\-\\\\-\\\\ dipsaus\\\\ temporary', s)
+  if(length(lines) >= 2) {
+    s <- s[-(seq(min(lines), max(lines)))]
+    writeLines(s, con = profile)
+  }
+})
+# --- dipsaus temporary startup (END)---", collapse = '\n')
+
+  pre <- sprintf(pre, deparse(repos), deparse(update_all), deparse(packages))
+  writeLines(c(pre, s), con = profile)
+
+  message('Please restart ALL R session now. Next startup might take a while. Please wait until finished')
+}
