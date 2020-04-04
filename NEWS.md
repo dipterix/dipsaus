@@ -2,6 +2,7 @@ dipsaus 0.0.6
 =======
 
 ## Major Changes
+* Added support for R 3.5
 * Added `%D%` a decorator function that works like python decorators
 * Added `get_dots` that can get variable from `...` without evaluating other variables
 

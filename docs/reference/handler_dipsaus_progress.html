@@ -188,8 +188,8 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; [[1]]
 #&gt; tryCatch(withCallingHandlers({
 #&gt;     NULL
-#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt;     flush(stdout())
 #&gt;     flush(stderr())
 #&gt;     NULL
@@ -215,7 +215,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, interrupt = function(e) {
@@ -239,7 +239,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, callr_message = function(e) {
@@ -274,8 +274,8 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; [[8]]
 #&gt; withCallingHandlers({
 #&gt;     NULL
-#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt;     flush(stdout())
 #&gt;     flush(stderr())
 #&gt;     NULL
@@ -301,7 +301,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, interrupt = function(e) {
@@ -325,7 +325,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, callr_message = function(e) {
@@ -333,11 +333,11 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; })
 #&gt; 
 #&gt; [[9]]
-#&gt; saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt; saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt; 
 #&gt; [[10]]
-#&gt; do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
+#&gt; do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
 #&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv)
 #&gt; 
 #&gt; [[11]]
@@ -2362,7 +2362,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;     utility_functions = "utility_functions.html")), examples = TRUE, 
 #&gt;     run_dont_run = FALSE, seed = 1014, lazy = FALSE, override = list(), 
 #&gt;     install = FALSE, preview = FALSE, new_process = FALSE, devel = FALSE, 
-#&gt;     crayon_enabled = TRUE, crayon_colors = 1, pkgdown_internet = TRUE), 
+#&gt;     crayon_enabled = TRUE, crayon_colors = 256, pkgdown_internet = TRUE), 
 #&gt;     envir = &lt;environment&gt;)
 #&gt; 
 #&gt; [[12]]
@@ -4380,7 +4380,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;     utility_functions = "utility_functions.html")), examples = TRUE, 
 #&gt;     run_dont_run = FALSE, seed = 1014, lazy = FALSE, override = list(), 
 #&gt;     install = FALSE, preview = FALSE, new_process = FALSE, devel = FALSE, 
-#&gt;     crayon_enabled = TRUE, crayon_colors = 1, pkgdown_internet = TRUE)
+#&gt;     crayon_enabled = TRUE, crayon_colors = 256, pkgdown_internet = TRUE)
 #&gt; 
 #&gt; [[13]]
 #&gt; pkgdown::build_site(...)
@@ -4528,8 +4528,8 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; [[1]]
 #&gt; tryCatch(withCallingHandlers({
 #&gt;     NULL
-#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt;     flush(stdout())
 #&gt;     flush(stderr())
 #&gt;     NULL
@@ -4555,7 +4555,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, interrupt = function(e) {
@@ -4579,7 +4579,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, callr_message = function(e) {
@@ -4614,8 +4614,8 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; [[8]]
 #&gt; withCallingHandlers({
 #&gt;     NULL
-#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt;     saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;         list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt;     flush(stdout())
 #&gt;     flush(stderr())
 #&gt;     NULL
@@ -4641,7 +4641,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, interrupt = function(e) {
@@ -4665,7 +4665,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;         if (inherits(e, "rlib_error")) 
 #&gt;             e2$parent &lt;- e$parent
 #&gt;         e2 &lt;- err$add_trace_back(e2)
-#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841", 
+#&gt;         saveRDS(list("error", e2), file = paste0("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36", 
 #&gt;             ".error"))
 #&gt;     }
 #&gt; }, callr_message = function(e) {
@@ -4673,11 +4673,11 @@ progressr::handlers. See examples for detailed use case" />
 #&gt; })
 #&gt; 
 #&gt; [[9]]
-#&gt; saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
-#&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-res-4e33475cc841")
+#&gt; saveRDS(do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
+#&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv), file = "/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-res-5e3028413e36")
 #&gt; 
 #&gt; [[10]]
-#&gt; do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//Rtmp5Ph0zp/callr-fun-4e3357b3774a"), 
+#&gt; do.call(do.call, c(readRDS("/var/folders/rh/4bkfl5z50wgbbjd85xvc695c0000gn/T//RtmpnouknF/callr-fun-5e301f2aa336"), 
 #&gt;     list(envir = .GlobalEnv)), envir = .GlobalEnv)
 #&gt; 
 #&gt; [[11]]
@@ -6702,7 +6702,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;     utility_functions = "utility_functions.html")), examples = TRUE, 
 #&gt;     run_dont_run = FALSE, seed = 1014, lazy = FALSE, override = list(), 
 #&gt;     install = FALSE, preview = FALSE, new_process = FALSE, devel = FALSE, 
-#&gt;     crayon_enabled = TRUE, crayon_colors = 1, pkgdown_internet = TRUE), 
+#&gt;     crayon_enabled = TRUE, crayon_colors = 256, pkgdown_internet = TRUE), 
 #&gt;     envir = &lt;environment&gt;)
 #&gt; 
 #&gt; [[12]]
@@ -8720,7 +8720,7 @@ progressr::handlers. See examples for detailed use case" />
 #&gt;     utility_functions = "utility_functions.html")), examples = TRUE, 
 #&gt;     run_dont_run = FALSE, seed = 1014, lazy = FALSE, override = list(), 
 #&gt;     install = FALSE, preview = FALSE, new_process = FALSE, devel = FALSE, 
-#&gt;     crayon_enabled = TRUE, crayon_colors = 1, pkgdown_internet = TRUE)
+#&gt;     crayon_enabled = TRUE, crayon_colors = 256, pkgdown_internet = TRUE)
 #&gt; 
 #&gt; [[13]]
 #&gt; pkgdown::build_site(...)
