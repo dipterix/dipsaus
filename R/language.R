@@ -399,7 +399,7 @@ decorate_function <- function(orig, decor, ...){
 
   orig_name <- attr(orig, 'dipsaus_decorators')
   if(is.null(orig_name)){
-    attr(re, 'dipsaus_origin') = orig
+    attr(re, 'dipsaus_origin')  <- orig
   } else {
     attr(re, 'dipsaus_origin') <- attr(orig, 'dipsaus_origin')
   }

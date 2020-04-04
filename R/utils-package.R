@@ -81,7 +81,7 @@ prepare_install <- function(packages, update_all = FALSE,
   }
 
   if(!length(repos)){
-    repos = c()
+    repos <- c()
   }
   if(!'CRAN' %in% names(repos)){
     repos[['CRAN']] <- 'https://cran.rstudio.com/'
@@ -105,7 +105,7 @@ tryCatch({
   installed <- utils::installed.packages()
   for(p in packages){
     if(system.file('', package = p) != '' && p %%in%% installed[,1]){
-      pver <- packageVersion(p)[[1]]
+      pver <- utils::packageVersion(p)[[1]]
       sver <- installed[installed[,1] == p, 3]
       if(utils::compareVersion(as.character(pver), sver) > 0){
         # newly installed
@@ -134,7 +134,9 @@ tryCatch({
 })
 # --- dipsaus temporary startup (END)---", collapse = '\n')
 
-  pre <- sprintf(pre, deparse(repos), deparse(update_all), deparse(packages))
+  pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
+                 paste(deparse(update_all), collapse = ''),
+                 paste(deparse(packages), collapse = ''))
   writeLines(c(pre, s), con = profile)
 
   message('Please restart ALL R session now. Next startup might take a while. Please wait until finished')
