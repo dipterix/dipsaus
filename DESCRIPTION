@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.0.6
+Version: 0.0.6.2
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
@@ -41,7 +41,6 @@ Imports:
     fastmap,
     base64url,
     base64enc,
-    txtq,
     synchronicity,
     digest,
     R6,
@@ -56,6 +55,7 @@ Suggests:
     magrittr,
     glue,
     qs,
+    txtq,
     RcppRedis,
     future.callr
 Roxygen: list(r6 = FALSE)

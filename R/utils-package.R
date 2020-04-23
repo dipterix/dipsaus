@@ -137,6 +137,7 @@ tryCatch({
 message('Done.')
 # --- dipsaus temporary startup (END)---", collapse = '\n')
 
+  packages <- unique(packages)
   if(length(packages)){
     pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
                    paste(deparse(update_all), collapse = ''),

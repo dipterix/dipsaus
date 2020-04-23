@@ -11,6 +11,7 @@
 #' @param label_color integer or characters, length of 1 or \code{max_ncomp},
 #' assigning colors to each group labels,
 #' @param value list of lists, initial values of each inputs, see examples.
+#' @param max_height maximum height of the widget
 #' @param ... will be ignored
 #' @examples
 #' library(shiny); library(dipsaus)
@@ -93,7 +94,7 @@ NULL
 compoundInput2 <- function(
   inputId, label = 'Group', components = shiny::tagList(),
   initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10,
-  value = NULL, label_color = 1, ...
+  value = NULL, label_color = 1, max_height = NULL, ...
 ){
   add_js_script()
   if( length(label_color) == 0 ){ label_color <- 1 }
@@ -133,6 +134,7 @@ compoundInput2 <- function(
                           inputId = nest_inputids,
                           outputId = nest_inputids
                         ))
+
     as.call(list(
       quote(shiny::div),
       class = 'dipsaus-compound-input-item col-xs-12',
@@ -159,9 +161,19 @@ compoundInput2 <- function(
 
   value <- shiny::restoreInput(id = inputId, default = value)
 
+  if(length(max_height)){
+    ...overflow_x <- 'hidden'
+    ...overflow_y <- 'scroll'
+  } else{
+    max_height <- 'unset'
+    ...overflow_x <- 'auto'
+    ...overflow_y <- 'auto'
+  }
   comp_ui <- quote(shiny::div(
     id = inputId,
     class = 'dipsaus-compound-input',
+    style = sprintf('max-height:%s;overflow-x:%s;overflow-y:%s',
+                    ...max_height, ...overflow_x, ...overflow_y),
     shiny::singleton(shiny::tags$head(
       shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
       shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
@@ -201,7 +213,8 @@ compoundInput2 <- function(
   re <- eval(comp_ui, envir = list(
     inputId = inputId, ...make_ui = ...make_ui, ...initial_ncomp = initial_ncomp,
     ...min_ncomp = min_ncomp, ...max_ncomp = max_ncomp, ...label = label,
-    ...label_color = label_color, ...value = value, ...this_env = ...this_env
+    ...label_color = label_color, ...value = value, ...this_env = ...this_env,
+    ...max_height = max_height, ...overflow_x = ...overflow_x, ...overflow_y = ...overflow_y
   ), enclos = parent_env)
 
 

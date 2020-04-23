@@ -13,6 +13,7 @@ compoundInput2(
   max_ncomp = 10,
   value = NULL,
   label_color = 1,
+  max_height = NULL,
   ...
 )
 }
@@ -34,6 +35,8 @@ than \code{min_ncomp}}
 
 \item{label_color}{integer or characters, length of 1 or \code{max_ncomp},
 assigning colors to each group labels,}
+
+\item{max_height}{maximum height of the widget}
 
 \item{...}{will be ignored}
 }
