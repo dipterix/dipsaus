@@ -232,9 +232,9 @@ rds_queue <- function(path = tempfile()){
   FileQueue$new(path = path)
 }
 
-text_queue <- function(path = tempfile()){
-  TextQueue$new(path = path)
-}
+# text_queue <- function(path = tempfile()){
+#   TextQueue$new(path = path)
+# }
 
 qs_queue <- function(path = tempfile()){
   QsQueue$new(path = path)

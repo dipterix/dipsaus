@@ -64,6 +64,25 @@ fastmap2 <- function(missing_default = NULL){
   map
 }
 
+#' @title Copy elements to \code{fastmap2}
+#' @param li a list or an environment
+#' @param map \code{NULL} or a \code{fastmap2} instance
+#' @return If \code{map} is not \code{NULL}, elements will be added
+#' to \code{map} and return \code{map}, otherwise create a new instance.
+#' @export
+list_to_fastmap2 <- function(li, map = NULL){
+  stopifnot2(is.null(map) || inherits(map, 'fastmap2'), msg = 'map must be either NULL or fastmap2')
+  if(is.null(map)){
+    map <- fastmap2()
+  }
+  for(nm in names(li)){
+    if(nm != ''){
+      map[[nm]] = li[[nm]]
+    }
+  }
+  map
+}
+
 #' @title Migrate a \code{fastmap2} object to a new one
 #' @param from,to \code{fastmap2} object
 #' @param override whether to override keys in \code{to} if they exist

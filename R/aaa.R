@@ -7,7 +7,6 @@
 #' @importFrom fastmap fastmap
 #' @importFrom parallel clusterEvalQ
 #' @importFrom parallel stopCluster
-#' @importFrom txtq txtq
 #' @importFrom utils flush.console
 #' @useDynLib dipsaus, .registration = TRUE
 NULL

@@ -4,6 +4,7 @@
 #' @param file file path
 #' @param mime 'mime' type, default is blank
 #' @return a 'base64' data string looks like \code{'data:;base64,AEF6986...'}
+#' @export
 to_datauri <- function(file, mime = ''){
   info <- file.info(file)
   ss <- jsonlite::base64_enc(input = readBin(file, what = 'raw', n = info$size))

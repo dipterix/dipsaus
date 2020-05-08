@@ -105,7 +105,7 @@ tryCatch({
   }
   packages <- %s
   installed <- utils::installed.packages()
-  for(p in packages){
+  for(p in unique(packages)){
     if(system.file('', package = p) != '' && p %%in%% installed[,1]){
       pver <- utils::packageVersion(p)[[1]]
       sver <- installed[installed[,1] == p, 3]

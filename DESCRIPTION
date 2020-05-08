@@ -55,7 +55,6 @@ Suggests:
     magrittr,
     glue,
     qs,
-    txtq,
     RcppRedis,
     future.callr
 Roxygen: list(r6 = FALSE)
