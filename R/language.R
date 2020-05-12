@@ -1,5 +1,124 @@
 # language.R defines functional operations on R languages
 
+#' @title Create new function that supports 'quasi-quosure' syntax
+#' @param args named list of function formals
+#' @param body function body expression, supports 'quasi-quosure' syntax
+#' @param env declare environment of the function
+#' @param quote_type character, whether \code{body} is unquoted, quoted,
+#' or a \code{\link[rlang]{quo}} object
+#' @details An unquoted body expression will be quoted, all the
+#' expressions with 'quasi-quosure' like \code{!!var} will be evaluated
+#' and substituted with the value of \code{var}. For a 'quosure',
+#' \code{\link[rlang]{quo_squash}} will be applied. A quoted
+#' expression will not be substitute, but will be expanded if any
+#' 'quasi-quosure' detected
+#'
+#' \code{args} must be a \code{list} object, see \code{\link{formals}}.
+#' For arguments with no default values, or quoted defaults, use
+#' \code{\link{alist}}. An \code{arg=alist(a=)} will result in a
+#' function like \code{function(a){...}}. See examples for more details.
+#' @seealso \code{\link[rlang]{quo}}, \code{\link[rlang]{new_function}}
+#' @return a function
+#' @examples
+#'
+#' # ------------ standard usage ------------
+#' x <- 1:10
+#' f1 <- new_function2(alist(a=), { print(a + x) })
+#' f1(0)
+#'
+#' x <- 20:23
+#' f1(0)  # result changed as x changed
+#'
+#' # ------------ 'quasi-quosure' syntax ------------
+#' x <- 1:10
+#' f2 <- new_function2(alist(a=), { print(a + !!x) })
+#' print(f2)
+#'
+#' f2(0)
+#'
+#' x <- 20:23
+#' f2(0)  # result doesn't change as f2 doesn't depend on x anymore
+#'
+#' # ------------ argument settings ------------
+#'
+#' default <- 123
+#'
+#' # default with values pre-specified
+#' new_function2(list(a = default))   # function (a = 123){}
+#'
+#' # default with values unevaluated
+#' new_function2(list(a = quote(default)))   # function (a = default){}
+#' new_function2(alist(a = default))
+#'
+#' # missing default
+#' new_function2(alist(a = ))    # function (a){}
+#'
+#'
+#' @export
+new_function2 <- function(args = alist(), body = {},
+                          env = parent.frame(),
+                          quote_type = c('unquoted', 'quote', 'quo')){
+  quote_type <- match.arg(quote_type)
+  switch (
+    quote_type,
+    'unquoted' = {
+      quo <- eval(as.call(list(quote(rlang::quo), substitute(body))), envir = parent.frame())
+      body <- rlang::quo_squash(quo)
+    },
+    'quo' = {
+      quo <- eval(as.call(list(quote(rlang::quo), body)), envir = parent.frame())
+      body <- rlang::quo_squash(quo)
+    }
+  )
+  f <- local({function(){}}, envir = env)
+  formals(f) <- args
+  body(f) <- body
+  f
+}
+
+
+
+#' @title Mask a function with given variables
+#' @description Modifies the default behavior of
+#' the function by adding one environment layer on top of input
+#' function. The masked variables are assigned directly to the
+#' environment.
+#' @param f any function
+#' @param ...,.list name-value pairs to mask the function
+#' @return a masked function
+#' @examples
+#'
+#' a <- 123
+#' f1 <- function(){
+#'   a + 1
+#' }
+#' f1()   # 124
+#'
+#' f2 <- mask_function2(f1, a = 1)
+#' f2()   # a is masked with value 1, return 2
+#'
+#' environment(f1)  # global env
+#' environment(f2)  # masked env
+#'
+#' env <- environment(f2)
+#' identical(parent.env(env), environment(f1))  # true
+#' env$a  # masked variables: a=1
+#'
+#' @export
+mask_function2 <- function(f, ..., .list = list()){
+  f_env <- environment(f)
+  if(!isTRUE(f_env$`@...masked`)){
+    f_env <- new.env(parent = environment(f))
+    environment(f) <- f_env
+    f_env$`@...masked` <- TRUE
+  }
+  list2env(list(...), envir = f_env)
+  list2env(.list, envir = f_env)
+  f
+}
+
+
+
 #' Recursively match calls and modify arguments
 #' @param call an \code{R} expression
 #' @param recursive logical, recursively match calls, default is true
@@ -197,7 +316,10 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
     nm
   })
   names(args) <- nms
-  rlang::new_function(args, expr, parent_env)
+  new_function2(
+    args = args, body = expr,
+    env = parent_env,
+    quote_type = 'quote')
 }
 
 
