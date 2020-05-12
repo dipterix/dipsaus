@@ -89,7 +89,6 @@ prepare_install <- function(packages, update_all = FALSE,
     repos[['CRAN']] <- 'https://cran.rstudio.com/'
   }
   # Add two alternative repositories that provide patches
-  repos[['RcppCore']] <- 'https://RcppCore.github.io/drat/'
   repos[['dipterix']] <- 'https://dipterix.github.io/drat/'
 
   # prepend lines to s
