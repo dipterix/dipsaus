@@ -2,7 +2,7 @@
 
 context("queue")
 
-testthat::skip('queue is not ready')
+testthat::skip('queue is depricated')
 
 test_queue <- function(generator, ...){
   make_queue <- function(...){

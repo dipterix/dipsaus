@@ -77,7 +77,7 @@ list_to_fastmap2 <- function(li, map = NULL){
   }
   for(nm in names(li)){
     if(nm != ''){
-      map[[nm]] = li[[nm]]
+      map[[nm]] <- li[[nm]]
     }
   }
   map
@@ -105,10 +105,11 @@ update_fastmap2 <- function(from, to, override = TRUE){
 #' @rdname fastmap2
 #' @export
 `[[.fastmap2` <- function(x, name){
+  name <- as.character(name)
   if( startsWith(name, '@') ){
     .subset2(x, substring(name, 2))
   }else{
-    .subset2(x, 'get')(as.character(name))
+    .subset2(x, 'get')(name)
   }
 }
 
@@ -137,9 +138,18 @@ update_fastmap2 <- function(from, to, override = TRUE){
 #' @export
 `[<-.fastmap2` <- function(x, i, j = NULL, ..., value){
   i <- unlist(c(i, j, ...))
-  stopifnot2(length(value) == length(i),
+  # instead of throwing error,
+  stopifnot2(length(value) <= 1 || length(value) == length(i),
              msg='value must be the same length as name')
-  do.call(.subset2(x, 'mset'), structure(as.list(value), names = as.character(i)))
+  if( length(value) == length(i) ){
+    .subset2(x, 'mset')(.list = structure(as.list(value), names = as.character(i)))
+  } else {
+    # set for each key
+    for(k in i){
+      .subset2(x, 'set')(as.character(k), value)
+    }
+  }
+
   x
 }
 

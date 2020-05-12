@@ -6,6 +6,8 @@
 #' @param env declare environment of the function
 #' @param quote_type character, whether \code{body} is unquoted, quoted,
 #' or a \code{\link[rlang]{quo}} object
+#' @param quasi_env where the 'quasi-quosure' should be evaluated,
+#' default is parent environment
 #' @details An unquoted body expression will be quoted, all the
 #' expressions with 'quasi-quosure' like \code{!!var} will be evaluated
 #' and substituted with the value of \code{var}. For a 'quosure',
@@ -57,16 +59,20 @@
 #' @export
 new_function2 <- function(args = alist(), body = {},
                           env = parent.frame(),
-                          quote_type = c('unquoted', 'quote', 'quo')){
+                          quote_type = c('unquoted', 'quote', 'quo'),
+                          quasi_env = parent.frame()){
   quote_type <- match.arg(quote_type)
   switch (
     quote_type,
     'unquoted' = {
-      quo <- eval(as.call(list(quote(rlang::quo), substitute(body))), envir = parent.frame())
+      quo <- eval(as.call(list(quote(rlang::quo), substitute(body))), envir = quasi_env)
+      body <- rlang::quo_squash(quo)
+    },
+    'quote' = {
+      quo <- eval(as.call(list(quote(rlang::quo), body)), envir = quasi_env)
       body <- rlang::quo_squash(quo)
     },
     'quo' = {
-      quo <- eval(as.call(list(quote(rlang::quo), body)), envir = parent.frame())
       body <- rlang::quo_squash(quo)
     }
   )
@@ -319,7 +325,8 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
   new_function2(
     args = args, body = expr,
     env = parent_env,
-    quote_type = 'quote')
+    quote_type = 'quote',
+    quasi_env = parent_env)
 }
 
 
