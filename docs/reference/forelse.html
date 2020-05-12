@@ -75,7 +75,7 @@ statement, otherwise run &quot;else&quot; block." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@ statement, otherwise run &quot;else&quot; block." />
       <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
     </li>
     <li>
-      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+      <a href="../articles/r_expr_addons.html">R Expression Add-on</a>
     </li>
     <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
@@ -235,10 +235,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 #&gt;                                                                                          {     forelse(1:10, FUN, "wow") }
 #&gt;  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }
 #&gt;           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }
-#&gt;        min        lq      mean   median        uq       max neval
-#&gt;   21.80674  21.92422  22.17609  22.0417  22.36076  22.67982     3
-#&gt;  105.44168 105.89363 108.12129 106.3456 109.46109 112.57659     3
-#&gt;  104.41747 105.53434 108.04770 106.6512 109.86282 113.07441     3</div><div class='input'>
+#&gt;        min        lq      mean    median        uq       max neval
+#&gt;   20.74314  21.88396  23.03615  23.02477  24.18265  25.34053     3
+#&gt;  105.19396 107.28702 109.14503 109.38009 111.12057 112.86105     3
+#&gt;  104.32610 107.10789 108.36978 109.88968 110.39162 110.89355     3</div><div class='input'>
 
 </div></pre>
   </div>
@@ -256,7 +256,7 @@ or the result of <code>ALT_FUN()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

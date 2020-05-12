@@ -1,11 +1,11 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.0.6.2
+Version: 0.0.7
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
-Description: Works as "add-ons" to packages like 'shiny', 'future', as well as 
+Description: Works as an "add-on" to packages like 'shiny', 'future', as well as 
     'rlang', and provides utility functions. Just like dipping sauce adding 
     flavors to potato chips or pita bread, 'dipsaus' for data analysis and 
     visualizations adds handy functions and enhancements to popular packages. 
@@ -15,7 +15,7 @@ Description: Works as "add-ons" to packages like 'shiny', 'future', as well as
     roughly fall into these four categories: 1. 'shiny' input widgets; 2. 
     high-performance computing using 'RcppParallel' and 'future' package; 3. 
     modify R calls and convert among numbers, strings, and other objects. 4. 
-    utility functions to get system information such like CPU chipset, memory 
+    utility functions to get system information such like CPU chip-set, memory 
     limit, etc.
 URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
@@ -27,23 +27,23 @@ Depends: R (>= 3.5.0)
 Imports:
     utils,
     grDevices,
+    parallel,
+    Rcpp,
+    RcppParallel,
+    R6,
     shiny,
     cli,
     stringr,
-    parallel,
     jsonlite (>= 1.6),
     future,
     future.apply,
     progressr,
-    Rcpp,
-    RcppParallel,
     crayon,
     fastmap,
     base64url,
     base64enc,
     synchronicity,
     digest,
-    R6,
     rlang (>= 0.4.0),
     startup
 Suggests:

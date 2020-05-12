@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
       <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
     </li>
     <li>
-      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+      <a href="../articles/r_expr_addons.html">R Expression Add-on</a>
     </li>
     <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
@@ -170,8 +170,8 @@ evaluate expressions but still returns input. This is very useful when
 you have the same input across multiple functions and you want to use pipes.</p>
 <p><code>.expr</code> is evaluated with a special object <code>'.'</code>, you can use
 <code>'.'</code> to represent <code>.x</code> in <code>.expr</code>. For example, if
-<code>.x=1:100</code>, then <code><a href='https://rdrr.io/r/graphics/plot.html'>plot(x=seq(0,1,length.out = 100), y=.)</a></code> is
-equivalent to <code><a href='https://rdrr.io/r/graphics/plot.html'>plot(x=seq(0,1,length.out = 100), y=1:100)</a></code>.</p>
+<code>.x=1:100</code>, then <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot(x=seq(0,1,length.out = 100), y=.)</a></code> is
+equivalent to <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot(x=seq(0,1,length.out = 100), y=1:100)</a></code>.</p>
 <p><code>.check_fun</code> checks whether <code>.expr</code> returns a function, if yes,
 then the function is called with argument <code>.x</code> and <code>...</code></p>
 
@@ -203,7 +203,7 @@ then the function is called with argument <code>.x</code> and <code>...</code></
 
   <span class='co'># Repeat the previous two plots, but with different syntax</span>
   <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>.</span>, <span class='kw'>nclass</span> <span class='kw'>=</span> <span class='fl'>10</span>) }) <span class='kw'>%&gt;%</span>
-  <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>.</span>) }) <span class='kw'>%&gt;%</span>
+  <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>.</span>) }) <span class='kw'>%&gt;%</span>
 
   <span class='co'># The return statement is ignored</span>
 
@@ -228,7 +228,7 @@ then the function is called with argument <code>.x</code> and <code>...</code></
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

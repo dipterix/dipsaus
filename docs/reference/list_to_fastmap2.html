@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generator Class for Asynchronous Evaluation — MasterEvaluator • dipsaus</title>
+<title>Copy elements to <code>fastmap2</code> — list_to_fastmap2 • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generator Class for Asynchronous Evaluation — MasterEvaluator" />
-<meta property="og:description" content="Generator Class for Asynchronous Evaluation" />
+<meta property="og:title" content="Copy elements to <code>fastmap2</code> — list_to_fastmap2" />
+<meta property="og:description" content="Copy elements to fastmap2" />
 
 
 
@@ -132,17 +132,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generator Class for Asynchronous Evaluation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/parallels-workers.R'><code>R/parallels-workers.R</code></a></small>
-    <div class="hidden name"><code>MasterEvaluator.Rd</code></div>
+    <h1>Copy elements to <code>fastmap2</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/fastmap2.R'><code>R/fastmap2.R</code></a></small>
+    <div class="hidden name"><code>list_to_fastmap2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generator Class for Asynchronous Evaluation</p>
+    <p>Copy elements to <code>fastmap2</code></p>
     </div>
 
+    <pre class="usage"><span class='fu'>list_to_fastmap2</span>(<span class='no'>li</span>, <span class='kw'>map</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>li</th>
+      <td><p>a list or an environment</p></td>
+    </tr>
+    <tr>
+      <th>map</th>
+      <td><p><code>NULL</code> or a <code>fastmap2</code> instance</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If <code>map</code> is not <code>NULL</code>, elements will be added
+to <code>map</code> and return <code>map</code>, otherwise create a new instance.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

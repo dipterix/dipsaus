@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
       <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
     </li>
     <li>
-      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+      <a href="../articles/r_expr_addons.html">R Expression Add-on</a>
     </li>
     <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
@@ -195,9 +195,9 @@ collapsing dimensions</p>
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   }
 )</div><div class='output co'>#&gt; Unit: microseconds
-#&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 504.939 504.939 504.939 504.939 504.939 504.939     1
-#&gt;  compare 144.815 144.815 144.815 144.815 144.815 144.815     1</div><div class='input'>
+#&gt;     expr    min     lq   mean median     uq    max neval
+#&gt;   result 571.49 571.49 571.49 571.49 571.49 571.49     1
+#&gt;  compare 212.48 212.48 212.48 212.48 212.48 212.48     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>)), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span>))
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
@@ -206,9 +206,9 @@ collapsing dimensions</p>
   <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1L</span> , <span class='kw'>check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>v</span>){
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   })</div><div class='output co'>#&gt; Unit: milliseconds
-#&gt;     expr      min       lq     mean   median       uq      max neval
-#&gt;   result 178.3409 178.3409 178.3409 178.3409 178.3409 178.3409     1
-#&gt;  compare 180.8553 180.8553 180.8553 180.8553 180.8553 180.8553     1</div><div class='input'>
+#&gt;     expr       min        lq      mean    median        uq       max neval
+#&gt;   result  39.81275  39.81275  39.81275  39.81275  39.81275  39.81275     1
+#&gt;  compare 168.84906 168.84906 168.84906 168.84906 168.84906 168.84906     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -225,7 +225,7 @@ collapsing dimensions</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

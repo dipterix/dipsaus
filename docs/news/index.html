@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
       <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
     </li>
     <li>
-      <a href="../articles/r_expr_addons.html">R Expression Add-ons</a>
+      <a href="../articles/r_expr_addons.html">R Expression Add-on</a>
     </li>
     <li>
       <a href="../articles/shiny_customized_widgets.html">Shiny Customized Widgets</a>
@@ -135,30 +135,67 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dipsaus-0-0-6" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.6">
-<a href="#dipsaus-0-0-6" class="anchor"></a>dipsaus 0.0.6<small> Unreleased </small>
+    <div id="dipsaus-0-0-7" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.7">
+<a href="#dipsaus-0-0-7" class="anchor"></a>dipsaus 0.0.7<small> Unreleased </small>
 </h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major Changes</h2>
 <ul>
-<li>Added support for R 3.5</li>
-<li>Added <code><a href="../reference/decorate_function.html">%D%</a></code> a decorator function that works like python decorators</li>
-<li>Added <code>get_dots</code> that can get variable from <code>...</code> without evaluating other variables</li>
+<li>Removed dependency on <code>txtq</code> and functions related</li>
+<li>Added <code>list_to_fastmap2</code> to convert a list to <code>fastmap2</code>
+</li>
+<li>Exported <code>to_datauri</code>, allowing any files, especially images to be translated to base-64 code and can be directly used in websites</li>
+<li>
+<code>mask_function2</code> to mask variables within function by adding one environment layer on top of the function</li>
+<li>
+<code>new_function2</code> creates function that supports ‘quasi-quosure’ syntax</li>
 </ul>
 </div>
 <div id="minor-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
 <ul>
+<li>Allow maximum height set for <code>compoundInput2</code>
+</li>
 <li>
-<code>lapply_async2</code> now supporting more load-balance settings</li>
+<code>fastmap2</code> now accept multi-assignment with single value</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>
+<code>fastmap2</code> subset method now accept integers instead raising errors</li>
+</ul>
+</div>
+</div>
+    <div id="dipsaus-0-0-6" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.6">
+<a href="#dipsaus-0-0-6" class="anchor"></a>dipsaus 0.0.6<small> 2020-04-05 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
+<ul>
+<li>Added support for R 3.5</li>
+<li>Added <code><a href="../reference/decorate_function.html">%D%</a></code> a decorator function that works like python decorators</li>
+<li>Added <code>get_dots</code> that can get variable from <code>...</code> without evaluating other variables</li>
+</ul>
+</div>
+<div id="minor-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
+<ul>
+<li>
+<code>lapply_async2</code> now supporting more load-balance settings</li>
+</ul>
+</div>
+<div id="bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>11 JavaScript library vulnerability bug fixed</li>
 </ul>
@@ -168,9 +205,9 @@
 <h1 class="page-header" data-toc-text="0.0.5">
 <a href="#dipsaus-0-0-5" class="anchor"></a>dipsaus 0.0.5<small> 2020-03-12 </small>
 </h1>
-<div id="major-changes-1" class="section level2">
+<div id="major-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added <code>dev_create</code> to control switching among graphical devices</li>
 <li>Added <code><a href="../reference/use_shiny_dipsaus.html">use_shiny_dipsaus()</a></code> to import all styles and JavaScript</li>
@@ -178,9 +215,9 @@
 <li>Added <code>lapply_async2</code>, a naive version of <code>future.lapply</code>, but with callbacks, which is useful if play-back message is required. This is experimental. In the future when package <code>progressr</code> is online, this function will be adjusted.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Resolved memory leaks in <code>compoundInput2</code>
 </li>
@@ -193,9 +230,9 @@
 <h1 class="page-header" data-toc-text="0.0.4">
 <a href="#dipsaus-0-0-4" class="anchor"></a>dipsaus 0.0.4<small> 2020-01-20 </small>
 </h1>
-<div id="major-changes-2" class="section level2">
+<div id="major-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Canceled exporting queues because of strange behavior in windows. (plan to fix this for the next version)</li>
 <li>Implemented function to convert Base64 <code>DataURI</code> string to image</li>
@@ -209,12 +246,12 @@
 <li>
 <code>shift_array</code> to fast shift array along certain dimension</li>
 <li>
-<code><a href="../reference/grapes-plus-grapes.html">%+-%</a></code> plus-minus operator; <code><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></code> a âJavaScriptâ style of creating functions</li>
+<code><a href="../reference/grapes-plus-grapes.html">%+-%</a></code> plus-minus operator; <code><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></code> a “JavaScript” style of creating functions</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed <code>compoundInput2</code> not initialized when rendered in <code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">shiny::renderUI</a></code>
 </li>
@@ -225,9 +262,9 @@
 <h1 class="page-header" data-toc-text="0.0.3">
 <a href="#dipsaus-0-0-3" class="anchor"></a>dipsaus 0.0.3<small> 2019-11-18 </small>
 </h1>
-<div id="major-changes-3" class="section level2">
+<div id="major-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
 <div id="parallel" class="section level3">
 <h3 class="hasAnchor">
 <a href="#parallel" class="anchor"></a>Parallel</h3>
@@ -239,9 +276,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Renamed <code>txtq_queue</code> to <code>text_queue</code>
 </li>
@@ -254,9 +291,9 @@
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#dipsaus-0-0-2" class="anchor"></a>dipsaus 0.0.2<small> 2019-11-05 </small>
 </h1>
-<div id="major-changes-4" class="section level2">
+<div id="major-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
 <div id="shiny" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny" class="anchor"></a>Shiny</h3>
@@ -294,9 +331,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-2" class="section level2">
+<div id="minor-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -309,7 +346,7 @@
 <li>
 <code>drop_nulls</code> removes invalid items within lists;</li>
 <li>
-<code>get_cpu</code> gets CPU types and chipset names;</li>
+<code>get_cpu</code> gets CPU types and chip-set names;</li>
 <li>
 <code>get_ram</code>, <code>mem_limit2</code> gets total RAM size as an alternatives for <code>mem.limits</code> in non-windows environment;</li>
 <li>
@@ -323,18 +360,18 @@
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#dipsaus-0-0-1" class="anchor"></a>dipsaus 0.0.1<small> Unreleased </small>
 </h1>
-<div id="major-changes-5" class="section level2">
+<div id="major-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-6" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Implemented full <code>JavaScript</code> support for <code>compoundInput2</code> as a new <code>shiny</code> input to</li>
 <li>Added utility function <code>col2hexStr</code> to convert color to hex value</li>
 <li>Added utility function <code>match_calls</code> to match and modify calls</li>
 </ul>
 </div>
-<div id="minor-changes-3" class="section level2">
+<div id="minor-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-4" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Added <code>label_color</code> to <code>compoundInput2</code> to enable colored group labels</li>
 </ul>
@@ -365,7 +402,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -48,7 +48,7 @@ devtools::install_github('dipterix/dipsaus')
 * `col2hexStr` convert color to hex strings that are friendly to `HTML`, `CSS` and `JavaScript`;
 * `parse_svec` converts a string into integer vectors, `deparse_svec` converts integer vectors back into a compact string;
 * `drop_nulls` removes invalid items within lists;
-* `get_cpu` gets CPU types and chipset names;
+* `get_cpu` gets CPU types and chip-set names;
 * `get_ram`, `mem_limit2` gets total RAM size as an alternatives for `mem.limits` in non-windows environment;
 * `to_ram_size` provides simple way to convert numbers to printable storage sizes in given units;
 * `time_delta` calculates time differences and returns a number in given units.

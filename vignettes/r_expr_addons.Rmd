@@ -1,5 +1,5 @@
 ---
-title: "R Expression Add-ons"
+title: "R Expression Add-on"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{R Expression Add-ons}

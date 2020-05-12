@@ -1,3 +1,21 @@
+dipsaus 0.0.7
+=======
+
+## Major Changes
+* Removed dependency on `txtq` and functions related
+* Added `list_to_fastmap2` to convert a list to `fastmap2`
+* Exported `to_datauri`, allowing any files, especially images to be translated to base-64 code and can be directly used in websites
+* `mask_function2` to mask variables within function by adding one environment layer on top of the function
+* `new_function2` creates function that supports 'quasi-quosure' syntax
+
+## Minor Changes
+* Allow maximum height set for `compoundInput2`
+* `fastmap2` now accept multi-assignment with single value
+
+## Bug Fixes
+* `fastmap2` subset method now accept integers instead raising errors
+
+
 dipsaus 0.0.6
 =======
 
@@ -83,7 +101,7 @@ dipsaus 0.0.2
 * `col2hexStr` convert color to hex strings that are friendly to `HTML`, `CSS` and `JavaScript`;
 * `parse_svec` converts a string into integer vectors, `deparse_svec` converts integer vectors back into a compact string;
 * `drop_nulls` removes invalid items within lists;
-* `get_cpu` gets CPU types and chipset names;
+* `get_cpu` gets CPU types and chip-set names;
 * `get_ram`, `mem_limit2` gets total RAM size as an alternatives for `mem.limits` in non-windows environment;
 * `to_ram_size` provides simple way to convert numbers to printable storage sizes in given units;
 * `time_delta` calculates time differences and returns a number in given units.
