@@ -113,7 +113,14 @@ tryCatch({
         next()
       }
     }
-    utils::install.packages(p, repos = repos, type = 'both')
+
+    tryCatch({
+      utils::install.packages(p, repos = repos, type = 'binary')
+    }, warning = function(e){
+      if(grepl('^package .*is not available \\(as a binary package', e$message)){
+        utils::install.packages(p, repos = repos, type = 'source')
+      }
+    }, error = function(e){})
   }
 }, error = function(e){
   message('Error found during installation procedure')
