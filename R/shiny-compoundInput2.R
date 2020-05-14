@@ -165,8 +165,8 @@ compoundInput2 <- function(
     ...overflow_x <- 'hidden'
     ...overflow_y <- 'scroll'
   } else{
-    max_height <- 'unset'
-    ...overflow_x <- 'auto'
+    max_height <- 'auto'
+    ...overflow_x <- 'hidden'
     ...overflow_y <- 'auto'
   }
   comp_ui <- quote(shiny::div(

@@ -107,18 +107,13 @@ tryCatch({
   for(p in unique(packages)){
     if(system.file('', package = p) != '' && p %%in%% installed[,1]){
       pver <- utils::packageVersion(p)[[1]]
-      sver <- installed[installed[,1] == p, 3]
+      sver <- installed[installed[,1] == p, 3][[1]]
       if(utils::compareVersion(as.character(pver), sver) > 0){
         # newly installed
         next()
       }
     }
-    tryCatch({
-      utils::install.packages(p, repos = repos, type = 'binary')
-    }, error = function(e){
-      utils::install.packages(p, repos = repos, type = 'source')
-    })
-
+    utils::install.packages(p, repos = repos, type = 'source')
   }
 }, error = function(e){
   message('Error found during installation procedure')
