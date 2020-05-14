@@ -113,7 +113,7 @@ tryCatch({
         next()
       }
     }
-    utils::install.packages(p, repos = repos, type = 'source')
+    utils::install.packages(p, repos = repos, type = 'both')
   }
 }, error = function(e){
   message('Error found during installation procedure')
