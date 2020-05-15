@@ -211,7 +211,7 @@ cat2 <- function(
       cli::cat_bullet(..., col = .col, bullet = bullet)
     }else{
       # use colored console
-      col <- crayon::make_style(.col)
+      col <- cli::make_ansi_style(.col)
       if(print_level){
         base::cat('[', level, ']: ', sep = '')
       }
