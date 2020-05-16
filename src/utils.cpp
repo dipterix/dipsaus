@@ -3,6 +3,12 @@
 // [[Rcpp::plugins(cpp11)]]
 #include "utils.h"
 
+// [[Rcpp::export]]
+std::string object_address(SEXP x) {
+  std::ostringstream addr;
+  addr << x;
+  return addr.str();
+}
 
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims){
   int64_t rem = 0;

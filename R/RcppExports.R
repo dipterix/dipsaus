@@ -17,3 +17,7 @@ collapser <- function(x, dims, keep) {
     .Call(`_dipsaus_collapser`, x, dims, keep)
 }
 
+object_address <- function(x) {
+    .Call(`_dipsaus_object_address`, x)
+}
+

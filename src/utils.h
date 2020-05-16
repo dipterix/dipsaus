@@ -45,4 +45,6 @@ double add_sqrt(const double e1, const double e2);
 double add_log10(const double e1, const double e2);
 double add_square(const double e1, const double e2);
 
+std::string object_address(SEXP x);
+
 #endif

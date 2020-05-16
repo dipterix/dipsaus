@@ -64,12 +64,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// object_address
+std::string object_address(SEXP x);
+RcppExport SEXP _dipsaus_object_address(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(object_address(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_cpp_forelse", (DL_FUNC) &_dipsaus_cpp_forelse, 3},
     {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
     {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
+    {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {NULL, NULL, 0}
 };
 
