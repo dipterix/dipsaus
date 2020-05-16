@@ -2,20 +2,21 @@
 % Please edit documentation in R/zzz-finalizers.R
 \name{shared_finalizer}
 \alias{shared_finalizer}
-\title{Create Shared Finalizers to Avoid Over Garbage Collection}
+\title{Create Shared Finalization to Avoid Over Garbage Collection}
 \usage{
 shared_finalizer(key, env, fin, onexit = FALSE)
 }
 \arguments{
-\item{key}{characters that should be identical to shared finalizers}
+\item{key}{characters that should be identical if
+finalization method is to be shared}
 
 \item{env}{object to finalize. Must be an environment}
 
-\item{fin}{Shared finalizer: function to call on finalization;
+\item{fin}{Shared finalization: function to call on finalization;
 see \code{\link{reg.finalizer}}}
 
-\item{onexit}{logical: should the finalizer be run if the object is
-still uncollected at the end of the R session?
+\item{onexit}{logical: should the finalization be run if the
+object is still uncollected at the end of the R session?
 See \code{\link{reg.finalizer}}}
 }
 \description{

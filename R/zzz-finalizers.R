@@ -105,15 +105,16 @@ DipsausSessionFinalizer <- R6::R6Class(
 dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 
 
-#' @title Create Shared Finalizers to Avoid Over Garbage Collection
+#' @title Create Shared Finalization to Avoid Over Garbage Collection
 #' @description Generates a function to be passed to
 #' \code{\link{reg.finalizer}}
-#' @param key characters that should be identical to shared finalizers
+#' @param key characters that should be identical if
+#' finalization method is to be shared
 #' @param env object to finalize. Must be an environment
-#' @param fin Shared finalizer: function to call on finalization;
+#' @param fin Shared finalization: function to call on finalization;
 #' see \code{\link{reg.finalizer}}
-#' @param onexit logical: should the finalizer be run if the object is
-#' still uncollected at the end of the R session?
+#' @param onexit logical: should the finalization be run if the
+#' object is still uncollected at the end of the R session?
 #' See \code{\link{reg.finalizer}}
 #' @details The main purpose of this function is to allow multiple
 #' objects that point to a same source (say a temporary file) to
