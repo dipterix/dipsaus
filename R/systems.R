@@ -103,7 +103,12 @@ get_cpu <- function(){
 
 
 
-
+#' @title Provides Unique Session ID According to Current R Session
+#' @param pid R session process ID, default is \code{Sys.getpid()}
+#' @param attributes whether to append data used to calculate
+#' ID as attributes, default is false
+#' @return Character string
+#' @export
 session_uuid <- local({
   uuids <- list()
 
@@ -141,11 +146,4 @@ session_uuid <- local({
 })
 
 
-running_master_session <- local({
-  pid <- Sys.getpid()
-  uuid <- session_uuid()
-  function(){
-    session_uuid(pid = Sys.getpid()) == uuid
-  }
-})
 

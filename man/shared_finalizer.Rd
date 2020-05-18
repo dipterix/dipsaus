@@ -2,22 +2,36 @@
 % Please edit documentation in R/zzz-finalizers.R
 \name{shared_finalizer}
 \alias{shared_finalizer}
+\alias{shared_finalizer.default}
+\alias{shared_finalizer.R6}
+\alias{shared_finalizer.fastmap}
+\alias{shared_finalizer.fastmap2}
 \title{Create Shared Finalization to Avoid Over Garbage Collection}
 \usage{
-shared_finalizer(key, env, fin, onexit = FALSE)
+shared_finalizer(x, key, fin, onexit = FALSE, ...)
+
+\method{shared_finalizer}{default}(x, key, fin, onexit = FALSE, ...)
+
+\method{shared_finalizer}{R6}(x, key, fin, onexit = TRUE, ...)
+
+\method{shared_finalizer}{fastmap}(x, key, fin, onexit = FALSE, ...)
+
+\method{shared_finalizer}{fastmap2}(x, key, fin, onexit = FALSE, ...)
 }
 \arguments{
+\item{x}{object to finalize}
+
 \item{key}{characters that should be identical if
 finalization method is to be shared}
 
-\item{env}{object to finalize. Must be an environment}
-
 \item{fin}{Shared finalization: function to call on finalization;
-see \code{\link{reg.finalizer}}}
+see \code{\link{reg.finalizer}}. See details.}
 
 \item{onexit}{logical: should the finalization be run if the
 object is still uncollected at the end of the R session?
 See \code{\link{reg.finalizer}}}
+
+\item{...}{passed to other methods}
 }
 \description{
 Generates a function to be passed to
@@ -34,9 +48,18 @@ environments share the same file, finalizing one single environment
 will result in removing the file so that all the other environment
 lose the reference. (See example "Native \code{reg.finalizer}
 fails example")
+
+The argument of \code{fin} varies according to different types of
+\code{x}. For environments, \code{fin} contains and only contains
+one parameter, which is the environment itself. This is the same
+as \code{reg.finalizer}. For \code{R6} classes, \code{fin} is
+ignored if class has \code{"shared_finalize"} method defined.
+For \code{\link[fastmap]{fastmap}} or \code{\link[dipsaus]{fastmap}}
+instances, \code{fin} accepts no argument.
 }
 \examples{
-#'
+
+# ------------ Environment example ------------
 file_exists <- TRUE
 clear_files <- function(e){
   print('Clean some shared files')
@@ -57,23 +80,78 @@ e1$valid(); e2$valid()
 # when system garbage collecting *both* e1 and e2
 
 # Make sure `key`s are identical
-e1_fin <- shared_finalizer('cleanXXXfiles', e1, clear_files)
-e2_fin <- shared_finalizer('cleanXXXfiles', e2, clear_files)
-
-reg.finalizer(e1, e1_fin)
-reg.finalizer(e2, e2_fin)
+shared_finalizer(e1, 'cleanXXXfiles', clear_files)
+shared_finalizer(e2, 'cleanXXXfiles', clear_files)
 
 # Now remove e1, files are not cleaned, and e2 is still valid
-rm(e1); gc()
+rm(e1); invisible(gc(verbose = FALSE))
 e2$valid()  # TRUE
 file_exists # TRUE
 
 # remove both e1 and e2, and file gets removed
-rm(e2); gc()
+rm(e2); invisible(gc(verbose = FALSE))
 file_exists  # FALSE
 
+# ------------ R6 example ------------
+
+cls <- R6::R6Class(
+  classname = '...demo...',
+  cloneable = TRUE,
+  public = list(
+    file_path = character(0),
+    shared_finalize = function(){
+      cat('Finalize shared resource - ', self$file_path, '\n')
+    },
+    finalize = function(){
+      cat('Finalize private resource\n')
+    },
+    initialize = function(file_path){
+      self$file_path = file_path
+      shared_finalizer(self, key = self$file_path)
+    }
+  )
+)
+e1 <- cls$new('file1')
+rm(e1); invisible(gc(verbose = FALSE))
+
+e1 <- cls$new('file2')
+
+# A copy of e1
+e2 <- e1$clone()
+# unfortunately, we have to manually register
+shared_finalizer(e2, key = e2$file_path)
+
+# Remove e1, gc only free private resource
+rm(e1); invisible(gc(verbose = FALSE))
+
+# remove e1 and e2, run shared finalize
+rm(e2); invisible(gc(verbose = FALSE))
+
+# ------------ fastmap/fastmap2 example -----------
+
+# No formals needed for fastmap/fastmap2
+fin <- function(){
+  cat('Finalizer is called\n')
+}
+# single reference case
+e1 <- dipsaus::fastmap2()
+shared_finalizer(e1, 'fin-fastmap2', fin = fin)
+invisible(gc(verbose = FALSE)) # Not triggered
+rm(e1); invisible(gc(verbose = FALSE)) # triggered
+
+# multiple reference case
+e1 <- dipsaus::fastmap2()
+e2 <- dipsaus::fastmap2()
+shared_finalizer(e1, 'fin-fastmap2', fin = fin)
+shared_finalizer(e2, 'fin-fastmap2', fin = fin)
+
+rm(e1); invisible(gc(verbose = FALSE)) # Not triggered
+rm(e2); invisible(gc(verbose = FALSE)) # triggered
 
 # ------------ Native reg.finalizer fails example ------------
+
+# This example shows a failure case using base::reg.finalizer
+
 file_exists <- TRUE
 clear_files <- function(e){
   print('Clean some shared files')
@@ -95,5 +173,8 @@ file_exists
 # removing e1 will invalidate e2
 rm(e1); gc()
 e2$valid()    # FALSE
+
+# Clean-ups
+rm(e2); gc()
 
 }

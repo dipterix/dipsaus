@@ -222,10 +222,7 @@ cat2 <- function(
     # Update: not print anything
   }else{
     # Whether running in the future session
-    if(running_master_session()){
-      # Just use cat
-      base::cat(..., end = end)
-    }
+    base::cat(..., end)
   }
 
   if(level == 'FATAL'){

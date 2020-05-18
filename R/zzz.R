@@ -25,6 +25,6 @@ register_shiny <- function(){
 }
 
 
-# .onUnload <- function(libpath){
-#   session_log$finalize()
-# }
+.onUnload <- function(libpath){
+  dipsaus_sessionfinalizer$finalize()
+}
