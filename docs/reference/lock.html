@@ -74,7 +74,7 @@ whether the lock exists or not." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.1</span>
       </span>
     </div>
 
@@ -178,14 +178,12 @@ access, False for read access. Default is true.</p></td>
 <span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>)
 <span class='kw'>if</span>(<span class='no'>lock_success</span>){
   <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'testlocker has been locked'</span>)
-}
-
+}</div><div class='output co'>#&gt; testlocker has been locked </div><div class='input'>
 <span class='co'># test whether locker has been locked</span>
 <span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
 <span class='kw'>if</span>(!<span class='no'>lock_success</span>){
   <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'attempt to lock testlocker failed'</span>)
-}
-
+}</div><div class='output co'>#&gt; attempt to lock testlocker failed </div><div class='input'>
 <span class='co'># unlock</span>
 <span class='fu'>dipsaus_unlock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 

@@ -54,7 +54,7 @@ The argument of \code{fin} varies according to different types of
 one parameter, which is the environment itself. This is the same
 as \code{reg.finalizer}. For \code{R6} classes, \code{fin} is
 ignored if class has \code{"shared_finalize"} method defined.
-For \code{\link[fastmap]{fastmap}} or \code{\link[dipsaus]{fastmap}}
+For \code{\link[fastmap]{fastmap}} or \code{\link[dipsaus]{fastmap2}}
 instances, \code{fin} accepts no argument.
 }
 \examples{

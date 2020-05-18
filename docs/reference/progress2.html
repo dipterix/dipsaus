@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.1</span>
       </span>
     </div>
 
@@ -202,11 +202,7 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 1'</span>)
-<span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 2'</span>)
-<span class='no'>progress</span>$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span>()
-
+<span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [Task A]: initializing... </div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 1'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 1 (1 out of 2) </div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 2'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 2 (2 out of 2) </div><div class='input'><span class='no'>progress</span>$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span>()</div><div class='output co'>#&gt; Finished </div><div class='input'>
 <span class='co'># Check if progress is closed</span>
 <span class='no'>progress</span>$<span class='fu'>is_closed</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># ------------------------------ Shiny Example ------------------------------</span>

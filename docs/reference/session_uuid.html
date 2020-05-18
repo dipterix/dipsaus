@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Memory Size — get_ram • dipsaus</title>
+<title>Provides Unique Session ID According to Current R Session — session_uuid • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get Memory Size — get_ram" />
-<meta property="og:description" content="Get Memory Size" />
+<meta property="og:title" content="Provides Unique Session ID According to Current R Session — session_uuid" />
+<meta property="og:description" content="Provides Unique Session ID According to Current R Session" />
 
 
 
@@ -132,21 +132,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Memory Size</h1>
+    <h1>Provides Unique Session ID According to Current R Session</h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/systems.R'><code>R/systems.R</code></a></small>
-    <div class="hidden name"><code>get_ram.Rd</code></div>
+    <div class="hidden name"><code>session_uuid.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get Memory Size</p>
+    <p>Provides Unique Session ID According to Current R Session</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_ram</span>()</pre>
+    <pre class="usage"><span class='fu'>session_uuid</span>(<span class='kw'>pid</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getpid.html'>Sys.getpid</a></span>(), <span class='kw'>attributes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pid</th>
+      <td><p>R session process ID, default is <code><a href='https://rdrr.io/r/base/Sys.getpid.html'>Sys.getpid()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>attributes</th>
+      <td><p>whether to append data used to calculate
+ID as attributes, default is false</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric in Bytes how big your system RAM is</p>
+    <p>Character string</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

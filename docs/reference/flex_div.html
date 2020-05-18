@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get element from dots <code>'...'</code> — get_dots • dipsaus</title>
+<title>Generate Shiny element with arrangement automatically — flex_div • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Get element from dots <code>'...'</code> — get_dots" />
-<meta property="og:description" content="Get specific key values from '...' without
-evaluating the rest of arguments." />
+<meta property="og:title" content="Generate Shiny element with arrangement automatically — flex_div" />
+<meta property="og:description" content="Generate Shiny element with arrangement automatically" />
 
 
 
@@ -133,79 +132,57 @@ evaluating the rest of arguments." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get element from dots <code>'...'</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>get_dots.Rd</code></div>
+    <h1>Generate Shiny element with arrangement automatically</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-flex-div.R'><code>R/shiny-flex-div.R</code></a></small>
+    <div class="hidden name"><code>flex_div.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get specific key values from <code>'...'</code> without
-evaluating the rest of arguments.</p>
+    <p>Generate Shiny element with arrangement automatically</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_dots</span>(<span class='no'>..name</span>, <span class='kw'>..default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>flex_div</span>(<span class='no'>...</span>, <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>..name</th>
-      <td><p>character name of the argument</p></td>
-    </tr>
-    <tr>
-      <th>..default</th>
-      <td><p>R object to return if argument not found</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>dots that contains argument</p></td>
+      <td><p>shiny UI elements</p></td>
+    </tr>
+    <tr>
+      <th>ncols</th>
+      <td><p>number of columns, either <code>"auto"</code> or
+vector of positive integers</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>HTML objects</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>One could use <code>list(...)[[name]]</code> to extract any keys
-from the dots. However, such way reduces code readability. If
-some arguments have not evaluated, <code><a href='https://rdrr.io/r/base/list.html'>list(...)</a></code> will
-<code><a href='https://rdrr.io/r/base/force.html'>force</a></code> evaluating them. Normally it's fine if
-these expressions take little time to run, but if the
-expression require time to run, <code>get_dots</code> avoids
-unnecessary evaluations.</p>
+    <p>If multiple numbers of columns are specified,
+<code>flex_div</code> will guess the best size that will be applied.
+For button UI, <code>flex_div</code> automatically add <code>"20px"</code>
+on the top margin.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='co'># ------------------------ Basic Usage ---------------------------</span>
-<span class='no'>plot2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){
-  <span class='no'>title</span> <span class='kw'>=</span> <span class='fu'>get_dots</span>(<span class='st'>'main'</span>, <span class='st'>'There is no title'</span>, <span class='no'>...</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>...</span>)
-  <span class='no'>title</span>
-}
-
-<span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='img'><img src='get_dots-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "There is no title"</div><div class='input'><span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>'Scatter Plot of 1:10'</span>)</div><div class='img'><img src='get_dots-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "Scatter Plot of 1:10"</div><div class='input'>
-<span class='co'># ------------------------ Comparisons ----------------------------</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'>get_dots</span>(<span class='st'>'x'</span>, <span class='no'>...</span>) }
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>)<span class='kw'>[[</span><span class='st'>'x'</span>]] }
-<span class='fu'><a href='https://rdrr.io/r/base/delayedAssign.html'>delayedAssign</a></span>(<span class='st'>'y'</span>, { <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'y is evaluated!'</span>) })
-
-<span class='co'># y will not evaluate</span>
-<span class='fu'>f1</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># y gets evaluated</span>
-<span class='fu'>f2</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; y is evaluated!</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># -------------------- Decorator example --------------------------</span>
-<span class='no'>ret_range</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>which_range</span> <span class='kw'>=</span> <span class='st'>'y'</span>){
-  <span class='kw'>function</span>(<span class='no'>f</span>){
-    <span class='kw'>function</span>(<span class='no'>...</span>){
-      <span class='fu'>f</span>(<span class='no'>...</span>)
-      <span class='no'>y_range</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'>get_dots</span>(<span class='no'>which_range</span>, <span class='fl'>0</span>, <span class='no'>...</span>))
-      <span class='no'>y_range</span>
-    }
-  }
-}
-<span class='no'>plot_ret_yrange</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span> <span class='kw'>%D%</span> <span class='fu'>ret_range</span>(<span class='st'>'y'</span>)
-<span class='fu'>plot_ret_yrange</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>))</div><div class='img'><img src='get_dots-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] -1.234114  2.134560</div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'>flex_div</span>(
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span>(<span class='st'>'sel'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>'Select input'</span>,
+                     <span class='kw'>choices</span> <span class='kw'>=</span> <span class='st'>''</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'id2'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='html_asis.html'>html_asis</a></span>(<span class='st'>' '</span>), <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,
+                   <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>'Heights aligned'</span>),
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'ok2'</span>, <span class='st'>'Button'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sl'</span>, <span class='st'>'Item 4'</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                     <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fileInput.html'>fileInput</a></span>(<span class='st'>'aa'</span>, <span class='st'>'item 5'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
+  <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>) <span class='co'># Try to assign 2 or 3 items per column</span>
+)
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span>(<span class='no'>ui</span>)),
+                  <span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){})
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

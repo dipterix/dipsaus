@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Memory Size — get_ram • dipsaus</title>
+<title>Escape HTML strings — html_asis • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Get Memory Size — get_ram" />
-<meta property="og:description" content="Get Memory Size" />
+<meta property="og:title" content="Escape HTML strings — html_asis" />
+<meta property="og:description" content="Escape HTML strings so that they will be displayed
+'as-is' in websites." />
 
 
 
@@ -132,22 +133,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Memory Size</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/systems.R'><code>R/systems.R</code></a></small>
-    <div class="hidden name"><code>get_ram.Rd</code></div>
+    <h1>Escape HTML strings</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-flex-div.R'><code>R/shiny-flex-div.R</code></a></small>
+    <div class="hidden name"><code>html_asis.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get Memory Size</p>
+    <p>Escape HTML strings so that they will be displayed
+'as-is' in websites.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_ram</span>()</pre>
+    <pre class="usage"><span class='fu'>html_asis</span>(<span class='no'>s</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>s</th>
+      <td><p>characters</p></td>
+    </tr>
+    <tr>
+      <th>space</th>
+      <td><p>whether to also escape white space, default is true.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric in Bytes how big your system RAM is</p>
+    <p>An R string</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='flex_div.html'>flex_div</a></span>(
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'id'</span>, <span class='st'>' '</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,
+                   <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>'Height not aligned'</span>),
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'ok'</span>, <span class='st'>'Button1'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'id2'</span>, <span class='fu'>html_asis</span>(<span class='st'>' '</span>), <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,
+                   <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>'Heights aligned'</span>),
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'ok2'</span>, <span class='st'>'Button2'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,),
+  <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fl'>2</span>
+)
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span>(<span class='no'>ui</span>)),
+                  <span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){})
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
