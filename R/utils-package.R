@@ -88,8 +88,9 @@ prepare_install <- function(packages, update_all = FALSE,
   if(!'CRAN' %in% names(repos) || repos[['CRAN']] == '@CRAN@'){
     repos[['CRAN']] <- 'https://cran.rstudio.com/'
   }
+  repos <- c(list('dipterix' = 'https://dipterix.github.io/drat/'), as.list(repos))
   # Add two alternative repositories that provide patches
-  repos[['dipterix']] <- 'https://dipterix.github.io/drat/'
+  repos <- unlist(repos, use.names = TRUE)
 
   # prepend lines to s
 
@@ -127,7 +128,7 @@ tryCatch({
   print(traceback(e))
 }, finally = {
   message('Removing temporary installation scripts.')
-  profile <- startup::find_rprofile()
+  profile <- '%s'
   s <- readLines(profile)
   lines <- grep('^#\\\\ \\\\-\\\\-\\\\-\\\\ dipsaus\\\\ temporary', s)
   if(length(lines) >= 2) {
@@ -142,7 +143,8 @@ message('Done.')
   if(length(packages)){
     pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
                    paste(deparse(update_all), collapse = ''),
-                   paste(deparse(packages), collapse = ''))
+                   paste(deparse(packages), collapse = ''),
+                   startup::find_rprofile())
   } else {
     pre <- NULL
   }
