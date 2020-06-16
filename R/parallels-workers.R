@@ -926,7 +926,7 @@ MasterEvaluator <- R6::R6Class(
 #' is large, quasi-quotation could be slow or fail. By passing \code{dat=...}
 #' or \code{.list=list(dat=...)}, it's able to temporary store the data on
 #' hard-drive and persist for evaluators. The back-end is using
-#' \code{\link[dipsaus]{qs_map}}, which is super fast for data that are no
+#' \code{\link{qs_map}}, which is super fast for data that are no
 #' more than \code{2GB}.
 #' }
 #'

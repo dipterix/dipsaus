@@ -5,7 +5,7 @@
 #' @param body function body expression, supports 'quasi-quosure' syntax
 #' @param env declare environment of the function
 #' @param quote_type character, whether \code{body} is unquoted, quoted,
-#' or a \code{\link[rlang]{quo}} object
+#' or a 'quo' object (from 'rlang' package)
 #' @param quasi_env where the 'quasi-quosure' should be evaluated,
 #' default is parent environment
 #' @details An unquoted body expression will be quoted, all the
@@ -19,7 +19,7 @@
 #' For arguments with no default values, or quoted defaults, use
 #' \code{\link{alist}}. An \code{arg=alist(a=)} will result in a
 #' function like \code{function(a){...}}. See examples for more details.
-#' @seealso \code{\link[rlang]{quo}}, \code{\link[rlang]{new_function}}
+#' @seealso \code{\link[rlang]{new_function}}
 #' @return a function
 #' @examples
 #'

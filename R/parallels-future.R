@@ -7,8 +7,8 @@
 #' @param plan logical, or character or \code{future} plan; see Details.
 #' @param callback function to run after each iteration
 #' @param ... passed to \code{\link[future]{plan}}
-#' @param future.chunk.size see also
-#' \code{\link[future.apply]{future_eapply}}. If you want the callbacks
+#' @param future.chunk.size see also \code{future_lapply}.
+#' If you want the callbacks
 #' to be called immediately after each loop, then set it to \code{1},
 #' which is not optimal but the only way right now.
 #' @details

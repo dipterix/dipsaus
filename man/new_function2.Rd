@@ -20,7 +20,7 @@ new_function2(
 \item{env}{declare environment of the function}
 
 \item{quote_type}{character, whether \code{body} is unquoted, quoted,
-or a \code{\link[rlang]{quo}} object}
+or a 'quo' object (from 'rlang' package)}
 
 \item{quasi_env}{where the 'quasi-quosure' should be evaluated,
 default is parent environment}
@@ -81,5 +81,5 @@ new_function2(alist(a = ))    # function (a){}
 
 }
 \seealso{
-\code{\link[rlang]{quo}}, \code{\link[rlang]{new_function}}
+\code{\link[rlang]{new_function}}
 }

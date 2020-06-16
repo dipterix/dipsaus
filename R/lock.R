@@ -100,7 +100,7 @@
 
 
 #' @title Create or Unlock a Lock
-#' @description A wrapper for \code{\link[synchronicity]{lock}}, but user can
+#' @description A wrapper for 'synchronicity' package, but user can
 #' interrupt the lock procedure anytime, and don't have to worry about
 #' whether the lock exists or not.
 #' @param name character, the locker's name, must be only letters and digits

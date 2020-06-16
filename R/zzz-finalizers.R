@@ -14,9 +14,9 @@ DipsausSessionFinalizer <- R6::R6Class(
   ),
   public = list(
     initialize = function(){
-      private$counts = fastmap2()
-      private$finalizers = fastmap2()
-      private$signatures = fastmap2()
+      private$counts <- fastmap2()
+      private$finalizers <- fastmap2()
+      private$signatures <- fastmap2()
     },
     finalize = function(){
       .subset2(private$counts, 'reset')()
@@ -27,7 +27,7 @@ DipsausSessionFinalizer <- R6::R6Class(
                         replace_if_exists = c('ignore', 'flag', 'finalizer', 'both')){
       stopifnot(is.function(finalizer))
       stopifnot(is.environment(object) || inherits(object, c('externalptr')))
-      replace_if_exists = match.arg(replace_if_exists)
+      replace_if_exists <- match.arg(replace_if_exists)
 
       object_signature <- memory_address(object)
       # have to remove the object so that there won't
@@ -49,14 +49,14 @@ DipsausSessionFinalizer <- R6::R6Class(
         switch (
           replace_if_exists,
           'flag' = {
-            private$finalizers[[key]]$onexit = onexit
+            private$finalizers[[key]]$onexit <- onexit
           },
           'finalizer' = {
-            private$finalizers[[key]]$finalizer = finalizer
+            private$finalizers[[key]]$finalizer <- finalizer
           },
           'both' = {
-            private$finalizers[[key]]$onexit = onexit
-            private$finalizers[[key]]$finalizer = finalizer
+            private$finalizers[[key]]$onexit <- onexit
+            private$finalizers[[key]]$finalizer <- finalizer
           }
         )
 

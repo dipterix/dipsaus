@@ -76,7 +76,7 @@ might not be available to the child sessions. Also because the object
 is large, quasi-quotation could be slow or fail. By passing \code{dat=...}
 or \code{.list=list(dat=...)}, it's able to temporary store the data on
 hard-drive and persist for evaluators. The back-end is using
-\code{\link[dipsaus]{qs_map}}, which is super fast for data that are no
+\code{\link{qs_map}}, which is super fast for data that are no
 more than \code{2GB}.
 }
 

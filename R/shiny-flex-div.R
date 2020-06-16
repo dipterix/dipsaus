@@ -38,31 +38,31 @@ flex_div <- function(..., ncols = 'auto'){
   n <- length(elements)
   if(isTRUE(ncols == 'auto')){
     if(n <= 3){
-      d = c(1, n)
+      d <- c(1, n)
     } else {
-      d = grDevices::n2mfrow(n)
+      d <- grDevices::n2mfrow(n)
     }
     flex_basis <- floor(10000 / d[[2]]) / 100
   } else {
     ncols <- sort(ceiling(ncols))
     resid <- n %% ncols
     if(any(resid == 0)){
-      ncols = ncols[resid == 0][[1]]
-      d = c(n/ncols, ncols)
+      ncols <- ncols[resid == 0][[1]]
+      d <- c(n/ncols, ncols)
       flex_basis <- floor(10000 / d[[2]]) / 100
     } else {
-      resid1 = ncols - resid
+      resid1 <- ncols - resid
       ncol1 <- max(ncols[resid1 == min(resid1)])
       flex_basis <- floor(10000 / ncol1) / 100
-      d = c(ceiling(n / ncol1), ncol1)
+      d <- c(ceiling(n / ncol1), ncol1)
     }
   }
   els <- lapply(seq_along(elements), function(ii){
-    style = sprintf('flex-basis:%.2f%%;', flex_basis)
+    style <- sprintf('flex-basis:%.2f%%;', flex_basis)
     if( ii %% d[[2]] == 0 ){
-      bk = quote(shiny::div(class="dipsaus-flexdiv-break"))
+      bk <- quote(shiny::div(class="dipsaus-flexdiv-break"))
     } else {
-      bk = NULL
+      bk <- NULL
     }
 
     as.call(list(
@@ -122,7 +122,7 @@ html_asis <- function(s, space = TRUE){
     htmltools::htmlEscape(s)
   }
   if(space){
-    s = stringr::str_replace_all(s, ' ', '&nbsp;')
+    s <- stringr::str_replace_all(s, ' ', '&nbsp;')
   }
   shiny::HTML(s)
 }

@@ -3,9 +3,9 @@ context('Finalizer')
 test_that('Finalizer', {
 
   counts <- dipsaus::fastmap2()
-  counts[['run']] = 0
+  counts[['run']] <- 0
   fin <- function(e){
-    counts[['run']] = counts[['run']] + 1
+    counts[['run']] <- counts[['run']] + 1
     invisible()
   }
 
@@ -49,3 +49,4 @@ test_that('Finalizer', {
   expect_equal(counts[['run']], 3)
 
 })
+
