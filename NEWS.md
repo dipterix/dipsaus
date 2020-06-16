@@ -1,3 +1,12 @@
+dipsaus 0.0.8
+=======
+
+## Major Changes
+* Removed dependency on `crayon`
+* Added `shared_finalizer` to finalize multiple objects only when last one is garbage collected
+* Removed `autoconf` script and `Makevars` as no special flags are needed
+* added `flex_div` to generate `div` with `flex` layout and calculate size automatically
+
 dipsaus 0.0.7
 =======
 

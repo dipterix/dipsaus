@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
       </span>
     </div>
 
@@ -196,8 +196,8 @@ collapsing dimensions</p>
   }
 )</div><div class='output co'>#&gt; Unit: microseconds
 #&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 692.984 692.984 692.984 692.984 692.984 692.984     1
-#&gt;  compare 151.969 151.969 151.969 151.969 151.969 151.969     1</div><div class='input'>
+#&gt;   result 573.018 573.018 573.018 573.018 573.018 573.018     1
+#&gt;  compare 198.216 198.216 198.216 198.216 198.216 198.216     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>)), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span>))
 <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(
@@ -207,8 +207,8 @@ collapsing dimensions</p>
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>'-'</span>, <span class='no'>v</span>)))) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>
   })</div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr      min       lq     mean   median       uq      max neval
-#&gt;   result 149.9977 149.9977 149.9977 149.9977 149.9977 149.9977     1
-#&gt;  compare 152.2080 152.2080 152.2080 152.2080 152.2080 152.2080     1</div><div class='input'>
+#&gt;   result 247.3830 247.3830 247.3830 247.3830 247.3830 247.3830     1
+#&gt;  compare 345.9405 345.9405 345.9405 345.9405 345.9405 345.9405     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

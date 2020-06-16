@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
       </span>
     </div>
 
@@ -135,13 +135,29 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dipsaus-0-0-7" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.7">
-<a href="#dipsaus-0-0-7" class="anchor"></a>dipsaus 0.0.7<small> 2020-05-12 </small>
+    <div id="dipsaus-0-0-8" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.8">
+<a href="#dipsaus-0-0-8" class="anchor"></a>dipsaus 0.0.8<small> Unreleased </small>
 </h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major Changes</h2>
+<ul>
+<li>Removed dependency on <code>crayon</code>
+</li>
+<li>Added <code>shared_finalizer</code> to finalize multiple objects only when last one is garbage collected</li>
+<li>Removed <code>autoconf</code> script and <code>Makevars</code> as no special flags are needed</li>
+<li>added <code>flex_div</code> to generate <code>div</code> with <code>flex</code> layout and calculate size automatically</li>
+</ul>
+</div>
+</div>
+    <div id="dipsaus-0-0-7" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.7">
+<a href="#dipsaus-0-0-7" class="anchor"></a>dipsaus 0.0.7<small> 2020-05-12 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Removed dependency on <code>txtq</code> and functions related</li>
 <li>Added <code>list_to_fastmap2</code> to convert a list to <code>fastmap2</code>
@@ -176,9 +192,9 @@
 <h1 class="page-header" data-toc-text="0.0.6">
 <a href="#dipsaus-0-0-6" class="anchor"></a>dipsaus 0.0.6<small> 2020-04-05 </small>
 </h1>
-<div id="major-changes-1" class="section level2">
+<div id="major-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added support for R 3.5</li>
 <li>Added <code><a href="../reference/decorate_function.html">%D%</a></code> a decorator function that works like python decorators</li>
@@ -205,9 +221,9 @@
 <h1 class="page-header" data-toc-text="0.0.5">
 <a href="#dipsaus-0-0-5" class="anchor"></a>dipsaus 0.0.5<small> 2020-03-12 </small>
 </h1>
-<div id="major-changes-2" class="section level2">
+<div id="major-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added <code>dev_create</code> to control switching among graphical devices</li>
 <li>Added <code><a href="../reference/use_shiny_dipsaus.html">use_shiny_dipsaus()</a></code> to import all styles and JavaScript</li>
@@ -230,9 +246,9 @@
 <h1 class="page-header" data-toc-text="0.0.4">
 <a href="#dipsaus-0-0-4" class="anchor"></a>dipsaus 0.0.4<small> 2020-01-20 </small>
 </h1>
-<div id="major-changes-3" class="section level2">
+<div id="major-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Canceled exporting queues because of strange behavior in windows. (plan to fix this for the next version)</li>
 <li>Implemented function to convert Base64 <code>DataURI</code> string to image</li>
@@ -262,9 +278,9 @@
 <h1 class="page-header" data-toc-text="0.0.3">
 <a href="#dipsaus-0-0-3" class="anchor"></a>dipsaus 0.0.3<small> 2019-11-18 </small>
 </h1>
-<div id="major-changes-4" class="section level2">
+<div id="major-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
 <div id="parallel" class="section level3">
 <h3 class="hasAnchor">
 <a href="#parallel" class="anchor"></a>Parallel</h3>
@@ -291,9 +307,9 @@
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#dipsaus-0-0-2" class="anchor"></a>dipsaus 0.0.2<small> 2019-11-05 </small>
 </h1>
-<div id="major-changes-5" class="section level2">
+<div id="major-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-6" class="anchor"></a>Major Changes</h2>
 <div id="shiny" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny" class="anchor"></a>Shiny</h3>
@@ -360,9 +376,9 @@
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#dipsaus-0-0-1" class="anchor"></a>dipsaus 0.0.1<small> Unreleased </small>
 </h1>
-<div id="major-changes-6" class="section level2">
+<div id="major-changes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-6" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-7" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Implemented full <code>JavaScript</code> support for <code>compoundInput2</code> as a new <code>shiny</code> input to</li>
 <li>Added utility function <code>col2hexStr</code> to convert color to hex value</li>
