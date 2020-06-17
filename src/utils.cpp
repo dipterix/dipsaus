@@ -146,9 +146,12 @@ int64_t length_from_dim(Rcpp::IntegerVector dim){
   }
 
   int64_t len = 1;
-  for(auto& el : dim){
-    len *= el;
+  for(Rcpp::IntegerVector::iterator ptr = dim.begin(); ptr != dim.end(); ptr++ ){
+    len *= *ptr;
   }
+  // for(auto& el : dim){
+  //   len *= el;
+  // }
   return len;
 }
 
