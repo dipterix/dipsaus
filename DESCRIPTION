@@ -44,6 +44,7 @@ Imports:
     synchronicity,
     digest,
     rlang (>= 0.4.0),
+    yaml,
     startup
 Suggests:
     microbenchmark,
