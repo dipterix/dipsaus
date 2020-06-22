@@ -167,7 +167,7 @@
     <tr>
       <th>quote_type</th>
       <td><p>character, whether <code>body</code> is unquoted, quoted,
-or a <code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></code> object</p></td>
+or a 'quo' object (from 'rlang' package)</p></td>
     </tr>
     <tr>
       <th>quasi_env</th>
@@ -193,7 +193,7 @@ For arguments with no default values, or quoted defaults, use
 function like <code>function(a){...}</code>. See examples for more details.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quo</a></code>, <code><a href='https://rlang.r-lib.org/reference/new_function.html'>new_function</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rlang.r-lib.org/reference/new_function.html'>new_function</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -210,7 +210,7 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 #&gt; {
 #&gt;     print(a + 1:10)
 #&gt; }
-#&gt; &lt;environment: 0x7fd35767dd58&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7ff8e2ba6110&gt;</div><div class='input'>
 <span class='fu'>f2</span>(<span class='fl'>0</span>)</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div><div class='input'>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>20</span>:<span class='fl'>23</span>
 <span class='fu'>f2</span>(<span class='fl'>0</span>)  <span class='co'># result doesn't change as f2 doesn't depend on x anymore</span></div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div><div class='input'>
@@ -222,20 +222,20 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 <span class='fu'>new_function2</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>default</span>))   <span class='co'># function (a = 123){}</span></div><div class='output co'>#&gt; function (a = 123) 
 #&gt; {
 #&gt; }
-#&gt; &lt;environment: 0x7fd359950fe8&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7ff8e5d57b58&gt;</div><div class='input'>
 <span class='co'># default with values unevaluated</span>
 <span class='fu'>new_function2</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>(<span class='no'>default</span>)))   <span class='co'># function (a = default){}</span></div><div class='output co'>#&gt; function (a = default) 
 #&gt; {
 #&gt; }
-#&gt; &lt;environment: 0x7fd35948e2b0&gt;</div><div class='input'><span class='fu'>new_function2</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>alist</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>default</span>))</div><div class='output co'>#&gt; function (a = default) 
+#&gt; &lt;environment: 0x7ff8f5bf3ee8&gt;</div><div class='input'><span class='fu'>new_function2</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>alist</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>default</span>))</div><div class='output co'>#&gt; function (a = default) 
 #&gt; {
 #&gt; }
-#&gt; &lt;environment: 0x7fd3599191a8&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7ff8f469bcf0&gt;</div><div class='input'>
 <span class='co'># missing default</span>
 <span class='fu'>new_function2</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>alist</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> ))    <span class='co'># function (a){}</span></div><div class='output co'>#&gt; function (a) 
 #&gt; {
 #&gt; }
-#&gt; &lt;environment: 0x7fd3593e0e38&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x7ff8f7e97bf0&gt;</div><div class='input'>
 
 </div></pre>
   </div>
