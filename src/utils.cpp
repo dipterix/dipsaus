@@ -35,7 +35,7 @@ void get_index(Rcpp::IntegerVector::iterator ptr, int64_t ii,
                const Rcpp::IntegerVector& dims){
   int64_t rem = 0;
   int64_t leap = 1;
-  std::size_t jj;
+  R_xlen_t jj;
 
   if(ii == NA_INTEGER){
     for( jj = 0; jj < dims.length(); jj++ ){
@@ -57,7 +57,7 @@ void get_index(std::vector<int64_t>::iterator ptr, int64_t ii,
                const Rcpp::IntegerVector& dims){
   int64_t rem = 0;
   int64_t leap = 1;
-  std::size_t jj;
+  R_xlen_t jj;
 
   if(ii == NA_INTEGER){
     for( jj = 0; jj < dims.length(); jj++ ){
@@ -83,7 +83,7 @@ int64_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim){
   int64_t ii = 0;
   int64_t leap = 1;
 
-  for(std::size_t j = 0; j < idx.size(); j++ ){
+  for(R_xlen_t j = 0; j < idx.size(); j++ ){
     if(idx[j] == NA_INTEGER){
       return NA_INTEGER;
     }
@@ -145,10 +145,8 @@ int64_t length_from_dim(Rcpp::IntegerVector dim){
     return 0;
   }
 
-  int64_t len = 1;
-  for(Rcpp::IntegerVector::iterator ptr = dim.begin(); ptr != dim.end(); ptr++ ){
-    len *= *ptr;
-  }
+  int64_t len = Rcpp::algorithm::prod_nona(dim.begin(), dim.end());
+
   // for(auto& el : dim){
   //   len *= el;
   // }

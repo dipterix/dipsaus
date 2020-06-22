@@ -167,11 +167,14 @@ Rcpp::NumericVector baselineArray(
   // 4. z-score then baseline
   // 5. median as baseline (???)
 
+  // Rcpp::Rcout << "cpp debug baseline\n";
+
   Rcpp::IntegerVector::iterator ptr;
   Rcpp::NumericVector y = Rcpp::NumericVector(x.length());
   y.attr("dim") = x.attr("dim");
   y.attr("dimnames") = x.attr("dimnames");
 
+  // Rcpp::Rcout << "cpp debug 1\n";
 
   // Generate subset index
   Rcpp::IntegerVector per_dim = dims[per];
@@ -180,11 +183,15 @@ Rcpp::NumericVector baselineArray(
   Rcpp::IntegerVector subset_idx = Rcpp::IntegerVector(dims.length());
   Rcpp::IntegerVector per_idx = Rcpp::IntegerVector(per_dim.length());
 
+  // Rcpp::Rcout << "cpp debug subset index generated\n";
+
   // Callculate baseline inner loop length
   Rcpp::IntegerVector rest_dim = dims[rest];
   int64_t innerloop_len = length_from_dim(rest_dim);
   int64_t blloop_len = length_from_dim(bldims[rest]);
   Rcpp::IntegerVector rest_idx = Rcpp::IntegerVector(rest_dim.length());
+
+  // Rcpp::Rcout << "cpp debug calculated innerloop length\n";
 
   // calculate baseline indices in vector (partial index)
   Rcpp::IntegerVector bl_vec_idx = Rcpp::IntegerVector(blloop_len);
@@ -197,6 +204,8 @@ Rcpp::NumericVector baselineArray(
     *ptr = get_ii(subset_idx, bldims);
   }
 
+  // Rcpp::Rcout << "cpp debug baseline indives calculated\n";
+
   // calculate data indices in vector (partial index)
   Rcpp::IntegerVector dat_vec_idx = Rcpp::IntegerVector(innerloop_len);
   rest_idx.fill(0);
@@ -207,6 +216,8 @@ Rcpp::NumericVector baselineArray(
     subset_idx[rest] = rest_idx;
     *ptr = get_ii(subset_idx, dims);
   }
+
+  // Rcpp::Rcout << "cpp debug partial index calculated\n";
 
   // subset_idx.fill(0);
   //
@@ -240,6 +251,7 @@ Rcpp::NumericVector baselineArray(
                       per, per_dim, method,
                       blloop_len, innerloop_len, y);
 
+  // Rcpp::Rcout << "cpp debug baseliner created\n";
 
   // Last parameter - grain size is very important
   // When data is large, or some recursive calls,
@@ -248,6 +260,8 @@ Rcpp::NumericVector baselineArray(
   // there will only be 500 threads created
   parallelFor(0, loop_len, baseliner, loop_len / 24);
   // baseliner.do_baseline(0, loop_len);
+
+  // Rcpp::Rcout << "cpp debug done\n";
 
   return y;
 }

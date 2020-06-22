@@ -85,7 +85,7 @@ Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
 
   int64_t len = x.length();
   int64_t leap = 1;
-  std::size_t jj;
+  int64_t jj;
 
   std::vector<int64_t> idx = std::vector<int64_t>(dims.length());
   idx[0] = -1;
