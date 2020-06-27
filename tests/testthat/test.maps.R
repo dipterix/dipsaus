@@ -71,10 +71,10 @@ test_that('RDS map', {
   test_map( dipsaus:::FileMap, path )
 })
 
-test_that('QS map', {
-  path <- tempfile()
-  test_map( dipsaus:::QsMap, path )
-})
+# test_that('QS map', {
+#   path <- tempfile()
+#   test_map( dipsaus:::QsMap, path )
+# })
 
 test_that('Redis map', {
   has_redis <- tryCatch({

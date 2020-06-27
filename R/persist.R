@@ -14,7 +14,7 @@
 #' @section Public Methods:
 #'
 #' \describe{
-#' \item{\code{initialize(..., backend = text_map)}}{
+#' \item{\code{initialize(..., backend = rds_map)}}{
 #' The constructor. backend must inherit \code{AbstractMap}, \code{...} will
 #' be passed to \code{backend$new(...)}. To check available back-ends and their
 #' use cases, see \code{\link[dipsaus]{map}}.
@@ -100,7 +100,7 @@ PersistContainer <- R6::R6Class(
   ),
   public = list(
 
-    initialize = function(..., backend = text_map){
+    initialize = function(..., backend = rds_map){
       args <- list(...)
       m <- tryCatch({
         do.call(backend, args)

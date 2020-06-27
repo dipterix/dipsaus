@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils-package.R
 \name{prepare_install}
 \alias{prepare_install}
+\alias{prepare_install2}
 \title{Install Packages at Next Startup}
 \usage{
 prepare_install(
@@ -10,6 +11,8 @@ prepare_install(
   restart = FALSE,
   repos = getOption("repos")
 )
+
+prepare_install2(packages, restart = FALSE, repos = getOption("repos"), ...)
 }
 \arguments{
 \item{packages}{characters, vector of package names}
@@ -20,6 +23,8 @@ installation; default is false}
 \item{restart}{whether to restart session automatically}
 
 \item{repos}{repositories to search for packages}
+
+\item{...}{internal arguments}
 }
 \value{
 None
@@ -29,13 +34,13 @@ Register temporary code that will install packages at
 next session. The code will be automatically removed once executed.
 }
 \details{
+\code{prepare_install} is soft-depricated, use \code{prepare_install2}
+instead.
+
 Installing packages in R session could require restarts if
 a package to be updated has been loaded. Normally restarting R
 fixes the problem. However, under some circumstances, such as with a
 startup code in profile, restarting R might still fail the
-installation. \code{prepare_install} inserts the installation
-code prior to the startup code so that next time the code will get
-executed before any other packages are loaded.
-Once the temporary code get executed, no matter succeeded or not,
-it will be removed from startup profile.
+installation. \code{prepare_install2} starts a new session with clean
+environments for installation.
 }

@@ -15,7 +15,7 @@ sessions. See \code{cache} method in 'details'.
 
 
 \describe{
-\item{\code{initialize(..., backend = text_map)}}{
+\item{\code{initialize(..., backend = rds_map)}}{
 The constructor. backend must inherit \code{AbstractMap}, \code{...} will
 be passed to \code{backend$new(...)}. To check available back-ends and their
 use cases, see \code{\link[dipsaus]{map}}.

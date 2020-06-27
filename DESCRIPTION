@@ -44,8 +44,8 @@ Imports:
     synchronicity,
     digest,
     rlang (>= 0.4.0),
-    yaml,
-    startup
+    startup,
+    rstudioapi
 Suggests:
     microbenchmark,
     htmltools,
@@ -55,9 +55,11 @@ Suggests:
     promises,
     magrittr,
     glue,
+    yaml,
     qs,
     RcppRedis,
-    future.callr
+    future.callr,
+    remotes
 Roxygen: list(r6 = FALSE)
 RoxygenNote: 7.1.0
 LinkingTo: 

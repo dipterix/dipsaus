@@ -54,20 +54,28 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' installation; default is false
 #' @param restart whether to restart session automatically
 #' @param repos repositories to search for packages
+#' @param ... internal arguments
 #' @return None
-#' @details Installing packages in R session could require restarts if
+#' @details
+#' \code{prepare_install} is soft-depricated, use \code{prepare_install2}
+#' instead.
+#'
+#' Installing packages in R session could require restarts if
 #' a package to be updated has been loaded. Normally restarting R
 #' fixes the problem. However, under some circumstances, such as with a
 #' startup code in profile, restarting R might still fail the
-#' installation. \code{prepare_install} inserts the installation
-#' code prior to the startup code so that next time the code will get
-#' executed before any other packages are loaded.
-#' Once the temporary code get executed, no matter succeeded or not,
-#' it will be removed from startup profile.
+#' installation. \code{prepare_install2} starts a new session with clean
+#' environments for installation.
+#'
+#' @name prepare_install
+NULL
+
+#' @rdname prepare_install
 #' @export
 prepare_install <- function(packages, update_all = FALSE,
                             restart = FALSE,
                             repos = getOption('repos')){
+  warning('prepare_install is soft-depricated and may cause R failures, use `prepare_install2` instead')
   profile <- startup::find_rprofile()
   if(!length(profile)){
     startup::install()
@@ -165,4 +173,45 @@ message('Done.')
   }
   message('Please restart ALL R session now. Next startup might take a while. Please wait until finished')
   return(invisible())
+}
+
+#' Restart R Session
+#' @description Utilize 'RStudio' functions to restart, if running without
+#' 'RStudio', use \code{startup}{restart} instead.
+#' @export
+restart_session <- function(){
+  f <- get0('.rs.restartR')
+  if(is.function(f)){
+    message('Restarting RStudio rsession. Might take a while. Please wait...')
+    f()
+    return(invisible())
+  }
+  # Not in rstudio session
+  message('Using startup::restart()')
+  startup::restart()
+  return(invisible())
+}
+
+#' @rdname prepare_install
+#' @export
+prepare_install2 <- function(
+  packages, restart = FALSE, repos = getOption('repos'), ...){
+
+  github_packages <- stringr::str_detect(packages, '/')
+  cran_packages <- unique(packages[!github_packages])
+  github_packages <- unique(packages[github_packages])
+
+  if(length(github_packages) && !package_installed('remotes')){
+    cran_packages <- c(cran_packages, 'remotes')
+  }
+  if(length(cran_packages)){
+    rs_install_r(cran_packages, repos = repos, rs = FALSE, ...)
+  }
+  if(length(github_packages)){
+    rs_install_github(github_packages, repos = repos, rs = FALSE, ...)
+  }
+  if( restart ){
+    restart_session()
+  }
+  invisible()
 }
