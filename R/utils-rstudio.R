@@ -15,7 +15,7 @@ future_is_sequential <- function(){
   inherits(future::plan(), 'sequential')
 }
 
-rs_runjob_alt <- function(script, name){
+rs_runjob_alt <- function(script, name, wait = TRUE){
   # use RScript
   script <- normalizePath(script)
   if(!file.exists(script)){
@@ -30,12 +30,11 @@ rs_runjob_alt <- function(script, name){
   }
 
   cmd <- sprintf("%s --vanilla %s", rscript, script)
-  system(cmd, wait = TRUE)
+  system(cmd, wait = wait)
   return()
 }
 
-#' @export
-rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE){
+rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = FALSE){
   if(!quoted){
     expr <- substitute(expr)
   }
@@ -45,7 +44,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE){
   if(rs && rs_avail()){
     rs_runjob(script, name)
   } else {
-    rs_runjob_alt(script, name)
+    rs_runjob_alt(script, name, wait = wait)
   }
 }
 
@@ -164,7 +163,7 @@ rs_install_r <- function(packages, repos = getOption('repos'),
     cat('Done\n')
   })
 
-  rs_exec(rlang::quo_squash(quo), quoted = TRUE, name = 'Install packages', rs = rs)
+  rs_exec(rlang::quo_squash(quo), quoted = TRUE, name = 'Install packages', rs = rs, wait = TRUE)
 
   invisible()
 }
