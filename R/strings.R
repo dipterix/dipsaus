@@ -326,19 +326,28 @@ mem_limit2 <- function(){
 #' }
 #' @export
 ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
-  cat2(..., ' (Yes/no): ', end = end, level = level)
-  answer <- readline()
-  answer <- stringr::str_trim(stringr::str_to_upper(answer))
-  if( answer %in% c('Y', 'YES') ){ return(TRUE) }
-  if( answer %in% c('N', 'NO') ){ return(FALSE) }
-  if( answer %in% c('C') ){
-    if( error_if_canceled ){
-      cat2('Canceled.', level = 'FATAL')
-    }else{
-      return(NULL)
+
+  if(rs_avail()){
+    s <- paste(..., sep = '\n')
+    res <- rstudioapi::showQuestion('Yes/no', s, ok = 'Yes', cancel = 'No')
+    return(isTRUE(res))
+  } else {
+    cat2(..., ' (Yes/no): ', end = end, level = level)
+    answer <- readline()
+    answer <- stringr::str_trim(stringr::str_to_upper(answer))
+    if( answer %in% c('Y', 'YES') ){ return(TRUE) }
+    if( answer %in% c('N', 'NO') ){ return(FALSE) }
+    if( answer %in% c('C') ){
+      if( error_if_canceled ){
+        cat2('Canceled.', level = 'FATAL')
+      }else{
+        return(NULL)
+      }
     }
+    Recall('Please answer Y/yes, N/no, or c to cancel.', end = '', level = 'WARNING', error_if_canceled = error_if_canceled)
   }
-  Recall('Please answer Y/yes, N/no, or c to cancel.', end = '', level = 'WARNING')
+
+
 }
 
 
@@ -364,13 +373,22 @@ ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE){
 #' }
 #' @export
 ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
-  cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
-       end = end, level = level)
-  answer <- stringr::str_trim(readline())
-  if( answer == '' ){
-    answer <- default
+
+  if(rs_avail()){
+    answer <- rstudioapi::showPrompt('Question', paste(..., sep = '\n'), default = default)
+    if(!length(answer) || answer == ''){
+      answer <- default
+    }
+  } else {
+    cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
+         end = end, level = level)
+    answer <- stringr::str_trim(readline())
+    if( answer == '' ){
+      answer <- default
+    }
   }
   answer
+
 }
 
 

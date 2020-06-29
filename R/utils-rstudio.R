@@ -4,6 +4,17 @@ rs_avail <- function(){
   rstudioapi::isAvailable(version_needed = '1.3', child_ok = TRUE)
 }
 
+#' Focus on 'RStudio' Console
+#' @description Safe wrap of \code{\link[rstudioapi]{sendToConsole}}
+#' @return None
+#' @export
+rs_focus_console <- function(){
+  if(rs_avail()){
+    rstudioapi::sendToConsole('', focus = TRUE, execute = FALSE, echo = TRUE)
+  }
+  return()
+}
+
 rs_runjob <- function(script, name){
   rstudioapi::jobRunScript(path = script, name = name,
                            workingDir = tempdir(),
@@ -34,6 +45,37 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
   return()
 }
 
+#' Schedule a Background Job
+#' @description Utilizes 'RStudio' job scheduler if correct environment is
+#' detected, otherwise call system command via \code{Rscript}
+#' @param expr R expression
+#' @param name used by 'RStudio' as name of the job
+#' @param quoted is \code{expr} quoted
+#' @param rs whether to use 'RStudio' by default
+#' @param wait whether to wait for the result. Only useful when using
+#' \code{Rscript}
+#'
+#' @details
+#' 'RStudio' provides interfaces \code{\link[rstudioapi]{jobRunScript}} to
+#' schedule background jobs. However, this
+#' functionality only applies using 'RStudio' IDE. When launching R from
+#' other places such as terminals, the job scheduler usually result in
+#' errors. In this case, the alternative is to call system command via
+#' \code{Rscript}
+#'
+#' The expression \code{expr} will run a clean environment. Therefore R objects
+#' created outside of the context will be inaccessible from within the child
+#' environment, and packages except for base packages will not be loaded.
+#'
+#' There is a small difference when running within and without 'RStudio'.
+#' When running via \code{Rscript}, the environment will run under
+#' \code{vanilla} argument, which means no load, no start-up code. If you
+#' have start-up code stored at \code{~/.Rprofile}, the start-up code will be
+#' ignored. When running within 'RStudio', the start-up code will be executed.
+#' As of \code{rstudioapi} version 0.11, there is no 'vanilla' option. This
+#' feature is subject to change in the future.
+#'
+#' @export
 rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = FALSE){
   if(!quoted){
     expr <- substitute(expr)
