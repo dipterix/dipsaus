@@ -1,17 +1,27 @@
 #' @title Create a group of named graphic devices
 #' @param ... named expressions to launch devices
 #' @param env environment to evaluate expressions
+#' @param attributes named list; names correspond to device names and values
+#' are attributes to set to the devices
+#' @param dev which device to search for attributes
+#' @param which which attribute to obtain
+#' @param ifnotfound value to return if attribute is not found
 #' @return A list of functions to query, control, and switch between devices
 #' @examples
 #' \dontrun{ ## Unix-specific example
 #'
-#' # Create multiple named devices
-#' devs <- dev_create(line = X11(), points = x11())
+#' # Create multiple named devices, setting attributes to the second graph
+#' devs <- dev_create(
+#'   line = X11(), points = x11(),
+#'   attributes = list(points = list(pch = 16))
+#' )
 #'
 #' # switch to device named "points"
 #'
 #' devs$dev_which('points')
-#' plot(1:10)
+#'
+#' # Plot points, with pch given as preset
+#' plot(1:10, pch = get_dev_attr(which = 'pch', ifnotfound = 1))
 #'
 #' # switch to "line" device
 #' devs$dev_switch('line')
@@ -34,8 +44,12 @@
 #' dev.list()
 #'
 #' }
+#' @name graphic-devices
+NULL
+
+#' @rdname graphic-devices
 #' @export
-dev_create <- function(..., env = parent.frame()){
+dev_create <- function(..., env = parent.frame(), attributes = list()){
   quos <- rlang::quos(..., .ignore_empty = 'all', .named = TRUE)
   devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
   n_devs <- unlist(devs)
@@ -53,6 +67,11 @@ dev_create <- function(..., env = parent.frame()){
     n <- sum(unlist(devs) != "")
     if( n > n_devs ){
       attr(devs[[n_devs + 1]], 'dipsaus_dev_name') <- paste0(private_id, nms[[ii]])
+      opt <- attributes[[nms[[ii]]]]
+      if(is.null(opt)) {
+        opt <- list()
+      }
+      attr(devs[[n_devs + 1]], 'dipsaus_dev_attr') <- opt
     }
     # assign back to baseenv
     assign('.Devices', devs, envir = baseenv())
@@ -112,11 +131,49 @@ dev_create <- function(..., env = parent.frame()){
     invisible()
   }
 
-  return(list(
-    dev_which = dev_which,
-    dev_switch = dev_switch,
-    dev_names = dev_names,
-    dev_off = dev_off
-  ))
+  dev_attributes <- function(dev_name){
+    ii <- dev_which(dev_name)
+    if(!is.na(ii)){
+      devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+      return(attr(devs[[ii]], 'dipsaus_dev_attr'))
+    }
+    return(NULL)
+  }
 
+  re <- fastmap2()
+  re$dev_which = dev_which
+  re$dev_switch = dev_switch
+  re$dev_names = dev_names
+  re$dev_off = dev_off
+  re$dev_attributes = dev_attributes
+  return(re)
+}
+
+#' @rdname graphic-devices
+#' @export
+get_dev_attr <- function(which, dev = grDevices::dev.cur(), ifnotfound = NULL){
+  devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+  if(length(devs) < dev){
+    return(ifnotfound)
+  }
+  attrs <- attr(devs[[dev]], 'dipsaus_dev_attr')
+
+  if(missing(which)){
+    # return the whole attributes
+
+    if(is.null(attrs)){
+      return(ifnotfound)
+    } else {
+      return(attrs)
+    }
+
+  } else {
+
+    # return the item within attr
+    if(which %in% names(attrs)){
+      return(attrs[[which]])
+    } else {
+      return(ifnotfound)
+    }
+  }
 }

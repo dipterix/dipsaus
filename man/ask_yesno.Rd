@@ -4,12 +4,20 @@
 \alias{ask_yesno}
 \title{Ask and Return True or False from the Terminal}
 \usage{
-ask_yesno(..., end = "", level = "INFO", error_if_canceled = TRUE)
+ask_yesno(
+  ...,
+  end = "",
+  level = "INFO",
+  error_if_canceled = TRUE,
+  use_rs = TRUE
+)
 }
 \arguments{
 \item{..., end, level}{passed to \code{\link[dipsaus]{cat2}}}
 
-\item{error_if_canceled}{raise error if canceled.}
+\item{error_if_canceled}{raise error if canceled}
+
+\item{use_rs}{whether to use \code{rstudioapi} if possible}
 }
 \value{
 logical or \code{NULL} or raise an error. If "yes" is entered,
