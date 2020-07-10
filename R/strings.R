@@ -400,10 +400,12 @@ ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
 #' @param root root directory, default is \code{'~'}
 #' @param child child files in target; is missing, then list all files
 #' @param dir_only whether to display directory children only
+#' @param collapse whether to concatenate results as one single string
 #' @param ... pass to \code{\link[base]{list.files}} when list all files
-#' @return Print-friendly directory tree
+#' @return Characters, print-friendly directory tree.
 #' @export
-print_directory_tree <- function(target, root = '~', child, dir_only = FALSE, ...){
+print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
+                                 collapse = NULL, ...){
   root <- normalizePath(root, winslash = '/', mustWork = FALSE)
   target <- file.path(root, target)
   target <- stringr::str_replace_all(target, '\\\\', '/')
@@ -449,7 +451,7 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE, ..
     }, x)
   }
 
-  cli::tree(data.frame(names(df), I(unname(lapply(df, function(x){
+  res <- cli::tree(data.frame(names(df), I(unname(lapply(df, function(x){
     x <- x[x!='']
     if(!length(x)){
       x <- character(0)
@@ -458,4 +460,22 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE, ..
     }
     x
   })))), root = root)
+  if(length(collapse) == 1){
+    res <- paste(res, collapse = collapse)
+  }
+  res
+}
+
+#' Captures Evaluation Output of Expressions as One Single String
+#' @description Evaluate expression and captures output as characters, then
+#' concatenate as one single string.
+#' @param expr R expression
+#' @param collapse character to concatenate outputs
+#' @param type passed to \code{\link[utils]{capture.output}}
+#' @return Character of length 1: output captured by
+#' \code{\link[utils]{capture.output}}
+#' @export
+capture_expr <- function(expr, collapse = '\n', type = c("output", "message")){
+  invisible(paste(utils::capture.output(expr, type = type),
+                  collapse = collapse))
 }

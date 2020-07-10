@@ -4,7 +4,14 @@
 \alias{print_directory_tree}
 \title{Print Directory Tree}
 \usage{
-print_directory_tree(target, root = "~", child, dir_only = FALSE, ...)
+print_directory_tree(
+  target,
+  root = "~",
+  child,
+  dir_only = FALSE,
+  collapse = NULL,
+  ...
+)
 }
 \arguments{
 \item{target}{target directory path, relative to \code{root}}
@@ -15,10 +22,12 @@ print_directory_tree(target, root = "~", child, dir_only = FALSE, ...)
 
 \item{dir_only}{whether to display directory children only}
 
+\item{collapse}{whether to concatenate results as one single string}
+
 \item{...}{pass to \code{\link[base]{list.files}} when list all files}
 }
 \value{
-Print-friendly directory tree
+Characters, print-friendly directory tree.
 }
 \description{
 Print Directory Tree
