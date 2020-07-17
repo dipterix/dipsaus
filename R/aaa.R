@@ -8,8 +8,6 @@
 #' @importFrom parallel clusterEvalQ
 #' @importFrom parallel stopCluster
 #' @importFrom utils flush.console
-#' @importFrom yaml read_yaml
-#' @importFrom yaml write_yaml
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 
