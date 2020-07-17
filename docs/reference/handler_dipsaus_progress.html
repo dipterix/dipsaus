@@ -73,7 +73,7 @@ progressr::handlers. See examples for detailed use case" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -189,7 +189,7 @@ progressr::handlers. See examples for detailed use case" />
 <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='no'>xs</span>)
   <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>xs</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
     <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.1</span>)
     <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>x</span>)
   })
@@ -203,7 +203,7 @@ progressr::handlers. See examples for detailed use case" />
 <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='no'>xs</span>)
   <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>future.apply</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span>(<span class='no'>xs</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
+    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
     <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.1</span>)
     <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>x</span>)
   })
@@ -223,7 +223,7 @@ progressr::handlers. See examples for detailed use case" />
     <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
       <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>100</span>)
       <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>future.apply</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-        <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"Input %d|Result %d"</span>, <span class='no'>x</span>, <span class='no'>x</span>+<span class='fl'>1</span>))
+        <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"Input %d|Result %d"</span>, <span class='no'>x</span>, <span class='no'>x</span>+<span class='fl'>1</span>))
         <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>1</span>)
         <span class='no'>x</span>+<span class='fl'>1</span>
       })

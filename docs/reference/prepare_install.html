@@ -73,7 +73,7 @@ next session. The code will be automatically removed once executed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -148,7 +148,9 @@ next session. The code will be automatically removed once executed.</p>
   <span class='kw'>update_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>restart</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>repos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"repos"</span>)
-)</pre>
+)
+
+<span class='fu'>prepare_install2</span>(<span class='no'>packages</span>, <span class='kw'>restart</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>repos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"repos"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +172,10 @@ installation; default is false</p></td>
       <th>repos</th>
       <td><p>repositories to search for packages</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>internal arguments</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -177,15 +183,14 @@ installation; default is false</p></td>
     <p>None</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Installing packages in R session could require restarts if
+    <p><code>prepare_install</code> is soft-deprecated, use <code>prepare_install2</code>
+instead.</p>
+<p>Installing packages in R session could require restarts if
 a package to be updated has been loaded. Normally restarting R
 fixes the problem. However, under some circumstances, such as with a
 startup code in profile, restarting R might still fail the
-installation. <code>prepare_install</code> inserts the installation
-code prior to the startup code so that next time the code will get
-executed before any other packages are loaded.
-Once the temporary code get executed, no matter succeeded or not,
-it will be removed from startup profile.</p>
+installation. <code>prepare_install2</code> starts a new session with clean
+environments for installation.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

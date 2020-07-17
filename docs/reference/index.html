@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -187,6 +187,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="add_to_session.html">add_to_session()</a></code> </p>
+        </td>
+        <td><p>Store/Get key-value pairs in 'shiny' session</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="ask_or_default.html">ask_or_default()</a></code> </p>
         </td>
         <td><p>Read a Line from the Terminal, but with Default Values</p></td>
@@ -229,6 +235,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="capture_expr.html">capture_expr()</a></code> </p>
+        </td>
+        <td><p>Captures Evaluation Output of Expressions as One Single String</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="cat2.html">cat2()</a></code> </p>
         </td>
         <td><p>Color Output</p></td>
@@ -238,6 +250,12 @@
           <p><code><a href="check_installed_packages.html">check_installed_packages()</a></code> </p>
         </td>
         <td><p>Check If Packages Are Installed, Returns Missing Packages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="clear_env.html">clear_env()</a></code> </p>
+        </td>
+        <td><p>Function to clear all elements within environment</p></td>
       </tr><tr>
         
         <td>
@@ -275,15 +293,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="dev_create.html">dev_create()</a></code> </p>
-        </td>
-        <td><p>Create a group of named graphic devices</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="do_aggregate.html">do_aggregate()</a></code> </p>
         </td>
         <td><p>Make aggregate pipe-friendly</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="do_nothing.html">do_nothing()</a></code> </p>
+        </td>
+        <td><p>A dummy function that literally does nothing</p></td>
       </tr><tr>
         
         <td>
@@ -359,6 +377,12 @@ Provides a way to assign default values to variables. If the statement
           <p><code><a href="grapes-plus-grapes.html">`%+-%`</a></code> </p>
         </td>
         <td><p>Plus-minus operator</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="graphic-devices.html">dev_create()</a></code> <code><a href="graphic-devices.html">get_dev_attr()</a></code> </p>
+        </td>
+        <td><p>Create a group of named graphic devices</p></td>
       </tr><tr>
         
         <td>
@@ -461,9 +485,15 @@ This is an experimental function that is designed for non-windows systems</p></t
       </tr><tr>
         
         <td>
-          <p><code><a href="prepare_install.html">prepare_install()</a></code> </p>
+          <p><code><a href="prepare_install.html">prepare_install()</a></code> <code><a href="prepare_install.html">prepare_install2()</a></code> </p>
         </td>
         <td><p>Install Packages at Next Startup</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_directory_tree.html">print_directory_tree()</a></code> </p>
+        </td>
+        <td><p>Print Directory Tree</p></td>
       </tr><tr>
         
         <td>
@@ -476,6 +506,54 @@ This is an experimental function that is designed for non-windows systems</p></t
           <p><code><a href="registerInputBinding.html">registerInputBinding()</a></code> </p>
         </td>
         <td><p>Register customized input to enable support by compound input</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="restart_session.html">restart_session()</a></code> </p>
+        </td>
+        <td><p>Restart R Session</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_active_project.html">rs_active_project()</a></code> </p>
+        </td>
+        <td><p>Get 'RStudio' active project</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_avail.html">rs_avail()</a></code> </p>
+        </td>
+        <td><p>Verify 'RStudio' version</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_exec.html">rs_exec()</a></code> </p>
+        </td>
+        <td><p>Schedule a Background Job</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_focus_console.html">rs_focus_console()</a></code> </p>
+        </td>
+        <td><p>Focus on 'RStudio' Console</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_save_all.html">rs_save_all()</a></code> </p>
+        </td>
+        <td><p>Save all documents in 'RStudio'</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_select_path.html">rs_select_path()</a></code> </p>
+        </td>
+        <td><p>Use 'RStudio' to Select a Path on the Server</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rs_viewer.html">rs_viewer()</a></code> </p>
+        </td>
+        <td><p>Get 'RStudio' Viewer, or Return Default</p></td>
       </tr><tr>
         
         <td>
@@ -509,9 +587,21 @@ This is an experimental function that is designed for non-windows systems</p></t
       </tr><tr>
         
         <td>
+          <p><code><a href="shiny_is_running.html">shiny_is_running()</a></code> </p>
+        </td>
+        <td><p>Detect whether 'Shiny' is running</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="sync_shiny_inputs.html">sync_shiny_inputs()</a></code> </p>
         </td>
         <td><p>Synchronize Shiny Inputs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="test_farg.html">test_farg()</a></code> </p>
+        </td>
+        <td><p>Test whether function has certain arguments</p></td>
       </tr><tr>
         
         <td>

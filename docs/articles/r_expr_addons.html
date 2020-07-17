@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="r_expr_addons_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>R Expression Add-on</h1>
@@ -138,10 +138,10 @@
 <h3 class="hasAnchor">
 <a href="#javascript-style-of-creating-functions" class="anchor"></a>2. JavaScript-style of creating functions</h3>
 <p>In modern JavaScript, function can be created via <code>(arg) =&gt; { ... }</code>. For example,</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">const</span> li <span class="op">=</span> [<span class="st">'A'</span><span class="op">,</span> <span class="st">'T'</span><span class="op">,</span> <span class="st">'G'</span><span class="op">,</span> <span class="st">'C'</span>]<span class="op">;</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="va">li</span>.<span class="at">map</span>((el<span class="op">,</span> ii) <span class="op">=&gt;</span> <span class="op">{</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="cf">return</span>(<span class="vs">`The index for </span><span class="sc">${</span>el<span class="sc">}</span><span class="vs"> is </span><span class="sc">${</span>ii<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="op">}</span>)<span class="op">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">const</span> li <span class="op">=</span> [<span class="st">'A'</span><span class="op">,</span> <span class="st">'T'</span><span class="op">,</span> <span class="st">'G'</span><span class="op">,</span> <span class="st">'C'</span>]<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="va">li</span>.<span class="at">map</span>((el<span class="op">,</span> ii) <span class="kw">=&gt;</span> <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="cf">return</span>(<span class="vs">`The index for </span><span class="sc">${</span>el<span class="sc">}</span><span class="vs"> is </span><span class="sc">${</span>ii<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="op">}</span>)<span class="op">;</span></span></code></pre></div>
 <script type="text/javascript">
 const li = ['A', 'T', 'G', 'C'];
 li.map((el, ii) => {
@@ -254,12 +254,12 @@ li.map((el, ii) => {
   ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/no_op.html">no_op</a></span>(<span class="no">hist</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Values'</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Histogram'</span>) <span class="kw">-&gt;</span>
   <span class="no">result</span>
-<span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span>
-<span class="co">#&gt; -15.4416   0.8575   3.6121   5.3036   9.0595  27.7989</span></pre></body></html></div>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;  -5.216   1.140   3.478   5.497   8.774  35.699</span></pre></body></html></div>
 <p><img src="r_expr_addons_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r">
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">result</span>)
-<span class="co">#&gt;  num [1:200] -0.116 1.038 1.467 0.567 1.898 ...</span></pre></body></html></div>
+<span class="co">#&gt;  num [1:200] -0.266 2.324 -0.149 1.617 0.725 ...</span></pre></body></html></div>
 </div>
 <div id="do_aggregate" class="section level4">
 <h4 class="hasAnchor">

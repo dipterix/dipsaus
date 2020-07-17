@@ -2,7 +2,7 @@
 title: "R Expression Add-on"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{R Expression Add-ons}
+  %\VignetteIndexEntry{R Expression Add-on}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

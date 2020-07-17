@@ -73,7 +73,7 @@ DataURI that can be accessed via input[[inputId]]." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -167,10 +167,10 @@ shiny input</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
 <span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/tag.html'>tagList</a></span>(
-    <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/singleton.html'>singleton</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>tags</a></span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(
-      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>tags</a></span>$<span class='fu'>link</span>(<span class='kw'>rel</span><span class='kw'>=</span><span class='st'>"stylesheet"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"text/css"</span>, <span class='kw'>href</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus.css"</span>),
-      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>tags</a></span>$<span class='fu'>script</span>(<span class='kw'>src</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus-dipterix-lib.js"</span>)
+  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>tagList</a></span>(
+    <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>singleton</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>tags</a></span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(
+      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>tags</a></span>$<span class='fu'>link</span>(<span class='kw'>rel</span><span class='kw'>=</span><span class='st'>"stylesheet"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"text/css"</span>, <span class='kw'>href</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus.css"</span>),
+      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>tags</a></span>$<span class='fu'>script</span>(<span class='kw'>src</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus-dipterix-lib.js"</span>)
     ))
   ),
   <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'do'</span>, <span class='st'>'Take Screenshot'</span>),
@@ -185,7 +185,7 @@ shiny input</p>
   })
   <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>screeshot_result</span>, {
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/showModal.html'>showModal</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/modalDialog.html'>modalDialog</a></span>(
-      <span class='no'>tags</span>$<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/builder.html'>img</a></span>(<span class='kw'>src</span> <span class='kw'>=</span> <span class='no'>input</span>$<span class='no'>screeshot_result</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>)
+      <span class='no'>tags</span>$<span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>img</a></span>(<span class='kw'>src</span> <span class='kw'>=</span> <span class='no'>input</span>$<span class='no'>screeshot_result</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>)
     ))
   })
 }

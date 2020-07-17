@@ -77,7 +77,7 @@ sessions. See cache method in 'details'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@ sessions. See <code>cache</code> method in 'details'.</p>
 
 
 <dl'>
-<dt><code>initialize(..., backend = text_map)</code></dt><dd><p>The constructor. backend must inherit <code>AbstractMap</code>, <code>...</code> will
+<dt><code>initialize(..., backend = rds_map)</code></dt><dd><p>The constructor. backend must inherit <code>AbstractMap</code>, <code>...</code> will
 be passed to <code>backend$new(...)</code>. To check available back-ends and their
 use cases, see <code><a href='map.html'>map</a></code>.</p></dd>
 <dt><code>reset(all = FALSE)</code></dt><dd><p>Reset container. If all is set to be true, then reset session-based and

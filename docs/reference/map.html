@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -203,8 +203,7 @@ same file directory. However, unlike <code>rds_map</code>, <code>text_map</code>
 the <code>text_map</code> can only store basic data values, namely atom data types.
 The supported types are: numeric, character, vector, list, matrix
 It's highly recommended to convert factors to characters. Do NOT use if the
-values are functions or environments. Please check
-<code><a href='https://rdrr.io/pkg/yaml/man/write_yaml.html'>write_yaml</a></code> for details. The recommended use case scenario
+values are functions or environments. The recommended use case scenario
 is when the speed is not the major concern, and you want to preserve data
 with backward compatibility. Otherwise it's highly recommended to use
 <code>redis_map</code>, <code>qs_map</code>, and <code>rds_map</code>.</p></dd>

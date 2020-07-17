@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -141,7 +141,16 @@
     <p>Ask a question and read from the terminal in interactive scenario</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ask_yesno</span>(<span class='no'>...</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='st'>"INFO"</span>, <span class='kw'>error_if_canceled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>ask_yesno</span>(
+  <span class='no'>...</span>,
+  <span class='kw'>end</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>level</span> <span class='kw'>=</span> <span class='st'>"INFO"</span>,
+  <span class='kw'>error_if_canceled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>use_rs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ok</span> <span class='kw'>=</span> <span class='st'>"Yes"</span>,
+  <span class='kw'>cancel</span> <span class='kw'>=</span> <span class='st'>"No"</span>,
+  <span class='kw'>rs_title</span> <span class='kw'>=</span> <span class='st'>"Yes or No:"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,7 +161,23 @@
     </tr>
     <tr>
       <th>error_if_canceled</th>
-      <td><p>raise error if canceled.</p></td>
+      <td><p>raise error if canceled</p></td>
+    </tr>
+    <tr>
+      <th>use_rs</th>
+      <td><p>whether to use <code>rstudioapi</code> if possible</p></td>
+    </tr>
+    <tr>
+      <th>ok</th>
+      <td><p>button label for yes</p></td>
+    </tr>
+    <tr>
+      <th>cancel</th>
+      <td><p>button label for no</p></td>
+    </tr>
+    <tr>
+      <th>rs_title</th>
+      <td><p>message title if 'RStudio' question box pops up.</p></td>
     </tr>
     </table>
 

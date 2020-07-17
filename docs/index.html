@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -108,9 +108,9 @@
 <p>Package <code>dipsaus</code> provides <code>add-ons</code> to various packages such as <code>shiny</code>, <code>rlang</code>, <code>future</code>, etc. to enhance these packages. To install the development version package from <code>Github</code>,</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">'dipterix/dipsaus'</span>)</pre></div>
 <p><code>dipsaus</code> provides <code>add-ons</code> from the following perspectives:</p>
-<div id="shiny-customized-widgets-vignette" class="section level3">
+<div id="1-shiny-customized-widgets-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#shiny-customized-widgets-vignette" class="anchor"></a>1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html">Vignette</a>)</h3>
+<a href="#1-shiny-customized-widgets-vignette" class="anchor"></a>1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>compoundInput2</code> assembles any shiny native inputs and create variable-length input;</li>
@@ -120,40 +120,31 @@
 <code>sync_shiny_inputs</code> synchronize among shiny inputs without causing dead-locks in UI changes;</li>
 <li>
 <code>set_shiny_input</code> to set shiny <code>input</code> object;</li>
+<li>
+<code>flex_div</code> to display elements with <code>flex</code> layout;</li>
 </ul>
 </div>
-<div id="parallel-functions" class="section level3">
+<div id="2-parallel-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#parallel-functions" class="anchor"></a>2. Parallel Functions</h3>
+<a href="#2-parallel-functions" class="anchor"></a>2. Parallel Functions</h3>
 <ul>
 <li>
 <code>collapse</code> is a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
 <li>
 <code>make_forked_clusters</code> enables <code>multicore</code> (forked clusters) in <code>future</code> package even in <code>RStudio</code> environment;</li>
 <li>
-<code>async_expr</code>, <code>async_lapply</code> applies to vectors/lists in parallel ways;</li>
-<li>
 <code>make_async_evaluator</code> queues arbitrary number of tasks and keeps them running in the background without blocking the main session. (<a href="https://dipterix.github.io/dipsaus/articles/async_evaluator.html">vignette</a>);</li>
 <li>
 <code>baseline_array</code> to baseline arrays in <code>RcppParallel</code>;</li>
 <li>
 <code>shift_array</code> to shift arrays along given dimensions;</li>
+<li>
+<code>lapply_async2</code> uses <code>future</code> package, but with progress bar either in console or in shiny apps;</li>
 </ul>
 </div>
-<div id="queue-maps-persist-containers" class="section level3">
+<div id="3-r-expressions-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#queue-maps-persist-containers" class="anchor"></a>3. Queue, Maps, Persist Containers</h3>
-<!--* `qs_queue`, `text_queue`, `rds_queue`, `redis_queue` queue R objects and share across sessions; -->
-<ul>
-<li>
-<code>qs_map</code>, <code>text_map</code>, <code>rds_map</code>, <code>redis_map</code> preserve R objects and share across sessions;</li>
-<li>
-<code>PersistContainer</code> provides two-level cache mechanism to save R objects in current session or preserve them on the local disk.</li>
-</ul>
-</div>
-<div id="r-expressions-vignette" class="section level3">
-<h3 class="hasAnchor">
-<a href="#r-expressions-vignette" class="anchor"></a>4. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
+<a href="#3-r-expressions-vignette" class="anchor"></a>3. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::quo</a></code>;</li>
@@ -161,11 +152,17 @@
 <code>match_calls</code> match calls in a nested manner, and support changing the call arguments recursively;</li>
 <li>
 <code><a href="reference/grapes-help-set-grapes.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist.</li>
+<li>
+<code><a href="reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></code> provides JavaScript-style of creating functions;</li>
+<li>
+<code>new_function2</code> creates new function with quasi-quotation;</li>
+<li>
+<code>mask_function2</code> modifies function and mask certain elements within a function;</li>
 </ul>
 </div>
-<div id="utility-functions-vignette" class="section level3">
+<div id="4-utility-functions-vignette" class="section level3">
 <h3 class="hasAnchor">
-<a href="#utility-functions-vignette" class="anchor"></a>5. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html">Vignette</a>)</h3>
+<a href="#4-utility-functions-vignette" class="anchor"></a>4. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html">Vignette</a>)</h3>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -184,7 +181,13 @@
 <li>
 <code>to_ram_size</code> provides simple way to convert numbers to printable storage sizes in given units;</li>
 <li>
-<code>time_delta</code> calculates time differences and returns a number in given units.</li>
+<code>time_delta</code> calculates time differences and returns a number in given units;</li>
+<li>
+<code>ask_yesno</code>, <code>ask_or_default</code> interactively ask for user’s input either in console or in <code>RStudio</code>;</li>
+<li>
+<code>fast_map2</code> provides a wrapper on <code>fastmap</code> package, giving the object list-like operations;</li>
+<li>
+<code>shared_finalizer</code> finalizes multiple elements when last element is garbage collected.</li>
 </ul>
 </div>
 </div>
