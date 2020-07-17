@@ -141,11 +141,11 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
   }
 
   re <- fastmap2()
-  re$dev_which = dev_which
-  re$dev_switch = dev_switch
-  re$dev_names = dev_names
-  re$dev_off = dev_off
-  re$dev_attributes = dev_attributes
+  re$dev_which <- dev_which
+  re$dev_switch <- dev_switch
+  re$dev_names <- dev_names
+  re$dev_off <- dev_off
+  re$dev_attributes <- dev_attributes
   return(re)
 }
 

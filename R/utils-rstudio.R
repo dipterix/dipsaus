@@ -155,10 +155,10 @@ rs_install_r <- function(packages, repos = getOption('repos'),
       }
     }
 
-    repos = !!repos
+    repos <- !!repos
 
     installr <- function(...){
-      pkgs = c(...)
+      pkgs <- c(...)
       cat('Installing ', pkgs, '\n')
       try({
         do.call('install.packages', list(
@@ -280,10 +280,10 @@ rs_install_github <- function(packages, repos = getOption('repos'),
       }
     }
 
-    repos = !!repos
+    repos <- !!repos
 
     installr <- function(...){
-      pkgs = c(...)
+      pkgs <- c(...)
       cat('Installing ', pkgs, '\n')
       remotes::install_github(pkgs, upgrade = 'never', force = TRUE, repos = repos)
     }
@@ -397,9 +397,9 @@ rs_viewer <- function(..., default = TRUE, version_needed = '1.3',
 rs_select_path <- function(is_directory = TRUE){
   if(dipsaus::rs_avail()){
     if(is_directory){
-      path = rstudioapi::selectDirectory()
+      path <- rstudioapi::selectDirectory()
     }else{
-      path = rstudioapi::selectFile()
+      path <- rstudioapi::selectFile()
     }
     # warning("Please fix the path in your script!!!\n\t{path}")
     return(path)

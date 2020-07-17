@@ -444,7 +444,7 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
         df[child] <- lapply(child, function(o){ character(0) })
       }
     } else {
-      child = '...'
+      child <- '...'
     }
 
     x <- c(as.list(tree_id[i, ]), list(child), list(''))

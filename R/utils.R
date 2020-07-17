@@ -98,10 +98,10 @@ clear_env <- function(env, ...){
       warning('Environment is locked, cannot clear environment')
       return(invisible(env))
     }
-    nms = names(env)
-    nms = nms[!stringr::str_detect(nms, '^\\.__rave')]
+    nms <- names(env)
+    nms <- nms[!stringr::str_detect(nms, '^\\.__rave')]
     if(isNamespace(env)){
-      nms = nms[!nms %in% c(".__NAMESPACE__.", ".__S3MethodsTable__.")]
+      nms <- nms[!nms %in% c(".__NAMESPACE__.", ".__S3MethodsTable__.")]
     }
     rm(list = nms, envir = env)
   } else if(inherits(env, 'fastmap2')){
