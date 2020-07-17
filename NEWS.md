@@ -1,3 +1,29 @@
+dipsaus 0.0.9
+=======
+
+## Major Changes
+* Added `rstudioapi` related functions. When running with 'RStudio', take advantages of 'RStudio' user interface; when running in console, or non-interactive context, use default methods.
+  + `rs_active_project`: 'RStudio' current active project name
+  + `rs_save_all`: save all editing document when 'RStudio' is running
+  + `rs_exec`: run job in 'RStudio', otherwise use `Rscript`
+  + `ask_yesno`, `ask_or_default` also uses 'RStudio' dialogue
+  + other functions starting with `rs`
+* `add_to_session` stores key-value pairs in shiny reactive sessions
+* `clear_env` clear elements in environments or `fastmap2` instances
+* `do_nothing` literally does nothing
+* `shiny_is_running` returns whether current context is within a shiny app
+* `test_farg` tests whether a function contains certain arguments
+* `capture_expr` captures outputs when evaluating expression and returns a string
+* `get_dev_attr` get attributes from graphic devices
+* `print_directory_tree` generates directory tree as text
+
+## Minor Changes
+* `dev_create` can now set attributes and those attributes can be obtained by function `get_dev_attr` or method `dev_attributes`
+
+## Bug Fixes
+* soft-deprecated `prepare_install` that might cause infinite loops
+
+
 dipsaus 0.0.8
 =======
 
