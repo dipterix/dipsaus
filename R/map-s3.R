@@ -147,7 +147,7 @@ rds_map <- function(path = tempfile()){
 #' @rdname map
 #' @export
 text_map <- function(path = tempfile()){
-  warning('text_map is soft depricated. Please use rds_map instead.')
+  warning('text_map is soft deprecated Please use rds_map instead.')
   TextMap$new(path = path)
 }
 

@@ -57,7 +57,7 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' @param ... internal arguments
 #' @return None
 #' @details
-#' \code{prepare_install} is soft-depricated, use \code{prepare_install2}
+#' \code{prepare_install} is soft-deprecated, use \code{prepare_install2}
 #' instead.
 #'
 #' Installing packages in R session could require restarts if
@@ -75,7 +75,7 @@ NULL
 prepare_install <- function(packages, update_all = FALSE,
                             restart = FALSE,
                             repos = getOption('repos')){
-  warning('prepare_install is soft-depricated and may cause R failures, use `prepare_install2` instead')
+  warning('prepare_install is soft-deprecated and may cause R failures, use `prepare_install2` instead')
   profile <- startup::find_rprofile()
   if(!length(profile)){
     startup::install()

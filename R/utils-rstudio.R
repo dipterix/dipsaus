@@ -1,7 +1,24 @@
 # RStudio functions
 
-rs_avail <- function(){
-  rstudioapi::isAvailable(version_needed = '1.3', child_ok = TRUE)
+#' @title Verify 'RStudio' version
+#' @param version_needed minimum version required
+#' @param child_ok check if the current R process is a child process of the
+#' main RStudio session.
+#' @param shiny_ok if set false, then check if 'Shiny' is running, return false
+#' if shiny reactive domain is not \code{NULL}
+#' @seealso \code{\link[rstudioapi]{isAvailable}}
+#' @return whether 'RStudio' is running and its version is above the
+#' required
+#' @export
+rs_avail <- function(version_needed = '1.3', child_ok = FALSE, shiny_ok = FALSE){
+
+  if(!shiny_ok && !is.null(shiny::getDefaultReactiveDomain())){
+    return(FALSE)
+  }
+  if(!requireNamespace('rstudioapi')){
+    return(FALSE)
+  }
+  rstudioapi::isAvailable(version_needed = version_needed, child_ok = child_ok)
 }
 
 #' Focus on 'RStudio' Console
@@ -329,5 +346,82 @@ rs_install_github <- function(packages, repos = getOption('repos'),
   rs_exec(rlang::quo_squash(quo), quoted = TRUE, name = 'Install packages', rs = rs)
 
   invisible()
+}
+
+
+
+#' Get 'RStudio' active project
+#' @param ... passed to \code{\link{rs_avail}}
+#' @return If 'RStudio' is running and current project is not none, return
+#' project name, otherwise return \code{NA}
+#' @export
+rs_active_project <- function(...){
+  if( rs_avail(...) ){
+    return(rstudioapi::getActiveProject())
+  }
+  NA
+}
+
+
+#' @title Get 'RStudio' Viewer, or Return Default
+#' @param ... passed to \code{\link[rstudioapi]{viewer}}
+#' @param default if \code{\link{rs_avail}} fails, the
+#' value to return. Default is \code{TRUE}
+#' @param version_needed,child_ok,shiny_ok passed to \code{\link{rs_avail}}
+#' @return If \code{\link[rstudioapi]{viewer}} can be called and
+#' 'RStudio' is running, then launch 'RStudio' internal viewer.
+#' Otherwise if \code{default} is a function such as
+#' \code{\link[utils]{browseURL}}, then call the function with given
+#' arguments. If \code{default} is not a function, return \code{default}
+#' @export
+rs_viewer <- function(..., default = TRUE, version_needed = '1.3',
+                      child_ok = FALSE, shiny_ok = FALSE){
+  if(rs_avail(version_needed = version_needed, child_ok = child_ok,
+              shiny_ok = shiny_ok)){
+    rstudioapi::viewer(...)
+  }else{
+    if(is.function(default)){
+      default(...)
+    }else{
+      return(default)
+    }
+  }
+}
+
+
+#' @title Use 'RStudio' to Select a Path on the Server
+#' @param is_directory whether the path should be a directory
+#' @return Raise error if \code{\link{rs_avail}} fails,
+#' otherwise returns the selected path
+#' @export
+rs_select_path <- function(is_directory = TRUE){
+  if(dipsaus::rs_avail()){
+    if(is_directory){
+      path = rstudioapi::selectDirectory()
+    }else{
+      path = rstudioapi::selectFile()
+    }
+    # warning("Please fix the path in your script!!!\n\t{path}")
+    return(path)
+  }else{
+    stop("Cannot find file path. Please contact package owner to fix it.")
+  }
+}
+
+
+
+#' @title Save all documents in 'RStudio'
+#' @description Perform "safe" save-all action with backward
+#' compatibility: check whether 'RStudio' is running and whether
+#' \code{rstudioapi} has function \code{documentSaveAll}.
+#' @export
+rs_save_all <- function(){
+  if(rs_avail(version_needed = '1.1.287')){
+    if (rstudioapi::hasFun("documentSaveAll")) {
+      rstudioapi::documentSaveAll()
+      return(invisible())
+    }
+  }
+  warning('RStudio version too low, please update RStudio')
 }
 

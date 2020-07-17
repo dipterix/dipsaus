@@ -34,7 +34,7 @@ Register temporary code that will install packages at
 next session. The code will be automatically removed once executed.
 }
 \details{
-\code{prepare_install} is soft-depricated, use \code{prepare_install2}
+\code{prepare_install} is soft-deprecated, use \code{prepare_install2}
 instead.
 
 Installing packages in R session could require restarts if

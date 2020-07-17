@@ -632,3 +632,42 @@ get_dots <- function(..name, ..default = NULL, ...){
   }
 }
 
+
+#' Test whether function has certain arguments
+#' @param fun function
+#' @param arg characters of function arguments
+#' @param dots whether \code{fun}'s dots (\code{...}) counts
+#' @examples
+#'
+#' a <- function(n = 1){}
+#'
+#' # Test whether `a` has argument called 'b'
+#' test_farg(a, 'b')
+#'
+#' # Test whether `a` has argument called 'b' and 'n'
+#' test_farg(a, c('b', 'n'))
+#'
+#' # `a` now has dots
+#' a <- function(n = 1, ...){}
+#'
+#' # 'b' could goes to dots and a(b=...) is still valid
+#' test_farg(a, 'b')
+#'
+#' # strict match, dots doesn't count
+#' test_farg(a, 'b', dots = FALSE)
+#'
+#' @export
+test_farg <- function(fun, arg, dots = TRUE){
+  stopifnot2(is.character(arg) || is.numeric(arg),
+             msg = 'test_farg: arg must be either characters or integers')
+  fm <- names(formals(fun))
+  has_dots <- dots && ('...' %in% fm)
+  if(has_dots){
+    return(rep(TRUE, length(arg)))
+  }
+  if(is.character(arg)){
+    arg %in% fm
+  } else {
+    arg <= length(fm)
+  }
+}

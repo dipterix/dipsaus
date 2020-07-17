@@ -76,3 +76,49 @@ drop_nulls <- function (x, .invalids = list('is.null')) {
 }
 
 
+#' Function to clear all elements within environment
+#'
+#' @param env environment to clean, can be an R environment, or a
+#' \code{\link{fastmap2}} instance
+#' @param ... ignored
+#'
+#' @examples
+#'
+#' env = new.env()
+#' env$a = 1
+#' print(as.list(env))
+#'
+#' clear_env(env)
+#' print(as.list(env))
+#'
+#' @export
+clear_env <- function(env, ...){
+  if(is.environment(env)){
+    if(environmentIsLocked(env)){
+      warning('Environment is locked, cannot clear environment')
+      return(invisible(env))
+    }
+    nms = names(env)
+    nms = nms[!stringr::str_detect(nms, '^\\.__rave')]
+    if(isNamespace(env)){
+      nms = nms[!nms %in% c(".__NAMESPACE__.", ".__S3MethodsTable__.")]
+    }
+    rm(list = nms, envir = env)
+  } else if(inherits(env, 'fastmap2')){
+    .subset2(env, 'remove')(names(env))
+  } else if(inherits(env, 'fastmap')){
+    .subset2(env, 'remove')(names(env))
+  } else {
+    stop('env can only be environment or fastmap2 instances')
+  }
+  return(invisible(env))
+}
+
+#' A dummy function that literally does nothing
+#' @param ... ignored
+#' @return Nothing
+#' @export
+do_nothing <- function(...){
+
+}
+

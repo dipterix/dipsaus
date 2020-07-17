@@ -305,6 +305,9 @@ mem_limit2 <- function(){
 #' @param ...,end,level passed to \code{\link[dipsaus]{cat2}}
 #' @param error_if_canceled raise error if canceled
 #' @param use_rs whether to use \code{rstudioapi} if possible
+#' @param ok button label for yes
+#' @param cancel button label for no
+#' @param rs_title message title if 'RStudio' question box pops up.
 #' @seealso \code{\link[dipsaus]{cat2}}, \code{\link[base]{readline}},
 #' \code{\link[dipsaus]{ask_or_default}}
 #'
@@ -326,11 +329,13 @@ mem_limit2 <- function(){
 #' ask_yesno('Can I pass the CRAN check this time?')
 #' }
 #' @export
-ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE, use_rs = TRUE){
+ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE,
+                      use_rs = TRUE, ok = 'Yes', cancel = 'No',
+                      rs_title = 'Yes or No:'){
 
   if(use_rs && rs_avail()){
     s <- paste(..., sep = '\n')
-    res <- rstudioapi::showQuestion('Yes/no', s, ok = 'Yes', cancel = 'No')
+    res <- rstudioapi::showQuestion(rs_title, s, ok = ok, cancel = cancel)
     return(isTRUE(res))
   } else {
     cat2(..., ' (Yes/no): ', end = end, level = level)

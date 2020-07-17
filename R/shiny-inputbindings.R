@@ -195,3 +195,54 @@ getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
   binding_re$call_function <- sprintf('%s::%s', pkg, fname)
   binding_re
 }
+
+
+
+
+#' Detect whether 'Shiny' is running
+#' @return logical, true if current shiny context is active
+#' @export
+shiny_is_running <- function(){
+  if(requireNamespace('shiny', quietly = TRUE)){
+    return(isTRUE(!is.null(shiny::getDefaultReactiveDomain())))
+  }
+  return(FALSE)
+}
+
+
+#' Store/Get key-value pairs in 'shiny' session
+#' @description If key is missing, it'll be created, otherwise ignored or
+#' overwritten.
+#' @param session 'Shiny' session
+#' @param key character, key to store
+#' @param val value to store
+#' @param override if key exists, whether to overwrite its value
+#' @return If session is shiny session, returns current value stored in
+#' session, otherwise returns \code{NULL}
+#' @export
+add_to_session <- function(
+  session, key = 'rave_id',
+  val = paste(sample(c(letters, LETTERS, 0:9), 20), collapse = ''),
+  override = FALSE
+){
+  if(missing(session)){
+    if(requireNamespace('shiny', quietly = TRUE)){
+      session <- shiny::getDefaultReactiveDomain()
+    } else {
+      stop('Please specify session')
+    }
+  }
+
+  if(!is.null(session)){
+    if(override || !exists(key, envir = session$userData)){
+      assign(key, val, envir = session$userData)
+    }
+    return(get(key, envir = session$userData))
+  }
+  return(NULL)
+}
+
+
+
+
+

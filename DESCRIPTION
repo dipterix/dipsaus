@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.0.8.9000
+Version: 0.0.9
 Authors@R: c(
     person("Zhengjia", "Wang", email = "zhengjia.wang@rice.edu", role = c("aut", "cre"))
     )
@@ -45,7 +45,7 @@ Imports:
     digest,
     rlang (>= 0.4.0),
     startup,
-    rstudioapi
+    rstudioapi (>= 0.11)
 Suggests:
     microbenchmark,
     htmltools,
@@ -61,7 +61,7 @@ Suggests:
     future.callr,
     remotes
 Roxygen: list(r6 = FALSE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 LinkingTo: 
     Rcpp,
     RcppParallel
