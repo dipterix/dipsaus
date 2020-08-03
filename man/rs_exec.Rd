@@ -18,6 +18,9 @@ rs_exec(expr, name = "Untitled", quoted = FALSE, rs = TRUE, wait = FALSE)
 \item{wait}{whether to wait for the result. Only useful when using
 \code{Rscript}}
 }
+\value{
+A function that can track the state of job
+}
 \description{
 Utilizes 'RStudio' job scheduler if correct environment is
 detected, otherwise call system command via \code{Rscript}
