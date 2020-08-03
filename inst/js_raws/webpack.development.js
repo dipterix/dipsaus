@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'development',
