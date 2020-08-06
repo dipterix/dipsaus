@@ -448,7 +448,7 @@ rs_install_github <- function(packages, repos = getOption('repos'),
     cat('Done\n')
   })
 
-  rs_exec(rlang::quo_squash(quo), quoted = TRUE, name = 'Install packages', rs = rs)
+  rs_exec(rlang::quo_squash(quo), quoted = TRUE, name = 'Install packages', rs = rs, wait = TRUE)
 
   invisible()
 }
