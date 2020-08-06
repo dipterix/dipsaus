@@ -76,9 +76,9 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
 #' @param name used by 'RStudio' as name of the job
 #' @param quoted is \code{expr} quoted
 #' @param rs whether to use 'RStudio' by default
-#' @param wait whether to wait for the result. Only useful when using
-#' \code{Rscript}
-#' @return A function that can track the state of job
+#' @param wait whether to wait for the result.
+#' @return If \code{wait=TRUE}, returns evaluation results of \code{expr},
+#' otherwise a function that can track the state of job.
 #'
 #' @details
 #' 'RStudio' provides interfaces \code{\link[rstudioapi]{jobRunScript}} to
@@ -158,7 +158,8 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
   # returns a function checking states
   state <- 0
   res <- NULL
-  invisible(function(){
+
+  check_f <- function(){
     # This function can track the rs_exec process
     if(file.exists(state_file)){
       s <- readLines(state_file)
@@ -190,7 +191,12 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
       state <<- st
     }
     return(structure(state, class = 'dipsaus_rs_exec_res'))
-  })
+  }
+
+  if(wait){
+    check_f <- check_f()
+  }
+  invisible(check_f)
 }
 
 #' @export
