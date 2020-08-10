@@ -4,7 +4,10 @@
 \alias{use_shiny_dipsaus}
 \title{Set up shiny plugins}
 \usage{
-use_shiny_dipsaus()
+use_shiny_dipsaus(x)
+}
+\arguments{
+\item{x}{'HTML' tags}
 }
 \description{
 This function must be called from a Shiny app's UI in order for

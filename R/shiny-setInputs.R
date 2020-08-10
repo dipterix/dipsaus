@@ -97,12 +97,23 @@ set_shiny_input <- function(
 #' @title Set up shiny plugins
 #' @description This function must be called from a Shiny app's UI in order for
 #' some widgets to work.
+#' @param x 'HTML' tags
 #' @export
-use_shiny_dipsaus <- function(){
-  shiny::singleton(shiny::tags$head(
-    shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
-    shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
-  ))
+use_shiny_dipsaus <- function(x){
+  version = as.character(utils::packageVersion("dipsaus"))
+  deps <- structure(list(name = "dipsaus", version = version, src = list(
+    file = system.file('shiny-addons/dipsaus', package = 'dipsaus')),
+    meta = NULL, script = "dipsaus-dipterix-lib.js", stylesheet = "dipsaus.css",
+    head = NULL, attachment = NULL, package = NULL, all_files = TRUE), class = "html_dependency")
+  if(missing(x)){
+    x <- shiny::tags$div(style = "display: none;")
+  }
+  attr(x, "html_dependencies") <- deps
+  x
+  # shiny::singleton(shiny::tags$head(
+  #   shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
+  #   shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
+  # ))
 }
 
 

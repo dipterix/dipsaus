@@ -62,13 +62,7 @@ actionButtonStyled <- function(
   args[["data-val"]] <- value
   args[["id"]] <- inputId
 
-  tagList(
-    shiny::singleton(shiny::tags$head(
-      shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
-      shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
-    )),
-    do.call(shiny::tags$button, c(list(list(icon, label)), args))
-  )
+  use_shiny_dipsaus(do.call(shiny::tags$button, c(list(list(icon, label)), args)))
 }
 
 #' Update styled action button

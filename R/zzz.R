@@ -1,8 +1,11 @@
-add_js_script <- function(){
-  shiny::addResourcePath(
-    prefix = 'dipsaus', directoryPath = system.file('shiny-addons/dipsaus', package='dipsaus')
-  )
-}
+# add_js_script <- function(){
+#   v <- utils::packageVersion('dipsaus')
+#   print(v)
+#   shiny::addResourcePath(
+#     prefix = sprintf('dipsaus', as.character(v)),
+#     directoryPath = system.file('shiny-addons/dipsaus', package='dipsaus')
+#   )
+# }
 
 register_shiny <- function(){
 
@@ -15,7 +18,7 @@ register_shiny <- function(){
 
 .onLoad <- function(libname, pkgname){
 
-  add_js_script()
+  # add_js_script()
 
   register_shiny()
 
@@ -27,4 +30,8 @@ register_shiny <- function(){
 
 .onUnload <- function(libpath){
   dipsaus_sessionfinalizer$finalize()
+  if('dipsaus' %in% names(shiny::resourcePaths())){
+    shiny::removeResourcePath('dipsaus')
+  }
+
 }

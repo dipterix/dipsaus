@@ -96,7 +96,8 @@ compoundInput2 <- function(
   initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10,
   value = NULL, label_color = 1, max_height = NULL, ...
 ){
-  add_js_script()
+  # add_js_script()
+
   if( length(label_color) == 0 ){ label_color <- 1 }
   if( !length(label_color) %in% c(1, max_ncomp)){
     cat2('label_color must be length of 1 or equal to max_ncomp', level = 'FATAL')
@@ -174,10 +175,10 @@ compoundInput2 <- function(
     class = 'dipsaus-compound-input',
     style = sprintf('max-height:%s;overflow-x:%s;overflow-y:%s',
                     ...max_height, ...overflow_x, ...overflow_y),
-    shiny::singleton(shiny::tags$head(
-      shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
-      shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
-    )),
+    # shiny::singleton(shiny::tags$head(
+    #   shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
+    #   shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
+    # )),
     shiny::div(
       class = 'dipsaus-compound-input-header force-hidden', style = 'display:none!important;',
       # Input information
@@ -237,7 +238,7 @@ compoundInput2 <- function(
     session$userData$dipsaus_reserved$compount_inputs$set(inputId, value)
   }
 
-  re
+  use_shiny_dipsaus(re)
 }
 
 
