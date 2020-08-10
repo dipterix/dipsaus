@@ -118,15 +118,16 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
     # 2: started
     writeLines('2', !!state_file)
     local({
-      ...msg... <- dipsaus::fastmap2()
-      assign('.Last', envir = .GlobalEnv, value = function(){
+      ...msg... <- new.env(parent = emptyenv())
+      reg.finalizer(...msg..., function(e){
         grDevices::graphics.off()
-        if(length(...msg...$error)){
-          writeLines(c('-1', ...msg...$error), !!state_file)
+        if(length(e$error)){
+          writeLines(c('-1', e$error), !!state_file)
         } else {
           writeLines('0', !!state_file)
         }
-      })
+      }, onexit = TRUE)
+
       ...msg...$fun <- function(){
         !!expr
       }
@@ -143,6 +144,9 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
       }, error = function(e){
         ...msg...$error <- e$message
         writeLines(c('-1', ...msg...$error), !!state_file)
+      }, finally = {
+        rm(...msg...)
+        gc()
       })
 
     })
