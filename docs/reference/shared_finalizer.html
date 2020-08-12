@@ -306,15 +306,15 @@ instances, <code>fin</code> accepts no argument.</p>
 <span class='no'>e2</span>$<span class='no'>valid</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){ <span class='no'>file_exists</span> }
 
 <span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span>(<span class='no'>e1</span>, <span class='no'>clear_files</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span>(<span class='no'>e2</span>, <span class='no'>clear_files</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036195 55.4    1772854 94.7         NA  1772854  94.7
+#&gt; Ncells 1036195 55.4    1772950 94.7         NA  1772950  94.7
 #&gt; Vcells 1965770 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'><span class='no'>file_exists</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># removing e1 will invalidate e2</span>
 <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036201 55.4    1772854 94.7         NA  1772854  94.7
+#&gt; Ncells 1036201 55.4    1772950 94.7         NA  1772950  94.7
 #&gt; Vcells 1965814 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'><span class='no'>e2</span>$<span class='fu'>valid</span>()    <span class='co'># FALSE</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 <span class='co'># Clean-ups</span>
 <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e2</span>); <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036222 55.4    1772854 94.7         NA  1772854  94.7
+#&gt; Ncells 1036222 55.4    1772950 94.7         NA  1772950  94.7
 #&gt; Vcells 1965828 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'>
 </div></pre>
   </div>

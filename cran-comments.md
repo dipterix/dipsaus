@@ -2,7 +2,7 @@
 
 Tested on:
 
-* travis (r-release and r-devel)
+* travis (r-release, r-oldrel, and r-devel)
 * rhub (windows r-devel, Ubuntu r-release gcc, Fedora r-devel clang)
 * win-builder (old, release, devel)
 * local macosx (R release)
