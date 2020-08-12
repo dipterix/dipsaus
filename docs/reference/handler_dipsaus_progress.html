@@ -73,7 +73,7 @@ progressr::handlers. See examples for detailed use case" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ progressr::handlers. See examples for detailed use case" />
     <pre class="usage"><span class='fu'>handler_dipsaus_progress</span>(
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"dipsaus.progressr.title"</span>, <span class='st'>"Progress"</span>),
   <span class='kw'>intrusiveness</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"progressr.intrusiveness.gui"</span>, <span class='fl'>1</span>),
-  <span class='kw'>target</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span>())) <span class='st'>"terminal"</span> <span class='kw'>else</span> <span class='st'>"gui"</span>,
+  <span class='kw'>target</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span>())) <span class='st'>"terminal"</span> <span class='kw'>else</span> <span class='st'>"gui"</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -189,7 +189,7 @@ progressr::handlers. See examples for detailed use case" />
 <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='no'>xs</span>)
   <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>xs</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
     <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.1</span>)
     <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>x</span>)
   })
@@ -203,7 +203,7 @@ progressr::handlers. See examples for detailed use case" />
 <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='no'>xs</span>)
   <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>future.apply</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span>(<span class='no'>xs</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"x=%g"</span>, <span class='no'>x</span>))
     <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.1</span>)
     <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>x</span>)
   })
@@ -211,19 +211,19 @@ progressr::handlers. See examples for detailed use case" />
 
 <span class='co'># ------------------------ A shiny case --------------------------------</span>
 
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span>(<span class='st'>'ok'</span>, <span class='st'>'Run Demo'</span>)
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>'ok'</span>, <span class='st'>'Run Demo'</span>)
 )
 
 <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
   <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/handlers.html'>handlers</a></span>(<span class='fu'>handler_dipsaus_progress</span>())
   <span class='fu'><a href='make_forked_clusters.html'>make_forked_clusters</a></span>()
 
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>ok</span>, {
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>ok</span>, {
     <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/with_progress.html'>with_progress</a></span>({
       <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/progressr/man/progressor.html'>progressor</a></span>(<span class='kw'>along</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>100</span>)
       <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>future.apply</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='kw'>function</span>(<span class='no'>x</span>) {
-        <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"Input %d|Result %d"</span>, <span class='no'>x</span>, <span class='no'>x</span>+<span class='fl'>1</span>))
+        <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>p</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"Input %d|Result %d"</span>, <span class='no'>x</span>, <span class='no'>x</span>+<span class='fl'>1</span>))
         <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>1</span>)
         <span class='no'>x</span>+<span class='fl'>1</span>
       })
@@ -232,7 +232,7 @@ progressr::handlers. See examples for detailed use case" />
 }
 
 <span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

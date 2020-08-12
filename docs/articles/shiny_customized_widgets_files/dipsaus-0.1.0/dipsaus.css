@@ -1,0 +1,11 @@
+.force-hidden {
+  display: none !important;
+}
+
+.dipsaus-compound-input-foot-ctrl button{
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+}

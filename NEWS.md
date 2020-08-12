@@ -1,3 +1,18 @@
+dipsaus 0.1.0
+=======
+
+## Major Changes
+* Removed `uglifyjs` and use `terser` instead
+* `rs_exec` now respects `wait` when running as `RStudio` jobs
+* `use_shiny_dipsaus` can wrap around `HTML` tags now
+
+## Minor Changes
+* `JavaScript` map is now included
+
+## Bug Fixes
+* `use_shiny_dipsaus` now correctly add `JavaScript` and `css` tags
+* `uglifyjs` is not maintained any more and it might cause vulnerability issues, fixed the dependency versions
+
 dipsaus 0.0.9
 =======
 

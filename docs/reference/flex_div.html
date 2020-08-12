@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -169,18 +169,18 @@ on the top margin.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'>flex_div</span>(
-  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span>(<span class='st'>'sel'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>'Select input'</span>,
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/selectInput.html'>selectInput</a></span>(<span class='st'>'sel'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>'Select input'</span>,
                      <span class='kw'>choices</span> <span class='kw'>=</span> <span class='st'>''</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
-  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'id2'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='html_asis.html'>html_asis</a></span>(<span class='st'>' '</span>), <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='st'>'id2'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='html_asis.html'>html_asis</a></span>(<span class='st'>' '</span>), <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,
                    <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>'Heights aligned'</span>),
   <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'ok2'</span>, <span class='st'>'Button'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>,),
-  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sl'</span>, <span class='st'>'Item 4'</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sl'</span>, <span class='st'>'Item 4'</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>,
                      <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
-  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fileInput.html'>fileInput</a></span>(<span class='st'>'aa'</span>, <span class='st'>'item 5'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fileInput.html'>fileInput</a></span>(<span class='st'>'aa'</span>, <span class='st'>'item 5'</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>),
   <span class='kw'>ncols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>) <span class='co'># Try to assign 2 or 3 items per column</span>
 )
 <span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span>(<span class='no'>ui</span>)),
+  <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='kw'>ui</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidRow</a></span>(<span class='no'>ui</span>)),
                   <span class='kw'>server</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>){})
 }</div></pre>
   </div>

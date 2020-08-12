@@ -100,7 +100,7 @@ set_shiny_input <- function(
 #' @param x 'HTML' tags
 #' @export
 use_shiny_dipsaus <- function(x){
-  version = as.character(utils::packageVersion("dipsaus"))
+  version <- as.character(utils::packageVersion("dipsaus"))
   deps <- structure(list(name = "dipsaus", version = version, src = list(
     file = system.file('shiny-addons/dipsaus', package = 'dipsaus')),
     meta = NULL, script = "dipsaus-dipterix-lib.js", stylesheet = "dipsaus.css",

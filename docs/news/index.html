@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -135,13 +135,47 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dipsaus-009" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.9">
-<a href="#dipsaus-009" class="anchor"></a>dipsaus 0.0.9<small> Unreleased </small>
+    <div id="dipsaus-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#dipsaus-010" class="anchor"></a>dipsaus 0.1.0<small> Unreleased </small>
 </h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major Changes</h2>
+<ul>
+<li>Removed <code>uglifyjs</code> and use <code>terser</code> instead</li>
+<li>
+<code>rs_exec</code> now respects <code>wait</code> when running as <code>RStudio</code> jobs</li>
+<li>
+<code>use_shiny_dipsaus</code> can wrap around <code>HTML</code> tags now</li>
+</ul>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<ul>
+<li>
+<code>JavaScript</code> map is now included</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>
+<code>use_shiny_dipsaus</code> now correctly add <code>JavaScript</code> and <code>css</code> tags</li>
+<li>
+<code>uglifyjs</code> is not maintained any more and it might cause vulnerability issues, fixed the dependency versions</li>
+</ul>
+</div>
+</div>
+    <div id="dipsaus-009" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.9">
+<a href="#dipsaus-009" class="anchor"></a>dipsaus 0.0.9<small> 2020-07-17 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added <code>rstudioapi</code> related functions. When running with ‘RStudio’, take advantages of ‘RStudio’ user interface; when running in console, or non-interactive context, use default methods.
 <ul>
@@ -176,18 +210,18 @@
 <code>print_directory_tree</code> generates directory tree as text</li>
 </ul>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>dev_create</code> can now set attributes and those attributes can be obtained by function <code>get_dev_attr</code> or method <code>dev_attributes</code>
 </li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>soft-deprecated <code>prepare_install</code> that might cause infinite loops</li>
 </ul>
@@ -197,9 +231,9 @@
 <h1 class="page-header" data-toc-text="0.0.8">
 <a href="#dipsaus-008" class="anchor"></a>dipsaus 0.0.8<small> 2020-06-23 </small>
 </h1>
-<div id="major-changes-1" class="section level2">
+<div id="major-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-1" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Removed dependency on <code>crayon</code>, added <code>yaml</code>
 </li>
@@ -213,9 +247,9 @@
 <h1 class="page-header" data-toc-text="0.0.7">
 <a href="#dipsaus-007" class="anchor"></a>dipsaus 0.0.7<small> 2020-05-12 </small>
 </h1>
-<div id="major-changes-2" class="section level2">
+<div id="major-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-2" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Removed dependency on <code>txtq</code> and functions related</li>
 <li>Added <code>list_to_fastmap2</code> to convert a list to <code>fastmap2</code>
@@ -227,9 +261,9 @@
 <code>new_function2</code> creates function that supports ‘quasi-quosure’ syntax</li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Allow maximum height set for <code>compoundInput2</code>
 </li>
@@ -237,9 +271,9 @@
 <code>fastmap2</code> now accept multi-assignment with single value</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>
 <code>fastmap2</code> subset method now accept integers instead raising errors</li>
@@ -250,26 +284,26 @@
 <h1 class="page-header" data-toc-text="0.0.6">
 <a href="#dipsaus-006" class="anchor"></a>dipsaus 0.0.6<small> 2020-04-05 </small>
 </h1>
-<div id="major-changes-3" class="section level2">
+<div id="major-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-3" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added support for R 3.5</li>
 <li>Added <code><a href="../reference/decorate_function.html">%D%</a></code> a decorator function that works like python decorators</li>
 <li>Added <code>get_dots</code> that can get variable from <code>...</code> without evaluating other variables</li>
 </ul>
 </div>
-<div id="minor-changes-2" class="section level2">
+<div id="minor-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>lapply_async2</code> now supporting more load-balance settings</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>11 JavaScript library vulnerability bug fixed</li>
 </ul>
@@ -279,9 +313,9 @@
 <h1 class="page-header" data-toc-text="0.0.5">
 <a href="#dipsaus-005" class="anchor"></a>dipsaus 0.0.5<small> 2020-03-12 </small>
 </h1>
-<div id="major-changes-4" class="section level2">
+<div id="major-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-4" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Added <code>dev_create</code> to control switching among graphical devices</li>
 <li>Added <code><a href="../reference/use_shiny_dipsaus.html">use_shiny_dipsaus()</a></code> to import all styles and JavaScript</li>
@@ -289,9 +323,9 @@
 <li>Added <code>lapply_async2</code>, a naive version of <code>future.lapply</code>, but with callbacks, which is useful if play-back message is required. This is experimental. In the future when package <code>progressr</code> is online, this function will be adjusted.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Resolved memory leaks in <code>compoundInput2</code>
 </li>
@@ -304,9 +338,9 @@
 <h1 class="page-header" data-toc-text="0.0.4">
 <a href="#dipsaus-004" class="anchor"></a>dipsaus 0.0.4<small> 2020-01-20 </small>
 </h1>
-<div id="major-changes-5" class="section level2">
+<div id="major-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-5" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-6" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Canceled exporting queues because of strange behavior in windows. (plan to fix this for the next version)</li>
 <li>Implemented function to convert Base64 <code>DataURI</code> string to image</li>
@@ -323,11 +357,11 @@
 <code><a href="../reference/grapes-plus-grapes.html">%+-%</a></code> plus-minus operator; <code><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></code> a “JavaScript” style of creating functions</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
-<li>Fixed <code>compoundInput2</code> not initialized when rendered in <code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">shiny::renderUI</a></code>
+<li>Fixed <code>compoundInput2</code> not initialized when rendered in <code><a href="https://shiny.rstudio.com/reference/shiny/latest/renderUI.html">shiny::renderUI</a></code>
 </li>
 </ul>
 </div>
@@ -336,9 +370,9 @@
 <h1 class="page-header" data-toc-text="0.0.3">
 <a href="#dipsaus-003" class="anchor"></a>dipsaus 0.0.3<small> 2019-11-18 </small>
 </h1>
-<div id="major-changes-6" class="section level2">
+<div id="major-changes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-6" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-7" class="anchor"></a>Major Changes</h2>
 <div id="parallel" class="section level3">
 <h3 class="hasAnchor">
 <a href="#parallel" class="anchor"></a>Parallel</h3>
@@ -350,9 +384,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-3" class="section level2">
+<div id="minor-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-4" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Renamed <code>txtq_queue</code> to <code>text_queue</code>
 </li>
@@ -365,9 +399,9 @@
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#dipsaus-002" class="anchor"></a>dipsaus 0.0.2<small> 2019-11-05 </small>
 </h1>
-<div id="major-changes-7" class="section level2">
+<div id="major-changes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-7" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-8" class="anchor"></a>Major Changes</h2>
 <div id="shiny" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny" class="anchor"></a>Shiny</h3>
@@ -377,7 +411,7 @@
 </li>
 <li>Implemented <code>sync_shiny_inputs</code> to synchronize among shiny inputs without causing dead-locks in UI changes</li>
 <li>
-<code>progress2</code> allows debugging shiny progress instances in non- reactive context. It uses <code><a href="https://rdrr.io/pkg/shiny/man/Progress.html">shiny::Progress</a></code> in shiny reactive context, and just print out messages when shiny reactive domain is <code>NULL</code>
+<code>progress2</code> allows debugging shiny progress instances in non- reactive context. It uses <code><a href="https://shiny.rstudio.com/reference/shiny/latest/Progress.html">shiny::Progress</a></code> in shiny reactive context, and just print out messages when shiny reactive domain is <code>NULL</code>
 </li>
 </ul>
 </div>
@@ -405,9 +439,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-4" class="section level2">
+<div id="minor-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-4" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-5" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -434,18 +468,18 @@
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#dipsaus-001" class="anchor"></a>dipsaus 0.0.1<small> Unreleased </small>
 </h1>
-<div id="major-changes-8" class="section level2">
+<div id="major-changes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-8" class="anchor"></a>Major Changes</h2>
+<a href="#major-changes-9" class="anchor"></a>Major Changes</h2>
 <ul>
 <li>Implemented full <code>JavaScript</code> support for <code>compoundInput2</code> as a new <code>shiny</code> input to</li>
 <li>Added utility function <code>col2hexStr</code> to convert color to hex value</li>
 <li>Added utility function <code>match_calls</code> to match and modify calls</li>
 </ul>
 </div>
-<div id="minor-changes-5" class="section level2">
+<div id="minor-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-5" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-6" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Added <code>label_color</code> to <code>compoundInput2</code> to enable colored group labels</li>
 </ul>

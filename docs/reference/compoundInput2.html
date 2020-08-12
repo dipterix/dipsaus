@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -144,7 +144,7 @@
     <pre class="usage"><span class='fu'>compoundInput2</span>(
   <span class='no'>inputId</span>,
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Group"</span>,
-  <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>tagList</a></span>(),
+  <span class='kw'>components</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>tagList</a></span>(),
   <span class='kw'>initial_ncomp</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>min_ncomp</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>max_ncomp</span> <span class='kw'>=</span> <span class='fl'>10</span>,
@@ -212,9 +212,9 @@ assigning colors to each group labels,</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
 <span class='fu'>compoundInput2</span>(
   <span class='st'>'input_id'</span>, <span class='st'>'Group'</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>div</a></span>(
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'text'</span>, <span class='st'>'Text Label'</span>),
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sli'</span>, <span class='st'>'Slider Selector'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>div</a></span>(
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='st'>'text'</span>, <span class='st'>'Text Label'</span>),
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sli'</span>, <span class='st'>'Slider Selector'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>)
   ),
   <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>,
   <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
@@ -251,16 +251,16 @@ assigning colors to each group labels,</p></td>
 
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidRow</a></span>(
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span>(
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidRow</a></span>(
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/column.html'>column</a></span>(
       <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>4</span>,
       <span class='fu'>compoundInput2</span>(
         <span class='st'>'compound'</span>, <span class='st'>'Group Label'</span>, <span class='kw'>label_color</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>,
-        <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>div</a></span>(
-          <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='st'>'txt'</span>, <span class='st'>'Text'</span>),
-          <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span>(<span class='st'>'sel'</span>, <span class='st'>'Select'</span>, <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-          <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sli'</span>, <span class='st'>'Slider'</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>min</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>val</span><span class='kw'>=</span><span class='fl'>0.5</span>)
+        <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>div</a></span>(
+          <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='st'>'txt'</span>, <span class='st'>'Text'</span>),
+          <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/selectInput.html'>selectInput</a></span>(<span class='st'>'sel'</span>, <span class='st'>'Select'</span>, <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+          <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html'>sliderInput</a></span>(<span class='st'>'sli'</span>, <span class='st'>'Slider'</span>, <span class='kw'>max</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>min</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>val</span><span class='kw'>=</span><span class='fl'>0.5</span>)
         ),
         <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
           <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>txt</span> <span class='kw'>=</span> <span class='st'>'1'</span>),  <span class='co'># Set text first group to be "1"</span>
@@ -268,21 +268,21 @@ assigning colors to each group labels,</p></td>
           <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>sli</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)    <span class='co'># sli = 0.2 for the third group</span>
         )
       ),
-      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>hr</a></span>(),
-      <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span>(<span class='st'>'action'</span>, <span class='st'>'Update compound input'</span>)
+      <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>hr</a></span>(),
+      <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/actionButton.html'>actionButton</a></span>(<span class='st'>'action'</span>, <span class='st'>'Update compound input'</span>)
     )
   )
 )
 
 <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span>({
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observe.html'>observe</a></span>({
     <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>input</span>$<span class='no'>compound</span>)
   })
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span>({
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observe.html'>observe</a></span>({
     <span class='co'># Getting specific input at group 1</span>
     <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>input</span>$<span class='no'>compound_txt_1</span>)
   })
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>action</span>, {
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>action</span>, {
     <span class='fu'><a href='updateCompoundInput2.html'>updateCompoundInput2</a></span>(
       <span class='no'>session</span>, <span class='st'>'compound'</span>,
       <span class='co'># Update values for each components</span>
@@ -297,7 +297,7 @@ assigning colors to each group labels,</p></td>
 }
 
 <span class='kw'>if</span>( <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>() ){
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>launch.browser</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>launch.browser</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -73,7 +73,7 @@ detected, otherwise call system command via Rscript" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -166,11 +166,14 @@ detected, otherwise call system command via <code>Rscript</code></p>
     </tr>
     <tr>
       <th>wait</th>
-      <td><p>whether to wait for the result. Only useful when using
-<code>Rscript</code></p></td>
+      <td><p>whether to wait for the result.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If <code>wait=TRUE</code>, returns evaluation results of <code>expr</code>,
+otherwise a function that can track the state of job.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>'RStudio' provides interfaces <code><a href='https://rdrr.io/pkg/rstudioapi/man/jobRunScript.html'>jobRunScript</a></code> to

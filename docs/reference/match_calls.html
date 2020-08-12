@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -189,7 +189,7 @@
 <span class='co'># In shiny modules, we might want to add ns() to inputIds</span>
 <span class='co'># In this example, textInput(id) will become textInput(ns(id))</span>
 <span class='fu'>match_calls</span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>function</span>(<span class='no'>i</span>){
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'id_'</span>, <span class='no'>i</span>), <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Label '</span>, <span class='no'>i</span>))
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'id_'</span>, <span class='no'>i</span>), <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Label '</span>, <span class='no'>i</span>))
 }), <span class='kw'>replace_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
   <span class='kw'>inputId</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>arg</span>, <span class='no'>call</span>){ <span class='fu'><a href='https://rdrr.io/r/base/call.html'>as.call</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span>(<span class='no'>ns</span>), <span class='no'>arg</span>)) }
 ))</div><div class='output co'>#&gt; lapply(X = 1:20, FUN = function(i) {

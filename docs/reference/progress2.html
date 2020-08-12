@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@
   <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='no'>...</span>,
   <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span>(),
+  <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span>(),
   <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>log</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
@@ -209,12 +209,12 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
 
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span>(
+<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
   <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'do'</span>, <span class='st'>'Click Here'</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'primary'</span>)
 )
 
 <span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>do</span>, {
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>do</span>, {
     <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span>(<span class='no'>session</span>, <span class='st'>'do'</span>, <span class='kw'>disabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
     <span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
     <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>function</span>(<span class='no'>ii</span>){
@@ -226,7 +226,7 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 }
 
 <span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
