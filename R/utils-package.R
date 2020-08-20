@@ -1,3 +1,18 @@
+#' Get attached package names in current session
+#' @param include_base whether to include base packages
+#' @return characters, package names that are attached in current session
+attached_packages <- function(include_base = FALSE){
+  info <- utils::sessionInfo()
+  bk <- rev(info$basePkgs)
+  pk <- vapply(info$otherPkgs, '[[', 'Package', 'Package', USE.NAMES = FALSE)
+  pk <- rev(pk)
+
+  if(include_base){
+    pk <- c(bk, pk)
+  }
+  pk
+}
+
 #' Check if a package is installed
 #' @param pkgs vector of package names
 #' @param all only returns TRUE if all packages are installed. Default is FALSE.

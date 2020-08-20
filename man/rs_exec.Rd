@@ -4,7 +4,14 @@
 \alias{rs_exec}
 \title{Schedule a Background Job}
 \usage{
-rs_exec(expr, name = "Untitled", quoted = FALSE, rs = TRUE, wait = FALSE)
+rs_exec(
+  expr,
+  name = "Untitled",
+  quoted = FALSE,
+  rs = TRUE,
+  wait = FALSE,
+  packages = NULL
+)
 }
 \arguments{
 \item{expr}{R expression}
@@ -16,6 +23,8 @@ rs_exec(expr, name = "Untitled", quoted = FALSE, rs = TRUE, wait = FALSE)
 \item{rs}{whether to use 'RStudio' by default}
 
 \item{wait}{whether to wait for the result.}
+
+\item{packages}{packages to load in the sub-sessions}
 }
 \value{
 If \code{wait=TRUE}, returns evaluation results of \code{expr},

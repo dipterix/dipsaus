@@ -77,6 +77,7 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
 #' @param quoted is \code{expr} quoted
 #' @param rs whether to use 'RStudio' by default
 #' @param wait whether to wait for the result.
+#' @param packages packages to load in the sub-sessions
 #' @return If \code{wait=TRUE}, returns evaluation results of \code{expr},
 #' otherwise a function that can track the state of job.
 #'
@@ -101,7 +102,8 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
 #' feature is subject to change in the future.
 #'
 #' @export
-rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = FALSE){
+rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
+                    wait = FALSE, packages = NULL){
   if(!quoted){
     expr <- substitute(expr)
   }
@@ -117,6 +119,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
   expr <- rlang::quo({
     # 2: started
     writeLines('2', !!state_file)
+
     local({
       ...msg... <- new.env(parent = emptyenv())
       reg.finalizer(...msg..., function(e){
@@ -133,6 +136,13 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE, wait = F
       }
 
       tryCatch({
+
+        lapply(!!packages, function(p){
+          suppressMessages({
+            do.call('require', list(package = p, character.only = TRUE))
+          })
+        })
+
         res <- ...msg...$fun()
 
         if(!is.null(res)){

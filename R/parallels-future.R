@@ -7,7 +7,7 @@
 #' @param plan logical, or character or \code{future} plan; see Details.
 #' @param callback function to run after each iteration
 #' @param ... passed to \code{\link[future]{plan}}
-#' @param future.chunk.size see also \code{future_lapply}.
+#' @param future.chunk.size,future.seed see also \code{future_lapply}.
 #' If you want the callbacks
 #' to be called immediately after each loop, then set it to \code{1},
 #' which is not optimal but the only way right now.
@@ -45,7 +45,7 @@
 #' @export
 lapply_async2 <- function(x, FUN, FUN.args = list(),
                           callback = NULL, plan = TRUE,
-                          future.chunk.size = NULL, ...){
+                          future.chunk.size = NULL, future.seed = sample.int(1, n = 1e5 - 1), ...){
   if(length(plan) && !isFALSE(plan)){
     if(isTRUE(plan)){
       make_forked_clusters(...)
@@ -77,9 +77,8 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
   call <- as_call(quote(FUN), quote(el), .list = FUN.args)
   if(is.null(callback_call)){
-    fs <- future.apply::future_lapply(x, function(el){
-      eval(call)
-    })
+    f <- dipsaus::new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
+    fs <- future.apply::future_lapply(x, f, future.seed = future.seed)
   }else{
 
     old.handlers <- progressr::handlers(handler_dipsaus_progress())
@@ -91,14 +90,26 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
     # if(is.null(shiny::getDefaultReactiveDomain())){
 
-      progressr::with_progress({
-        p <- progressr::progressor(along = x)
-        fs <- future.apply::future_lapply(x, function(el){
-          p(message = eval(callback_call))
-          eval(call)
-        },
-        future.scheduling = TRUE,
-        future.chunk.size = future.chunk.size)
+    progressr::with_progress({
+      p <- progressr::progressor(along = x)
+
+      f <- dipsaus::new_function2(alist(el = ), body = rlang::quo({
+        p(message = eval(!!callback_call))
+        eval(!!call)
+      }), quote_type = 'quote', env = environment())
+      fs <- future.apply::future_lapply(x, f,
+                                        future.scheduling = TRUE,
+                                        future.chunk.size = future.chunk.size,
+                                        future.seed = future.seed)
+
+
+        # fs <- future.apply::future_lapply(x, function(el) {
+        #   p(message = eval(callback_call))
+        #   eval(call)
+        # },
+        # future.scheduling = TRUE,
+        # future.chunk.size = future.chunk.size,
+        # future.seed = future.seed)
       })
     # }else{
     #   progressr::withProgressShiny({

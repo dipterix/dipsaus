@@ -11,6 +11,7 @@ lapply_async2(
   callback = NULL,
   plan = TRUE,
   future.chunk.size = NULL,
+  future.seed = sample.int(1, n = 1e+05 - 1),
   ...
 )
 }
@@ -25,7 +26,7 @@ lapply_async2(
 
 \item{plan}{logical, or character or \code{future} plan; see Details.}
 
-\item{future.chunk.size}{see also \code{future_lapply}.
+\item{future.chunk.size, future.seed}{see also \code{future_lapply}.
 If you want the callbacks
 to be called immediately after each loop, then set it to \code{1},
 which is not optimal but the only way right now.}
