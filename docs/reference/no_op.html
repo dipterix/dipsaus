@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     <p>returns the first input with side effects</p>
     </div>
 
-    <pre class="usage"><span class='fu'>no_op</span>(<span class='no'>.x</span>, <span class='no'>.expr</span>, <span class='no'>...</span>, <span class='kw'>.check_fun</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>no_op</span><span class='op'>(</span><span class='va'>.x</span>, <span class='va'>.expr</span>, <span class='va'>...</span>, .check_fun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,41 +177,45 @@ then the function is called with argument <code>.x</code> and <code>...</code></
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>magrittr</span><span class='op'>)</span>
 
 <span class='co'>## 1. Basic usage</span>
 
 <span class='co'># Will print('a') and return 'a'</span>
-<span class='fu'>no_op</span>(<span class='st'>'a'</span>, <span class='no'>print</span>)</div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
+<span class='fu'>no_op</span><span class='op'>(</span><span class='st'>'a'</span>, <span class='va'>print</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
 <span class='co'># Will do nothing and return 'a' because .check_fun is false</span>
-<span class='fu'>no_op</span>(<span class='st'>'a'</span>, <span class='no'>print</span>, <span class='kw'>.check_fun</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>no_op</span><span class='op'>(</span><span class='st'>'a'</span>, <span class='va'>print</span>, .check_fun <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># Will print('a') and return 'a'</span>
-<span class='fu'>no_op</span>(<span class='st'>'a'</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>.</span>), <span class='kw'>.check_fun</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
+<span class='fu'>no_op</span><span class='op'>(</span><span class='st'>'a'</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, .check_fun <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "a"</div><div class='input'>
 <span class='co'>## 2. Toy example</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>graphics</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>graphics</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>2</span>))
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>
 
 <span class='co'># hist and plot share the same input `rnorm(100)`</span>
 
-<span class='no'>x</span> <span class='kw'>%&gt;%</span>
+<span class='va'>x</span> <span class='op'>%&gt;%</span>
   <span class='co'># .expr is a function, all ... are passed as other arguments</span>
-  <span class='fu'>no_op</span>( <span class='no'>hist</span>, <span class='kw'>nclass</span> <span class='kw'>=</span> <span class='fl'>10</span> ) <span class='kw'>%&gt;%</span>
-  <span class='fu'>no_op</span>( <span class='no'>plot</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>) ) <span class='kw'>%&gt;%</span>
+  <span class='fu'>no_op</span><span class='op'>(</span> <span class='va'>hist</span>, nclass <span class='op'>=</span> <span class='fl'>10</span> <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>no_op</span><span class='op'>(</span> <span class='va'>plot</span>, x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,length.out <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>)</span> <span class='op'>%&gt;%</span>
 
   <span class='co'># Repeat the previous two plots, but with different syntax</span>
-  <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>.</span>, <span class='kw'>nclass</span> <span class='kw'>=</span> <span class='fl'>10</span>) }) <span class='kw'>%&gt;%</span>
-  <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>.</span>) }) <span class='kw'>%&gt;%</span>
+  <span class='fu'>no_op</span><span class='op'>(</span><span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>.</span>, nclass <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>no_op</span><span class='op'>(</span><span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,length.out <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>.</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
 
   <span class='co'># The return statement is ignored</span>
 
-  <span class='fu'>no_op</span>({ <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='no'>x</span> + <span class='fl'>1</span>)}) <span class='kw'>-&gt;</span>
-  <span class='no'>y</span></div><div class='img'><img src='no_op-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'>no_op</span><span class='op'>(</span><span class='op'>{</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span> <span class='op'>-&gt;</span>
+  <span class='va'>y</span>
+</div><div class='img'><img src='no_op-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># x is returned at the end</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)   <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>   <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -228,7 +232,7 @@ then the function is called with argument <code>.x</code> and <code>...</code></
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

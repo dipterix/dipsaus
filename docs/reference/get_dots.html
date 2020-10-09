@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get element from dots <code>'...'</code> — get_dots • dipsaus</title>
+<title>Get element from dots '...' — get_dots • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Get element from dots <code>'...'</code> — get_dots" />
+<meta property="og:title" content="Get element from dots '...' — get_dots" />
 <meta property="og:description" content="Get specific key values from '...' without
 evaluating the rest of arguments." />
 
@@ -73,7 +73,7 @@ evaluating the rest of arguments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ evaluating the rest of arguments." />
 evaluating the rest of arguments.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_dots</span>(<span class='no'>..name</span>, <span class='kw'>..default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_dots</span><span class='op'>(</span><span class='va'>..name</span>, ..default <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,34 +176,39 @@ unnecessary evaluations.</p>
     <pre class="examples"><div class='input'>
 
 <span class='co'># ------------------------ Basic Usage ---------------------------</span>
-<span class='no'>plot2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){
-  <span class='no'>title</span> <span class='kw'>=</span> <span class='fu'>get_dots</span>(<span class='st'>'main'</span>, <span class='st'>'There is no title'</span>, <span class='no'>...</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>...</span>)
-  <span class='no'>title</span>
-}
+<span class='va'>plot2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>title</span> <span class='op'>=</span> <span class='fu'>get_dots</span><span class='op'>(</span><span class='st'>'main'</span>, <span class='st'>'There is no title'</span>, <span class='va'>...</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+  <span class='va'>title</span>
+<span class='op'>}</span>
 
-<span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='img'><img src='get_dots-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "There is no title"</div><div class='input'><span class='fu'>plot2</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>'Scatter Plot of 1:10'</span>)</div><div class='img'><img src='get_dots-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "Scatter Plot of 1:10"</div><div class='input'>
+<span class='fu'>plot2</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
+</div><div class='img'><img src='get_dots-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "There is no title"</div><div class='input'><span class='fu'>plot2</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, main <span class='op'>=</span> <span class='st'>'Scatter Plot of 1:10'</span><span class='op'>)</span>
+</div><div class='img'><img src='get_dots-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "Scatter Plot of 1:10"</div><div class='input'>
 <span class='co'># ------------------------ Comparisons ----------------------------</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'>get_dots</span>(<span class='st'>'x'</span>, <span class='no'>...</span>) }
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>){ <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>...</span>)<span class='kw'>[[</span><span class='st'>'x'</span>]] }
-<span class='fu'><a href='https://rdrr.io/r/base/delayedAssign.html'>delayedAssign</a></span>(<span class='st'>'y'</span>, { <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'y is evaluated!'</span>) })
+<span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span> <span class='fu'>get_dots</span><span class='op'>(</span><span class='st'>'x'</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>}</span>
+<span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>'x'</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/delayedAssign.html'>delayedAssign</a></span><span class='op'>(</span><span class='st'>'y'</span>, <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>'y is evaluated!'</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span>
 
 <span class='co'># y will not evaluate</span>
-<span class='fu'>f1</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>f1</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># y gets evaluated</span>
-<span class='fu'>f2</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)</div><div class='output co'>#&gt; y is evaluated!</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='fu'>f2</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; y is evaluated!</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># -------------------- Decorator example --------------------------</span>
-<span class='no'>ret_range</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>which_range</span> <span class='kw'>=</span> <span class='st'>'y'</span>){
-  <span class='kw'>function</span>(<span class='no'>f</span>){
-    <span class='kw'>function</span>(<span class='no'>...</span>){
-      <span class='fu'>f</span>(<span class='no'>...</span>)
-      <span class='no'>y_range</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'>get_dots</span>(<span class='no'>which_range</span>, <span class='fl'>0</span>, <span class='no'>...</span>))
-      <span class='no'>y_range</span>
-    }
-  }
-}
-<span class='no'>plot_ret_yrange</span> <span class='kw'>&lt;-</span> <span class='no'>plot</span> <span class='kw'>%D%</span> <span class='fu'>ret_range</span>(<span class='st'>'y'</span>)
-<span class='fu'>plot_ret_yrange</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>))</div><div class='img'><img src='get_dots-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] -1.691301  1.789036</div><div class='input'>
+<span class='va'>ret_range</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>which_range</span> <span class='op'>=</span> <span class='st'>'y'</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='kw'>function</span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='fu'>f</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+      <span class='va'>y_range</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'>get_dots</span><span class='op'>(</span><span class='va'>which_range</span>, <span class='fl'>0</span>, <span class='va'>...</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='va'>y_range</span>
+    <span class='op'>}</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+<span class='va'>plot_ret_yrange</span> <span class='op'>&lt;-</span> <span class='va'>plot</span> <span class='op'>%D%</span> <span class='fu'>ret_range</span><span class='op'>(</span><span class='st'>'y'</span><span class='op'>)</span>
+<span class='fu'>plot_ret_yrange</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='get_dots-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] -1.691301  1.789036</div><div class='input'>
 
 </div></pre>
   </div>
@@ -221,7 +226,7 @@ unnecessary evaluations.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

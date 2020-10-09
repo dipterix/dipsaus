@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     <p>Re-arrange arrays in parallel</p>
     </div>
 
-    <pre class="usage"><span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='no'>shift_idx</span>, <span class='no'>shift_by</span>, <span class='no'>shift_amount</span>)</pre>
+    <pre class="usage"><span class='fu'>shift_array</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>shift_idx</span>, <span class='va'>shift_by</span>, <span class='va'>shift_amount</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,31 +176,33 @@ time points (column, the second dimension) for each signal. <code>shift_by=1</co
 because the shift amount is depend on the signal number.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
+    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, nrow <span class='op'>=</span> <span class='fl'>2</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>shift_array</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fl'>NA</span> * <span class='no'>x</span>
-<span class='no'>y</span>[<span class='fl'>1</span>,<span class='fl'>1</span>:<span class='fl'>4</span>] <span class='kw'>=</span> <span class='no'>x</span>[<span class='fl'>1</span>,<span class='fl'>2</span>:<span class='fl'>5</span>]
-<span class='no'>y</span>[<span class='fl'>2</span>,<span class='fl'>1</span>:<span class='fl'>3</span>] <span class='kw'>=</span> <span class='no'>x</span>[<span class='fl'>2</span>,<span class='fl'>3</span>:<span class='fl'>5</span>]
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span> <span class='op'>*</span> <span class='va'>x</span>
+<span class='va'>y</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span> <span class='op'>=</span> <span class='va'>x</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
+<span class='va'>y</span><span class='op'>[</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span> <span class='op'>=</span> <span class='va'>x</span><span class='op'>[</span><span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
 
 <span class='co'># Check if z ang y are the same</span>
-<span class='no'>z</span> - <span class='no'>y</span></div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
+<span class='va'>z</span> <span class='op'>-</span> <span class='va'>y</span>
+</div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
 #&gt; [1,]    0    0    0    0   NA
 #&gt; [2,]    0    0    0   NA   NA</div><div class='input'>
 <span class='co'># array case</span>
 <span class='co'># x is Trial x Frequency x Time</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fl'>1</span>:<span class='fl'>27</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span>))
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>27</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Shift time for each trial, amount is 1, -1, 0</span>
-<span class='no'>shift_amount</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,-<span class='fl'>1</span>,<span class='fl'>0</span>)
-<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>shift_array</span>(<span class='no'>x</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='no'>shift_amount</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>2</span>))
-<span class='kw'>for</span>( <span class='no'>ii</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span> ){
-  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>x</span>[<span class='no'>ii</span>, ,]), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Frequency'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Time'</span>,
-        <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Trial'</span>, <span class='no'>ii</span>))
-  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>z</span>[<span class='no'>ii</span>, ,]), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Frequency'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Time'</span>,
-        <span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'Shifted amount:'</span>, <span class='no'>shift_amount</span>[<span class='no'>ii</span>]))
-}</div><div class='img'><img src='shift_array-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>shift_amount</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='op'>-</span><span class='fl'>1</span>,<span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'>shift_array</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='va'>shift_amount</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'>for</span><span class='op'>(</span> <span class='va'>ii</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span> <span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>[</span><span class='va'>ii</span>, ,<span class='op'>]</span><span class='op'>)</span>, ylab <span class='op'>=</span> <span class='st'>'Frequency'</span>, xlab <span class='op'>=</span> <span class='st'>'Time'</span>,
+        main <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Trial'</span>, <span class='va'>ii</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>[</span><span class='va'>ii</span>, ,<span class='op'>]</span><span class='op'>)</span>, ylab <span class='op'>=</span> <span class='st'>'Frequency'</span>, xlab <span class='op'>=</span> <span class='st'>'Time'</span>,
+        main <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Shifted amount:'</span>, <span class='va'>shift_amount</span><span class='op'>[</span><span class='va'>ii</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='img'><img src='shift_array-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -217,7 +219,7 @@ because the shift amount is depend on the signal number.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

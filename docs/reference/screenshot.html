@@ -73,7 +73,7 @@ DataURI that can be accessed via input[[inputId]]." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ DataURI that can be accessed via input[[inputId]]." />
 <code>DataURI</code> that can be accessed via <code>input[[inputId]]</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>screenshot</span>(<span class='no'>inputId</span>, <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span>())</pre>
+    <pre class="usage"><span class='fu'>screenshot</span><span class='op'>(</span><span class='va'>inputId</span>, session <span class='op'>=</span> <span class='fu'>shiny</span><span class='fu'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,35 +164,37 @@ DataURI that can be accessed via input[[inputId]]." />
 shiny input</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>tagList</a></span>(
-    <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>singleton</a></span>(<span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>tags</a></span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(
-      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>tags</a></span>$<span class='fu'>link</span>(<span class='kw'>rel</span><span class='kw'>=</span><span class='st'>"stylesheet"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"text/css"</span>, <span class='kw'>href</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus.css"</span>),
-      <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>tags</a></span>$<span class='fu'>script</span>(<span class='kw'>src</span><span class='kw'>=</span><span class='st'>"dipsaus/dipsaus-dipterix-lib.js"</span>)
-    ))
-  ),
-  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'do'</span>, <span class='st'>'Take Screenshot'</span>),
-  <span class='fu'><a href='compoundInput2.html'>compoundInput2</a></span>(<span class='st'>'group'</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>'Group'</span>, <span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span>(<span class='st'>'txt'</span>, <span class='st'>'Enter something here'</span>)
-  ))
-)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://shiny.rstudio.com'>shiny</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dipterix/dipsaus'>dipsaus</a></span><span class='op'>)</span>
+<span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/tag.html'>tagList</a></span><span class='op'>(</span>
+    <span class='fu'>shiny</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/singleton.html'>singleton</a></span><span class='op'>(</span><span class='fu'>shiny</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a></span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span>
+      <span class='fu'>shiny</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a></span><span class='op'>$</span><span class='fu'>link</span><span class='op'>(</span>rel<span class='op'>=</span><span class='st'>"stylesheet"</span>, type<span class='op'>=</span><span class='st'>"text/css"</span>, href<span class='op'>=</span><span class='st'>"dipsaus/dipsaus.css"</span><span class='op'>)</span>,
+      <span class='fu'>shiny</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>tags</a></span><span class='op'>$</span><span class='fu'>script</span><span class='op'>(</span>src<span class='op'>=</span><span class='st'>"dipsaus/dipsaus-dipterix-lib.js"</span><span class='op'>)</span>
+    <span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>)</span>,
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span><span class='op'>(</span><span class='st'>'do'</span>, <span class='st'>'Take Screenshot'</span><span class='op'>)</span>,
+  <span class='fu'><a href='compoundInput2.html'>compoundInput2</a></span><span class='op'>(</span><span class='st'>'group'</span>, label <span class='op'>=</span> <span class='st'>'Group'</span>, components <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/textInput.html'>textInput</a></span><span class='op'>(</span><span class='st'>'txt'</span>, <span class='st'>'Enter something here'</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>do</span>, {
-    <span class='fu'>screenshot</span>(<span class='st'>'screeshot_result'</span>)
-  })
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>screeshot_result</span>, {
-    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/showModal.html'>showModal</a></span>(<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/modalDialog.html'>modalDialog</a></span>(
-      <span class='no'>tags</span>$<span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/reexports.html'>img</a></span>(<span class='kw'>src</span> <span class='kw'>=</span> <span class='no'>input</span>$<span class='no'>screeshot_result</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>'100%'</span>)
-    ))
-  })
-}
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>do</span>, <span class='op'>{</span>
+    <span class='fu'>screenshot</span><span class='op'>(</span><span class='st'>'screeshot_result'</span><span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>screeshot_result</span>, <span class='op'>{</span>
+    <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/showModal.html'>showModal</a></span><span class='op'>(</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/modalDialog.html'>modalDialog</a></span><span class='op'>(</span>
+      <span class='va'>tags</span><span class='op'>$</span><span class='fu'>img</span><span class='op'>(</span>src <span class='op'>=</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>screeshot_result</span>, width <span class='op'>=</span> <span class='st'>'100%'</span><span class='op'>)</span>
+    <span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
-}</div></pre>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -208,7 +210,7 @@ shiny input</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

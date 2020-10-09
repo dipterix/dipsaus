@@ -8,8 +8,8 @@
 
 <title>Assign if not exists, or NULL
 Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-% • dipsaus</title>
+`lhs` is invalid or NULL, this function will try to assign
+value, otherwise nothing happens. — %?&lt;-% • dipsaus</title>
 
 
 <!-- jquery -->
@@ -44,8 +44,8 @@ Provides a way to assign default values to variables. If the statement
 
 <meta property="og:title" content="Assign if not exists, or NULL
 Provides a way to assign default values to variables. If the statement
-`<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
-<code>value</code>, otherwise nothing happens. — %?&lt;-%" />
+`lhs` is invalid or NULL, this function will try to assign
+value, otherwise nothing happens. — %?&lt;-%" />
 <meta property="og:description" content="Assign if not exists, or NULL
 Provides a way to assign default values to variables. If the statement
 `lhs` is invalid or NULL, this function will try to assign
@@ -81,7 +81,7 @@ value, otherwise nothing happens." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@ Provides a way to assign default values to variables. If the statement
 <code>value</code>, otherwise nothing happens.</p>
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%?&lt;-%</span> <span class='no'>value</span></pre>
+    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%?&lt;-%</span> <span class='va'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,19 +178,23 @@ Provides a way to assign default values to variables. If the statement
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Prepare, remove aaa if exists</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='st'>'aaa'</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>(), <span class='kw'>inherits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)){
-  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>aaa</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span>())
-}
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>'aaa'</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span><span class='op'>(</span><span class='op'>)</span>, inherits <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>aaa</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># Assign</span>
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='va'>aaa</span> <span class='op'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aaa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># However, if assigned, nothing happens</span>
-<span class='no'>aaa</span> <span class='kw'>=</span> <span class='fl'>1</span>;
-<span class='no'>aaa</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>;
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aaa</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='va'>aaa</span> <span class='op'>=</span> <span class='fl'>1</span>;
+<span class='va'>aaa</span> <span class='op'>%?&lt;-%</span> <span class='fl'>2</span>;
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aaa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># in a list</span>
-<span class='no'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='no'>a</span>$<span class='no'>e</span> <span class='kw'>%?&lt;-%</span> <span class='fl'>2</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>a</span>$<span class='no'>e</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='va'>a</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>a</span><span class='op'>$</span><span class='va'>e</span> <span class='op'>%?&lt;-%</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span> <span class='op'>%?&lt;-%</span> <span class='fl'>2</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -207,7 +211,7 @@ Provides a way to assign default values to variables. If the statement
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

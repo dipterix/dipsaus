@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -110,15 +110,16 @@
 <h5 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background:</h5>
 <p>Packages <code>parallel</code> and <code>future</code> enables asynchronous evaluation of R expressions in another process. However, <code>parallel</code> blocks the main session when evaluating expressions. <code>future</code> blocks the main session when the number of running futures exceed the maximum number of workers. For example, the following code schedules 2 future sessions. It only allows at most 2 unresolved futures at the same time.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># Future</span>
-<span class="fu">plan</span>(<span class="no">multisession</span>, <span class="kw">workers</span> <span class="kw">=</span> <span class="fl">2L</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># Future</span>
+<span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="va">multisession</span>, workers <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>
 
-<span class="no">start</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fl">1</span>:<span class="fl">8</span>, <span class="kw">function</span>(<span class="no">ii</span>){
-  <span class="fu">future</span>({ <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">2</span>) })
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">'%d - Time ellapsed: %.2f sec.'</span>,
-                <span class="no">ii</span>, <span class="fu"><a href="../reference/time_delta.html">time_delta</a></span>(<span class="no">start</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>())))
-})
+<span class="va">start</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/future/man/future.html">future</a></span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">'%d - Time ellapsed: %.2f sec.'</span>, 
+                <span class="va">ii</span>, <span class="fu"><a href="../reference/time_delta.html">time_delta</a></span><span class="op">(</span><span class="va">start</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt; [1] "1 - Time ellapsed: 0.22 sec."</span>
 <span class="co">#&gt; [1] "2 - Time ellapsed: 0.43 sec."</span>
 <span class="co">#&gt; [1] "3 - Time ellapsed: 2.47 sec."</span>
@@ -126,7 +127,7 @@
 <span class="co">#&gt; [1] "5 - Time ellapsed: 4.72 sec."</span>
 <span class="co">#&gt; [1] "6 - Time ellapsed: 4.94 sec."</span>
 <span class="co">#&gt; [1] "7 - Time ellapsed: 6.98 sec."</span>
-<span class="co">#&gt; [1] "8 - Time ellapsed: 7.19 sec."</span></pre></body></html></div>
+<span class="co">#&gt; [1] "8 - Time ellapsed: 7.19 sec."</span></pre></div>
 <p>The first two futures are scheduled within 0.5 seconds. When the third future comes online, the main session is blocked until the first future get evaluated. Therefore the it takes <code>2.47 sec</code> for the third future get scheduled. Similarly, when scheduling the <code>5th</code>, <code>7th</code> futures, the main process is blocked.</p>
 <p>Is there a way to schedule asynchronous evaluations without blocking the main session?</p>
 </div>
@@ -135,42 +136,47 @@
 <a href="#dipsaus-task-scheduler" class="anchor"></a>dipsaus task scheduler:</h5>
 <p><code>make_async_evaluator</code> uses <code>qs_queue</code> as back-end to share information across sessions.</p>
 <p>To initialize evaluator, you need a unique name for the evaluator. <code>n_nodes</code> is the number of sessions to manage the sub-nodes (managers); <code>n_subnodes</code> is the number of sub-sessions for each manager (employee). There are total 8 R sessions created, with 1 node to manage the rest 7. If <code>n_nodes=2</code> and <code>n_subnodes=3</code>, then total <span class="math inline">\((1+3)\times 2=8\)</span> sessions are created, with 2 manager nodes and 3 child nodes for each manager nodes.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">evaluator</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_async_evaluator.html">make_async_evaluator</a></span>(<span class="kw">name</span> <span class="kw">=</span> <span class="st">'test'</span>, <span class="kw">n_nodes</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">n_subnodes</span> <span class="kw">=</span> <span class="fl">7</span>)
-<span class="co">#&gt; ✔ Initializing 2 workers with 1 sub-workers. Total workers will be (0+2) x 1</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">evaluator</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_async_evaluator.html">make_async_evaluator</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">'test'</span>, n_nodes <span class="op">=</span> <span class="fl">1</span>, n_subnodes <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>
+<span class="co">#&gt; ✔ Initializing 2 workers with 1 sub-workers. Total workers will be (0+2) x 1</span></pre></div>
 <div id="queue-r-expressions" class="section level6">
 <h6>Queue R expressions:</h6>
 <ol style="list-style-type: decimal">
 <li>Queue a normal call</li>
 </ol>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu">run</span>({ <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span>() })</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></pre></div>
 <p>Check progress using <code>evaluator$progress()</code>. The returned values are: <code>total</code>, ’running<code>, 'await</code>, and <code>finished</code>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu">progress</span>()
-<span class="co">#&gt; [1]  1  0  0  1</span></pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">progress</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1]  1  0  0  1</span></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Queue with handlers to print results</li>
 </ol>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu">run</span>({ <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span>() }, <span class="kw">success</span> <span class="kw">=</span> <span class="no">print</span>)
-<span class="co">#&gt; [1] 21304</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">}</span>, success <span class="op">=</span> <span class="va">print</span><span class="op">)</span>
+<span class="co">#&gt; [1] 21304</span></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>Queue 20 calls without blocking the main session</li>
 </ol>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">start</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fl">1</span>:<span class="fl">20</span>, <span class="kw">function</span>(<span class="no">ii</span>){
-    <span class="no">evaluator</span>$<span class="fu">run</span>({
-      <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span>(<span class="fl">10</span>)
-    },<span class="kw">success</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">v</span>){
-      <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>() - <span class="no">start</span>)
-    })
-  })
-})
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">start</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+    <span class="op">}</span>,success <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span><span class="op">)</span><span class="op">{</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start</span><span class="op">)</span>
+    <span class="op">}</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt;    user  system elapsed </span>
 <span class="co">#&gt;   0.073   0.020   0.097 </span>
 
 <span class="co">## You can still run anything within main session</span>
 <span class="co">## Print current progress</span>
 <span class="co">## Total  Running  await  finished</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">evaluator</span>$<span class="fu">progress</span>())
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">evaluator</span><span class="op">$</span><span class="fu">progress</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 22  1  21  0</span>
 <span class="co">#&gt; Time difference of 13.11858 secs</span>
 <span class="co">#&gt; Time difference of 13.11977 secs</span>
@@ -191,59 +197,68 @@
 <span class="co">#&gt; Time difference of 34.90963 secs</span>
 <span class="co">#&gt; Time difference of 35.93507 secs</span>
 <span class="co">#&gt; Time difference of 35.9354 secs</span>
-<span class="co">#&gt; Time difference of 35.93566 secs</span></pre></body></html></div>
+<span class="co">#&gt; Time difference of 35.93566 secs</span></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Queue evaluations with quasi-quotation (see <code>help("quasiquotation")</code>)</li>
 </ol>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">pid1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span>()
-<span class="no">evaluator</span>$<span class="fu">run</span>({
-  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">'Finished in %s, scheduled in master session %s'</span>,
-          <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span>(), !!<span class="no">pid1</span>)
-},<span class="kw">success</span> <span class="kw">=</span> <span class="no">print</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">pid1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">'Finished in %s, scheduled in master session %s'</span>, 
+          <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">!</span><span class="op">!</span><span class="va">pid1</span><span class="op">)</span>
+<span class="op">}</span>,success <span class="op">=</span> <span class="va">print</span><span class="op">)</span></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>Queue when variable is large, quasi-quotation might fail</li>
 </ol>
 <p>Data initialization</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">## 800 MB big array</span>
-<span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100000000</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">10</span>,<span class="fl">10</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="co">## 800 MB big array</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100000000</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">100</span>,<span class="fl">10</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>A bad example, using quasi-quotation (will raise error)</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co">## [Bad]</span>
-<span class="no">evaluator</span>$<span class="fu">run</span>({
-  <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(!!<span class="no">dat</span>, <span class="fl">5</span>, <span class="no">median</span>)
-},<span class="kw">success</span> <span class="kw">=</span> <span class="no">print</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="co">## [Bad]</span>
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="va">dat</span>, <span class="fl">5</span>, <span class="va">median</span><span class="op">)</span>
+<span class="op">}</span>,success <span class="op">=</span> <span class="va">print</span><span class="op">)</span>
 <span class="co">#&gt; Error in checkForRemoteErrors(lapply(cl, recvResult)) :</span>
-<span class="co">#&gt; ...</span></pre></body></html></div>
+<span class="co">#&gt; ...</span></pre></div>
 <p>Instead of quasi-quotation, pass variables as parameters</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co">## [OK] Pass parameters to ..., or .list</span>
-<span class="no">start</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>()
-<span class="no">evaluator</span>$<span class="fu">run</span>({
-  <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">dat</span>, <span class="fl">5</span>, <span class="no">median</span>)
-},<span class="kw">success</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">v</span>){
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">'Total run time: %s'</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>() - <span class="no">start</span>))
-}, <span class="kw">dat</span> <span class="kw">=</span> <span class="no">dat</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">'Schedule time: %s'</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>() - <span class="no">start</span>))
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co">## [OK] Pass parameters to ..., or .list</span>
+<span class="va">start</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fl">5</span>, <span class="va">median</span><span class="op">)</span>
+<span class="op">}</span>,success <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">'Total run time: %s'</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>, dat <span class="op">=</span> <span class="va">dat</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">'Schedule time: %s'</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schedule time: 10.5080621242523"</span>
-<span class="co">#&gt; [1] "Total run time: 18.8798191547394"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "Total run time: 18.8798191547394"</span></pre></div>
 </div>
 <div id="retrieve-modify-the-evaluator-at-any-place" class="section level6">
 <h6>Retrieve, modify the evaluator at any place</h6>
 <p>With <code>name</code>, you can retrieve the evaluators at any place</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">e</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_async_evaluator.html">make_async_evaluator</a></span>(<span class="kw">name</span> <span class="kw">=</span> <span class="st">'test'</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="no">e</span>$<span class="fu">get_instance</span>(), <span class="no">evaluator</span>$<span class="fu">get_instance</span>())</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_async_evaluator.html">make_async_evaluator</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">'test'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="fu">get_instance</span><span class="op">(</span><span class="op">)</span>, <span class="va">evaluator</span><span class="op">$</span><span class="fu">get_instance</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>You can also scale up or down the evaluator</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co">## Scale down to 1 manager, 2 workers</span>
-<span class="no">evaluator</span>$<span class="fu">scale_down</span>(<span class="kw">n_nodes</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">n_subnodes</span> <span class="kw">=</span> <span class="fl">2</span>)
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="co">## Scale down to 1 manager, 2 workers</span>
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">scale_down</span><span class="op">(</span>n_nodes <span class="op">=</span> <span class="fl">1</span>, n_subnodes <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1</span>
 
 <span class="co">## Scale up to 1 manager, 7 workers</span>
-<span class="no">evaluator</span>$<span class="fu">scale_up</span>(<span class="kw">n_nodes</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">n_subnodes</span> <span class="kw">=</span> <span class="fl">7</span>)
-<span class="co">#&gt; [1] 1</span></pre></body></html></div>
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">scale_up</span><span class="op">(</span>n_nodes <span class="op">=</span> <span class="fl">1</span>, n_subnodes <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1</span></pre></div>
 <p>Suspend evaluator: pause, you can resume later.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu">suspend</span>()</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">suspend</span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>Stop evaluator: pause and clear all await tasks. The running tasks will not stop, but their callback functions are removed.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="kw">stop</span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>Terminate: stop, and release all resources.</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">evaluator</span>$<span class="fu">terminate</span>()</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="va">evaluator</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 </div>
   </div>
@@ -261,7 +276,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -141,22 +141,22 @@
     <p>Provides five types of map that fit in different use cases.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>session_map</span>(<span class='kw'>map</span> <span class='kw'>=</span> <span class='kw pkg'>fastmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/fastmap/man/fastmap.html'>fastmap</a></span>())
+    <pre class="usage"><span class='fu'>session_map</span><span class='op'>(</span>map <span class='op'>=</span> <span class='fu'>fastmap</span><span class='fu'>::</span><span class='fu'><a href='https://r-lib.github.io/fastmap/reference/fastmap.html'>fastmap</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>rds_map</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='fu'>rds_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>text_map</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='fu'>text_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>qs_map</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='fu'>qs_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>redis_map</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>rand_string</span>())</pre>
+<span class='fu'>redis_map</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'>rand_string</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>map</th>
-      <td><p>a <code><a href='https://rdrr.io/pkg/fastmap/man/fastmap.html'>fastmap::fastmap()</a></code> list</p></td>
+      <td><p>a <code><a href='https://r-lib.github.io/fastmap/reference/fastmap.html'>fastmap::fastmap()</a></code> list</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -177,8 +177,8 @@ will be shared.</p></td>
     <p>There are five types of map implemented. They all inherit class
 <code><a href='AbstractMap.html'>AbstractMap</a></code>. There are several differences in
 use case scenarios and they backend implementations.</p>
-<dl'>
-<dt><code>session_map</code></dt><dd><p>A session map takes a <code><a href='https://rdrr.io/pkg/fastmap/man/fastmap.html'>fastmap</a></code> object. All objects are
+<dl>
+<dt><code>session_map</code></dt><dd><p>A session map takes a <code><a href='https://r-lib.github.io/fastmap/reference/fastmap.html'>fastmap</a></code> object. All objects are
 stored in current R session. This means you cannot access the map from other
 process nor parent process. The goal of this map is to share the data across
 different environments and to store global variables, as long as they share
@@ -230,64 +230,74 @@ stores data in memory, meaning a potential of significant speed ups. To use
     <pre class="examples"><div class='input'><span class='co'># ----------------------Basic Usage ----------------------</span>
 
 <span class='co'># Define a path to your map.</span>
-<span class='no'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='no'>map</span> <span class='kw'>&lt;-</span> <span class='fu'>qs_map</span>(<span class='no'>path</span>)
+<span class='va'>path</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
 
 <span class='co'># Reset</span>
-<span class='no'>map</span>$<span class='fu'>reset</span>()
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># Check if the map is corrupted.</span>
-<span class='no'>map</span>$<span class='fu'>validate</span>()
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>validate</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># You have not set any key-value pairs yet.</span>
 <span class='co'># Let's say two parallel processes (A and B) are sharing this map.</span>
 <span class='co'># Process A set values</span>
-<span class='no'>map</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'>
 <span class='co'># Start push</span>
 <span class='co'># set a normal message</span>
-<span class='no'>map</span>$<span class='fu'>set</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'># set a large object</span>
-<span class='no'>map</span>$<span class='fu'>set</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'b'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100000</span>))
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'b'</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100000</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># set an object with hash of another object</span>
-<span class='no'>map</span>$<span class='fu'>set</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'c'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='kw'>parameter1</span> <span class='kw'>=</span> <span class='fl'>123</span>,
-  <span class='kw'>parameter2</span> <span class='kw'>=</span> <span class='fl'>124</span>
-))
+<span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'c'</span>, value <span class='op'>=</span> <span class='fl'>2</span>, signature <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  parameter1 <span class='op'>=</span> <span class='fl'>123</span>,
+  parameter2 <span class='op'>=</span> <span class='fl'>124</span>
+<span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Check what's in the map from process B</span>
-<span class='no'>mapB</span> <span class='kw'>&lt;-</span> <span class='fu'>qs_map</span>(<span class='no'>path</span>)
-<span class='no'>mapB</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; ==YQ ==Yg ==Yw 
-#&gt;  "a"  "b"  "c" </div><div class='input'><span class='no'>mapB</span>$<span class='fu'>keys</span>(<span class='kw'>include_signatures</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;      keys                                   
+<span class='va'>mapB</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ==YQ ==Yg ==Yw 
+#&gt;  "a"  "b"  "c" </div><div class='input'><span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span>include_signatures <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      keys                                   
 #&gt; ==YQ "a"  "6717f2823d3202449301145073ab8719"
-#&gt; ==Yg "b"  "ccbaa6726fd79ecdc62206d33eed8109"
+#&gt; ==Yg "b"  "dbcfdac8353a5fe7ae1605a5e2d8403a"
 #&gt; ==Yw "c"  "f3b07dfebb13e24c3b1a5e11ec21a15d"</div><div class='input'>
 <span class='co'># Number of key-values pairs in the map.</span>
-<span class='no'>mapB</span>$<span class='fu'>size</span>()</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>size</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='co'># Check if key exists</span>
-<span class='no'>mapB</span>$<span class='fu'>has</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'1'</span>,<span class='st'>'a'</span>, <span class='st'>'c'</span>))</div><div class='output co'>#&gt;     1     a     c 
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'1'</span>,<span class='st'>'a'</span>, <span class='st'>'c'</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     1     a     c 
 #&gt; FALSE  TRUE  TRUE </div><div class='input'>
 <span class='co'># Check if key exists and signature also matches</span>
-<span class='no'>mapB</span>$<span class='fu'>has</span>(<span class='st'>'c'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='kw'>parameter1</span> <span class='kw'>=</span> <span class='fl'>123</span>,
-  <span class='kw'>parameter2</span> <span class='kw'>=</span> <span class='fl'>124</span>
-))</div><div class='output co'>#&gt;    c 
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='st'>'c'</span>, signature <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  parameter1 <span class='op'>=</span> <span class='fl'>123</span>,
+  parameter2 <span class='op'>=</span> <span class='fl'>124</span>
+<span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    c 
 #&gt; TRUE </div><div class='input'>
 <span class='co'># Signature changed, then return FALSE. This is especially useful when</span>
 <span class='co'># value is really large and reading the value takes tons of time</span>
-<span class='no'>mapB</span>$<span class='fu'>has</span>(<span class='st'>'c'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='kw'>parameter1</span> <span class='kw'>=</span> <span class='fl'>1244444</span>,
-  <span class='kw'>parameter2</span> <span class='kw'>=</span> <span class='fl'>124</span>
-))</div><div class='output co'>#&gt;     c 
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='st'>'c'</span>, signature <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  parameter1 <span class='op'>=</span> <span class='fl'>1244444</span>,
+  parameter2 <span class='op'>=</span> <span class='fl'>124</span>
+<span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     c 
 #&gt; FALSE </div><div class='input'>
 <span class='co'># Destroy the map's files altogether.</span>
-<span class='no'>mapB</span>$<span class='fu'>destroy</span>()
+<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>destroy</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='co'># Once destroyed, validate will raise error</span>
-  <span class='no'>mapB</span>$<span class='fu'>validate</span>()
-}</div></pre>
+  <span class='va'>mapB</span><span class='op'>$</span><span class='fu'>validate</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -303,7 +313,7 @@ stores data in memory, meaning a potential of significant speed ups. To use
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

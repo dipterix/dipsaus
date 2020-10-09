@@ -77,7 +77,7 @@ sessions. See cache method in 'details'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -158,7 +158,7 @@ sessions. See <code>cache</code> method in 'details'.</p>
     
 
 
-<dl'>
+<dl>
 <dt><code>initialize(..., backend = rds_map)</code></dt><dd><p>The constructor. backend must inherit <code>AbstractMap</code>, <code>...</code> will
 be passed to <code>backend$new(...)</code>. To check available back-ends and their
 use cases, see <code><a href='map.html'>map</a></code>.</p></dd>
@@ -187,41 +187,50 @@ the value will be deleted once the session is closed.</p></dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>container</span> <span class='kw'>=</span> <span class='no'>PersistContainer</span>$<span class='fu'>new</span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>())
+<span class='va'>container</span> <span class='op'>=</span> <span class='va'>PersistContainer</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Reset the container so that values are cleared</span>
-<span class='no'>container</span>$<span class='fu'>reset</span>(<span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span>all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># Store `1` to 'a' with signature 111 to a non-persist map</span>
 <span class='co'># returns 1</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>, <span class='kw'>persist</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>cache</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>1</span>, signature <span class='op'>=</span> <span class='fl'>111</span>, persist <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># Replace 'a' with 3</span>
 <span class='co'># returns 3</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>,
-                <span class='kw'>persist</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>cache</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>3</span>, signature <span class='op'>=</span> <span class='fl'>111</span>,
+                persist <span class='op'>=</span> <span class='cn'>TRUE</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='co'># check if 'a' exists with signature 111</span>
-<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>)    <span class='co'># TRUE</span></div><div class='output co'>#&gt;    a 
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='st'>'a'</span>, signature <span class='op'>=</span> <span class='fl'>111</span><span class='op'>)</span>    <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt;    a 
 #&gt; TRUE </div><div class='input'><span class='co'># When you only have 'a' but no signature</span>
-<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>)                     <span class='co'># TRUE</span></div><div class='output co'>#&gt;    a 
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='st'>'a'</span><span class='op'>)</span>                     <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt;    a 
 #&gt; TRUE </div><div class='input'><span class='co'># check if 'a' exists with wrong signature 222</span>
-<span class='no'>container</span>$<span class='fu'>has</span>(<span class='st'>'a'</span>, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>222</span>)    <span class='co'># FALSE</span></div><div class='output co'>#&gt;     a 
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>has</span><span class='op'>(</span><span class='st'>'a'</span>, signature <span class='op'>=</span> <span class='fl'>222</span><span class='op'>)</span>    <span class='co'># FALSE</span>
+</div><div class='output co'>#&gt;     a 
 #&gt; FALSE </div><div class='input'>
 
 <span class='co'># Store 'a' with 2 with same signature</span>
 <span class='co'># will fail and ignore the value (value will not be evaluated if signatured)</span>
 <span class='co'># Return 2 (Important! use cached values)</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> {
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fl'>123</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/function.html'>return</a></span>(<span class='fl'>2</span>)
-}, <span class='kw'>signature</span> <span class='kw'>=</span> <span class='fl'>111</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>cache</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>, signature <span class='op'>=</span> <span class='fl'>111</span>, replace <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='co'># When no signature is present</span>
 <span class='co'># If the key exists (no signature provided), return stored value</span>
 <span class='co'># returns 3</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>cache</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='co'># replace is TRUE (no signature provided), signature will be some default value</span>
-<span class='no'>container</span>$<span class='fu'>cache</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>'a'</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>cache</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>2</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='co'># destroy the container to free disk space</span>
-<span class='no'>container</span>$<span class='fu'>destroy</span>()</div></pre>
+<span class='va'>container</span><span class='op'>$</span><span class='fu'>destroy</span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -237,7 +246,7 @@ the value will be deleted once the session is closed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

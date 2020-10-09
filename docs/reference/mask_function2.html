@@ -75,7 +75,7 @@ environment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ function. The masked variables are assigned directly to the
 environment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mask_function2</span>(<span class='no'>f</span>, <span class='no'>...</span>, <span class='kw'>.list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>mask_function2</span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>...</span>, .list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,16 +168,22 @@ environment.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fl'>123</span>
-<span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
-  <span class='no'>a</span> + <span class='fl'>1</span>
-}
-<span class='fu'>f1</span>()   <span class='co'># 124</span></div><div class='output co'>#&gt; [1] 124</div><div class='input'>
-<span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='fu'>mask_function2</span>(<span class='no'>f1</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'>f2</span>()   <span class='co'># a is masked with value 1, return 2</span></div><div class='output co'>#&gt; [1] 2</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='no'>f1</span>)  <span class='co'># global env</span></div><div class='output co'>#&gt; &lt;environment: 0x7fa1fe7557e0&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='no'>f2</span>)  <span class='co'># masked env</span></div><div class='output co'>#&gt; &lt;environment: 0x7fa1de100020&gt;</div><div class='input'>
-<span class='no'>env</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='no'>f2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/environment.html'>parent.env</a></span>(<span class='no'>env</span>), <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='no'>f1</span>))  <span class='co'># true</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>env</span>$<span class='no'>a</span>  <span class='co'># masked variables: a=1</span></div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>123</span>
+<span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>a</span> <span class='op'>+</span> <span class='fl'>1</span>
+<span class='op'>}</span>
+<span class='fu'>f1</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># 124</span>
+</div><div class='output co'>#&gt; [1] 124</div><div class='input'>
+<span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='fu'>mask_function2</span><span class='op'>(</span><span class='va'>f1</span>, a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>f2</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># a is masked with value 1, return 2</span>
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span>  <span class='co'># global env</span>
+</div><div class='output co'>#&gt; &lt;environment: 0x7f9d9e5cdf20&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
+</div><div class='output co'>#&gt; &lt;environment: 0x7f9d9e6e4338&gt;</div><div class='input'>
+<span class='va'>env</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>parent.env</a></span><span class='op'>(</span><span class='va'>env</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span><span class='op'>)</span>  <span class='co'># true</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>env</span><span class='op'>$</span><span class='va'>a</span>  <span class='co'># masked variables: a=1</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -194,7 +200,7 @@ environment.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -73,7 +73,7 @@ contrast." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -143,13 +143,13 @@ contrast." />
 contrast.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>baseline_array</span>(
-  <span class='no'>x</span>,
-  <span class='no'>along_dim</span>,
-  <span class='no'>baseline_indexpoints</span>,
-  <span class='kw'>unit_dims</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>x</span>))[-<span class='no'>along_dim</span>],
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"percentage"</span>, <span class='st'>"sqrt_percentage"</span>, <span class='st'>"decibel"</span>, <span class='st'>"zscore"</span>, <span class='st'>"sqrt_zscore"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>baseline_array</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>along_dim</span>,
+  <span class='va'>baseline_indexpoints</span>,
+  unit_dims <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='va'>along_dim</span><span class='op'>]</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"percentage"</span>, <span class='st'>"sqrt_percentage"</span>, <span class='st'>"decibel"</span>, <span class='st'>"zscore"</span>, <span class='st'>"sqrt_zscore"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,7 +207,7 @@ we assign <code>unit_dims=c(1,4)</code>.</p>
 <p>There are five baseline methods. They fit for different types of data.
 Denote \(z\) is an unit signal, \(z_0\) is its baseline slice. Then
 these baseline methods are:</p>
-<dl'>
+<dl>
 <dt><code>"percentage"</code></dt><dd><p>$$
   \frac{z - \bar{z_{0}}}{\bar{z_{0}}} \times 100\%
 $$</p></dd>
@@ -232,51 +232,56 @@ $$</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dipterix/dipsaus'>dipsaus</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'># Generate sample data</span>
-<span class='no'>dims</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>,<span class='fl'>2</span>)
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='no'>dims</span>))^<span class='fl'>2</span>, <span class='no'>dims</span>)
+<span class='va'>dims</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>,<span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='va'>dims</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>, <span class='va'>dims</span><span class='op'>)</span>
 
 <span class='co'># Set baseline window to be arbitrary 10 timepoints</span>
-<span class='no'>baseline_window</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>30</span>, <span class='fl'>10</span>)
+<span class='va'>baseline_window</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'># ----- baseline percentage change ------</span>
 
 <span class='co'># Using base functions</span>
-<span class='no'>re1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/aperm.html'>aperm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>), <span class='kw'>function</span>(<span class='no'>y</span>){
-  <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>y</span>[<span class='no'>baseline_window</span>])
-  (<span class='no'>y</span>/<span class='no'>m</span> - <span class='fl'>1</span>) * <span class='fl'>100</span>
-}), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>4</span>))
+<span class='va'>re1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/aperm.html'>aperm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='va'>baseline_window</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='op'>(</span><span class='va'>y</span><span class='op'>/</span><span class='va'>m</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+<span class='op'>}</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Using dipsaus</span>
-<span class='no'>re2</span> <span class='kw'>&lt;-</span> <span class='fu'>baseline_array</span>(<span class='no'>x</span>, <span class='fl'>3</span>, <span class='no'>baseline_window</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>),
-                      <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'percentage'</span>)
+<span class='va'>re2</span> <span class='op'>&lt;-</span> <span class='fu'>baseline_array</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>3</span>, <span class='va'>baseline_window</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>,
+                      method <span class='op'>=</span> <span class='st'>'percentage'</span><span class='op'>)</span>
 
 <span class='co'># Check different, should be very tiny (double precisions)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='no'>re2</span> - <span class='no'>re1</span>)</div><div class='output co'>#&gt; [1] -4.547474e-13  1.818989e-12</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='va'>re2</span> <span class='op'>-</span> <span class='va'>re1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] -4.547474e-13  1.818989e-12</div><div class='input'>
 <span class='co'># Check speed for large dataset</span>
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='no'>dims</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>200</span>,<span class='fl'>20</span>,<span class='fl'>300</span>,<span class='fl'>2</span>)
-  <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='no'>dims</span>))^<span class='fl'>2</span>, <span class='no'>dims</span>)
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>dims</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>200</span>,<span class='fl'>20</span>,<span class='fl'>300</span>,<span class='fl'>2</span><span class='op'>)</span>
+  <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='va'>dims</span><span class='op'>)</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>, <span class='va'>dims</span><span class='op'>)</span>
   <span class='co'># Set baseline window to be arbitrary 10 timepoints</span>
-  <span class='no'>baseline_window</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fl'>100</span>)
-  <span class='no'>f1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
-    <span class='fu'><a href='https://rdrr.io/r/base/aperm.html'>aperm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>), <span class='kw'>function</span>(<span class='no'>y</span>){
-      <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>y</span>[<span class='no'>baseline_window</span>])
-      (<span class='no'>y</span>/<span class='no'>m</span> - <span class='fl'>1</span>) * <span class='fl'>100</span>
-    }), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>4</span>))
-  }
-  <span class='no'>f2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
+  <span class='va'>baseline_window</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>
+  <span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/aperm.html'>aperm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='va'>baseline_window</span><span class='op'>]</span><span class='op'>)</span>
+      <span class='op'>(</span><span class='va'>y</span><span class='op'>/</span><span class='va'>m</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+    <span class='op'>}</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
     <span class='co'># equivalent as bl = x[,,baseline_window, ]</span>
     <span class='co'>#</span>
-    <span class='fu'>baseline_array</span>(<span class='no'>x</span>, <span class='kw'>along_dim</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-                   <span class='kw'>baseline_indexpoints</span> <span class='kw'>=</span> <span class='no'>baseline_window</span>,
-                   <span class='kw'>unit_dims</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'sqrt_percentage'</span>)
-  }
-  <span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span>(<span class='fu'>f1</span>(), <span class='fu'>f2</span>(), <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3L</span>)
-}</div></pre>
+    <span class='fu'>baseline_array</span><span class='op'>(</span><span class='va'>x</span>, along_dim <span class='op'>=</span> <span class='fl'>3</span>,
+                   baseline_indexpoints <span class='op'>=</span> <span class='va'>baseline_window</span>,
+                   unit_dims <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>4</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>'sqrt_percentage'</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span><span class='fu'>f1</span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'>f2</span><span class='op'>(</span><span class='op'>)</span>, times <span class='op'>=</span> <span class='fl'>3L</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -292,7 +297,7 @@ $$</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

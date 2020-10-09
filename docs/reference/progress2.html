@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -141,15 +141,15 @@
     <p>'Shiny' progress bar, but can run without reactive context</p>
     </div>
 
-    <pre class="usage"><span class='fu'>progress2</span>(
-  <span class='no'>title</span>,
-  <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>session</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span>(),
-  <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>log</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>progress2</span><span class='op'>(</span>
+  <span class='va'>title</span>,
+  max <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>...</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  session <span class='op'>=</span> <span class='fu'>shiny</span><span class='fu'>::</span><span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span>,
+  shiny_auto_close <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  log <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +190,7 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of functions:</p><dl'>
+    <p>A list of functions:</p><dl>
 <dt><code>inc(detail, message = NULL, amount = 1, ...)</code></dt><dd><p>Increase progress bar by <code>amount</code> (default is 1).</p></dd>
 <dt><code><a href='https://rdrr.io/r/base/connections.html'>close()</a></code></dt><dd><p>Close the progress</p></dd>
 <dt><code>reset(detail = '', message = '', value = 0)</code></dt><dd><p>Reset the progress to <code>value</code> (default is 0), and reset information</p></dd>
@@ -202,32 +202,39 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [Task A]: initializing... </div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 1'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 1 (1 out of 2) </div><div class='input'><span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='st'>'Detail 2'</span>)</div><div class='output co'>#&gt; [Task A]: Detail 2 (2 out of 2) </div><div class='input'><span class='no'>progress</span>$<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span>()</div><div class='output co'>#&gt; Finished </div><div class='input'>
+<span class='va'>progress</span> <span class='op'>&lt;-</span> <span class='fu'>progress2</span><span class='op'>(</span><span class='st'>'Task A'</span>, max <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [Task A]: initializing... </div><div class='input'><span class='va'>progress</span><span class='op'>$</span><span class='fu'>inc</span><span class='op'>(</span><span class='st'>'Detail 1'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [Task A]: Detail 1 (1 out of 2) </div><div class='input'><span class='va'>progress</span><span class='op'>$</span><span class='fu'>inc</span><span class='op'>(</span><span class='st'>'Detail 2'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [Task A]: Detail 2 (2 out of 2) </div><div class='input'><span class='va'>progress</span><span class='op'>$</span><span class='fu'>close</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Finished </div><div class='input'>
 <span class='co'># Check if progress is closed</span>
-<span class='no'>progress</span>$<span class='fu'>is_closed</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='va'>progress</span><span class='op'>$</span><span class='fu'>is_closed</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># ------------------------------ Shiny Example ------------------------------</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>shiny</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dipsaus</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://shiny.rstudio.com'>shiny</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dipterix/dipsaus'>dipsaus</a></span><span class='op'>)</span>
 
-<span class='no'>ui</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span>(
-  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span>(<span class='st'>'do'</span>, <span class='st'>'Click Here'</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'primary'</span>)
-)
+<span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
+  <span class='fu'><a href='actionButtonStyled.html'>actionButtonStyled</a></span><span class='op'>(</span><span class='st'>'do'</span>, <span class='st'>'Click Here'</span>, type <span class='op'>=</span> <span class='st'>'primary'</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>server</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>) {
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span>(<span class='no'>input</span>$<span class='no'>do</span>, {
-    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span>(<span class='no'>session</span>, <span class='st'>'do'</span>, <span class='kw'>disabled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-    <span class='no'>progress</span> <span class='kw'>&lt;-</span> <span class='fu'>progress2</span>(<span class='st'>'Task A'</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>shiny_auto_close</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-    <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>function</span>(<span class='no'>ii</span>){
-      <span class='no'>progress</span>$<span class='fu'>inc</span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>'Detail %d'</span>, <span class='no'>ii</span>))
-      <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='fl'>0.2</span>)
-    })
-    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span>(<span class='no'>session</span>, <span class='st'>'do'</span>, <span class='kw'>disabled</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-  })
-}
+<span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>do</span>, <span class='op'>{</span>
+    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span><span class='op'>(</span><span class='va'>session</span>, <span class='st'>'do'</span>, disabled <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='va'>progress</span> <span class='op'>&lt;-</span> <span class='fu'>progress2</span><span class='op'>(</span><span class='st'>'Task A'</span>, max <span class='op'>=</span> <span class='fl'>10</span>, shiny_auto_close <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>ii</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='va'>progress</span><span class='op'>$</span><span class='fu'>inc</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>'Detail %d'</span>, <span class='va'>ii</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.2</span><span class='op'>)</span>
+    <span class='op'>}</span><span class='op'>)</span>
+    <span class='fu'><a href='updateActionButtonStyled.html'>updateActionButtonStyled</a></span><span class='op'>(</span><span class='va'>session</span>, <span class='st'>'do'</span>, disabled <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='op'>}</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()){
-  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span>(<span class='no'>ui</span>, <span class='no'>server</span>)
-}</div></pre>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -243,7 +250,7 @@ which redirects to <code><a href='cat2.html'>cat2</a></code></p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

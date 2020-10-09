@@ -73,7 +73,7 @@ reg.finalizer" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -143,19 +143,19 @@ reg.finalizer" />
 <code><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>shared_finalizer</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='no'>fin</span>, <span class='kw'>onexit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>key</span>, <span class='va'>fin</span>, onexit <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='no'>fin</span>, <span class='kw'>onexit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>key</span>, <span class='va'>fin</span>, onexit <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for R6</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='no'>fin</span>, <span class='kw'>onexit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>key</span>, <span class='va'>fin</span>, onexit <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for fastmap</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='no'>fin</span>, <span class='kw'>onexit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>key</span>, <span class='va'>fin</span>, onexit <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for fastmap2</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>x</span>, <span class='no'>key</span>, <span class='no'>fin</span>, <span class='kw'>onexit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>key</span>, <span class='va'>fin</span>, onexit <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,120 +202,137 @@ fails example")</p>
 one parameter, which is the environment itself. This is the same
 as <code>reg.finalizer</code>. For <code>R6</code> classes, <code>fin</code> is
 ignored if class has <code>"shared_finalize"</code> method defined.
-For <code><a href='https://rdrr.io/pkg/fastmap/man/fastmap.html'>fastmap</a></code> or <code><a href='fastmap2.html'>fastmap2</a></code>
+For <code><a href='https://r-lib.github.io/fastmap/reference/fastmap.html'>fastmap</a></code> or <code><a href='fastmap2.html'>fastmap2</a></code>
 instances, <code>fin</code> accepts no argument.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># ------------ Environment example ------------</span>
-<span class='no'>file_exists</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='no'>clear_files</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>e</span>){
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='st'>'Clean some shared files'</span>)
+<span class='va'>file_exists</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='va'>clear_files</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>'Clean some shared files'</span><span class='op'>)</span>
   <span class='co'># do something to remove files</span>
-  <span class='no'>file_exists</span> <span class='kw'>&lt;&lt;-</span> <span class='fl'>FALSE</span>
-}
+  <span class='va'>file_exists</span> <span class='op'>&lt;&lt;-</span> <span class='cn'>FALSE</span>
+<span class='op'>}</span>
 
 <span class='co'># e1, e2 both require file existence</span>
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span>()
-<span class='no'>e1</span>$<span class='no'>valid</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){ <span class='no'>file_exists</span> }
-<span class='no'>e2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span>()
-<span class='no'>e2</span>$<span class='no'>valid</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){ <span class='no'>file_exists</span> }
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>e1</span><span class='op'>$</span><span class='va'>valid</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span> <span class='va'>file_exists</span> <span class='op'>}</span>
+<span class='va'>e2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>e2</span><span class='op'>$</span><span class='va'>valid</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span> <span class='va'>file_exists</span> <span class='op'>}</span>
 
-<span class='no'>e1</span>$<span class='fu'>valid</span>(); <span class='no'>e2</span>$<span class='fu'>valid</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='va'>e1</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>; <span class='va'>e2</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># we don't want to remove files when either e1,e2 gets</span>
 <span class='co'># garbage collected, however, we want to run `clear_files`</span>
 <span class='co'># when system garbage collecting *both* e1 and e2</span>
 
 <span class='co'># Make sure `key`s are identical</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>e1</span>, <span class='st'>'cleanXXXfiles'</span>, <span class='no'>clear_files</span>)
-<span class='fu'>shared_finalizer</span>(<span class='no'>e2</span>, <span class='st'>'cleanXXXfiles'</span>, <span class='no'>clear_files</span>)
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e1</span>, <span class='st'>'cleanXXXfiles'</span>, <span class='va'>clear_files</span><span class='op'>)</span>
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e2</span>, <span class='st'>'cleanXXXfiles'</span>, <span class='va'>clear_files</span><span class='op'>)</span>
 
 <span class='co'># Now remove e1, files are not cleaned, and e2 is still valid</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))
-<span class='no'>e2</span>$<span class='fu'>valid</span>()  <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>file_exists</span> <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e2</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>  <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>file_exists</span> <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># remove both e1 and e2, and file gets removed</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e2</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='input'><span class='no'>file_exists</span>  <span class='co'># FALSE</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e2</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='input'><span class='va'>file_exists</span>  <span class='co'># FALSE</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 <span class='co'># ------------ R6 example ------------</span>
 
-<span class='no'>cls</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>R6</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6Class</a></span>(
-  <span class='kw'>classname</span> <span class='kw'>=</span> <span class='st'>'...demo...'</span>,
-  <span class='kw'>cloneable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>public</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>file_path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
-    <span class='kw'>shared_finalize</span> <span class='kw'>=</span> <span class='kw'>function</span>(){
-      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'Finalize shared resource - '</span>, <span class='no'>self</span>$<span class='no'>file_path</span>, <span class='st'>'\n'</span>)
-    },
-    <span class='kw'>finalize</span> <span class='kw'>=</span> <span class='kw'>function</span>(){
-      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'Finalize private resource\n'</span>)
-    },
-    <span class='kw'>initialize</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>file_path</span>){
-      <span class='no'>self</span>$<span class='no'>file_path</span> <span class='kw'>=</span> <span class='no'>file_path</span>
-      <span class='fu'>shared_finalizer</span>(<span class='no'>self</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='no'>self</span>$<span class='no'>file_path</span>)
-    }
-  )
-)
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='no'>cls</span>$<span class='fu'>new</span>(<span class='st'>'file1'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; Finalize private resource
+<span class='va'>cls</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
+  classname <span class='op'>=</span> <span class='st'>'...demo...'</span>,
+  cloneable <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    file_path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+    shared_finalize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>'Finalize shared resource - '</span>, <span class='va'>self</span><span class='op'>$</span><span class='va'>file_path</span>, <span class='st'>'\n'</span><span class='op'>)</span>
+    <span class='op'>}</span>,
+    finalize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>'Finalize private resource\n'</span><span class='op'>)</span>
+    <span class='op'>}</span>,
+    initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>file_path</span><span class='op'>)</span><span class='op'>{</span>
+      <span class='va'>self</span><span class='op'>$</span><span class='va'>file_path</span> <span class='op'>=</span> <span class='va'>file_path</span>
+      <span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>self</span>, key <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>file_path</span><span class='op'>)</span>
+    <span class='op'>}</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='va'>cls</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>'file1'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Finalize private resource
 #&gt; Finalize shared resource -  file1 </div><div class='input'>
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='no'>cls</span>$<span class='fu'>new</span>(<span class='st'>'file2'</span>)
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='va'>cls</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>'file2'</span><span class='op'>)</span>
 
 <span class='co'># A copy of e1</span>
-<span class='no'>e2</span> <span class='kw'>&lt;-</span> <span class='no'>e1</span>$<span class='fu'>clone</span>()
+<span class='va'>e2</span> <span class='op'>&lt;-</span> <span class='va'>e1</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># unfortunately, we have to manually register</span>
-<span class='fu'>shared_finalizer</span>(<span class='no'>e2</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='no'>e2</span>$<span class='no'>file_path</span>)
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e2</span>, key <span class='op'>=</span> <span class='va'>e2</span><span class='op'>$</span><span class='va'>file_path</span><span class='op'>)</span>
 
 <span class='co'># Remove e1, gc only free private resource</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; Finalize private resource</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Finalize private resource</div><div class='input'>
 <span class='co'># remove e1 and e2, run shared finalize</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e2</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; Finalize shared resource -  file2 
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e2</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Finalize shared resource -  file2 
 #&gt; Finalize private resource</div><div class='input'>
 <span class='co'># ------------ fastmap/fastmap2 example -----------</span>
 
 <span class='co'># No formals needed for fastmap/fastmap2</span>
-<span class='no'>fin</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>'Finalizer is called\n'</span>)
-}
+<span class='va'>fin</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>'Finalizer is called\n'</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># single reference case</span>
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dipsaus</span><span class='kw ns'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span>()
-<span class='fu'>shared_finalizer</span>(<span class='no'>e1</span>, <span class='st'>'fin-fastmap2'</span>, <span class='kw'>fin</span> <span class='kw'>=</span> <span class='no'>fin</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) <span class='co'># Not triggered</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) <span class='co'># triggered</span></div><div class='output co'>#&gt; Finalizer is called</div><div class='input'>
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='fu'>dipsaus</span><span class='fu'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e1</span>, <span class='st'>'fin-fastmap2'</span>, fin <span class='op'>=</span> <span class='va'>fin</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># Not triggered</span>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># triggered</span>
+</div><div class='output co'>#&gt; Finalizer is called</div><div class='input'>
 <span class='co'># multiple reference case</span>
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dipsaus</span><span class='kw ns'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span>()
-<span class='no'>e2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dipsaus</span><span class='kw ns'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span>()
-<span class='fu'>shared_finalizer</span>(<span class='no'>e1</span>, <span class='st'>'fin-fastmap2'</span>, <span class='kw'>fin</span> <span class='kw'>=</span> <span class='no'>fin</span>)
-<span class='fu'>shared_finalizer</span>(<span class='no'>e2</span>, <span class='st'>'fin-fastmap2'</span>, <span class='kw'>fin</span> <span class='kw'>=</span> <span class='no'>fin</span>)
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='fu'>dipsaus</span><span class='fu'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>e2</span> <span class='op'>&lt;-</span> <span class='fu'>dipsaus</span><span class='fu'>::</span><span class='fu'><a href='fastmap2.html'>fastmap2</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e1</span>, <span class='st'>'fin-fastmap2'</span>, fin <span class='op'>=</span> <span class='va'>fin</span><span class='op'>)</span>
+<span class='fu'>shared_finalizer</span><span class='op'>(</span><span class='va'>e2</span>, <span class='st'>'fin-fastmap2'</span>, fin <span class='op'>=</span> <span class='va'>fin</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) <span class='co'># Not triggered</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e2</span>); <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)) <span class='co'># triggered</span></div><div class='output co'>#&gt; Finalizer is called</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># Not triggered</span>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e2</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># triggered</span>
+</div><div class='output co'>#&gt; Finalizer is called</div><div class='input'>
 <span class='co'># ------------ Native reg.finalizer fails example ------------</span>
 
 <span class='co'># This example shows a failure case using base::reg.finalizer</span>
 
-<span class='no'>file_exists</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='no'>clear_files</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>e</span>){
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='st'>'Clean some shared files'</span>)
+<span class='va'>file_exists</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='va'>clear_files</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>'Clean some shared files'</span><span class='op'>)</span>
   <span class='co'># do something to remove files</span>
-  <span class='no'>file_exists</span> <span class='kw'>&lt;&lt;-</span> <span class='fl'>FALSE</span>
-}
+  <span class='va'>file_exists</span> <span class='op'>&lt;&lt;-</span> <span class='cn'>FALSE</span>
+<span class='op'>}</span>
 
 <span class='co'># e1, e2 both require file existence</span>
-<span class='no'>e1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span>()
-<span class='no'>e1</span>$<span class='no'>valid</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){ <span class='no'>file_exists</span> }
-<span class='no'>e2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span>()
-<span class='no'>e2</span>$<span class='no'>valid</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(){ <span class='no'>file_exists</span> }
+<span class='va'>e1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>e1</span><span class='op'>$</span><span class='va'>valid</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span> <span class='va'>file_exists</span> <span class='op'>}</span>
+<span class='va'>e2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>new.env</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>e2</span><span class='op'>$</span><span class='va'>valid</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span> <span class='va'>file_exists</span> <span class='op'>}</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span>(<span class='no'>e1</span>, <span class='no'>clear_files</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span>(<span class='no'>e2</span>, <span class='no'>clear_files</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036195 55.4    1772950 94.7         NA  1772950  94.7
-#&gt; Vcells 1965770 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'><span class='no'>file_exists</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span><span class='op'>(</span><span class='va'>e1</span>, <span class='va'>clear_files</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span><span class='op'>(</span><span class='va'>e2</span>, <span class='va'>clear_files</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
+#&gt; Ncells 1005116 53.7    1722322 92.0         NA  1722322   92
+#&gt; Vcells 1869589 14.3   11810212 90.2      65536 23066781  176</div><div class='input'><span class='va'>file_exists</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># removing e1 will invalidate e2</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e1</span>); <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036201 55.4    1772950 94.7         NA  1772950  94.7
-#&gt; Vcells 1965814 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'><span class='no'>e2</span>$<span class='fu'>valid</span>()    <span class='co'># FALSE</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
+#&gt; Ncells 1005122 53.7    1722322 92.0         NA  1722322   92
+#&gt; Vcells 1869632 14.3   11810212 90.2      65536 23066781  176</div><div class='input'><span class='va'>e2</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>    <span class='co'># FALSE</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 <span class='co'># Clean-ups</span>
-<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span>(<span class='no'>e2</span>); <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span>()</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1036222 55.4    1772950 94.7         NA  1772950  94.7
-#&gt; Vcells 1965828 15.0   11864896 90.6      65536 23173532 176.9</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e2</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
+#&gt; Ncells 1005143 53.7    1722322 92.0         NA  1722322   92
+#&gt; Vcells 1869645 14.3   11810212 90.2      65536 23066781  176</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -332,7 +349,7 @@ instances, <code>fin</code> accepts no argument.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

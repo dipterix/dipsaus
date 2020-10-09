@@ -1,3 +1,17 @@
+dipsaus 0.1.1
+=======
+
+## Major Changes
+* Added `async_works` to allow scheduling works in the background using multiple sessions.
+
+## Minor Changes
+* Instead of showing "finished", progress bar now shows square box once finished for cleaner output
+* `rs_exec` now allows packages to be loaded before scripts
+* Internally added `attached_packages` to detect attached packages
+
+## Bug Fixes
+* Fixed `lapply_async2` when plan is `multisession`, added future seed
+
 dipsaus 0.1.0
 =======
 

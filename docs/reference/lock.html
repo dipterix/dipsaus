@@ -74,7 +74,7 @@ whether the lock exists or not." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,9 +145,9 @@ interrupt the lock procedure anytime, and don't have to worry about
 whether the lock exists or not.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dipsaus_lock</span>(<span class='no'>name</span>, <span class='kw'>exclusive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="usage"><span class='fu'>dipsaus_lock</span><span class='op'>(</span><span class='va'>name</span>, exclusive <span class='op'>=</span> <span class='cn'>TRUE</span>, timeout <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 
-<span class='fu'>dipsaus_unlock</span>(<span class='no'>name</span>, <span class='kw'>exclusive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+<span class='fu'>dipsaus_unlock</span><span class='op'>(</span><span class='va'>name</span>, exclusive <span class='op'>=</span> <span class='cn'>TRUE</span>, timeout <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,19 +173,23 @@ access, False for read access. Default is true.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># unlock to prepare for the example</span>
-<span class='fu'>dipsaus_unlock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'>dipsaus_unlock</span><span class='op'>(</span><span class='st'>'testlocker'</span>, timeout <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># Create a locker, return TRUE</span>
-<span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>)
-<span class='kw'>if</span>(<span class='no'>lock_success</span>){
-  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'testlocker has been locked'</span>)
-}</div><div class='output co'>#&gt; testlocker has been locked </div><div class='input'>
+<span class='va'>lock_success</span> <span class='op'>=</span> <span class='fu'>dipsaus_lock</span><span class='op'>(</span><span class='st'>'testlocker'</span><span class='op'>)</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='va'>lock_success</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='cat2.html'>cat2</a></span><span class='op'>(</span><span class='st'>'testlocker has been locked'</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; testlocker has been locked </div><div class='input'>
 <span class='co'># test whether locker has been locked</span>
-<span class='no'>lock_success</span> <span class='kw'>=</span> <span class='fu'>dipsaus_lock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
-<span class='kw'>if</span>(!<span class='no'>lock_success</span>){
-  <span class='fu'><a href='cat2.html'>cat2</a></span>(<span class='st'>'attempt to lock testlocker failed'</span>)
-}</div><div class='output co'>#&gt; attempt to lock testlocker failed </div><div class='input'>
+<span class='va'>lock_success</span> <span class='op'>=</span> <span class='fu'>dipsaus_lock</span><span class='op'>(</span><span class='st'>'testlocker'</span>, timeout <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='va'>lock_success</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='cat2.html'>cat2</a></span><span class='op'>(</span><span class='st'>'attempt to lock testlocker failed'</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; attempt to lock testlocker failed </div><div class='input'>
 <span class='co'># unlock</span>
-<span class='fu'>dipsaus_unlock</span>(<span class='st'>'testlocker'</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'>dipsaus_unlock</span><span class='op'>(</span><span class='st'>'testlocker'</span>, timeout <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 
 </div></pre>
   </div>
@@ -203,7 +207,7 @@ access, False for read access. Default is true.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   async_evaluator: async_evaluator.html
   r_expr_addons: r_expr_addons.html
   shiny_customized_widgets: shiny_customized_widgets.html
   utility_functions: utility_functions.html
-last_built: 2020-08-12T00:38Z
+last_built: 2020-10-09T06:02Z
 

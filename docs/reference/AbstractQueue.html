@@ -76,7 +76,7 @@ package inherit this class." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@ used directly by users. However, you might want to override them if you
 inherit this abstract class. Methods marked as "(override)" are not
 implemented, meaning you are supposed to implement the details. Methods
 marked as "(optional)" usually have default alternatives.</p>
-<dl'>
+<dl>
 <dt><code>initialize(...)</code> (override)</dt><dd><p>The constructor. Usually three things to do during the process:
 1. set <code>get_locker</code> <code>free_locker</code> if you don't want to use the
 default lockers. 2. set lock file (if using default lockers). 3. call
@@ -230,7 +230,7 @@ error if a destroyed queue is called again later.</p></dd>
 
 
 <p>Usually don't need to override unless you know what you are doing.</p>
-<dl'>
+<dl>
 <dt><code>push(value, message='',...)</code></dt><dd><p>Function to push an arbitrary R object to queue. <code>message</code> is a string
 giving notes to the pushed item. Usually message is stored with header,
 separated from values. The goal is to describe the value. <code>...</code> is
@@ -254,7 +254,7 @@ items in the queue. <code>n</code> is the number of items.</p></dd>
     
 
 
-<dl'>
+<dl>
 <dt><code>id</code></dt><dd><p>Read-only property. Returns unique ID of current queue.</p></dd>
 <dt><code>lockfile</code></dt><dd><p>The lock file.</p></dd>
 <dt><code>head</code></dt><dd><p>Integer, total number of items popped, i.e. inactive items.</p></dd>
@@ -269,7 +269,7 @@ queue</p></dd>
     
 
 
-<dl'>
+<dl>
 <dt><code>.id</code></dt><dd><p>Don't use directly. Used to store queue ID.</p></dd>
 <dt><code>.lockfile</code></dt><dd><p>Location of lock file.</p></dd>
 <dt><code>lock</code></dt><dd><p>Preserve the file lock.</p></dd>
@@ -295,7 +295,7 @@ queue</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
