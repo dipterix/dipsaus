@@ -54,7 +54,7 @@ get_ram <- function(){
         ram <- ram[nchar(ram) > 0]
         ram <- sum(as.numeric(ram))
       }, {
-        ram <- min(utils::memory.limit(), 128*1024^3)
+        ram <- min(utils::memory.limit() * 1024, 128*1024^3)
       }
     )
     ram

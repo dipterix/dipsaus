@@ -23,3 +23,5 @@ src/Makevars
 checkbashisms
 revdep
 Rprof.out
+derby.log
+logs

@@ -29,9 +29,9 @@ register_shiny <- function(){
 
 
 .onUnload <- function(libpath){
+
   dipsaus_sessionfinalizer$finalize()
   if('dipsaus' %in% names(shiny::resourcePaths())){
     shiny::removeResourcePath('dipsaus')
   }
-
 }
