@@ -41,21 +41,35 @@
 #'   return(x+1)
 #' }, callback = NULL, plan = FALSE)
 #'
+#' if(interactive()) {
 #'
+#'   # PID are different, meaning executing in different sessions
+#'   lapply_async2(1:4, function(x){
+#'     Sys.getpid()
+#'   })
+#' }
+#'
+#' @seealso \code{\link{make_forked_clusters}}
 #' @export
 lapply_async2 <- function(x, FUN, FUN.args = list(),
                           callback = NULL, plan = TRUE,
                           future.chunk.size = NULL, future.seed = sample.int(1, n = 1e5 - 1), ...){
   if(length(plan) && !isFALSE(plan)){
     if(isTRUE(plan)){
-      make_forked_clusters(...)
-    } else if(is.character(plan) && plan == 'callr'){
-      if (!requireNamespace("future.callr", quietly = TRUE)) {
-        stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
+      make_forked_clusters(..., clean = TRUE)
+    } else {
+      current_plan <- future::plan("list")
+      on.exit({
+        on.exit(plan(current_plan, substitute = FALSE, .call = NULL, .cleanup = FALSE, .init = FALSE), add = TRUE, after = TRUE)
+      })
+      if(is.character(plan) && plan == 'callr'){
+        if (!requireNamespace("future.callr", quietly = TRUE)) {
+          stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
+        }
+        future::plan(future.callr::callr, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
+      }else{
+        future::plan(plan, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
       }
-      future::plan(future.callr::callr, ...)
-    }else{
-      future::plan(plan, ...)
     }
   }
 

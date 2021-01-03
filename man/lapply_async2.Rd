@@ -69,5 +69,15 @@ res <- lapply_async2(100:200, function(x){
   return(x+1)
 }, callback = NULL, plan = FALSE)
 
+if(interactive()) {
 
+  # PID are different, meaning executing in different sessions
+  lapply_async2(1:4, function(x){
+    Sys.getpid()
+  })
+}
+
+}
+\seealso{
+\code{\link{make_forked_clusters}}
 }
