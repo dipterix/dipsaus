@@ -224,9 +224,10 @@ make_forked_clusters <- function(
   clean = FALSE,
   ...){
 
+  # check whether current plan is multicore?
   if( clean ){
+    # to clear the plan once the enclosing environment exit, not on exit the function
     oplan <- future::plan("list")
-    # check whether current plan is multicore
     parent_frame <- parent.frame()
     expr <- rlang::quo_squash({
       rlang::quo({
