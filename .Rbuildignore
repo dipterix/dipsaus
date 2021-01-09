@@ -10,7 +10,6 @@
 ^cran-comments\.md$
 ^shortcuts\.md$
 ^README.md$
-^NEWS.md$
 ^adhoc/
 .git
 .Rprofile
