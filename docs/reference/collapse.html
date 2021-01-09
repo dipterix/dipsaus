@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -200,8 +200,8 @@ collapsing dimensions</p>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: microseconds
 #&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 355.855 355.855 355.855 355.855 355.855 355.855     1
-#&gt;  compare  86.843  86.843  86.843  86.843  86.843  86.843     1</div><div class='input'>
+#&gt;   result 308.574 308.574 308.574 308.574 308.574 308.574     1
+#&gt;  compare  83.826  83.826  83.826  83.826  83.826  83.826     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span>
@@ -212,8 +212,8 @@ collapsing dimensions</p>
   <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  33.90376  33.90376  33.90376  33.90376  33.90376  33.90376     1
-#&gt;  compare 135.41324 135.41324 135.41324 135.41324 135.41324 135.41324     1</div><div class='input'>
+#&gt;   result  31.81498  31.81498  31.81498  31.81498  31.81498  31.81498     1
+#&gt;  compare 121.92304 121.92304 121.92304 121.92304 121.92304 121.92304     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

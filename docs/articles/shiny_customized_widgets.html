@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -88,8 +88,9 @@
 
       
 
-      </header><script src="shiny_customized_widgets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="shiny_customized_widgets_files/dipsaus-0.1.1/dipsaus.css" rel="stylesheet">
-<script src="shiny_customized_widgets_files/dipsaus-0.1.1/dipsaus-dipterix-lib.js"></script><div class="row">
+      </header><script src="shiny_customized_widgets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="shiny_customized_widgets_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="shiny_customized_widgets_files/anchor-sections-1.0/anchor-sections.js"></script><link href="shiny_customized_widgets_files/dipsaus-0.1.2/dipsaus.css" rel="stylesheet">
+<script src="shiny_customized_widgets_files/dipsaus-0.1.2/dipsaus-dipterix-lib.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Shiny Customized Widgets</h1>
@@ -8111,15 +8112,15 @@ register_set_input( src_Shiny, DEBUG );
 <li>when updating the button, <code>disabled</code> allows to disable/enable the button</li>
 </ul>
 <p>The usage is listed as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co"># UI function</span>
 <span class="fu"><a href="../reference/actionButtonStyled.html">actionButtonStyled</a></span><span class="op">(</span><span class="va">inputId</span>, <span class="va">label</span>, icon <span class="op">=</span> <span class="cn">NULL</span>, width <span class="op">=</span> <span class="cn">NULL</span>, 
                    btn_type <span class="op">=</span> <span class="st">"button"</span>, type <span class="op">=</span> <span class="st">"primary"</span>, class <span class="op">=</span> <span class="st">""</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># Update function</span>
 <span class="fu"><a href="../reference/updateActionButtonStyled.html">updateActionButtonStyled</a></span><span class="op">(</span><span class="va">session</span>, <span class="va">inputId</span>, label <span class="op">=</span> <span class="cn">NULL</span>, icon <span class="op">=</span> <span class="cn">NULL</span>,
-                         type <span class="op">=</span> <span class="cn">NULL</span>, disabled <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></pre></div>
+                         type <span class="op">=</span> <span class="cn">NULL</span>, disabled <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
 <p>Show-case:</p>
 <table class="table table table-bordered text-center"><tbody>
 <tr>
@@ -8260,15 +8261,15 @@ Danger
 <h3 class="hasAnchor">
 <a href="#compound-inputs-grouped-inputs" class="anchor"></a>2. Compound Inputs (grouped Inputs)</h3>
 <p><code>compoundInput2</code> provides group inputs where each group contains multiple shiny inputs. For examples</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="../reference/compoundInput2.html">compoundInput2</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/compoundInput2.html">compoundInput2</a></span><span class="op">(</span>
   <span class="st">'compound'</span>, <span class="st">'Group Label'</span>, label_color <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,
   components <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span><span class="op">(</span><span class="st">'txt'</span>, <span class="st">'Text'</span><span class="op">)</span>,
     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput</a></span><span class="op">(</span><span class="st">'sel'</span>, <span class="st">'Select'</span>, choices <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span><span class="op">(</span><span class="st">'sli'</span>, <span class="st">'Slider'</span>, max<span class="op">=</span><span class="fl">1</span>, min<span class="op">=</span><span class="fl">0</span>, val<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span>
   <span class="op">)</span>, max_ncomp <span class="op">=</span> <span class="fl">10</span>, min_ncomp <span class="op">=</span> <span class="fl">0</span>, initial_ncomp <span class="op">=</span> <span class="fl">1</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>will create a list of input groups with minimum of 0 but maximum of 10. User can control the size of groups by pressing <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> and <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> buttons. The value <code>input$components</code> looks like this:</p>
 <pre><code>#&gt; [[1]]
 #&gt; [[1]]$txt
@@ -8289,23 +8290,23 @@ Danger
 <h3 class="hasAnchor">
 <a href="#synchronize-multiple-inputs" class="anchor"></a>3. Synchronize Multiple Inputs</h3>
 <p><code>sync_shiny_inputs</code> provides a way to update among multiple inputs with no dead-locks. For example, input A (<code>textInput</code>) shares the same information as input B (<code>sliderInput</code>). Updating A would trigger B to update. What if you want A to be updated when B is changed? The following code might cause recursive updates:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># Bad example</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Bad example</span>
 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">A</span>, <span class="op">{</span>
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateSliderInput.html">updateSliderInput</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">'B'</span>, value <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">A</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">B</span>, <span class="op">{</span>
   <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateTextInput.html">updateTextInput</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">'A'</span>, value <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">B</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></pre></div>
+<span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>In this case, you can use <code>sync_shiny_inputs</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span><span class="op">(</span><span class="va">input</span>, <span class="va">session</span>, inputIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span>, uniform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/sync_shiny_inputs.html">sync_shiny_inputs</a></span><span class="op">(</span><span class="va">input</span>, <span class="va">session</span>, inputIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span>, uniform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="kw">function</span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">}</span>,
   <span class="kw">function</span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">{</span> <span class="va">b</span> <span class="op">}</span>
 <span class="op">)</span>, updates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="kw">function</span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateTextInput.html">updateTextInput</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">'A'</span>, value <span class="op">=</span> <span class="va">a</span><span class="op">)</span><span class="op">}</span>,
   <span class="kw">function</span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateSliderInput.html">updateSliderInput</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">'B'</span>, value <span class="op">=</span> <span class="va">b</span><span class="op">)</span><span class="op">}</span>
-<span class="op">)</span><span class="op">)</span></pre></div>
+<span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><code>inputIds</code> refers to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding <code>uniform</code> functions and stored, then <code>updates</code> will notify each inputs to update the UI values. The input of <code>updates</code> is the stored value.</p>
 <p>For example, if input <code>A</code> is changed from <code>"0"</code> to <code>"1"</code>, then the first function of <code>uniform</code> is triggered, <code>function(a){as.numeric(a)}</code> will be evaluated with <code>a="1"</code>. The result, which is numeric <code>1</code> will be stored. Next, each functions in <code>updates</code> will be called, with <code>1</code> (stored in the previous step) as input, results in changing the slider input <code>B</code> to <code>1</code>. This whole process will not trigger <code>A</code> to re-update.</p>
 </div>

@@ -11,5 +11,5 @@ Tested on:
 Check results: 0 error, 0 warning, 0 note
 
 
-# Last submission - 0.1.0 (passed)
+# Last submission - 0.1.1 (passed)
 

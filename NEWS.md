@@ -1,3 +1,16 @@
+dipsaus 0.1.2
+=======
+
+## Major Changes
+* Added `make_forked_clusters` and `lapply_async2` now restores previous future strategy one exiting
+
+## Minor Changes
+* `make_forked_clusters` allows to set a backup strategy once forked process fails (for example, on windows)
+
+## Bug Fixes
+* RAM usage is corrected on windows
+* Bumped JavaScript dependence `ini`
+
 dipsaus 0.1.1
 =======
 
