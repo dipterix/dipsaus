@@ -38,7 +38,7 @@ Imports:
     future,
     future.apply,
     progressr,
-    fastmap,
+    fastmap (>= 1.1.0),
     base64url,
     base64enc,
     synchronicity,
