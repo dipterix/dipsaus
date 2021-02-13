@@ -67,6 +67,25 @@ base64_to_image <- function(data, path){
   invisible(normalizePath(path))
 }
 
+#' @title Convert "Base64" Data to String
+#' @description Decode "Base64" data to its generating characters
+#' @param what characters, encoded "Base64" data
+#' @return String
+#' @examples
+#'
+#' input <- "The quick brown fox jumps over the lazy dog"
+#'
+#' # Base64 encode
+#' what <- base64enc::base64encode(what = charToRaw(input))
+#'
+#' # Base64 decode
+#' base64_to_string(what)
+#'
+#' @export
+base64_to_string <- function(what){
+  rawToChar(base64enc::base64decode(what))
+}
+
 #
 # shiny_bugreport_local <- function(title, body, footer = NULL, image = ''){
 #   date_time <- blastula::add_readable_time()
