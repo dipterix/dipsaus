@@ -21,6 +21,20 @@ get_os <- function(){
   return('unknown')
 }
 
+
+safe_system <- function(cmd, args, ..., onFound = NULL, onNotFound = NA){
+
+  if(Sys.which(cmd) == ""){
+    return(onNotFound)
+  }
+
+  ret <- system2(cmd, args, ...)
+  if(is.function(onFound)){
+    ret <- onFound(ret)
+  }
+  ret
+}
+
 #' Get Memory Size
 #' @return numeric in Bytes how big your system RAM is
 #' @export
@@ -37,27 +51,59 @@ get_ram <- function(){
     switch (
       os,
       'darwin' = {
-        ram <- substring(system("sysctl hw.memsize", intern = TRUE), 13)
+        ram <- safe_system(
+          "sysctl",
+          "hw.memsize",
+          stdout = TRUE,
+          onFound = function(ram) {
+            substring(ram, 13)
+          }
+        )
+        if(is.na(ram)){
+          ram <- safe_system("top", c("-l", "1", "-s", "0"), stdout = TRUE, onFound = function(s){
+            s <- s[stringr::str_detect(s, "PhysMem")][[1]]
+            m <- stringr::str_match(s, "PhysMem[: ]+([0-9]+)([gGtTmM])")
+            s <- as.numeric(m[[2]])
+            u <- stringr::str_to_lower(m[[3]])
+            if(u == 'm'){ s <- s * 1024^2 }
+            if(u == 'g'){ s <- s * 1024^3 }
+            if(u == 't'){ s <- s * 1024^4 }
+            s
+          })
+        }
+        ram
       },
       'linux' = {
-        ram <- system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
-        ram <- as.numeric(ram) * 1024
+        if(Sys.which("awk") == ""){
+          ram <- NA
+        } else {
+          ram <- system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
+          ram <- as.numeric(ram) * 1024
+        }
       },
       'solaris' = {
-        ram <- system("prtconf | grep Memory", intern = TRUE)
-        ram <- stringr::str_trim(ram)
-        ram <- stringr::str_split(ram, '[ ]+')[[1]][3:4]
+        if(Sys.which("prtconf") == ""){
+          ram <- NA
+        } else {
+          ram <- system("prtconf | grep Memory", intern = TRUE)
+          ram <- stringr::str_trim(ram)
+          ram <- stringr::str_split(ram, '[ ]+')[[1]][3:4]
 
-        power <- match(ram[2], c("kB", "MB", "GB", "TB", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes"))
-        ram <- as.numeric(ram[1]) * 1024^(1 + (power-1) %% 4)
+          power <- match(ram[2], c("kB", "MB", "GB", "TB", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes"))
+          ram <- as.numeric(ram[1]) * 1024^(1 + (power-1) %% 4)
+        }
       },
       'windows' = {
-        ram <- system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
-        ram <- stringr::str_trim(ram)
-        ram <- ram[nchar(ram) > 0]
-        ram <- sum(as.numeric(ram))
+        if(Sys.which("wmic") == ""){
+          ram <- NA
+        } else {
+          ram <- system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
+          ram <- stringr::str_trim(ram)
+          ram <- ram[nchar(ram) > 0]
+          ram <- sum(as.numeric(ram))
+        }
       }, {
-        ram <- min(utils::memory.limit() * 1024, 128*1024^3)
+        ram <- NA
       }
     )
     ram
@@ -83,16 +129,30 @@ get_cpu <- function(){
     switch (
       os,
       'darwin' = list(
-        vendor_id = system("sysctl -n machdep.cpu.vendor", intern = TRUE),
-        model_name = system("sysctl -n machdep.cpu.brand_string", intern = TRUE)
+        vendor_id = safe_system(
+          "sysctl",
+          c("-n", "machdep.cpu.vendor"),
+          stdout = TRUE
+        ),
+        model_name = safe_system("sysctl", c("-n", "machdep.cpu.brand_string"), stdout = TRUE)
       ),
       'linux' = list(
-        vendor_id = gsub("vendor_id\t: ", "", unique(system("awk '/vendor_id/' /proc/cpuinfo", intern = TRUE))),
-        model_name = gsub("model name\t: ", "", unique(system("awk '/model name/' /proc/cpuinfo", intern = TRUE)))
+        vendor_id = safe_system(
+          "awk", c("'/vendor_id/'", "/proc/cpuinfo"),
+          stdout = TRUE,
+          onFound = function(s){
+            gsub("vendor_id\t: ", "", unique(s))
+        }),
+        model_name = safe_system(
+          "awk", c("'/model name/'", "/proc/cpuinfo"),
+          stdout = TRUE,
+          onFound = function(s){
+            gsub("model name\t: ", "", unique(s))
+          })
       ),
       'windows' = list(
-        model_name = system("wmic cpu get name", intern = TRUE)[2],
-        vendor_id = system("wmic cpu get manufacturer", intern = TRUE)[2]
+        model_name = safe_system("wmic", "cpu get name", stdout = TRUE, onFound = function(s){ s[[2]] }),
+        vendor_id = safe_system("wmic", "cpu get manufacturer", stdout = TRUE, onFound = function(s){ s[[2]] })
       ),
       list(
         vendor_id = NA,
