@@ -2,7 +2,10 @@
 
 
 get_os <- function(){
-  os <- R.version$os
+  if("windows" %in% stringr::str_to_lower(.Platform$OS.type)){
+    return("windows")
+  }
+  os <- stringr::str_to_lower(R.version$os)
   if(stringr::str_detect(os, '^darwin')){
     return('darwin')
   }

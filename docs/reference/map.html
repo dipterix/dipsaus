@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -94,9 +94,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/async_evaluator.html">Asynchronous Evaluator</a>
-    </li>
     <li>
       <a href="../articles/r_expr_addons.html">R Expression Add-on</a>
     </li>
@@ -232,13 +229,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># Define a path to your map.</span>
 <span class='va'>path</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'>
 <span class='co'># Reset</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># Check if the map is corrupted.</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>validate</span><span class='op'>(</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_lock` is defuncted. Please use `synchronicity` package instead</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'>
 <span class='co'># You have not set any key-value pairs yet.</span>
 <span class='co'># Let's say two parallel processes (A and B) are sharing this map.</span>
 <span class='co'># Process A set values</span>
@@ -247,19 +244,19 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='co'># Start push</span>
 <span class='co'># set a normal message</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'a'</span>, value <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_lock` is defuncted. Please use `synchronicity` package instead</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'>
 <span class='co'># set a large object</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'b'</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100000</span><span class='op'>)</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_lock` is defuncted. Please use `synchronicity` package instead</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'>
 <span class='co'># set an object with hash of another object</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>'c'</span>, value <span class='op'>=</span> <span class='fl'>2</span>, signature <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
   parameter1 <span class='op'>=</span> <span class='fl'>123</span>,
   parameter2 <span class='op'>=</span> <span class='fl'>124</span>
 <span class='op'>)</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_lock` is defuncted. Please use `synchronicity` package instead</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'>
 <span class='co'># Check what's in the map from process B</span>
 <span class='va'>mapB</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
-<span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `dipsaus_unlock` is defuncted. Please use `synchronicity` package instead</span></div><div class='input'><span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; ==YQ ==Yg ==Yw 
 #&gt;  "a"  "b"  "c" </div><div class='input'><span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span>include_signatures <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      keys                                   

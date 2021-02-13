@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mask a function with given variables — mask_function2 • dipsaus</title>
+<title>Copy elements to fastqueue2 — list_to_fastqueue2 • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,8 @@
 
 
 
-<meta property="og:title" content="Mask a function with given variables — mask_function2" />
-<meta property="og:description" content="Modifies the default behavior of
-the function by adding one environment layer on top of input
-function. The masked variables are assigned directly to the
-environment." />
+<meta property="og:title" content="Copy elements to fastqueue2 — list_to_fastqueue2" />
+<meta property="og:description" content="Copy elements to fastqueue2" />
 
 
 
@@ -132,56 +129,35 @@ environment." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mask a function with given variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
-    <div class="hidden name"><code>mask_function2.Rd</code></div>
+    <h1>Copy elements to <code>fastqueue2</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/fastqueue2.R'><code>R/fastqueue2.R</code></a></small>
+    <div class="hidden name"><code>list_to_fastqueue2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Modifies the default behavior of
-the function by adding one environment layer on top of input
-function. The masked variables are assigned directly to the
-environment.</p>
+    <p>Copy elements to <code>fastqueue2</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>mask_function2</span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>...</span>, .list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>list_to_fastqueue2</span><span class='op'>(</span><span class='va'>li</span>, queue <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>f</th>
-      <td><p>any function</p></td>
+      <th>li</th>
+      <td><p>a list or an environment</p></td>
     </tr>
     <tr>
-      <th>..., .list</th>
-      <td><p>name-value pairs to mask the function</p></td>
+      <th>queue</th>
+      <td><p><code>NULL</code> or a <code>fastqueue2</code> instance</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a masked function</p>
+    <p>If <code>map</code> is not <code>NULL</code>, elements will be added
+to <code>map</code> and return <code>map</code>, otherwise create a new instance.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>123</span>
-<span class='va'>f1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>a</span> <span class='op'>+</span> <span class='fl'>1</span>
-<span class='op'>}</span>
-<span class='fu'>f1</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># 124</span>
-</div><div class='output co'>#&gt; [1] 124</div><div class='input'>
-<span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='fu'>mask_function2</span><span class='op'>(</span><span class='va'>f1</span>, a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'>f2</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># a is masked with value 1, return 2</span>
-</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span>  <span class='co'># global env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7f851ae22390&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7f852fa47108&gt;</div><div class='input'>
-<span class='va'>env</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>parent.env</a></span><span class='op'>(</span><span class='va'>env</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span><span class='op'>)</span>  <span class='co'># true</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>env</span><span class='op'>$</span><span class='va'>a</span>  <span class='co'># masked variables: a=1</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
