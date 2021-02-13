@@ -994,6 +994,10 @@ make_async_evaluator <- function(
   name, path = tempfile(), n_nodes = 1,
   n_subnodes = future::availableCores() - 1, verbose = FALSE, ...){
 
+  if(!package_installed('rave')){
+    warning("Function `make_async_evaluator` will be removed in the next version. Please use `restbatch`, `future` or `batchtools` packages.")
+  }
+
   .async_eval_name <- name
 
   .async_master_globals$new(name = .async_eval_name, path = path,

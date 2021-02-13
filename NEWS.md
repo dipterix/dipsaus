@@ -1,3 +1,12 @@
+dipsaus 0.1.3
+=======
+
+## Major Changes
+* Added a wrapper for `fastmap::fastqueue` (`fastqueue2`) that shows friendly messages and can query elements
+* Added wrapper method to convert any `Base64` string to its generating string
+* Soft-deprecate `lock` and `unlock` functions
+* Soft remove the experimental function `make_async_evaluator` to embrace the new `restbatch` package
+
 dipsaus 0.1.2
 =======
 
