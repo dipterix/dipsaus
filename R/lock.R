@@ -45,6 +45,7 @@
   }
 
   lock <- function(name, exclusive = TRUE, timeout = 10){
+    warning("`dipsaus_lock` is defuncted. Please use `synchronicity` package instead")
     name <- stringr::str_remove_all(name, '[^a-zA-Z0-9]')
     l <- create_lock(name)
     if(exclusive){
@@ -68,6 +69,7 @@
   }
 
   unlock <- function(name, exclusive = TRUE, timeout = 10){
+    warning("`dipsaus_unlock` is defuncted. Please use `synchronicity` package instead")
     name <- stringr::str_remove_all(name, '[^a-zA-Z0-9]')
     l <- create_lock(name, create = FALSE)
     if(is.null(l)){
