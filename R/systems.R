@@ -1,6 +1,14 @@
 # System utilities
 
-
+#' Detect the type of operating system
+#' @return The type of current operating system: \code{'windows'},
+#' \code{'darwin'}, \code{'linux'}, \code{'solaris'}, or otherwise
+#' \code{'unknown'}.
+#' @examples
+#'
+#' get_os()
+#'
+#' @export
 get_os <- function(){
   if("windows" %in% stringr::str_to_lower(.Platform$OS.type)){
     return("windows")
@@ -21,14 +29,29 @@ get_os <- function(){
   return('unknown')
 }
 
+safe_system <- function(cmd, ..., intern = TRUE, ignore.stderr = TRUE,
+                        minimized = TRUE, invisible = TRUE, show.output.on.console = TRUE){
+  suppressWarnings({
+    if(get_os() == 'windows'){
+      ret <- system(cmd, intern = intern, ignore.stderr = ignore.stderr,
+                    minimized = minimized, invisible = invisible,
+                    show.output.on.console = show.output.on.console, ...)
+    } else {
+      ret <- system(cmd, intern = intern, ignore.stderr = ignore.stderr, ...)
+    }
+  })
+  ret
+}
 
-safe_system <- function(cmd, args, ..., onFound = NULL, onNotFound = NA){
+safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound = NULL, onNotFound = NA){
 
   if(Sys.which(cmd) == ""){
     return(onNotFound)
   }
 
-  ret <- system2(cmd, args, ...)
+  suppressWarnings({
+    ret <- system2(cmd, args, ..., stdout = stdout, stderr = stderr)
+  })
   if(is.function(onFound)){
     ret <- onFound(ret)
   }
@@ -36,22 +59,25 @@ safe_system <- function(cmd, args, ..., onFound = NULL, onNotFound = NA){
 }
 
 #' Get Memory Size
-#' @return numeric in Bytes how big your system RAM is
+#' @return System RAM in bytes, or \code{NA} is error occurs.
+#'
+#' @examples
+#'
+#' get_ram()
+#'
 #' @export
 get_ram <- function(){
   os <- get_os()
   ram <- 128*1024^3
   safe_ram <- function(e){
-    suppressWarnings({
-      min(utils::memory.limit(), 128*1024^3)
-    })
+    NA
   }
 
   ram <- tryCatch({
     switch (
       os,
       'darwin' = {
-        ram <- safe_system(
+        ram <- safe_system2(
           "sysctl",
           "hw.memsize",
           stdout = TRUE,
@@ -60,7 +86,7 @@ get_ram <- function(){
           }
         )
         if(is.na(ram)){
-          ram <- safe_system("top", c("-l", "1", "-s", "0"), stdout = TRUE, onFound = function(s){
+          ram <- safe_system2("top", c("-l", "1", "-s", "0"), stdout = TRUE, onFound = function(s){
             s <- s[stringr::str_detect(s, "PhysMem")][[1]]
             m <- stringr::str_match(s, "PhysMem[: ]+([0-9]+)([gGtTmM])")
             s <- as.numeric(m[[2]])
@@ -77,7 +103,7 @@ get_ram <- function(){
         if(Sys.which("awk") == ""){
           ram <- NA
         } else {
-          ram <- system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
+          ram <- safe_system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
           ram <- as.numeric(ram) * 1024
         }
       },
@@ -85,7 +111,7 @@ get_ram <- function(){
         if(Sys.which("prtconf") == ""){
           ram <- NA
         } else {
-          ram <- system("prtconf | grep Memory", intern = TRUE)
+          ram <- safe_system("prtconf | grep Memory", intern = TRUE)
           ram <- stringr::str_trim(ram)
           ram <- stringr::str_split(ram, '[ ]+')[[1]][3:4]
 
@@ -97,7 +123,7 @@ get_ram <- function(){
         if(Sys.which("wmic") == ""){
           ram <- NA
         } else {
-          ram <- system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
+          ram <- safe_system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
           ram <- stringr::str_trim(ram)
           ram <- ram[nchar(ram) > 0]
           ram <- sum(as.numeric(ram))
@@ -115,6 +141,10 @@ get_ram <- function(){
 
 #' Get CPU Chip-set Information
 #' @return a list of vendor ID and CPU model name
+#' @examples
+#'
+#' get_cpu()
+#'
 #' @export
 get_cpu <- function(){
   os <- get_os()
@@ -129,21 +159,21 @@ get_cpu <- function(){
     switch (
       os,
       'darwin' = list(
-        vendor_id = safe_system(
+        vendor_id = safe_system2(
           "sysctl",
           c("-n", "machdep.cpu.vendor"),
           stdout = TRUE
         ),
-        model_name = safe_system("sysctl", c("-n", "machdep.cpu.brand_string"), stdout = TRUE)
+        model_name = safe_system2("sysctl", c("-n", "machdep.cpu.brand_string"), stdout = TRUE)
       ),
       'linux' = list(
-        vendor_id = safe_system(
+        vendor_id = safe_system2(
           "awk", c("'/vendor_id/'", "/proc/cpuinfo"),
           stdout = TRUE,
           onFound = function(s){
             gsub("vendor_id\t: ", "", unique(s))
         }),
-        model_name = safe_system(
+        model_name = safe_system2(
           "awk", c("'/model name/'", "/proc/cpuinfo"),
           stdout = TRUE,
           onFound = function(s){
@@ -151,8 +181,8 @@ get_cpu <- function(){
           })
       ),
       'windows' = list(
-        model_name = safe_system("wmic", "cpu get name", stdout = TRUE, onFound = function(s){ s[[2]] }),
-        vendor_id = safe_system("wmic", "cpu get manufacturer", stdout = TRUE, onFound = function(s){ s[[2]] })
+        model_name = safe_system2("wmic", "cpu get name", stdout = TRUE, onFound = function(s){ s[[2]] }),
+        vendor_id = safe_system2("wmic", "cpu get manufacturer", stdout = TRUE, onFound = function(s){ s[[2]] })
       ),
       list(
         vendor_id = NA,

@@ -157,6 +157,6 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
   #
   #   eval_dirty(call, env = env, data = FUN.args)
   # })
-  # fs = future::values(fs)
+  # fs = future::value(fs)
   fs
 }

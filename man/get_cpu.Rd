@@ -12,3 +12,8 @@ a list of vendor ID and CPU model name
 \description{
 Get CPU Chip-set Information
 }
+\examples{
+
+get_cpu()
+
+}

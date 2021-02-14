@@ -7,8 +7,13 @@
 get_ram()
 }
 \value{
-numeric in Bytes how big your system RAM is
+System RAM in bytes, or \code{NA} is error occurs.
 }
 \description{
 Get Memory Size
+}
+\examples{
+
+get_ram()
+
 }

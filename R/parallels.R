@@ -57,14 +57,14 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
   .__check__ <- function( force_all = FALSE ){
     if( force_all ){
       future::resolve(.envir$._futures)
-      re <- future::values(.envir$._futures)
+      re <- future::value(.envir$._futures)
       if( !is.null(re) ){
         ._values[._ii - 1 + seq_along(.envir$._futures)] <<- re
       }
       .envir$._futures <- NULL
     }else{
       if(length(.envir$._futures) >= .ncore){
-        re <- future::values(.envir$._futures[[1]])
+        re <- future::value(.envir$._futures[[1]])
         if( !is.null(re) ){
           ._values[[._ii]] <<- re
         }
