@@ -110,12 +110,17 @@ collapse <- function(x, keep, average = FALSE) {
 #' # Shift time for each trial, amount is 1, -1, 0
 #' shift_amount <- c(1,-1,0)
 #' z <- shift_array(x, 3, 1, shift_amount)
+#'
+#' if(interactive()){
+#'
 #' par(mfrow = c(3, 2))
 #' for( ii in 1:3 ){
 #'   image(t(x[ii, ,]), ylab = 'Frequency', xlab = 'Time',
 #'         main = paste('Trial', ii))
 #'   image(t(z[ii, ,]), ylab = 'Frequency', xlab = 'Time',
 #'         main = paste('Shifted amount:', shift_amount[ii]))
+#' }
+#'
 #' }
 #'
 #' @export
