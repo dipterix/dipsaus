@@ -26,3 +26,5 @@ autom4te.cache
 ^\config-status$
 ^src/Makevars$
 ^checkbashisms$
+^revdep$
+^\.github$

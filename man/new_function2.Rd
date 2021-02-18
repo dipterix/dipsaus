@@ -48,7 +48,7 @@ function like \code{function(a){...}}. See examples for more details.
 
 # ------------ standard usage ------------
 x <- 1:10
-f1 <- new_function2(alist(a=), { print(a + x) })
+f1 <- new_function2(alist(a=), { print(a + x) }, env = environment())
 f1(0)
 
 x <- 20:23

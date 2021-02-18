@@ -7,10 +7,19 @@
 get_ram()
 }
 \value{
-System RAM in bytes, or \code{NA} is error occurs.
+System RAM in bytes, or \code{NA} if not supported.
 }
 \description{
 Get Memory Size
+}
+\details{
+The function \code{get_ram} only supports 'MacOS', 'Windows', and 'Linux'. 'Solaris' or other platforms will return \code{NA}.
+Here are the system commands used to detect memory limits:
+\describe{
+\item{'Windows'}{Uses command \code{'wmic.exe'} in the 'Windows' system folder. Notice this command-line tool might not exist on all 'Windows' machines. \code{get_ram} will return \code{NA} if it cannot locate the command-line tool.}
+\item{'MacOS'}{Uses command \code{'sysctl'} located at \code{'/usr/sbin/'} or \code{'/sbin/'}. Alternatively, you can edit the environment variable \code{'PATH'} to include the command-line tools if \code{'sysctl'} is missing. \code{get_ram} will return \code{NA} if it cannot locate \code{'sysctl'}.}
+\item{'Linux'}{Uses the file \code{'/proc/meminfo'}, possibly the first entry \code{'MemTotal'}. If the file is missing or entry \code{'MemTotal'} cannot be located, \code{get_ram} will return \code{NA}.}
+}
 }
 \examples{
 

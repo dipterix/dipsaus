@@ -3,7 +3,6 @@
 test_that("System command", {
 
   get_os()
-  get_cpu()
   get_ram()
 
   cmd <- rand_string()

@@ -73,9 +73,6 @@ The goal is to work as an alternative to retrieve system information. For exampl
 R doesn't provide functions to get memory limits, or CPU chip-set information on Linux or MacOS. 
 
 ```{r}
-# Most of the CPU Chipset and vendor
-get_cpu()
-
 # Total RAM in bytes
 get_ram()
 

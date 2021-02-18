@@ -58,8 +58,93 @@ safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound 
   ret
 }
 
+
+get_ram_osx <- function(){
+  # try to locate sysctl
+  cmd <- Sys.which("sysctl")
+  if(cmd == ""){
+    cmd <- "/usr/sbin/sysctl"
+  }
+  if(!file.exists(cmd)){
+    cmd <- '/sbin/sysctl'
+  }
+  if(!file.exists(cmd)){
+    return(NA)
+  }
+  # sysctl exists, use cmd
+  ram <- safe_system2("sysctl", "hw.memsize", stdout = TRUE,
+    onFound = function(ram) {
+      substring(ram, 13)
+    }
+  )
+  structure(
+    as.numeric(ram),
+    class = "dipsaus_bytes",
+    unit = "B"
+  )
+}
+
+get_ram_windows <- function(){
+  # check if windir is defined
+  cmd <- Sys.which("wmic")
+  if(cmd == ""){
+    # wmic might not exists, look for it in %WINDIR%\System32\wbem\wmic.exe
+    windir <- Sys.getenv('windir')
+    if(windir == ""){
+      windir <- Sys.getenv('SystemRoot')
+    }
+    if(windir == ""){
+      windir <- file.path(Sys.getenv('SystemDrive'), "WINDOWS", fsep = "\\")
+    }
+    if(!dir.exists(windir)){
+      windir <- "C:\\WINDOWS"
+    }
+    cmd <- file.path(windir, "System32", "wbem", "wmic.exe", fsep = "\\")
+  }
+  if(!file.exists(cmd)){
+    # cannot find wmic
+    return(NA)
+  }
+  ram <- safe_system2(cmd, c("MemoryChip", "get", "Capacity"), stdout = TRUE)
+  structure(
+    as.numeric(ram[[2]]),
+    class = "dipsaus_bytes",
+    unit = "B"
+  )
+}
+
+get_ram_linux <- function(){
+  # need to check "/proc/meminfo"
+  if(!file.exists("/proc/meminfo")){
+    return(NA)
+  }
+  s <- readLines("/proc/meminfo", n = 100)
+  # get memtotal
+  s <- s[startsWith(s, "MemTotal")]
+  if(!length(s)){
+    return(NA)
+  }
+  s <- stringr::str_match(s[[1]], "([0-9]+)([ kKmMgGtT]+)([bB])")
+  unit <- stringr::str_to_lower(stringr::str_trim(s[[3]]))
+  units <- c('', 'k', 'm', 'g', 't')
+  ram <- as.numeric(s[[2]]) * 1024^(which(units == unit) - 1)
+  structure(
+    as.numeric(ram),
+    class = "dipsaus_bytes",
+    unit = "B"
+  )
+}
+
+
 #' Get Memory Size
-#' @return System RAM in bytes, or \code{NA} is error occurs.
+#' @return System RAM in bytes, or \code{NA} if not supported.
+#' @details The function \code{get_ram} only supports 'MacOS', 'Windows', and 'Linux'. 'Solaris' or other platforms will return \code{NA}.
+#' Here are the system commands used to detect memory limits:
+#' \describe{
+#' \item{'Windows'}{Uses command \code{'wmic.exe'} in the 'Windows' system folder. Notice this command-line tool might not exist on all 'Windows' machines. \code{get_ram} will return \code{NA} if it cannot locate the command-line tool.}
+#' \item{'MacOS'}{Uses command \code{'sysctl'} located at \code{'/usr/sbin/'} or \code{'/sbin/'}. Alternatively, you can edit the environment variable \code{'PATH'} to include the command-line tools if \code{'sysctl'} is missing. \code{get_ram} will return \code{NA} if it cannot locate \code{'sysctl'}.}
+#' \item{'Linux'}{Uses the file \code{'/proc/meminfo'}, possibly the first entry \code{'MemTotal'}. If the file is missing or entry \code{'MemTotal'} cannot be located, \code{get_ram} will return \code{NA}.}
+#' }
 #'
 #' @examples
 #'
@@ -67,130 +152,35 @@ safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound 
 #'
 #' @export
 get_ram <- function(){
+  # .Defunct("memory.size", "utils")
   os <- get_os()
-  ram <- 128*1024^3
-  safe_ram <- function(e){
-    NA
+  if(os == 'windows'){
+    return(get_ram_windows())
   }
-
-  ram <- tryCatch({
-    switch (
-      os,
-      'darwin' = {
-        ram <- safe_system2(
-          "sysctl",
-          "hw.memsize",
-          stdout = TRUE,
-          onFound = function(ram) {
-            substring(ram, 13)
-          }
-        )
-        if(is.na(ram)){
-          ram <- safe_system2("top", c("-l", "1", "-s", "0"), stdout = TRUE, onFound = function(s){
-            s <- s[stringr::str_detect(s, "PhysMem")][[1]]
-            m <- stringr::str_match(s, "PhysMem[: ]+([0-9]+)([gGtTmM])")
-            s <- as.numeric(m[[2]])
-            u <- stringr::str_to_lower(m[[3]])
-            if(u == 'm'){ s <- s * 1024^2 }
-            if(u == 'g'){ s <- s * 1024^3 }
-            if(u == 't'){ s <- s * 1024^4 }
-            s
-          })
-        }
-        ram
-      },
-      'linux' = {
-        if(Sys.which("awk") == ""){
-          ram <- NA
-        } else {
-          ram <- safe_system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE)
-          ram <- as.numeric(ram) * 1024
-        }
-      },
-      'solaris' = {
-        if(Sys.which("prtconf") == ""){
-          ram <- NA
-        } else {
-          ram <- safe_system("prtconf | grep Memory", intern = TRUE)
-          ram <- stringr::str_trim(ram)
-          ram <- stringr::str_split(ram, '[ ]+')[[1]][3:4]
-
-          power <- match(ram[2], c("kB", "MB", "GB", "TB", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes"))
-          ram <- as.numeric(ram[1]) * 1024^(1 + (power-1) %% 4)
-        }
-      },
-      'windows' = {
-        if(Sys.which("wmic") == ""){
-          ram <- NA
-        } else {
-          ram <- safe_system("wmic MemoryChip get Capacity", intern = TRUE)[-1]
-          ram <- stringr::str_trim(ram)
-          ram <- ram[nchar(ram) > 0]
-          ram <- sum(as.numeric(ram))
-        }
-      }, {
-        ram <- NA
-      }
-    )
-    ram
-  }, error = safe_ram, warning = safe_ram)
-  ram <- as.numeric(ram)
-  ram
+  if(os == 'darwin'){
+    return(get_ram_osx())
+  }
+  if(os == 'linux'){
+    return(get_ram_linux())
+  }
+  return(NA)
 }
 
-
-#' Get CPU Chip-set Information
-#' @return a list of vendor ID and CPU model name
-#' @examples
-#'
-#' get_cpu()
-#'
+#' @rdname dipsaus-defunct
 #' @export
 get_cpu <- function(){
   os <- get_os()
 
-  safe_cpu <- function(...){
-    list(
-      vendor_id = NA,
-      model_name = NA
-    )
+  if(os == "darwin"){
+    .Defunct(msg = paste(
+      "'get_cpu' is defunct due to its inconsistent results. Please use the following system commands to get CPU information:",
+      "Windows: wmic cpu get name",
+      "macOS  : sysctl -n machdep.cpu.brand_string",
+      "Linux  : awk '/model name/' /proc/cpuinfo",
+      "Solaris: psrinfo -vp",
+      sep = "\n"
+    ))
   }
-  cpu <- tryCatch({
-    switch (
-      os,
-      'darwin' = list(
-        vendor_id = safe_system2(
-          "sysctl",
-          c("-n", "machdep.cpu.vendor"),
-          stdout = TRUE
-        ),
-        model_name = safe_system2("sysctl", c("-n", "machdep.cpu.brand_string"), stdout = TRUE)
-      ),
-      'linux' = list(
-        vendor_id = safe_system2(
-          "awk", c("'/vendor_id/'", "/proc/cpuinfo"),
-          stdout = TRUE,
-          onFound = function(s){
-            gsub("vendor_id\t: ", "", unique(s))
-        }),
-        model_name = safe_system2(
-          "awk", c("'/model name/'", "/proc/cpuinfo"),
-          stdout = TRUE,
-          onFound = function(s){
-            gsub("model name\t: ", "", unique(s))
-          })
-      ),
-      'windows' = list(
-        model_name = safe_system2("wmic", "cpu get name", stdout = TRUE, onFound = function(s){ s[[2]] }),
-        vendor_id = safe_system2("wmic", "cpu get manufacturer", stdout = TRUE, onFound = function(s){ s[[2]] })
-      ),
-      list(
-        vendor_id = NA,
-        model_name = NA
-      )
-    )
-  }, error = safe_cpu, warning = safe_cpu)
-  cpu
 }
 
 

@@ -35,3 +35,10 @@ register_shiny <- function(){
     shiny::removeResourcePath('dipsaus')
   }
 }
+
+
+
+#' @name dipsaus-defunct
+#' @title Defunct Functions in Package \pkg{dipsaus}
+#' The functions or variables listed here are no longer part of the package.
+NULL
