@@ -75,7 +75,7 @@ environment." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -175,8 +175,8 @@ environment.</p>
 <span class='fu'>f2</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># a is masked with value 1, return 2</span>
 </div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span>  <span class='co'># global env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7fa0945d32e8&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7fa094549cb0&gt;</div><div class='input'>
+</div><div class='output co'>#&gt; &lt;environment: 0x7f832b24d3c8&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
+</div><div class='output co'>#&gt; &lt;environment: 0x7f8329faf0d0&gt;</div><div class='input'>
 <span class='va'>env</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>parent.env</a></span><span class='op'>(</span><span class='va'>env</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span><span class='op'>)</span>  <span class='co'># true</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>env</span><span class='op'>$</span><span class='va'>a</span>  <span class='co'># masked variables: a=1</span>
