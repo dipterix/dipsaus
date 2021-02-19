@@ -61,6 +61,12 @@ safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound 
 
 get_ram_osx <- function(){
   # try to locate sysctl
+
+  # cmd <- Sys.which("sysctl")
+  # if(cmd == ""){
+  #   cmd <- "/usr/bin/top"
+  # }
+  # ram <- safe_system2(cmd, c("-l", "1", "-s", "0"))
   cmd <- Sys.which("sysctl")
   if(cmd == ""){
     cmd <- "/usr/sbin/sysctl"
@@ -72,7 +78,7 @@ get_ram_osx <- function(){
     return(NA)
   }
   # sysctl exists, use cmd
-  ram <- safe_system2("sysctl", "hw.memsize", stdout = TRUE,
+  ram <- safe_system2(cmd, "hw.memsize", stdout = TRUE,
     onFound = function(ram) {
       substring(ram, 13)
     }
