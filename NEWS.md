@@ -1,3 +1,13 @@
+dipsaus 0.1.4.x
+=======
+
+## Major Changes
+* Removed function `get_cpu`
+* Added function to convert `base64` to its encoding characters
+
+## Bug Fixes
+* Robust `get_ram` function. The function will return `NA` on `Solaris`, and actual memories in byte on other platforms.
+
 dipsaus 0.1.3
 =======
 

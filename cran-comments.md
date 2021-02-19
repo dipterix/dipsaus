@@ -1,4 +1,50 @@
-# Current submission (0.1.4):
+# Current submission (0.1.4.1):
+
+I apologize for submitting the package so frequently. Thanks Prof. Brian Ripley for pointing out the issues in my code, and I'm trying my best understanding and following the CRAN policy correctly.
+
+My previous version showed inconsistency invoking system commands. This was because I was looking for `sysctl` in current environment variable `PATH` instead of `/usr/sbin/` (see the quoted email below).
+
+In this update, the function `dipsaus::get_ram` will look for `/usr/sbin/sysctl` when it's not in the path, creating consistent results. If `sysctl` cannot be located, then `NA` will be returned. I also included the command details in the help document.
+
+The function `dipsaus::get_cpu` is defunct, and has been moved to `dipsaus-defunct` list, because this function might produce unpredictable results.
+
+
+```
+For dipsaus you did not do as you were asked, and do not look for
+sysctl.  Without sysctl in the path
+
+ > ### Name: get_cpu
+ > ### Title: Get CPU Chip-set Information
+ > ### Aliases: get_cpu
+ >
+ > ### ** Examples
+ >
+ >
+ > get_cpu()
+$vendor_id
+[1] NA
+
+$model_name
+[1] NA
+
+and with
+
+ > example(get_cpu)
+
+get_cp> get_cpu()
+$vendor_id
+character(0)
+attr(,"status")
+[1] 1
+
+$model_name
+[1] "Apple M1"
+
+This and its dependencies have been scheduled for archival on Feb 23.
+Do re-read the CRAN policy and do not show contempt for our time.
+```
+
+# Previous submission (0.1.4):
 
 This version is to patch an issue caused by improperly invoking system commands without checking their existence.
 

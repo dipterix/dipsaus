@@ -287,9 +287,9 @@ mem_limit2 <- function(){
   total <- get_ram()
 
 
-  bit <- 8 * .Machine$sizeof.pointer
-  bit <- bit - (bit > 32) * 4 - 4
-  free <- sum(gc()[,1] * c(bit, 8))
+  bytes <- 8 * .Machine$sizeof.pointer
+  bytes <- bytes - (bytes > 32) * 4 - 4
+  free <- sum(gc()[,1] * c(bytes, 8))
 
   list(
     total = total,
