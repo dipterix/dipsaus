@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Color Output — cat2 • dipsaus</title>
+<title>Get Internal Storage Type — sexp_type2 • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Color Output — cat2" />
-<meta property="og:description" content="Color Output" />
+<meta property="og:title" content="Get Internal Storage Type — sexp_type2" />
+<meta property="og:description" content="Get internal (C) data types; See
+https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf Page 1
+for more different SEXPTYPEs." />
 
 
 
@@ -129,80 +131,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Color Output</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/strings.R'><code>R/strings.R</code></a></small>
-    <div class="hidden name"><code>cat2.Rd</code></div>
+    <h1>Get Internal Storage Type</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>sexp_type2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Color Output</p>
+    <p>Get internal (<code>C</code>) data types; See
+<a href='https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf'>https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf</a> Page 1
+for more different <code>SEXPTYPE</code>s.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cat2</span><span class='op'>(</span>
-  <span class='va'>...</span>,
-  level <span class='op'>=</span> <span class='st'>"DEBUG"</span>,
-  print_level <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  file <span class='op'>=</span> <span class='st'>""</span>,
-  sep <span class='op'>=</span> <span class='st'>" "</span>,
-  fill <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  labels <span class='op'>=</span> <span class='cn'>NULL</span>,
-  append <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  end <span class='op'>=</span> <span class='st'>"\n"</span>,
-  pal <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>DEBUG <span class='op'>=</span> <span class='st'>"grey60"</span>, INFO <span class='op'>=</span> <span class='st'>"#1d9f34"</span>, WARNING <span class='op'>=</span> <span class='st'>"#ec942c"</span>, ERROR <span class='op'>=</span>
-    <span class='st'>"#f02c2c"</span>, FATAL <span class='op'>=</span> <span class='st'>"#763053"</span>, DEFAULT <span class='op'>=</span> <span class='st'>"grey60"</span><span class='op'>)</span>,
-  use_cli <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  bullet <span class='op'>=</span> <span class='st'>"auto"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sexp_type2</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sexp_type2</span>
+<span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sexp_type2</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p>any <span class="pkg">R</span> object</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>to be printed</p></td>
-    </tr>
-    <tr>
-      <th>level</th>
-      <td><p>'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'FATAL' (total 5 levels)</p></td>
-    </tr>
-    <tr>
-      <th>print_level</th>
-      <td><p>if true, prepend levels before messages</p></td>
-    </tr>
-    <tr>
-      <th>file, sep, fill, labels, append</th>
-      <td><p>pass to <code><a href='https://rdrr.io/r/base/cat.html'>base::cat</a></code></p></td>
-    </tr>
-    <tr>
-      <th>end</th>
-      <td><p>character to append to the string</p></td>
-    </tr>
-    <tr>
-      <th>pal</th>
-      <td><p>a named list defining colors see details</p></td>
-    </tr>
-    <tr>
-      <th>use_cli</th>
-      <td><p>logical, whether to use package 'cli'</p></td>
-    </tr>
-    <tr>
-      <th>bullet</th>
-      <td><p>character, if use 'cli', which symbol to show. see
-<code><a href='https://cli.r-lib.org/reference/symbol.html'>symbol</a></code></p></td>
+      <td><p>ignored</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>none.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>An integer of class <code>"sexp_type2"</code></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>There are five levels of colors by default: 'DEBUG', 'INFO', 'WARNING', 'ERROR',
-or FATAL. Default colors are: 'DEBUG' (<code>grey60</code>), 'INFO' (<code>#1d9f34</code>), 'WARNING'
-(<code>#ec942c</code>), 'ERROR' (<code>#f02c2c</code>), 'FATAL' (<code>#763053</code>) and
-'DEFAULT' (<code>#000000</code>, black). If level is not in preset five levels,
-the color will be "default"-black color.</p>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/mode.html'>storage.mode</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># 1 vs 1L</span>
+
+<span class='co'># Integer case</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='fl'>1L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 13 INTSXP     integer vectors </div><div class='input'>
+<span class='co'># double</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 14 REALSXP    numeric vectors </div><div class='input'>
+<span class='co'># Built-in function</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='va'>`+`</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 8 BUILTINSXP  builtin functions </div><div class='input'>
+<span class='co'># normal functions</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='va'>sexp_type2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 3 CLOSXP      closures </div><div class='input'>
+<span class='co'># symbols (quoted names)</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span><span class='op'>(</span><span class='va'>`+`</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 1 SYMSXP      symbols </div><div class='input'>
+<span class='co'># Calls (quoted expressions)</span>
+<span class='fu'>sexp_type2</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>quote</a></span><span class='op'>(</span><span class='op'>{</span><span class='va'>`+`</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 6 LANGSXP     language objects </div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
