@@ -17,7 +17,19 @@ collapser <- function(x, dims, keep) {
     .Call(`_dipsaus_collapser`, x, dims, keep)
 }
 
+fastcov <- function(x1, x2, nrow, col1, col2, cm1, cm2, df) {
+    .Call(`_dipsaus_fastcov`, x1, x2, nrow, col1, col2, cm1, cm2, df)
+}
+
 object_address <- function(x) {
     .Call(`_dipsaus_object_address`, x)
+}
+
+sumsquared <- function(x) {
+    .Call(`_dipsaus_sumsquared`, x)
+}
+
+get_sexp_type <- function(x) {
+    .Call(`_dipsaus_get_sexp_type`, x)
 }
 

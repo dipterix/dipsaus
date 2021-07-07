@@ -10,6 +10,67 @@ std::string object_address(SEXP x) {
   return addr.str();
 }
 
+// [[Rcpp::export]]
+SEXP sumsquared(SEXP &x){
+  // only support vector, matrix (numerical)
+  const SEXPTYPE stype = get_sexp_type(x);
+
+  R_xlen_t xlen = Rf_xlength(x);
+  SEXP res = R_NilValue;
+  int protects = 0;
+
+  switch(stype) {
+  case LGLSXP: {
+    R_xlen_t re = 0;
+    int* ptr = LOGICAL(x);
+    for(R_xlen_t ii = 0; ii < xlen; ii++, ptr++){
+      if(*ptr && *ptr != NA_LOGICAL){
+        re++;
+      }
+    }
+    res = PROTECT(Rcpp::wrap(re));
+    protects++;
+    break;
+  }
+  case INTSXP: {
+    R_xlen_t re = 0;
+    int* ptr = INTEGER(x);
+    for(R_xlen_t ii = 0; ii < xlen; ii++, ptr++){
+      if(R_finite(*ptr)){
+        re += (*ptr) * (*ptr);
+      }
+    }
+    res = PROTECT(Rcpp::wrap(re));
+    protects++;
+    break;
+  }
+  case REALSXP: {
+    double re = 0;
+    double* ptr = REAL(x);
+    for(R_xlen_t ii = 0; ii < xlen; ii++, ptr++){
+      if(R_finite(*ptr)){
+        re += (*ptr) * (*ptr);
+      }
+    }
+    res = PROTECT(Rcpp::wrap(re));
+    protects++;
+    break;
+  }
+  default: {
+    Rcpp::stop("Unsupported data type: numerical (integer, logical, double) vector or matrix allowed.");
+  }
+  }
+  if(protects > 0){
+    UNPROTECT(protects);
+  }
+  return res;
+}
+
+// [[Rcpp::export]]
+SEXPTYPE get_sexp_type(SEXP x){
+  return TYPEOF(x);
+}
+
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims){
   int64_t rem = 0;
   int64_t leap = 1;

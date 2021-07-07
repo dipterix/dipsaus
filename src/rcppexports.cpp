@@ -64,6 +64,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fastcov
+SEXP fastcov(Rcpp::NumericVector& x1, Rcpp::NumericVector& x2, const R_xlen_t nrow, Rcpp::IntegerVector& col1, Rcpp::IntegerVector& col2, Rcpp::NumericVector& cm1, Rcpp::NumericVector& cm2, const double df);
+RcppExport SEXP _dipsaus_fastcov(SEXP x1SEXP, SEXP x2SEXP, SEXP nrowSEXP, SEXP col1SEXP, SEXP col2SEXP, SEXP cm1SEXP, SEXP cm2SEXP, SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type x1(x1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type x2(x2SEXP);
+    Rcpp::traits::input_parameter< const R_xlen_t >::type nrow(nrowSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector& >::type col1(col1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector& >::type col2(col2SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type cm1(cm1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type cm2(cm2SEXP);
+    Rcpp::traits::input_parameter< const double >::type df(dfSEXP);
+    rcpp_result_gen = Rcpp::wrap(fastcov(x1, x2, nrow, col1, col2, cm1, cm2, df));
+    return rcpp_result_gen;
+END_RCPP
+}
 // object_address
 std::string object_address(SEXP x);
 RcppExport SEXP _dipsaus_object_address(SEXP xSEXP) {
@@ -75,13 +93,38 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sumsquared
+SEXP sumsquared(SEXP& x);
+RcppExport SEXP _dipsaus_sumsquared(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sumsquared(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_sexp_type
+SEXPTYPE get_sexp_type(SEXP x);
+RcppExport SEXP _dipsaus_get_sexp_type(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_sexp_type(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_cpp_forelse", (DL_FUNC) &_dipsaus_cpp_forelse, 3},
     {"_dipsaus_arrayShift", (DL_FUNC) &_dipsaus_arrayShift, 5},
     {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
+    {"_dipsaus_fastcov", (DL_FUNC) &_dipsaus_fastcov, 8},
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
+    {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
+    {"_dipsaus_get_sexp_type", (DL_FUNC) &_dipsaus_get_sexp_type, 1},
     {NULL, NULL, 0}
 };
 

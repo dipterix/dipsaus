@@ -122,3 +122,96 @@ do_nothing <- function(...){
 
 }
 
+
+
+
+
+SEXP_TYPES = list(
+  '0' =  c('NILSXP',     '0 NILSXP      NULL'),
+  '1' =  c('SYMSXP',     '1 SYMSXP      symbols'),
+  '2' =  c('LISTSXP',    '2 LISTSXP     pairlists'),
+  '3' =  c('CLOSXP',     '3 CLOSXP      closures'),
+  '4' =  c('ENVSXP',     '4 ENVSXP      environments'),
+  '5' =  c('PROMSXP',    '5 PROMSXP     promises'),
+  '6' =  c('LANGSXP',    '6 LANGSXP     language objects'),
+  '7' =  c('SPECIALSXP', '7 SPECIALSXP  special functions'),
+  '8' =  c('BUILTINSXP', '8 BUILTINSXP  builtin functions'),
+  '9' =  c('CHARSXP',    '9 CHARSXP     internal character strings'),
+  '10' = c('LGLSXP',     '10 LGLSXP     logical vectors'),
+  '13' = c('INTSXP',     '13 INTSXP     integer vectors'),
+  '14' = c('REALSXP',    '14 REALSXP    numeric vectors'),
+  '15' = c('CPLXSXP',    '15 CPLXSXP    complex vectors'),
+  '16' = c('STRSXP',     '16 STRSXP     character vectors'),
+  '17' = c('DOTSXP',     '17 DOTSXP     dot-dot-dot object'),
+  '18' = c('ANYSXP',     '18 ANYSXP     make "any" args work'),
+  '19' = c('VECSXP',     '19 VECSXP     list (generic vector)'),
+  '20' = c('EXPRSXP',    '20 EXPRSXP    expression vector'),
+  '21' = c('BCODESXP',   '21 BCODESXP   byte code'),
+  '22' = c('EXTPTRSXP',  '22 EXTPTRSXP  external pointer'),
+  '23' = c('WEAKREFSXP', '23 WEAKREFSXP weak reference'),
+  '24' = c('RAWSXP',     '24 RAWSXP     raw vector'),
+  '25' = c('S4SXP',      '25 S4SXP      S4 classes not of simple type')
+)
+
+#' @title Get Internal Storage Type
+#' @description Get internal (\code{C}) data types; See
+#' \url{https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf} Page 1
+#' for more different \code{SEXPTYPE}s.
+#' @param x any \pkg{R} object
+#' @param ... ignored
+#' @return An integer of class \code{"sexp_type2"}
+#' @seealso \code{\link{storage.mode}}
+#'
+#' @examples
+#'
+#' # 1 vs 1L
+#'
+#' # Integer case
+#' sexp_type2(1L)
+#'
+#' # double
+#' sexp_type2(1)
+#'
+#' # Built-in function
+#' sexp_type2(`+`)
+#'
+#' # normal functions
+#' sexp_type2(sexp_type2)
+#'
+#' # symbols (quoted names)
+#' sexp_type2(quote(`+`))
+#'
+#' # Calls (quoted expressions)
+#' sexp_type2(quote({`+`}))
+#'
+#'
+#' @export
+sexp_type2 <- function(x){
+  re <- get_sexp_type(x)
+  class(re) <- "sexp_type2"
+  re
+}
+
+#' @rdname sexp_type2
+#' @export
+as.character.sexp_type2 <- function(x, ...){
+  x <- unclass(x)
+  x <- SEXP_TYPES[[as.character(x)]]
+  if(is.null(x)){
+    return("Unknown")
+  }
+  x[[1]]
+}
+
+#' @rdname sexp_type2
+#' @export
+print.sexp_type2 <- function(x, ...){
+  y <- unclass(x)
+  y <- SEXP_TYPES[[as.character(y)]]
+  if(is.null(y)){
+    return(sprintf("%d Unknown type", x))
+  }
+  cat(y[[2]], '\n')
+  invisible(x)
+}
+

@@ -7,6 +7,26 @@
 #   )
 # }
 
+#' @name sumsquared
+#' @title Fast Calculation of Sum-squared for Large Matrices/Vectors
+#' @description Calculate \code{sum(x^2)}, but faster when the number of
+#' elements exceeds 1000.
+#' @param x double, integer, or logical vector/matrix
+#' @return A numerical scalar
+#' @examples
+#'
+#' x <- rnorm(10000)
+#' sumsquared(x)
+#'
+#' # Compare speed
+#' microbenchmark::microbenchmark(
+#'   cpp = {sumsquared(x)},
+#'   r = {sum(x^2)}
+#' )
+#'
+#' @export
+NULL
+
 register_shiny <- function(){
 
   # register CompoundInput2
