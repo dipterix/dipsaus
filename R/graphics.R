@@ -51,7 +51,7 @@ NULL
 #' @export
 dev_create <- function(..., env = parent.frame(), attributes = list()){
   quos <- rlang::quos(..., .ignore_empty = 'all', .named = TRUE)
-  devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+  devs <- get(".Devices")
   n_devs <- unlist(devs)
   n_devs <- sum(n_devs != "")
 
@@ -63,7 +63,7 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
   for(ii in seq_along(quos)){
     quo <- quos[[ii]]
     rlang::eval_tidy(quo, env = env)
-    devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+    devs <- get(".Devices")
     n <- sum(unlist(devs) != "")
     if( n > n_devs ){
       attr(devs[[n_devs + 1]], 'dipsaus_dev_name') <- paste0(private_id, nms[[ii]])
@@ -74,13 +74,13 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
       attr(devs[[n_devs + 1]], 'dipsaus_dev_attr') <- opt
     }
     # assign back to baseenv
-    assign('.Devices', devs, envir = baseenv())
+    assign('.Devices', devs, envir = .GlobalEnv)
     n_devs <- n
   }
 
   dev_which <- function(dev_name){
     stopifnot2(length(dev_name) == 1 && is.character(dev_name), msg = 'dev_name must be a string')
-    devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+    devs <- get(".Devices")
     for(ii in seq_along(devs)){
       if(ii == 1) next()
       dev <- devs[[ii]]
@@ -105,7 +105,7 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
 
   dev_names <- function(){
     # only returns active device names
-    devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+    devs <- get(".Devices")
     re <- lapply(devs, function(dev){
       dev_name <- attr(dev, 'dipsaus_dev_name')
       id <- stringr::str_sub(dev_name, end = 6)
@@ -134,7 +134,7 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
   dev_attributes <- function(dev_name){
     ii <- dev_which(dev_name)
     if(!is.na(ii)){
-      devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+      devs <- get(".Devices")
       return(attr(devs[[ii]], 'dipsaus_dev_attr'))
     }
     return(NULL)
@@ -152,7 +152,7 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
 #' @rdname graphic-devices
 #' @export
 get_dev_attr <- function(which, dev = grDevices::dev.cur(), ifnotfound = NULL){
-  devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
+  devs <- get(".Devices")
   if(length(devs) < dev){
     return(ifnotfound)
   }
