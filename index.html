@@ -121,6 +121,12 @@
 <code>set_shiny_input</code> to set shiny <code>input</code> object;</li>
 <li>
 <code>flex_div</code> to display elements with <code>flex</code> layout;</li>
+<li>
+<code>html_asis</code> escapes string so that they will be displayed ‘as-is’ on websites;</li>
+<li>
+<code>progress2</code> shows shiny progress bar, but it also works without shiny;</li>
+<li>
+<code>shiny_is_running</code> check if shiny is running;</li>
 </ul>
 </div>
 <div id="2-parallel-functions" class="section level3">
@@ -132,13 +138,15 @@
 <li>
 <code>make_forked_clusters</code> enables <code>multicore</code> (forked clusters) in <code>future</code> package even in <code>RStudio</code> environment;</li>
 <li>
-<code>make_async_evaluator</code> queues arbitrary number of tasks and keeps them running in the background without blocking the main session. (<a href="https://dipterix.github.io/dipsaus/articles/async_evaluator.html">vignette</a>);</li>
-<li>
 <code>baseline_array</code> to baseline arrays in <code>RcppParallel</code>;</li>
 <li>
 <code>shift_array</code> to shift arrays along given dimensions;</li>
 <li>
 <code>lapply_async2</code> uses <code>future</code> package, but with progress bar either in console or in shiny apps;</li>
+<li>
+<code>fastcov2</code> calculates covariance matrices in parallel;</li>
+<li>
+<code>rs_exec</code> starts a new R session or job in <code>RStudio</code>;</li>
 </ul>
 </div>
 <div id="3-r-expressions-vignette" class="section level3">
@@ -150,13 +158,19 @@
 <li>
 <code>match_calls</code> match calls in a nested manner, and support changing the call arguments recursively;</li>
 <li>
-<code><a href="reference/%?&lt;-%.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist.</li>
+<code><a href="reference/%?&lt;-%.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist;</li>
 <li>
 <code><a href="reference/%=&gt;%.html">%=&gt;%</a></code> provides JavaScript-style of creating functions;</li>
 <li>
 <code>new_function2</code> creates new function with quasi-quotation;</li>
 <li>
 <code>mask_function2</code> modifies function and mask certain elements within a function;</li>
+<li>
+<code>capture_expr</code> captures messages and always return results as one-line string;</li>
+<li>
+<code>forelse</code> provides Python-like for-else syntax;</li>
+<li>
+<code>test_farg</code> tests whether function contains desired arguments;</li>
 </ul>
 </div>
 <div id="4-utility-functions-vignette" class="section level3">
@@ -167,6 +181,8 @@
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
 <li>
 <code>check_installed_packages</code>, <code>package_installed</code> checks if package(s) are installed;</li>
+<li>
+<code>prepare_install2</code> runs a different session to install R packages on <code>osx</code> or <code>Linux</code>;</li>
 <li>
 <code>col2hexStr</code> convert color to hex strings that are friendly to <code>HTML</code>, <code>CSS</code> and <code>JavaScript</code>;</li>
 <li>
@@ -184,9 +200,19 @@
 <li>
 <code>ask_yesno</code>, <code>ask_or_default</code> interactively ask for user’s input either in console or in <code>RStudio</code>;</li>
 <li>
-<code>fast_map2</code> provides a wrapper on <code>fastmap</code> package, giving the object list-like operations;</li>
+<code>fastmap2</code> and <code>fastqueue2</code> provides a wrapper on <code>fastmap</code> package, giving the object list-like operations;</li>
 <li>
-<code>shared_finalizer</code> finalizes multiple elements when last element is garbage collected.</li>
+<code>shared_finalizer</code> finalizes multiple elements when last element is garbage collected;</li>
+<li>
+<code>dev_create</code> allows managing and grouping graphic devices;</li>
+<li>
+<code>print_directory_tree</code> prints directory and containing files into tree-structures;</li>
+<li>
+<code>rs_*</code> functions wrapping <code>rstudioapi</code> functions, but some works without <code>RStudio</code>;</li>
+<li>
+<code>sexp_type2</code> get internal data type code;</li>
+<li>
+<code>to_datauri</code> converts file to <code>base64</code> formats.</li>
 </ul>
 </div>
 </div>
