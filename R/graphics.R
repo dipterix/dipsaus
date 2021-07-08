@@ -73,7 +73,55 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
       }
       attr(devs[[n_devs + 1]], 'dipsaus_dev_attr') <- opt
     }
-    # assign back to baseenv
+    # To CRAN Team who reaches this line
+    #
+    # The following line violates CRAN policy, as pointed by
+    # Kurt Hornik <Kurt.Hornik@wu.ac.at> and
+    # Paul Murrell <paul@stat.auckland.ac.nz>
+    # on 03/10/2021, that ".Devices" is altered in baseenv()
+    #
+    # However, currently there is no substitute as the default grDevice package
+    # does not allow labeling the devices. One of the issues is that device
+    # list will be altered when user close the graphics and create new ones.
+    # If some one close one (A) and open another device (B)
+    # it is possible that B is mistaken as A, resulting in 2 figures blending
+    # into each other. There are other issues, but this one is significant.
+    #
+    # After discussion, I was allowed to keep my code until native supports are
+    # provided
+    #
+    #
+    # Original Email:
+    #     >>>>> Paul Murrell writes:
+    #
+    #     > Hi
+    #     > On 15/03/21 10:58 am, Zhengjia Wang wrote:
+    #       >> Hi, Paul,
+    #       >> Thanks for clarification. Allowing reference by label is all I was
+    #       >> asking for. dipsaus only adds one attribute as the label to each device,
+    #       >> and the grouping was done using the label prefix. But in general, there
+    #       >> are many ways to group the devices as long as I can reference by labels.
+    #
+    #     > Ok.  That sounds good.  I will look at implementing something for you
+    #     > to try out.
+    #
+    #     Perfect.
+    #
+    #       >> For now, would you mind if I still keep this function in the package
+    #       >> until the new feature is published? There are some projects that use
+    #       >> this function to export graphs to multiple files, and I don't want them
+    #       >> to get headaches for the sudden changes. However, I can always add a
+    #       >> warning to dev_create so that other CRAN packages know to avoid
+    #       >> importing this function. Once I can reference devices by labels in the
+    #       >> newer versions of R, I'll fix this issue ASAP.
+    #
+    #     > I'll leave that up to the CRAN guys.
+    #
+    #     Yep, that should be fine for now.
+    #
+    #     Best
+    #     -k
+    #
     assign('.Devices', devs, envir = baseenv())
     n_devs <- n
   }

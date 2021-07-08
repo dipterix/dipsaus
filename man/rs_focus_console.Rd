@@ -10,5 +10,5 @@ rs_focus_console()
 None
 }
 \description{
-Safe wrap of \code{\link[rstudioapi]{sendToConsole}}
+Focus on coding; works with 'RStudio' (\code{>=1.4})
 }

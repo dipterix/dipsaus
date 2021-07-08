@@ -22,12 +22,15 @@ rs_avail <- function(version_needed = '1.3', child_ok = FALSE, shiny_ok = FALSE)
 }
 
 #' Focus on 'RStudio' Console
-#' @description Safe wrap of \code{\link[rstudioapi]{sendToConsole}}
+#' @description Focus on coding; works with 'RStudio' (\code{>=1.4})
 #' @return None
 #' @export
 rs_focus_console <- function(){
-  if(rs_avail()){
-    rstudioapi::sendToConsole('', focus = TRUE, execute = FALSE, echo = TRUE)
+  if(rs_avail(version_needed = '1.4')){
+    Sys.sleep(0.5)
+    try({
+      rstudioapi::executeCommand("activateConsole", quiet = TRUE)
+    }, silent = TRUE)
   }
   return()
 }
@@ -37,10 +40,7 @@ rs_runjob <- function(script, name, focus_on_console = FALSE){
                            workingDir = tempdir(),
                            importEnv = NULL, exportEnv = "")
   if(focus_on_console){
-    Sys.sleep(0.5)
-    try({
-      rstudioapi::executeCommand("activateConsole", quiet = TRUE)
-    }, silent = TRUE)
+    rs_focus_console()
   }
   return()
 }
