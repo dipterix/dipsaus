@@ -23,11 +23,15 @@ rs_avail <- function(version_needed = '1.3', child_ok = FALSE, shiny_ok = FALSE)
 
 #' Focus on 'RStudio' Console
 #' @description Focus on coding; works with 'RStudio' (\code{>=1.4})
+#' @param wait wait in seconds before sending command; if too soon, then
+#' 'RStudio' might not be able to react.
 #' @return None
 #' @export
-rs_focus_console <- function(){
+rs_focus_console <- function(wait = 0.5){
   if(rs_avail(version_needed = '1.4')){
-    Sys.sleep(0.5)
+    if(wait > 0){
+      Sys.sleep(wait)
+    }
     try({
       rstudioapi::executeCommand("activateConsole", quiet = TRUE)
     }, silent = TRUE)
@@ -173,7 +177,11 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   writeLines(deparse(rlang::quo_squash(expr)), script, sep = '\n')
 
   if(rs && rs_avail()){
-    rs_runjob(script, name, focus_on_console = focus_on_console)
+    if(wait){
+      rs_runjob(script, name, focus_on_console = FALSE)
+    } else {
+      rs_runjob(script, name, focus_on_console = focus_on_console)
+    }
   } else {
     rs_runjob_alt(script, name, wait = wait)
   }
@@ -208,6 +216,10 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
         unlink(res_file)
         attr(st, 'rs_exec_state') <- 'Success'
         attr(st, 'rs_exec_result') <- res
+        # return to console
+        if(focus_on_console){
+          rs_focus_console(wait = 0)
+        }
       } else if(st > 0){
         attr(st, 'rs_exec_state') <- 'Running'
       }
@@ -217,6 +229,11 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   }
 
   if(wait){
+    check_f()
+    while(isTRUE(state > 0)){
+      check_f()
+      Sys.sleep(0.5)
+    }
     check_f <- check_f()
   }
   invisible(check_f)
