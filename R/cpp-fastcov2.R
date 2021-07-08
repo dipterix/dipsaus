@@ -85,3 +85,4 @@ fastcov2 <- function(x, y = NULL, col1, col2, df){
   }
   fastcov(x, y, nobs, col1, col2, cm1, cm2, df)
 }
+

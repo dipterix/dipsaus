@@ -1,3 +1,21 @@
+dipsaus 0.1.6
+=======
+
+## Major Changes
+* Added `fastcov2` to calculate covariance in parallel
+* Added `sumsquared` to calculate sum-squared faster
+* Added `sexp_type` to obtain internal data type code
+
+## Bug Fixes
+* Robust `get_ram` function. The function will return `NA` on `Solaris`, and actual memories in byte on other platforms.
+* Fixed `rs_focus_console` not doing its job
+* Fixed `rs_exec` when `wait` is true but not actually waiting
+
+## Enhancements
+* Updated `JavaScript` libraries to fix vulnerability issues
+* Allow `rs_exec` to return to console after submitting jobs (`RStudio` version 1.4 required)
+* Removed unused functions in `README.md`.
+
 dipsaus 0.1.4, 0.1.5
 =======
 

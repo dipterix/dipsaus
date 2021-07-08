@@ -126,7 +126,7 @@ do_nothing <- function(...){
 
 
 
-SEXP_TYPES = list(
+SEXP_TYPES <- list(
   '0' =  c('NILSXP',     '0 NILSXP      NULL'),
   '1' =  c('SYMSXP',     '1 SYMSXP      symbols'),
   '2' =  c('LISTSXP',    '2 LISTSXP     pairlists'),
