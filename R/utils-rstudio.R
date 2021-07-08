@@ -32,7 +32,7 @@ rs_focus_console <- function(){
       rstudioapi::executeCommand("activateConsole", quiet = TRUE)
     }, silent = TRUE)
   }
-  return()
+  return(invisible())
 }
 
 rs_runjob <- function(script, name, focus_on_console = FALSE){
