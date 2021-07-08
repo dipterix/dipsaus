@@ -33,3 +33,7 @@ get_sexp_type <- function(x) {
     .Call(`_dipsaus_get_sexp_type`, x)
 }
 
+set_dim <- function(x, dim) {
+    .Call(`_dipsaus_set_dim`, x, dim)
+}
+

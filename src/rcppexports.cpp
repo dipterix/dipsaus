@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // cpp_forelse
 SEXP cpp_forelse(Rcpp::List data, Rcpp::Function fun, Rcpp::Function alt);
 RcppExport SEXP _dipsaus_cpp_forelse(SEXP dataSEXP, SEXP funSEXP, SEXP altSEXP) {
@@ -105,13 +110,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_sexp_type
-SEXPTYPE get_sexp_type(SEXP x);
+SEXPTYPE get_sexp_type(const SEXP& x);
 RcppExport SEXP _dipsaus_get_sexp_type(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const SEXP& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(get_sexp_type(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// set_dim
+SEXP set_dim(SEXP& x, SEXP& dim);
+RcppExport SEXP _dipsaus_set_dim(SEXP xSEXP, SEXP dimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP& >::type dim(dimSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_dim(x, dim));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -125,6 +142,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
     {"_dipsaus_get_sexp_type", (DL_FUNC) &_dipsaus_get_sexp_type, 1},
+    {"_dipsaus_set_dim", (DL_FUNC) &_dipsaus_set_dim, 2},
     {NULL, NULL, 0}
 };
 

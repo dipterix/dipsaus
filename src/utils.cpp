@@ -67,8 +67,15 @@ SEXP sumsquared(SEXP &x){
 }
 
 // [[Rcpp::export]]
-SEXPTYPE get_sexp_type(SEXP x){
+SEXPTYPE get_sexp_type(const SEXP &x){
   return TYPEOF(x);
+}
+
+// [[Rcpp::export]]
+SEXP set_dim(SEXP &x, SEXP &dim){
+  Rf_setAttrib(x, R_DimSymbol, dim);
+  Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
+  return R_NilValue;
 }
 
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims){

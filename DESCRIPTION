@@ -21,7 +21,6 @@ URL: https://github.com/dipterix/dipsaus
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 Language: en-US
 Depends: R (>= 3.5.0)
 Imports:

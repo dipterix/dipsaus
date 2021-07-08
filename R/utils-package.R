@@ -1,4 +1,4 @@
-#' Get attached package names in current session
+#' Get attached package names in current session (Internally used)
 #' @param include_base whether to include base packages
 #' @return characters, package names that are attached in current session
 attached_packages <- function(include_base = FALSE){

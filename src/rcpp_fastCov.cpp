@@ -86,7 +86,7 @@ SEXP fastcov(
   SEXP dm = PROTECT(Rf_allocVector(INTSXP, 2));
   INTEGER(dm)[0] = re_nrow;
   INTEGER(dm)[1] = re_ncol;
-  Rf_setAttrib(re, wrap("dim"), dm);
+  Rf_setAttrib(re, R_DimSymbol, dm);
   // double* re_ptr = REAL(re);
 
   FastCov fcov(x1, x2, col1, col2, cm1, cm2, nrow, df, re);

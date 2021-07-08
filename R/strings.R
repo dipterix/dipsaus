@@ -476,11 +476,25 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
 #' concatenate as one single string.
 #' @param expr R expression
 #' @param collapse character to concatenate outputs
-#' @param type passed to \code{\link[utils]{capture.output}}
+#' @param type,... passed to \code{\link[utils]{capture.output}}
 #' @return Character of length 1: output captured by
 #' \code{\link[utils]{capture.output}}
+#'
+#' @examples
+#'
+#' x <- data.frame(a=1:10)
+#' x_str <- capture_expr({
+#'   print(x)
+#' })
+#'
+#' x_str
+#'
+#' cat(x_str)
+#'
+#'
 #' @export
-capture_expr <- function(expr, collapse = '\n', type = c("output", "message")){
-  invisible(paste(utils::capture.output(expr, type = type),
+capture_expr <- function(expr, collapse = '\n',
+                         type = c("output", "message"), ...){
+  invisible(paste(utils::capture.output(expr, type = type, ...),
                   collapse = collapse))
 }
