@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-package.R
 \name{attached_packages}
 \alias{attached_packages}
-\title{Get attached package names in current session}
+\title{Get attached package names in current session (Internally used)}
 \usage{
 attached_packages(include_base = FALSE)
 }
@@ -13,5 +13,5 @@ attached_packages(include_base = FALSE)
 characters, package names that are attached in current session
 }
 \description{
-Get attached package names in current session
+Get attached package names in current session (Internally used)
 }

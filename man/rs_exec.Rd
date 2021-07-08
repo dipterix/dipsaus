@@ -10,7 +10,8 @@ rs_exec(
   quoted = FALSE,
   rs = TRUE,
   wait = FALSE,
-  packages = NULL
+  packages = NULL,
+  focus_on_console = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ rs_exec(
 \item{wait}{whether to wait for the result.}
 
 \item{packages}{packages to load in the sub-sessions}
+
+\item{focus_on_console}{whether to return back to console after creating
+jobs; useful when users want to focus on writing code; default is false.
+This feature works with 'RStudio' (\code{>=1.4})}
 }
 \value{
 If \code{wait=TRUE}, returns evaluation results of \code{expr},

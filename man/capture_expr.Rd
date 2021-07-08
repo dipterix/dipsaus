@@ -4,14 +4,14 @@
 \alias{capture_expr}
 \title{Captures Evaluation Output of Expressions as One Single String}
 \usage{
-capture_expr(expr, collapse = "\\n", type = c("output", "message"))
+capture_expr(expr, collapse = "\\n", type = c("output", "message"), ...)
 }
 \arguments{
 \item{expr}{R expression}
 
 \item{collapse}{character to concatenate outputs}
 
-\item{type}{passed to \code{\link[utils]{capture.output}}}
+\item{type, ...}{passed to \code{\link[utils]{capture.output}}}
 }
 \value{
 Character of length 1: output captured by
@@ -20,4 +20,17 @@ Character of length 1: output captured by
 \description{
 Evaluate expression and captures output as characters, then
 concatenate as one single string.
+}
+\examples{
+
+x <- data.frame(a=1:10)
+x_str <- capture_expr({
+  print(x)
+})
+
+x_str
+
+cat(x_str)
+
+
 }
