@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9000</span>
       </span>
     </div>
 
@@ -401,7 +401,7 @@ The functions or variables listed here are no longer part of the package.</p></t
         <td>
           <p><code><a href="grapes-help-set-grapes.html">`%?&lt;-%`</a></code> </p>
         </td>
-        <td><p>Assign if not exists, or NULL
+        <td><p>Left-hand side checked assignment
 Provides a way to assign default values to variables. If the statement
 `<code>lhs</code>` is invalid or <code>NULL</code>, this function will try to assign
 <code>value</code>, otherwise nothing happens.</p></td>
@@ -411,6 +411,14 @@ Provides a way to assign default values to variables. If the statement
           <p><code><a href="grapes-plus-grapes.html">`%+-%`</a></code> </p>
         </td>
         <td><p>Plus-minus operator</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="grapes-set-help-grapes.html">`%&lt;-?%`</a></code> </p>
+        </td>
+        <td><p>Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`<code>value</code>` is invalid or <code>NULL</code>, this function will not assign values and nothing happens.</p></td>
       </tr><tr>
         
         <td>

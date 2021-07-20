@@ -6,7 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Captures Evaluation Output of Expressions as One Single String — capture_expr • dipsaus</title>
+<title>Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`value` is invalid or NULL, this function will not assign values and nothing happens. — %&lt;-?% • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,9 +41,12 @@
 
 
 
-<meta property="og:title" content="Captures Evaluation Output of Expressions as One Single String — capture_expr" />
-<meta property="og:description" content="Evaluate expression and captures output as characters, then
-concatenate as one single string." />
+<meta property="og:title" content="Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`value` is invalid or NULL, this function will not assign values and nothing happens. — %&lt;-?%" />
+<meta property="og:description" content="Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`value` is invalid or NULL, this function will not assign values and nothing happens." />
 
 
 
@@ -130,62 +135,57 @@ concatenate as one single string." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Captures Evaluation Output of Expressions as One Single String</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/strings.R'><code>R/strings.R</code></a></small>
-    <div class="hidden name"><code>capture_expr.Rd</code></div>
+    <h1>Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`<code>value</code>` is invalid or <code>NULL</code>, this function will not assign values and nothing happens.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
+    <div class="hidden name"><code>grapes-set-help-grapes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Evaluate expression and captures output as characters, then
-concatenate as one single string.</p>
+    <p>Right-hand side checked assignment
+Provides a way to avoid assignment to the left-hand side. If the statement
+`<code>value</code>` is invalid or <code>NULL</code>, this function will not assign values and nothing happens.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>capture_expr</span><span class='op'>(</span><span class='va'>expr</span>, collapse <span class='op'>=</span> <span class='st'>"\n"</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"output"</span>, <span class='st'>"message"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&lt;-?%</span> <span class='va'>value</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>expr</th>
-      <td><p>R expression</p></td>
+      <th>lhs</th>
+      <td><p>an object to be assigned to</p></td>
     </tr>
     <tr>
-      <th>collapse</th>
-      <td><p>character to concatenate outputs</p></td>
-    </tr>
-    <tr>
-      <th>type, ...</th>
-      <td><p>passed to <code><a href='https://rdrr.io/r/utils/capture.output.html'>capture.output</a></code></p></td>
+      <th>value</th>
+      <td><p>value to be checked</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Character of length 1: output captured by
-<code><a href='https://rdrr.io/r/utils/capture.output.html'>capture.output</a></code></p>
+    <p>Assign value on the right-hand side to the left-hand side if
+<code>value</code> does exists and is not <code>NULL</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>x_str</span> <span class='op'>&lt;-</span> <span class='fu'>capture_expr</span><span class='op'>(</span><span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Prepare, remove aaa if exists</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span><span class='op'>(</span><span class='st'>'aaa'</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span><span class='op'>(</span><span class='op'>)</span>, inherits <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>aaa</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>globalenv</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='va'>x_str</span>
-</div><div class='output co'>#&gt; [1] "    a\n1   1\n2   2\n3   3\n4   4\n5   5\n6   6\n7   7\n8   8\n9   9\n10 10"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='va'>x_str</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     a
-#&gt; 1   1
-#&gt; 2   2
-#&gt; 3   3
-#&gt; 4   4
-#&gt; 5   5
-#&gt; 6   6
-#&gt; 7   7
-#&gt; 8   8
-#&gt; 9   9
-#&gt; 10 10</div><div class='input'>
+<span class='co'># aaa will not be assigned. run `print(aaa)` will raise error</span>
+<span class='va'>aaa</span> <span class='op'>%&lt;-?%</span> <span class='cn'>NULL</span>
 
+<span class='co'># Assign</span>
+<span class='va'>aaa</span> <span class='op'>%&lt;-?%</span> <span class='fl'>1</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>aaa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+<span class='co'># in a list</span>
+<span class='va'>a</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>a</span><span class='op'>$</span><span class='va'>e</span> <span class='op'>%&lt;-?%</span> <span class='va'>bbb</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span> <span class='op'>%&lt;-?%</span> <span class='fl'>2</span>; <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>$</span><span class='va'>e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
