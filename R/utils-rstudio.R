@@ -570,3 +570,53 @@ rs_save_all <- function(){
   warning('RStudio version too low, please update RStudio')
 }
 
+
+#' @export
+rs_register_shortcuts <- function(restart = TRUE){
+  if(!package_installed('shrtcts')){
+    stop('Package `shrtcts` is not installed. Please run the following command to install.\n  remotes::install_github("gadenbuie/shrtcts")')
+  }
+
+
+  ns <- asNamespace('shrtcts')
+
+  path <- tryCatch({
+    ns$locate_shortcuts_source()
+  }, error = function(e){
+    "~/.config/.shrtcts.R"
+  })
+
+  if(!file.exists(path)){
+    ans <- TRUE
+    if(interactive()){
+      ans <- ask_yesno(sprintf("File `%s` not exist. Do you want to create it?", path))
+    }
+    if(isTRUE(ans)){
+      dir <- dirname(path)
+      file.copy(
+        system.file('rstudio_shortcuts.R', package = 'dipsaus'),
+        path, overwrite = TRUE
+      )
+    }
+  } else {
+    s <- readLines(path)
+    idx1 <- which(startsWith(s, "# <<<<< dipsaus start"))
+    idx2 <- which(startsWith(s, "# <<<<< dipsaus end"))
+    if(length(idx1) && length(idx2)){
+      s <- s[-(idx1:idx2)]
+    } else if(length(idx1)){
+      s <- s[-idx1]
+    } else if(length(idx2)){
+      s <- s[-idx2]
+    }
+    s <- c(s, readLines(system.file('rstudio_shortcuts.R', package = 'dipsaus')))
+    writeLines(s, path)
+  }
+
+  ns$add_rstudio_shortcuts(set_keyboard_shortcuts = TRUE)
+
+  if(restart && rs_avail()){
+    restart_session()
+  }
+
+}

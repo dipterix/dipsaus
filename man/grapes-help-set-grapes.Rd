@@ -2,7 +2,7 @@
 % Please edit documentation in R/language.R
 \name{\%?<-\%}
 \alias{\%?<-\%}
-\title{Assign if not exists, or NULL
+\title{Left-hand side checked assignment
 Provides a way to assign default values to variables. If the statement
 `\code{lhs}` is invalid or \code{NULL}, this function will try to assign
 \code{value}, otherwise nothing happens.}
@@ -19,7 +19,7 @@ Assign value on the right-hand side to the left-hand side if
 \code{lhs} does not exist or is \code{NULL}
 }
 \description{
-Assign if not exists, or NULL
+Left-hand side checked assignment
 Provides a way to assign default values to variables. If the statement
 `\code{lhs}` is invalid or \code{NULL}, this function will try to assign
 \code{value}, otherwise nothing happens.

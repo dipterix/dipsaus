@@ -228,7 +228,7 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
   }
 }
 
-#' Assign if not exists, or NULL
+#' Left-hand side checked assignment
 #' Provides a way to assign default values to variables. If the statement
 #' `\code{lhs}` is invalid or \code{NULL}, this function will try to assign
 #' \code{value}, otherwise nothing happens.
@@ -270,10 +270,53 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
     isnull
 
   if(isnull){
-    eval(as.call(list( str2lang('`<-`'), lhs, value )), envir = env)
+    eval(as.call(list( quote(`<-`), lhs, value )), envir = env)
   }
 }
 
+
+#' Right-hand side checked assignment
+#' Provides a way to avoid assignment to the left-hand side. If the statement
+#' `\code{value}` is invalid or \code{NULL}, this function will not assign values and nothing happens.
+#' @param lhs an object to be assigned to
+#' @param value value to be checked
+#'
+#' @return Assign value on the right-hand side to the left-hand side if
+#' \code{value} does exists and is not \code{NULL}
+#'
+#' @examples
+#' # Prepare, remove aaa if exists
+#' if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+#'   rm(aaa, envir = globalenv())
+#' }
+#'
+#' # aaa will not be assigned. run `print(aaa)` will raise error
+#' aaa %<-?% NULL
+#'
+#' # Assign
+#' aaa %<-?% 1
+#' print(aaa)
+#'
+#' # in a list
+#' a = list()
+#' a$e %<-?% bbb; print(a$e)
+#' a$e %<-?% 2; print(a$e)
+#'
+#' @export
+`%<-?%` <- function(lhs, value){
+  env <- parent.frame()
+  lhs <- substitute(lhs)
+  rhs <- substitute(value)
+
+  tryCatch({
+    eval(as.call(list( quote(`<-`), lhs, bquote({
+      if(is.null(.(rhs))){ stop() }
+      .(rhs)
+    }))), envir = env)
+  }, error = function(e){
+  })
+  invisible()
+}
 
 
 #' A JavaScript style of creating functions
