@@ -84,6 +84,6 @@ shiny_alert2 <- function(
 #' @export
 close_alert2 <- function(){
   session = shiny::getDefaultReactiveDomain()
-  session$sendCustomMessage('dipsaus-swal-close')
+  session$sendCustomMessage('dipsaus-swal-close', list(""))
   invisible()
 }

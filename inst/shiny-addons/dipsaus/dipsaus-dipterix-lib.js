@@ -7668,7 +7668,7 @@ const register_swal = (Shiny, debug = false) => {
     registered = true;
     log("[Dipsaus]: Register swal-alert widget");
 
-    Shiny.addCustomMessageHandler('dipsaus-swal-close', () => {
+    Shiny.addCustomMessageHandler('dipsaus-swal-close', (params) => {
       const state = sweetalert_min_default().getState();
       if( state && state.isOpen ) {
         close_current();
