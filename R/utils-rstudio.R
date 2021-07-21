@@ -570,7 +570,12 @@ rs_save_all <- function(){
   warning('RStudio version too low, please update RStudio')
 }
 
-
+#' Register to 'RStudio' shortcuts
+#' @description Register 'dipsaus' operators to 'RStudio' shortcut list.
+#' @param restart whether to restart 'RStudio'
+#' @details A 'Github' package \code{'shrtcts'} needs to be installed.
+#' Please run \code{remotes::install_github("gadenbuie/shrtcts")} to install.
+#' @return nothing
 #' @export
 rs_register_shortcuts <- function(restart = TRUE){
   if(!package_installed('shrtcts')){

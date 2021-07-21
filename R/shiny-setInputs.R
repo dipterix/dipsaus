@@ -76,9 +76,8 @@ set_shiny_input <- function(
       raw <- base64url::base64_urlencode(raw)
     },
     'proxy' = {
-      session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
-      session$userData$dipsaus_reserved$proxy_data %?<-% fastmap2()
-      session$userData$dipsaus_reserved$proxy_data[[inputId]] <- value
+      env <- ensure_shiny_proxy(session = session)
+      env$proxy_data[[inputId]] <- value
       raw <- inputId
     }
   )
@@ -117,6 +116,19 @@ use_shiny_dipsaus <- function(x){
 }
 
 
+ensure_shiny_proxy <- function(session = shiny::getDefaultReactiveDomain()){
+  if( shiny_is_running() ){
+    session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
+    re <- session$userData$dipsaus_reserved
+  } else {
+    re <- list()
+  }
+  re$compount_inputs %?<-% fastmap::fastmap()
+  re$proxy_data %?<-% fastmap2()
+  re$alert_callbacks %?<-% fastmap2()
+  return(re)
+}
+
 registerSetInputs <- function(){
   # register input
   shiny::registerInputHandler("dipsaus_asis", function(data, session, name) {
@@ -144,14 +156,14 @@ registerSetInputs <- function(){
       },
 
       'proxy' = {
-        if(inherits(session$userData$dipsaus_reserved$proxy_data, 'fastmap2')){
-          re <- session$userData$dipsaus_reserved$proxy_data[[raw]]
-          session$userData$dipsaus_reserved$proxy_data$`@remove`(raw)
+        env <- ensure_shiny_proxy(session = session)
+        if( env$proxy_data$`@has`(raw) ){
+          re <- env$proxy_data[[raw]]
+          env$proxy_data$`@remove`(raw)
           re
-        }else{
+        } else {
           NULL
         }
-
       },
 
       {
@@ -160,6 +172,28 @@ registerSetInputs <- function(){
              level = 'FATAL')
       }
     )
+
+  }, force = TRUE)
+
+  shiny::registerInputHandler("dipsaus_swal", function(data, session, name) {
+
+    if(!is.list(data)){
+      return(invisible())
+    }
+    key <- data$inputId
+    if(length(key) != 1 || !is.character(key)){ return(invisible()) }
+
+    env <- ensure_shiny_proxy(session = session)
+    map <- env$alert_callbacks
+    re <- map[[key]]
+    map$`@remove`(key)
+
+    if(is.function(re)){
+      try({
+        re(data$value)
+      })
+    }
+    return(invisible())
 
   }, force = TRUE)
 }

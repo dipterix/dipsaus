@@ -233,9 +233,8 @@ compoundInput2 <- function(
   session <- shiny::getDefaultReactiveDomain()
   if(!is.null(session)){
     value <- translate_compoundInput(value, session$rootScope(), inputId)
-    session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
-    session$userData$dipsaus_reserved$compount_inputs %?<-% fastmap::fastmap()
-    session$userData$dipsaus_reserved$compount_inputs$set(inputId, value)
+    env <- ensure_shiny_proxy(session = session)
+    env$compount_inputs$set(inputId, value)
   }
 
   use_shiny_dipsaus(re)
@@ -251,8 +250,9 @@ translate_compoundInput <- function(data, session, name){
   # shinysession$ns(name)
   mis_sess <- missing(session)
 
-  if(!mis_sess && !length(meta) && is.environment(session$userData$dipsaus_reserved)){
-    default_val <- session$userData$dipsaus_reserved$compount_inputs$get(session$ns(name))
+  if(!mis_sess && !length(meta)){
+    env <- ensure_shiny_proxy(session = session)
+    default_val <- env$compount_inputs$get(session$ns(name))
     meta <- as.list(default_val$meta)
   }
 
@@ -416,9 +416,8 @@ updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
 
   sample <- shiny::isolate(session$input[[ inputId ]])
   if(is.null(sample)){
-    if(is.environment(session$userData$dipsaus_reserved)){
-      sample <- session$userData$dipsaus_reserved$compount_inputs$get(session$ns(inputId))
-    }
+    env <- ensure_shiny_proxy(session = session)
+    sample <- env$compount_inputs$get(session$ns(inputId))
   }
 
   update_functions <- attr(sample, 'update_functions')

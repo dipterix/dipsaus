@@ -7,7 +7,8 @@
   "dependencies": {
     "html2canvas": "^1.0.0-rc.5",
     "path": "^0.12.7",
-    "serialize-javascript": "^4.0.0"
+    "serialize-javascript": "^4.0.0",
+    "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "serve": "^11.3.2",
