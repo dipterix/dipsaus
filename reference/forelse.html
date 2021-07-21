@@ -235,10 +235,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 #&gt;                                                                                          {     forelse(1:10, FUN, "wow") }
 #&gt;  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }
 #&gt;           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }
-#&gt;        min       lq     mean    median        uq      max neval
-#&gt;   23.31148  30.9283  38.2599  38.54511  45.73411  52.9231     3
-#&gt;  176.64589 189.6521 215.1125 202.65832 234.34583 266.0333     3
-#&gt;  155.96350 185.1968 233.0124 214.43018 271.53682 328.6435     3</div><div class='input'>
+#&gt;        min        lq      mean   median       uq      max neval
+#&gt;   21.30791  21.61641  41.50644  21.9249  51.6057  81.2865     3
+#&gt;  124.39016 136.00636 223.18251 147.6226 272.5787 397.5348     3
+#&gt;  113.95153 115.57497 197.29691 117.1984 238.9696 360.7408     3</div><div class='input'>
 
 </div></pre>
   </div>
