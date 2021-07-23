@@ -1,0 +1,49 @@
+Name: Dipsaus shortcut 01 (interactive)
+Description: Shortcut 01
+Interactive: true
+Binding: shortcut01
+
+Name: Dipsaus shortcut 02 (interactive)
+Description: Shortcut 02
+Interactive: true
+Binding: shortcut02
+
+Name: Dipsaus shortcut 03 (interactive)
+Description: Shortcut 03
+Interactive: true
+Binding: shortcut03
+
+Name: Dipsaus shortcut 04 (interactive)
+Description: Shortcut 04
+Interactive: true
+Binding: shortcut04
+
+Name: Dipsaus shortcut 05 (interactive)
+Description: Shortcut 05
+Interactive: true
+Binding: shortcut05
+
+Name: Dipsaus shortcut 06
+Description: Shortcut 06
+Interactive: false
+Binding: shortcut06
+
+Name: Dipsaus shortcut 07
+Description: Shortcut 07
+Interactive: false
+Binding: shortcut07
+
+Name: Dipsaus shortcut 08
+Description: Shortcut 08
+Interactive: false
+Binding: shortcut08
+
+Name: Dipsaus shortcut 09
+Description: Shortcut 09
+Interactive: false
+Binding: shortcut09
+
+Name: Dipsaus shortcut 10
+Description: Shortcut 10
+Interactive: false
+Binding: shortcut10

@@ -42,6 +42,8 @@ register_shiny <- function(){
 
   register_shiny()
 
+  options("dipsaus.shortcuts" = fastmap2())
+
   # reg.finalizer(session_log, function(x){
   #   x$finalize()
   # }, onexit = TRUE)
