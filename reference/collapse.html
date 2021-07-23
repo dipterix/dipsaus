@@ -196,9 +196,9 @@ collapsing dimensions</p>
   <span class='op'>}</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: microseconds
-#&gt;     expr    min     lq   mean median     uq    max neval
-#&gt;   result 656.51 656.51 656.51 656.51 656.51 656.51     1
-#&gt;  compare 171.41 171.41 171.41 171.41 171.41 171.41     1</div><div class='input'>
+#&gt;     expr       min        lq      mean    median        uq       max neval
+#&gt;   result 10847.495 10847.495 10847.495 10847.495 10847.495 10847.495     1
+#&gt;  compare   180.747   180.747   180.747   180.747   180.747   180.747     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span>
@@ -209,8 +209,8 @@ collapsing dimensions</p>
   <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  46.87711  46.87711  46.87711  46.87711  46.87711  46.87711     1
-#&gt;  compare 181.72245 181.72245 181.72245 181.72245 181.72245 181.72245     1</div><div class='input'>
+#&gt;   result  47.40614  47.40614  47.40614  47.40614  47.40614  47.40614     1
+#&gt;  compare 205.06221 205.06221 205.06221 205.06221 205.06221 205.06221     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

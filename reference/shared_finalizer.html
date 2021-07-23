@@ -316,20 +316,20 @@ instances, <code>fin</code> accepts no argument.</p>
 </div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/reg.finalizer.html'>reg.finalizer</a></span><span class='op'>(</span><span class='va'>e2</span>, <span class='va'>clear_files</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1134038 60.6    2013172 107.6         NA  2013172 107.6
-#&gt; Vcells 2118994 16.2   11976640  91.4      16384 23391749 178.5</div><div class='input'><span class='va'>file_exists</span>
+#&gt; Ncells 1134290 60.6    2013331 107.6         NA  2013331 107.6
+#&gt; Vcells 2120038 16.2   11976800  91.4      16384 23392114 178.5</div><div class='input'><span class='va'>file_exists</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># removing e1 will invalidate e2</span>
 <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1134044 60.6    2013172 107.6         NA  2013172 107.6
-#&gt; Vcells 2119038 16.2   11976640  91.4      16384 23391749 178.5</div><div class='input'><span class='va'>e2</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>    <span class='co'># FALSE</span>
+#&gt; Ncells 1134296 60.6    2013331 107.6         NA  2013331 107.6
+#&gt; Vcells 2120082 16.2   11976800  91.4      16384 23392114 178.5</div><div class='input'><span class='va'>e2</span><span class='op'>$</span><span class='fu'>valid</span><span class='op'>(</span><span class='op'>)</span>    <span class='co'># FALSE</span>
 </div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 <span class='co'># Clean-ups</span>
 <span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span><span class='va'>e2</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "Clean some shared files"</div><div class='output co'>#&gt;           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
-#&gt; Ncells 1134065 60.6    2013172 107.6         NA  2013172 107.6
-#&gt; Vcells 2119052 16.2   11976640  91.4      16384 23391749 178.5</div><div class='input'>
+#&gt; Ncells 1134317 60.6    2013331 107.6         NA  2013331 107.6
+#&gt; Vcells 2120096 16.2   11976800  91.4      16384 23392114 178.5</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
