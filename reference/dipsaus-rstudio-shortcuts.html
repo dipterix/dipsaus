@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate time difference and return a number — time_delta • dipsaus</title>
+<title>Register customized R code to 'RStudio' shortcuts — dipsaus-rstudio-shortcuts • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="Calculate time difference and return a number — time_delta" />
-<meta property="og:description" content="Calculate time difference and return a number" />
+<meta property="og:title" content="Register customized R code to 'RStudio' shortcuts — dipsaus-rstudio-shortcuts" />
+<meta property="og:description" content="'RStudio' keyboard shortcuts is handy, however, it is non-trivial
+to set shortcuts that run customized code. The proposing functions
+allow 10 customized R expressions to be registered. The first five
+(which from 1 to 5) are interactive shortcuts, the rest five
+(which from 6 to 10) are non-interactive.
+Ten keyboard shortcuts to customize" />
 
 
 
@@ -129,46 +134,94 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate time difference and return a number</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>time_delta.Rd</code></div>
+    <h1>Register customized R code to 'RStudio' shortcuts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shortcuts.R'><code>R/shortcuts.R</code></a></small>
+    <div class="hidden name"><code>dipsaus-rstudio-shortcuts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate time difference and return a number</p>
+    <p>'RStudio' keyboard shortcuts is handy, however, it is non-trivial
+to set shortcuts that run customized code. The proposing functions
+allow 10 customized R expressions to be registered. The first five
+(<code>which</code> from 1 to 5) are interactive shortcuts, the rest five
+(<code>which</code> from 6 to 10) are non-interactive.</p>
+<p>Ten keyboard shortcuts to customize</p>
     </div>
 
-    <pre class="usage"><span class='fu'>time_delta</span><span class='op'>(</span><span class='va'>t1</span>, <span class='va'>t2</span>, units <span class='op'>=</span> <span class='st'>"secs"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>rs_add_insertion_shortcut</span><span class='op'>(</span><span class='va'>which</span>, <span class='va'>txt</span>, force <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>rs_add_shortcut</span><span class='op'>(</span><span class='va'>which</span>, <span class='va'>expr</span>, force <span class='op'>=</span> <span class='cn'>FALSE</span>, quoted <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>rs_remove_shortcut</span><span class='op'>(</span><span class='va'>which</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>t1</th>
-      <td><p>time start</p></td>
+      <th>which</th>
+      <td><p>integer from 1 to 10, which keyboard shortcut to edit</p></td>
     </tr>
     <tr>
-      <th>t2</th>
-      <td><p>time end</p></td>
+      <th>txt</th>
+      <td><p>an insertion/replacement shortcut to add</p></td>
     </tr>
     <tr>
-      <th>units</th>
-      <td><p>character, choices are <code>'secs'</code>, <code>'mins'</code>, <code>'hours'</code>, and <code>'days'</code></p></td>
+      <th>force</th>
+      <td><p>whether to remove existing shortcut if the hot-key has been
+registered</p></td>
+    </tr>
+    <tr>
+      <th>expr</th>
+      <td><p>expression to run if shortcut is pressed</p></td>
+    </tr>
+    <tr>
+      <th>quoted</th>
+      <td><p>whether <code>expr</code> is quoted, default is false</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>numeric difference of time in units specified</p>
+    <p>There are two steps to register an 'RStudio' keyboard shortcut.</p>
+<p>1. Please enable the shortcuts by opening
+<code>'Tools' &gt; 'Modify Keyboard Shortcuts'</code> in 'RStudio' menu bar,
+search and locate add-in items starting with 'Dipsaus', register hot-keys
+of your choices, and then save. It is recommended that these
+keys are <code>'Alt' + 1</code> to <code>'Alt' + 0</code>. On 'MacOSX', 'Alt' is
+identical to 'option' key.</p>
+<p>2. run <code>rs_add_insertion_shortcut</code> or <code>rs_add_shortcut</code> to
+customize the behaviors; see Examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>a</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.3</span><span class='op'>)</span>
-<span class='va'>b</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 
-<span class='fu'>time_delta</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span><span class='op'>)</span> <span class='co'># In seconds, around 0.3</span>
-</div><div class='output co'>#&gt; [1] 0.3859229</div><div class='input'><span class='fu'>time_delta</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span>, <span class='st'>'mins'</span><span class='op'>)</span> <span class='co'># in minutes, around 0.005</span>
-</div><div class='output co'>#&gt; [1] 0.006432048</div><div class='input'>
+<span class='co'># Need to run in RStudio</span>
+<span class='co'># Please read the Section 'Details' carefully</span>
+
+<span class='co'># --------------------------------------------</span>
+
+<span class='co'># I assume the shortcuts are Alt+1,2,...,9,0,</span>
+<span class='co'># corresponding to shortcuts 1 - 10</span>
+
+<span class='co'># Adds an insertion to Alt+9</span>
+<span class='fu'>rs_add_insertion_shortcut</span><span class='op'>(</span><span class='fl'>9</span>, <span class='st'>" %?&lt;-% "</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='co'># restart RStudio and try `Alt+9`</span>
+
+
+<span class='co'># Adds an expression to Alt+1</span>
+<span class='fu'>rs_add_shortcut</span><span class='op'>(</span><span class='fl'>1</span>, <span class='op'>{</span>
+  <span class='va'>expr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"system.time({\n%s\n})\n"</span>,
+                  <span class='fu'>rstudioapi</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/selections.html'>selectionGet</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>value</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='va'>expr</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='va'>expr</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>, force <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># Select any valid R code and press Alt+1</span>
+
+
+<span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
