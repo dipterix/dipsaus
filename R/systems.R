@@ -172,6 +172,59 @@ get_ram <- function(){
   return(NA)
 }
 
+#' Get 'IP' address
+#' @param get_public whether to get public 'IP'
+#' @return a list of 'IP' addresses
+#' @export
+get_ip <- function(get_public = NA){
+  ip <- list(
+    available = c('127.0.0.1', '0.0.0.0'),
+    public = if(isFALSE(get_public)) { NULL } else { getOption("restbench.public_ip", NULL) }
+  )
+  try({
+    s <- switch (
+      get_os(),
+      'windows' = {
+        s <- system("ipconfig", intern=TRUE)
+        s <- stringr::str_extract(s, "IPv4 Address.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}.*")
+        s <- s[!is.na(s)]
+        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+      },
+      'darwin' = {
+        s <- system("ifconfig 2>&1", intern = TRUE)
+        s <- stringr::str_extract(s, "inet.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
+        s <- s[!is.na(s)]
+        # extract the first one as the second is mask
+        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+      }, {
+        s <- system("ip addr", intern = TRUE)
+        s <- stringr::str_extract(s, "inet.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
+        s <- s[!is.na(s)]
+        # extract the first one as the second is mask
+        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+      }
+    )
+    ip$available <- c(ip$available, s[!is.na(s)])
+  }, silent = TRUE)
+
+  # also use ipify
+  if(isTRUE(get_public)){
+    ip$public <- getOption("restbench.public_ip", try({
+      res <- readLines("https://api.ipify.org?format=json")
+      res <- jsonlite::fromJSON(res)
+      s <- res$ip
+      s <- stringr::str_extract(s, "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
+      s <- s[!is.na(s)]
+      options("restbench.public_ip" = s)
+      s
+    }, silent = TRUE))
+  }
+
+  ip$available <- unique(ip$available)
+  ip
+}
+
+
 #' @rdname dipsaus-defunct
 #' @export
 get_cpu <- function(){
