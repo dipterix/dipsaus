@@ -29,23 +29,21 @@ registered}
 'RStudio' keyboard shortcuts is handy, however, it is non-trivial
 to set shortcuts that run customized code. The proposing functions
 allow 10 customized R expressions to be registered. The first five
-(\code{which} from 1 to 5) are interactive shortcuts, the rest five
-(\code{which} from 6 to 10) are non-interactive.
-
-Ten keyboard shortcuts to customize
+(1 to 5) are interactive shortcuts, the rest five
+(6 to 10) are non-interactive.
 }
 \details{
 There are two steps to register an 'RStudio' keyboard shortcut.
 
 1. Please enable the shortcuts by opening
-\code{'Tools' > 'Modify Keyboard Shortcuts'} in 'RStudio' menu bar,
-search and locate add-in items starting with 'Dipsaus', register hot-keys
+\code{'Tools' > 'Modify Keyboard Shortcuts'} in 'RStudio' menu bar;
+search and locate add-in items starting with 'Dipsaus'; register hot-keys
 of your choices, and then save. It is recommended that these
-keys are \code{'Alt' + 1} to \code{'Alt' + 0}. On 'MacOSX', 'Alt' is
-identical to 'option' key.
+keys are \code{'Alt' + 1} to \code{'Alt' + 0}. On Apple, 'Alt' is
+equivalent to 'option' key.
 
 2. run \code{rs_add_insertion_shortcut} or \code{rs_add_shortcut} to
-customize the behaviors; see Examples.
+customize the behaviors of each shortcuts; see Examples.
 }
 \examples{
 

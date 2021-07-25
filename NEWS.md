@@ -1,3 +1,11 @@
+dipsaus 0.1.7
+=======
+
+## Major Changes
+* Added `fastquantile` to estimate single quantile, which is faster than base R
+* Removed `qs_map`
+
+
 dipsaus 0.1.6
 =======
 

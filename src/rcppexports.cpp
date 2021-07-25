@@ -87,6 +87,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// quantile2
+double quantile2(SEXP x, double q);
+RcppExport SEXP _dipsaus_quantile2(SEXP xSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(quantile2(x, q));
+    return rcpp_result_gen;
+END_RCPP
+}
 // object_address
 std::string object_address(SEXP x);
 RcppExport SEXP _dipsaus_object_address(SEXP xSEXP) {
@@ -139,6 +151,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_baselineArray", (DL_FUNC) &_dipsaus_baselineArray, 8},
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
     {"_dipsaus_fastcov", (DL_FUNC) &_dipsaus_fastcov, 8},
+    {"_dipsaus_quantile2", (DL_FUNC) &_dipsaus_quantile2, 2},
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
     {"_dipsaus_get_sexp_type", (DL_FUNC) &_dipsaus_get_sexp_type, 1},

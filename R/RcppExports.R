@@ -21,6 +21,10 @@ fastcov <- function(x1, x2, nrow, col1, col2, cm1, cm2, df) {
     .Call(`_dipsaus_fastcov`, x1, x2, nrow, col1, col2, cm1, cm2, df)
 }
 
+quantile2 <- function(x, q) {
+    .Call(`_dipsaus_quantile2`, x, q)
+}
+
 object_address <- function(x) {
     .Call(`_dipsaus_object_address`, x)
 }

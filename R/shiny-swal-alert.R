@@ -15,7 +15,7 @@
 #' @param on_close \code{NULL} or a function that takes in one argument. If
 #' function is passed in, then it will be executed when users close the alert
 #' @param session shiny session, see \code{\link[shiny]{domains}}
-#' @return a temporary input ID, currectly not useful
+#' @return a temporary input ID, currently not useful
 #' @examples
 #'
 #' library(shiny)

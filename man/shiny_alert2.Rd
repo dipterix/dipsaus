@@ -44,7 +44,7 @@ function is passed in, then it will be executed when users close the alert}
 \item{session}{shiny session, see \code{\link[shiny]{domains}}}
 }
 \value{
-a temporary input ID, currectly not useful
+a temporary input ID, currently not useful
 }
 \description{
 Simple shiny alert that uses 'JavaScript' promises
