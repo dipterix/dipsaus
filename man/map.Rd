@@ -5,8 +5,6 @@
 \alias{session_map}
 \alias{rds_map}
 \alias{text_map}
-\alias{qs_map}
-\alias{redis_map}
 \title{Create R object map.}
 \usage{
 session_map(map = fastmap::fastmap())
@@ -14,18 +12,11 @@ session_map(map = fastmap::fastmap())
 rds_map(path = tempfile())
 
 text_map(path = tempfile())
-
-qs_map(path = tempfile())
-
-redis_map(name = rand_string())
 }
 \arguments{
 \item{map}{a \code{fastmap::fastmap()} list}
 
 \item{path}{directory path where map data should be stored}
-
-\item{name}{character, map name. If map names are the same, the data
-will be shared.}
 }
 \value{
 An \code{R6} instance that inherits \code{\link[dipsaus]{AbstractMap}}
@@ -46,23 +37,14 @@ process nor parent process. The goal of this map is to share the data across
 different environments and to store global variables, as long as they share
 the same map object. If you are looking for maps that can be shared
 by different processes, check the rest map types. The closest map type is
-\code{redis_map}, which is also memory-based.
+\code{rds_map}.
 }
 \item{\code{\link{rds_map}}}{
 An 'RDS' map uses file system to store values. The values are stored
 separately in '.rds' files. Compared to session maps, 'RDS' map can be
 shared across different R process. It's recommended to store
 large files in \code{rds_map}. If the value is not large in RAM,
-\code{text_map} and \code{redis_map} are recommended.
-}
-\item{\code{\link{qs_map}}}{
-A 'qs' map uses package 'qs' as backend. This map is very similar to
-\code{rds_map}, but is especially designed for large values. For example,
-pushing 1GB data to \code{qs_map} will be 100 times faster than using
-\code{rds_map}, and \code{text_map} will almost fail. However, compared
-to \code{rds_map} the stored data cannot be normally read by R as they
-are compressed binary files. And \code{qs_map} is heavier than
-\code{text_map}.
+\code{text_map} is recommended.
 }
 \item{\code{\link{text_map}}}{
 A 'text' map uses file system to store values. Similar to \code{rds_map},
@@ -74,24 +56,7 @@ It's highly recommended to convert factors to characters. Do NOT use if the
 values are functions or environments. The recommended use case scenario
 is when the speed is not the major concern, and you want to preserve data
 with backward compatibility. Otherwise it's highly recommended to use
-\code{redis_map}, \code{qs_map}, and \code{rds_map}.
-}
-\item{\code{\link{redis_map}}}{
-A 'Redis' map uses free open source software `Redis` and R package
-'RcppRedis' as backend. Compared to session map, 'Redis' map can be
-shared across sessions. Compared to 'text' and 'rds' maps, 'Redis' map
-stores data in memory, meaning a potential of significant speed ups. To use
-\code{redis_map}, you need to install `Redis` on your computer.
-\itemize{
-  \item On Mac: use `\code{brew install redis}` to install and
-    `\code{brew services start redis}` to start the service
-  \item On Linux: use `\code{sudo apt-get install redis-server}` to install
-    and `\code{sudo systemctl enable redis-server.service}` to start the
-    service
-  \item On Windows: Download from
-    \url{https://github.com/dmajkic/redis/downloads} and double click
-    'redis-server.exe'
-}
+\code{rds_map}.
 }
 }
 }
@@ -100,7 +65,7 @@ stores data in memory, meaning a potential of significant speed ups. To use
 
 # Define a path to your map.
 path = tempfile()
-map <- qs_map(path)
+map <- rds_map(path)
 
 # Reset
 map$reset()
@@ -127,7 +92,7 @@ map$set(key = 'c', value = 2, signature = list(
 ))
 
 # Check what's in the map from process B
-mapB <- qs_map(path)
+mapB <- rds_map(path)
 mapB$keys()
 mapB$keys(include_signatures = TRUE)
 

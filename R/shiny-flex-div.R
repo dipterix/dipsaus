@@ -117,12 +117,35 @@ flex_div <- function(..., ncols = 'auto'){
 #'
 #' @export
 html_asis <- function(s, space = TRUE){
-  # If you install shiny, then htmltools must exists
-  if(requireNamespace('htmltools', quietly = TRUE)){
-    htmltools::htmlEscape(s)
-  }
   if(space){
-    s <- stringr::str_replace_all(s, ' ', '&nbsp;')
+    pattern <- "&|<|>| |\t" # or "&|<|>|'|\"|\r|\n"
+    specials <- list(
+      "&" = "&amp;",
+      "<" = "&lt;",
+      ">" = "&gt;",
+      # "'" = "&#39;",
+      # '"' = "&quot;",
+      # "\r" = "&#13;",
+      # "\n" = "&#10;",
+      " " = "&nbsp;",
+      "\t" = "&nbsp;&nbsp;&nbsp;&nbsp;"
+    )
+  } else {
+    pattern <- "&|<|>|"
+    specials <- list(
+      "&" = "&amp;",
+      "<" = "&lt;",
+      ">" = "&gt;"
+    )
   }
+
+  s <- enc2utf8(as.character(s))
+  if (any(grepl(pattern, s, useBytes = TRUE))) {
+    for (chr in names(specials)) {
+      s <- gsub(chr, specials[[chr]], s, fixed = TRUE,
+                useBytes = TRUE)
+    }
+  }
+  Encoding(s) <- "UTF-8"
   shiny::HTML(s)
 }

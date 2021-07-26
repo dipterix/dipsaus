@@ -105,7 +105,7 @@ PersistContainer <- R6::R6Class(
       m <- tryCatch({
         do.call(backend, args)
       }, error = function(e){
-        do.call(qs_map, args)
+        do.call(rds_map, args)
       })
 
       private$map <- m

@@ -2,7 +2,7 @@
 % Please edit documentation in R/cpp-fastquantile.R
 \name{fastquantile}
 \alias{fastquantile}
-\title{Calculate quantiles for numerical values}
+\title{Calculate single quantile for numerical values}
 \usage{
 fastquantile(x, q)
 }
