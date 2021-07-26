@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Obtain registered input bindings — getInputBinding • dipsaus</title>
+<title>Calculate single quantile for numerical values — fastquantile • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Obtain registered input bindings — getInputBinding" />
-<meta property="og:description" content="Obtain registered input bindings" />
+<meta property="og:title" content="Calculate single quantile for numerical values — fastquantile" />
+<meta property="og:description" content="Slightly faster than quantile with
+na.rm=TRUE. The internal implementation uses the 'C++' function
+std::nth_element, which is significantly faster than base R
+implementation when the length of input x is less than 1e7." />
 
 
 
@@ -129,96 +132,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Obtain registered input bindings</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/shiny-inputbindings.R'><code>R/shiny-inputbindings.R</code></a></small>
-    <div class="hidden name"><code>getInputBinding.Rd</code></div>
+    <h1>Calculate single quantile for numerical values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/cpp-fastquantile.R'><code>R/cpp-fastquantile.R</code></a></small>
+    <div class="hidden name"><code>fastquantile.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Obtain registered input bindings</p>
+    <p>Slightly faster than <code><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></code> with
+<code>na.rm=TRUE</code>. The internal implementation uses the 'C++' function
+<code>std::nth_element</code>, which is significantly faster than base R
+implementation when the length of input <code>x</code> is less than <code>1e7</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getInputBinding</span><span class='op'>(</span><span class='va'>fname</span>, pkg <span class='op'>=</span> <span class='cn'>NULL</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fastquantile</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>q</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fname</th>
-      <td><p>input function name, character or quoted expression
-such as <code>'shiny::textInput'</code> or <code>numericInput</code>.</p></td>
+      <th>x</th>
+      <td><p>numerical vector (integers or double)</p></td>
     </tr>
     <tr>
-      <th>pkg</th>
-      <td><p>(optional), name of package</p></td>
-    </tr>
-    <tr>
-      <th>envir</th>
-      <td><p>environment to evaluate <code>fname</code> if <code>pkg</code> is not provided</p></td>
+      <th>q</th>
+      <td><p>number from 0 to 1</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list containing: 1. `JavaScript` input binding name; 2. `R` updating function name</p>
+    <p>Identical to <code><a href='https://rdrr.io/r/stats/quantile.html'>quantile(x, q, na.rm=TRUE)</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/dipterix/dipsaus'>dipsaus</a></span><span class='op'>)</span>
+<span class='co'># create input x with NAs</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10000</span><span class='op'>)</span>
+<span class='va'>x</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>10000</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
 
-<span class='co'># Most recommended usage</span>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='st'>'compoundInput2'</span>, pkg <span class='op'>=</span> <span class='st'>'dipsaus'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $binding
-#&gt; [1] "dipsaus.compoundInput2"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "dipsaus.updateCompoundInput2"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "dipsaus::compoundInput2"
-#&gt; </div><div class='input'>
-<span class='co'># Other usages</span>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='st'>'shiny::textInput'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $binding
-#&gt; [1] "shiny.textInput"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "shiny::updateTextInput"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "shiny::textInput"
-#&gt; </div><div class='input'>
-
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='fu'>shiny</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $binding
-#&gt; [1] "shiny.textInput"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "shiny::updateTextInput"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "shiny::textInput"
-#&gt; </div><div class='input'>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='va'>compoundInput2</span>, pkg <span class='op'>=</span> <span class='st'>'dipsaus'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $binding
-#&gt; [1] "dipsaus.compoundInput2"
-#&gt; 
-#&gt; $update_function
-#&gt; [1] "dipsaus.updateCompoundInput2"
-#&gt; 
-#&gt; $call_function
-#&gt; [1] "dipsaus::compoundInput2"
-#&gt; </div><div class='input'>
-<span class='co'># Bad usage, raise errors in some cases</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## You need to library(shiny), or set envir=asNamespace('shiny'), or pkg='shiny'</span>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='st'>'textInput'</span><span class='op'>)</span>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='va'>textInput</span><span class='op'>)</span> <span class='co'># also fails</span>
-
-<span class='co'>## Always fails</span>
-<span class='fu'>getInputBinding</span><span class='op'>(</span><span class='st'>'dipsaus::compoundInput2'</span>, pkg <span class='op'>=</span> <span class='st'>'dipsaus'</span><span class='op'>)</span>
-<span class='op'>}</span>
-
+<span class='co'># compute median</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>fastquantile</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0.5</span><span class='op'>)</span>
+<span class='va'>res</span>
+</div><div class='output co'>#&gt; [1] 0.01298609</div><div class='input'>
+<span class='co'># base method</span>
+<span class='va'>res</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0.5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  50% 
+#&gt; TRUE </div><div class='input'><span class='va'>res</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># Comparison</span>
+<span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span>
+  <span class='op'>{</span>
+    <span class='fu'>fastquantile</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0.5</span><span class='op'>)</span>
+  <span class='op'>}</span>,<span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0.5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='op'>}</span>,<span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; Unit: microseconds
+#&gt;                                    expr     min       lq     mean   median
+#&gt;            {     fastquantile(x, 0.5) } 152.732 156.7215 162.2086 159.7960
+#&gt;  {     quantile(x, 0.5, na.rm = TRUE) } 534.122 546.8440 560.2676 552.7425
+#&gt;         {     median(x, na.rm = TRUE) } 352.731 424.5130 434.7821 431.6910
+#&gt;        uq     max neval
+#&gt;  162.9655 270.175   100
+#&gt;  566.2945 740.049   100
+#&gt;  439.6825 502.462   100</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -43,9 +43,8 @@
 <meta property="og:description" content="'RStudio' keyboard shortcuts is handy, however, it is non-trivial
 to set shortcuts that run customized code. The proposing functions
 allow 10 customized R expressions to be registered. The first five
-(which from 1 to 5) are interactive shortcuts, the rest five
-(which from 6 to 10) are non-interactive.
-Ten keyboard shortcuts to customize" />
+(1 to 5) are interactive shortcuts, the rest five
+(6 to 10) are non-interactive." />
 
 
 
@@ -77,7 +76,7 @@ Ten keyboard shortcuts to customize" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -143,9 +142,8 @@ Ten keyboard shortcuts to customize" />
     <p>'RStudio' keyboard shortcuts is handy, however, it is non-trivial
 to set shortcuts that run customized code. The proposing functions
 allow 10 customized R expressions to be registered. The first five
-(<code>which</code> from 1 to 5) are interactive shortcuts, the rest five
-(<code>which</code> from 6 to 10) are non-interactive.</p>
-<p>Ten keyboard shortcuts to customize</p>
+(1 to 5) are interactive shortcuts, the rest five
+(6 to 10) are non-interactive.</p>
     </div>
 
     <pre class="usage"><span class='fu'>rs_add_insertion_shortcut</span><span class='op'>(</span><span class='va'>which</span>, <span class='va'>txt</span>, force <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
@@ -184,13 +182,13 @@ registered</p></td>
 
     <p>There are two steps to register an 'RStudio' keyboard shortcut.</p>
 <p>1. Please enable the shortcuts by opening
-<code>'Tools' &gt; 'Modify Keyboard Shortcuts'</code> in 'RStudio' menu bar,
-search and locate add-in items starting with 'Dipsaus', register hot-keys
+<code>'Tools' &gt; 'Modify Keyboard Shortcuts'</code> in 'RStudio' menu bar;
+search and locate add-in items starting with 'Dipsaus'; register hot-keys
 of your choices, and then save. It is recommended that these
-keys are <code>'Alt' + 1</code> to <code>'Alt' + 0</code>. On 'MacOSX', 'Alt' is
-identical to 'option' key.</p>
+keys are <code>'Alt' + 1</code> to <code>'Alt' + 0</code>. On Apple, 'Alt' is
+equivalent to 'option' key.</p>
 <p>2. run <code>rs_add_insertion_shortcut</code> or <code>rs_add_shortcut</code> to
-customize the behaviors; see Examples.</p>
+customize the behaviors of each shortcuts; see Examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

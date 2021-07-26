@@ -75,7 +75,7 @@ statement, otherwise run &quot;else&quot; block." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -235,10 +235,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 #&gt;                                                                                          {     forelse(1:10, FUN, "wow") }
 #&gt;  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }
 #&gt;           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }
-#&gt;        min        lq     mean   median        uq       max neval
-#&gt;   20.84938  20.98389  34.7273  21.1184  41.66626  62.21412     3
-#&gt;  152.95587 188.10991 212.8577 223.2639 242.80863 262.35331     3
-#&gt;  148.46017 170.06247 183.1763 191.6648 200.53438 209.40400     3</div><div class='input'>
+#&gt;       min        lq      mean    median       uq      max neval
+#&gt;   26.5952  39.46856  77.35742  52.34192 102.7385 153.1351     3
+#&gt;  111.0645 127.12219 238.19930 143.17990 301.7667 460.3535     3
+#&gt;  195.7111 200.53132 217.26203 205.35155 228.0375 250.7235     3</div><div class='input'>
 
 </div></pre>
   </div>

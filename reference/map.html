@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -142,11 +142,7 @@
 
 <span class='fu'>rds_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>text_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>qs_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>redis_map</span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'>rand_string</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>text_map</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,11 +154,6 @@
     <tr>
       <th>path</th>
       <td><p>directory path where map data should be stored</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>character, map name. If map names are the same, the data
-will be shared.</p></td>
     </tr>
     </table>
 
@@ -181,19 +172,12 @@ process nor parent process. The goal of this map is to share the data across
 different environments and to store global variables, as long as they share
 the same map object. If you are looking for maps that can be shared
 by different processes, check the rest map types. The closest map type is
-<code>redis_map</code>, which is also memory-based.</p></dd>
+<code>rds_map</code>.</p></dd>
 <dt><code>rds_map</code></dt><dd><p>An 'RDS' map uses file system to store values. The values are stored
 separately in '.rds' files. Compared to session maps, 'RDS' map can be
 shared across different R process. It's recommended to store
 large files in <code>rds_map</code>. If the value is not large in RAM,
-<code>text_map</code> and <code>redis_map</code> are recommended.</p></dd>
-<dt><code>qs_map</code></dt><dd><p>A 'qs' map uses package 'qs' as backend. This map is very similar to
-<code>rds_map</code>, but is especially designed for large values. For example,
-pushing 1GB data to <code>qs_map</code> will be 100 times faster than using
-<code>rds_map</code>, and <code>text_map</code> will almost fail. However, compared
-to <code>rds_map</code> the stored data cannot be normally read by R as they
-are compressed binary files. And <code>qs_map</code> is heavier than
-<code>text_map</code>.</p></dd>
+<code>text_map</code> is recommended.</p></dd>
 <dt><code>text_map</code></dt><dd><p>A 'text' map uses file system to store values. Similar to <code>rds_map</code>,
 it can be stored across multiple processes as long as the maps share the
 same file directory. However, unlike <code>rds_map</code>, <code>text_map</code>
@@ -203,22 +187,7 @@ It's highly recommended to convert factors to characters. Do NOT use if the
 values are functions or environments. The recommended use case scenario
 is when the speed is not the major concern, and you want to preserve data
 with backward compatibility. Otherwise it's highly recommended to use
-<code>redis_map</code>, <code>qs_map</code>, and <code>rds_map</code>.</p></dd>
-<dt><code>redis_map</code></dt><dd><p>A 'Redis' map uses free open source software `Redis` and R package
-'RcppRedis' as backend. Compared to session map, 'Redis' map can be
-shared across sessions. Compared to 'text' and 'rds' maps, 'Redis' map
-stores data in memory, meaning a potential of significant speed ups. To use
-<code>redis_map</code>, you need to install `Redis` on your computer.
-<ul>
-<li><p>On Mac: use `<code>brew install redis</code>` to install and
-    `<code>brew services start redis</code>` to start the service</p></li>
-<li><p>On Linux: use `<code>sudo apt-get install redis-server</code>` to install
-    and `<code>sudo systemctl enable redis-server.service</code>` to start the
-    service</p></li>
-<li><p>On Windows: Download from
-    <a href='https://github.com/dmajkic/redis/downloads'>https://github.com/dmajkic/redis/downloads</a> and double click
-    'redis-server.exe'</p></li>
-</ul></p></dd>
+<code>rds_map</code>.</p></dd>
 
 </dl>
 
@@ -228,7 +197,7 @@ stores data in memory, meaning a potential of significant speed ups. To use
 
 <span class='co'># Define a path to your map.</span>
 <span class='va'>path</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
+<span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>rds_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
 
 <span class='co'># Reset</span>
 <span class='va'>map</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span>
@@ -255,13 +224,13 @@ stores data in memory, meaning a potential of significant speed ups. To use
 <span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Check what's in the map from process B</span>
-<span class='va'>mapB</span> <span class='op'>&lt;-</span> <span class='fu'>qs_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
+<span class='va'>mapB</span> <span class='op'>&lt;-</span> <span class='fu'>rds_map</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
 <span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; ==YQ ==Yg ==Yw 
 #&gt;  "a"  "b"  "c" </div><div class='input'><span class='va'>mapB</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span>include_signatures <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      keys                                   
 #&gt; ==YQ "a"  "6717f2823d3202449301145073ab8719"
-#&gt; ==Yg "b"  "dfcefd0f252261fb066bc771eda20fe7"
+#&gt; ==Yg "b"  "2a2622de2436b3664d0f2e1013cd9cb9"
 #&gt; ==Yw "c"  "f3b07dfebb13e24c3b1a5e11ec21a15d"</div><div class='input'>
 <span class='co'># Number of key-values pairs in the map.</span>
 <span class='va'>mapB</span><span class='op'>$</span><span class='fu'>size</span><span class='op'>(</span><span class='op'>)</span>
