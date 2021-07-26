@@ -176,7 +176,11 @@ rs_remove_shortcut <- function(which){
 
 run_shortcut <- function(which){
   fname <- shortcut_settings_path(which)
-  if(!file.exists(fname)){ return(invisible()) }
+  if(!file.exists(fname)){
+    warning("Shortcut ", which , " has not been set up yet. Please read ",
+            sQuote('help("rs_add_shortcut")'), " to set up shortcuts.")
+    return(invisible())
+  }
   expr <- parse(file = fname)
   eval(expr, envir = new.env(parent = .GlobalEnv))
 }

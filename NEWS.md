@@ -5,6 +5,7 @@ dipsaus 0.1.7
 * Added `fastquantile` to estimate single quantile, which is faster than base R
 * Added `RStudio` shortcuts, allowing customized code from shortcuts
 * Added `shiny_alert2` that launches large alerts in shiny applications
+* Added `%<-?%` to only assign when right-hand side expression is valid and not null
 * Removed `qs_map`, `redis_map`
 * Removed dependence `qs`, `RcppRedis`, `htmltools`
 * Removed `make_async_evaluator`
