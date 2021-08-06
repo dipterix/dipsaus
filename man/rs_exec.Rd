@@ -11,7 +11,8 @@ rs_exec(
   rs = TRUE,
   wait = FALSE,
   packages = NULL,
-  focus_on_console = FALSE
+  focus_on_console = FALSE,
+  ...
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ rs_exec(
 \item{focus_on_console}{whether to return back to console after creating
 jobs; useful when users want to focus on writing code; default is false.
 This feature works with 'RStudio' (\code{>=1.4})}
+
+\item{...}{internally used}
 }
 \value{
 If \code{wait=TRUE}, returns evaluation results of \code{expr},
@@ -58,4 +61,25 @@ have start-up code stored at \code{~/.Rprofile}, the start-up code will be
 ignored. When running within 'RStudio', the start-up code will be executed.
 As of \code{rstudioapi} version 0.11, there is no 'vanilla' option. This
 feature is subject to change in the future.
+}
+\examples{
+
+if(interactive()){
+  h <- rs_exec(
+    {
+      Sys.sleep(2)
+      print(Sys.getpid())
+    },
+    wait = FALSE, name = 'Test',
+    focus_on_console = TRUE
+  )
+  code <- h()
+  print(code)
+
+  # wait 3 seconds
+  Sys.sleep(3)
+  code <- h()
+  attributes(code)
+}
+
 }

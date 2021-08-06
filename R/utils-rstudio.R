@@ -39,7 +39,7 @@ rs_focus_console <- function(wait = 0.5){
   return(invisible())
 }
 
-rs_runjob <- function(script, name, focus_on_console = FALSE){
+rs_runjob <- function(script, name, focus_on_console = FALSE, ...){
   rstudioapi::jobRunScript(path = script, name = name,
                            workingDir = tempdir(),
                            importEnv = NULL, exportEnv = "")
@@ -53,19 +53,18 @@ future_is_sequential <- function(){
   inherits(future::plan(), 'sequential')
 }
 
-rs_runjob_alt <- function(script, name, wait = TRUE){
+rs_runjob_alt <- function(script, name, wait = TRUE,
+                          args = "--vanilla", ...){
   # use RScript
-  script <- normalizePath(script)
   if(!file.exists(script)){
     stop("script is missing")
   }
+  script <- normalizePath(script, mustWork = TRUE, winslash = "\\")
   rscript <- R.home('bin')
 
   rscript <- list.files(rscript, '^rscript', full.names = TRUE, ignore.case = TRUE)
+  rscript <- normalizePath(rscript, mustWork = TRUE, winslash = "\\")[[1]]
 
-  if(length(rscript) != 1){
-    stop("Cannot find Rscript or Rscript.exe... You might want to use RStudio?")
-  }
   # inject to load base packages
   sinfo <- utils::sessionInfo()
   s <- readLines(script)
@@ -74,8 +73,13 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
     s
   )
 
-  cmd <- sprintf("%s --vanilla %s", rscript, script)
-  system(cmd, wait = wait)
+  cmd <- sprintf('"%s" %s "%s"', rscript, paste(args, collapse = " "), script)
+  if(get_os() == "windows"){
+    system(cmd, wait = wait, show.output.on.console = FALSE, invisible = TRUE, minimized = TRUE, intern = FALSE, ...)
+  } else {
+    system(cmd, wait = wait, intern = FALSE, ...)
+  }
+
   return()
 }
 
@@ -91,6 +95,7 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
 #' @param focus_on_console whether to return back to console after creating
 #' jobs; useful when users want to focus on writing code; default is false.
 #' This feature works with 'RStudio' (\code{>=1.4})
+#' @param ... internally used
 #' @return If \code{wait=TRUE}, returns evaluation results of \code{expr},
 #' otherwise a function that can track the state of job.
 #'
@@ -114,9 +119,30 @@ rs_runjob_alt <- function(script, name, wait = TRUE){
 #' As of \code{rstudioapi} version 0.11, there is no 'vanilla' option. This
 #' feature is subject to change in the future.
 #'
+#' @examples
+#'
+#' if(interactive()){
+#'   h <- rs_exec(
+#'     {
+#'       Sys.sleep(2)
+#'       print(Sys.getpid())
+#'     },
+#'     wait = FALSE, name = 'Test',
+#'     focus_on_console = TRUE
+#'   )
+#'   code <- h()
+#'   print(code)
+#'
+#'   # wait 3 seconds
+#'   Sys.sleep(3)
+#'   code <- h()
+#'   attributes(code)
+#' }
+#'
 #' @export
 rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
-                    wait = FALSE, packages = NULL, focus_on_console = FALSE){
+                    wait = FALSE, packages = NULL, focus_on_console = FALSE,
+                    ...){
   if(!quoted){
     expr <- substitute(expr)
   }
@@ -149,6 +175,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
       }
 
       tryCatch({
+        options("raveio.settings_readonly" = TRUE)
 
         lapply(!!packages, function(p){
           suppressMessages({
@@ -178,12 +205,12 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
   if(rs && rs_avail()){
     if(wait){
-      rs_runjob(script, name, focus_on_console = FALSE)
+      rs_runjob(script, name, focus_on_console = FALSE, ...)
     } else {
-      rs_runjob(script, name, focus_on_console = focus_on_console)
+      rs_runjob(script, name, focus_on_console = focus_on_console, ...)
     }
   } else {
-    rs_runjob_alt(script, name, wait = wait)
+    rs_runjob_alt(script, name, wait = wait, ...)
   }
 
   # returns a function checking states
