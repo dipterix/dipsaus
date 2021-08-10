@@ -446,74 +446,161 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
 
 
 #' Convert functions to pipe-friendly functions
-#' @param call a function call, or the function itself
-#' @param a argument name to be varied
 #' @param x R object as input
-#' @param .name new argument name; default is the same as \code{a}
+#' @param ... default arguments explicitly display in the returned function
+#' @param call a function call, or the function itself
+#' @param arg_name argument name to be varied. This argument will be the first
+#' argument in the new function so it's pipe-friendly.
+#' @param .name new argument name; default is the same as \code{arg_name}
 #' @param .env executing environment
+#' @param .quoted whether \code{call} has been quoted
 #' @return If \code{x} is missing, returns a function that takes one argument,
 #' otherwise run the function with given \code{x}
 #' @examples
 #'
 #' # modify a function call
-#' vary_title <- as_pipe(plot(1:10, 1:10), 'main', .name = 'title')
+#' vary_title <- as_pipe(call = plot(1:10, 1:10),
+#'                       pch = 16,
+#'                       arg_name = 'main',
+#'                       .name = 'title')
 #' vary_title
 #'
-#' # vary_title is pipe-friendly
+#' # vary_title is pipe-friendly with `pch` default 16
 #' vary_title(title = 'My Title')
-#' vary_title(title = 'My Title', pch = 16)
+#'
+#' # `pch` is explicit
+#' vary_title(title = 'My Title', pch = 1)
+#'
+#' # other variables are implicit
+#' vary_title(title = 'My Title', type = 'l')
 #'
 #'
 #' # modify a function
 #'
 #' f <- function(b = 1, x){ b + x }
-#' f_pipable <- as_pipe(f, 'x')
+#' f_pipable <- as_pipe(call = f, arg_name = 'x')
 #' f_pipable
 #'
 #' f_pipable(2)
 #'
+#' # Advanced use
+#'
+#' # Set option dipsaus.debug.as_pipe=TRUE to debug
+#' options("dipsaus.debug.as_pipe" = TRUE)
+#'
+#' # Both `.(z)` and `z` work
+#'
+#' image2 <- as_pipe(call = image(
+#'   x = seq(0, 1, length.out = nrow(z)),
+#'   y = 1:ncol(z),
+#'   z = matrix(1:16, 4),
+#'   xlab = "Time", ylab = "Freq",
+#'   main = "Debug"
+#' ), arg_name = 'z')
+#'
+#' # main can be overwritten
+#' image2(matrix(1:50, 5), main = "Production")
+#'
+#'
+#' # reset debug option
+#' options("dipsaus.debug.as_pipe" = FALSE)
+#'
 #'
 #' @export
-as_pipe <- function(call, arg_name, x, .name = arg_name, .env = parent.frame()){
+as_pipe <- function(x, ..., call, arg_name,
+                    .name = arg_name,
+                    .env = parent.frame(),
+                    .quoted = FALSE){
+
+
   stopifnot(is.character(arg_name))
-  call_ <- as.list(substitute(call))
-
-  if( call_[[1]] == 'function'){
-    # call_ is a function
-    call_ <- list(as.call(list(quote(`(`), as.call(call_))))
+  if(!.quoted){
+    call <- substitute(call)
   }
+  call <- as.list(call)
 
-  if(!'...' %in% call_){
-    call_[[length(call_) + 1]] <- quote(...)
+  if( call[[1]] == 'function'){
+    # call is a function
+    call <- list(as.call(list(quote(`(`), as.call(call))))
   }
-  call_ <- as.call(call_)
+  call <- match_calls(call, quoted = TRUE, envir = .env, recursive = FALSE)
 
-  f <- new_function2(structure(alist(x=, y=), names = c(.name, "...")), bquote({
-    call <- quote(.( call_ ))
+  if(!'...' %in% call){
+    call[[length(call) + 1]] <- quote(...)
+  }
+  dot_args <- list(...)
+  dot_args <- dot_args[!names(dot_args) %in% '']
+  if(length(dot_args)){
+    for(nm in names(dot_args)){
+      call[[nm]] <- str2lang(nm)
+    }
+  }
+  call <- as.call(call)
+
+  f <- new_function2(c(
+    structure(alist(x=, y=), names = c(.name, "...")),
+    dot_args
+  ), bquote({
+
+    # remove duplicated ...
+    dots <- as.list(match.call(expand.dots = FALSE))[["..."]]
+    dots <- dots[!names(dots) %in% '']
+    call <- as.list(bquote(.( call )))
+    if(length(dots)){
+      for(nm in names(dots)){
+        call[[nm]] <- NULL
+      }
+    }
     call[[.(arg_name)]] <- quote(.(str2lang(.name)))
-    eval(call)
+    eval(as.call(call))
   }), quote_type = 'quote', env = .env)
 
-  .call <- call_
-  .call[[arg_name]] <- sprintf("[input:%s]", .name)
-  attr(f, "call") <- .call
+  call_ <- call
+  call_[[arg_name]] <- sprintf("[input:%s]", .name)
+  attr(f, "call") <- call_
   class(f) <- c("f_pipe", "function")
 
-  if( missing(x) ){
-    return(f)
-  } else {
+  if( !missing(x) ){
+    print(x)
     return(f(x))
+  } else {
+    if(getOption("dipsaus.debug.as_pipe", FALSE)){
+      e <- local({
+        tryCatch({
+          call <- as.list(call)
+          call <- call[call != "..."]
+          call <- as.call(call)
+          .input <- eval(call[[arg_name]], envir = list(), enclos = .env)
+          f(.input)
+          NULL
+        }, error = function(e){
+          e
+        })
+      })
+      if(is.null(e)){
+        e <- 'options("dipsaus.debug.as_pipe") is set to TRUE. This should be used only in debug mode. Do not use for production!'
+        message(e)
+      } else {
+        warning(e, immediate. = TRUE, call. = FALSE)
+      }
+
+    }
+
+
+    return(f)
+
   }
 
 }
 
 #' @export
 print.f_pipe <- function(x, ...){
-  call <- attr(x, "call")
-  cat("Pipe-compatible function:\n  ")
-  print(call)
+  cat("<Pipe-compatible function>\n")
+  print(dipsaus::new_function2(formals(x), bquote({
+    .(attr(x, "call"))
+  }), quote_type = "quote"))
+  invisible(x)
 }
-
 
 #' Plus-minus operator
 #' @param a,b numeric vectors, matrices or arrays

@@ -4,18 +4,31 @@
 \alias{as_pipe}
 \title{Convert functions to pipe-friendly functions}
 \usage{
-as_pipe(call, arg_name, x, .name = arg_name, .env = parent.frame())
+as_pipe(
+  x,
+  ...,
+  call,
+  arg_name,
+  .name = arg_name,
+  .env = parent.frame(),
+  .quoted = FALSE
+)
 }
 \arguments{
-\item{call}{a function call, or the function itself}
-
 \item{x}{R object as input}
 
-\item{.name}{new argument name; default is the same as \code{a}}
+\item{...}{default arguments explicitly display in the returned function}
+
+\item{call}{a function call, or the function itself}
+
+\item{arg_name}{argument name to be varied. This argument will be the first
+argument in the new function so it's pipe-friendly.}
+
+\item{.name}{new argument name; default is the same as \code{arg_name}}
 
 \item{.env}{executing environment}
 
-\item{a}{argument name to be varied}
+\item{.quoted}{whether \code{call} has been quoted}
 }
 \value{
 If \code{x} is missing, returns a function that takes one argument,
@@ -27,21 +40,51 @@ Convert functions to pipe-friendly functions
 \examples{
 
 # modify a function call
-vary_title <- as_pipe(plot(1:10, 1:10), 'main', .name = 'title')
+vary_title <- as_pipe(call = plot(1:10, 1:10),
+                      pch = 16,
+                      arg_name = 'main',
+                      .name = 'title')
 vary_title
 
-# vary_title is pipe-friendly
+# vary_title is pipe-friendly with `pch` default 16
 vary_title(title = 'My Title')
-vary_title(title = 'My Title', pch = 16)
+
+# `pch` is explicit
+vary_title(title = 'My Title', pch = 1)
+
+# other variables are implicit
+vary_title(title = 'My Title', type = 'l')
 
 
 # modify a function
 
 f <- function(b = 1, x){ b + x }
-f_pipable <- as_pipe(f, 'x')
+f_pipable <- as_pipe(call = f, arg_name = 'x')
 f_pipable
 
 f_pipable(2)
+
+# Advanced use
+
+# Set option dipsaus.debug.as_pipe=TRUE to debug
+options("dipsaus.debug.as_pipe" = TRUE)
+
+# Both `.(z)` and `z` work
+
+image2 <- as_pipe(call = image(
+  x = seq(0, 1, length.out = nrow(z)),
+  y = 1:ncol(z),
+  z = matrix(1:16, 4),
+  xlab = "Time", ylab = "Freq",
+  main = "Debug"
+), arg_name = 'z')
+
+# main can be overwritten
+image2(matrix(1:50, 5), main = "Production")
+
+
+# reset debug option
+options("dipsaus.debug.as_pipe" = FALSE)
 
 
 }
