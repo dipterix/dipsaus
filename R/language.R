@@ -444,6 +444,77 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
   invisible(.x)
 }
 
+
+#' Convert functions to pipe-friendly functions
+#' @param call a function call, or the function itself
+#' @param a argument name to be varied
+#' @param x R object as input
+#' @param .name new argument name; default is the same as \code{a}
+#' @param .env executing environment
+#' @return If \code{x} is missing, returns a function that takes one argument,
+#' otherwise run the function with given \code{x}
+#' @examples
+#'
+#' # modify a function call
+#' vary_title <- as_pipe(plot(1:10, 1:10), 'main', .name = 'title')
+#' vary_title
+#'
+#' # vary_title is pipe-friendly
+#' vary_title(title = 'My Title')
+#' vary_title(title = 'My Title', pch = 16)
+#'
+#'
+#' # modify a function
+#'
+#' f <- function(b = 1, x){ b + x }
+#' f_pipable <- as_pipe(f, 'x')
+#' f_pipable
+#'
+#' f_pipable(2)
+#'
+#'
+#' @export
+as_pipe <- function(call, arg_name, x, .name = arg_name, .env = parent.frame()){
+  stopifnot(is.character(arg_name))
+  call_ <- as.list(substitute(call))
+
+  if( call_[[1]] == 'function'){
+    # call_ is a function
+    call_ <- list(as.call(list(quote(`(`), as.call(call_))))
+  }
+
+  if(!'...' %in% call_){
+    call_[[length(call_) + 1]] <- quote(...)
+  }
+  call_ <- as.call(call_)
+
+  f <- new_function2(structure(alist(x=, y=), names = c(.name, "...")), bquote({
+    call <- quote(.( call_ ))
+    call[[.(arg_name)]] <- quote(.(str2lang(.name)))
+    eval(call)
+  }), quote_type = 'quote', env = .env)
+
+  .call <- call_
+  .call[[arg_name]] <- sprintf("[input:%s]", .name)
+  attr(f, "call") <- .call
+  class(f) <- c("f_pipe", "function")
+
+  if( missing(x) ){
+    return(f)
+  } else {
+    return(f(x))
+  }
+
+}
+
+#' @export
+print.f_pipe <- function(x, ...){
+  call <- attr(x, "call")
+  cat("Pipe-compatible function:\n  ")
+  print(call)
+}
+
+
 #' Plus-minus operator
 #' @param a,b numeric vectors, matrices or arrays
 #' @return \code{a +/- b}, the dimension depends on \code{a+b}. If \code{a+b} is
