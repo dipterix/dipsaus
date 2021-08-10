@@ -138,30 +138,47 @@
     <p>Convert functions to pipe-friendly functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_pipe</span><span class='op'>(</span><span class='va'>call</span>, <span class='va'>arg_name</span>, <span class='va'>x</span>, .name <span class='op'>=</span> <span class='va'>arg_name</span>, .env <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>as_pipe</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  <span class='va'>call</span>,
+  <span class='va'>arg_name</span>,
+  .name <span class='op'>=</span> <span class='va'>arg_name</span>,
+  .env <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .quoted <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>call</th>
-      <td><p>a function call, or the function itself</p></td>
-    </tr>
-    <tr>
       <th>x</th>
       <td><p>R object as input</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>default arguments explicitly display in the returned function</p></td>
+    </tr>
+    <tr>
+      <th>call</th>
+      <td><p>a function call, or the function itself</p></td>
+    </tr>
+    <tr>
+      <th>arg_name</th>
+      <td><p>argument name to be varied. This argument will be the first
+argument in the new function so it's pipe-friendly.</p></td>
+    </tr>
+    <tr>
       <th>.name</th>
-      <td><p>new argument name; default is the same as <code>a</code></p></td>
+      <td><p>new argument name; default is the same as <code>arg_name</code></p></td>
     </tr>
     <tr>
       <th>.env</th>
       <td><p>executing environment</p></td>
     </tr>
     <tr>
-      <th>a</th>
-      <td><p>argument name to be varied</p></td>
+      <th>.quoted</th>
+      <td><p>whether <code>call</code> has been quoted</p></td>
     </tr>
     </table>
 
@@ -173,24 +190,62 @@ otherwise run the function with given <code>x</code></p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># modify a function call</span>
-<span class='va'>vary_title</span> <span class='op'>&lt;-</span> <span class='fu'>as_pipe</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>, <span class='st'>'main'</span>, .name <span class='op'>=</span> <span class='st'>'title'</span><span class='op'>)</span>
+<span class='va'>vary_title</span> <span class='op'>&lt;-</span> <span class='fu'>as_pipe</span><span class='op'>(</span>call <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>,
+                      pch <span class='op'>=</span> <span class='fl'>16</span>,
+                      arg_name <span class='op'>=</span> <span class='st'>'main'</span>,
+                      .name <span class='op'>=</span> <span class='st'>'title'</span><span class='op'>)</span>
 <span class='va'>vary_title</span>
-</div><div class='output co'>#&gt; Pipe-compatible function:
-#&gt;   plot(1:10, 1:10, ..., main = "[input:title]")</div><div class='input'>
-<span class='co'># vary_title is pipe-friendly</span>
+</div><div class='output co'>#&gt; &lt;Pipe-compatible function&gt;
+#&gt; function (title, ..., pch = 16) 
+#&gt; {
+#&gt;     plot(1:10, 1:10, ..., pch = pch, main = "[input:title]")
+#&gt; }
+#&gt; &lt;environment: 0x7f85213c6de8&gt;</div><div class='input'>
+<span class='co'># vary_title is pipe-friendly with `pch` default 16</span>
 <span class='fu'>vary_title</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>'My Title'</span><span class='op'>)</span>
-</div><div class='img'><img src='as_pipe-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>vary_title</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>'My Title'</span>, pch <span class='op'>=</span> <span class='fl'>16</span><span class='op'>)</span>
+</div><div class='img'><img src='as_pipe-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># `pch` is explicit</span>
+<span class='fu'>vary_title</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>'My Title'</span>, pch <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='img'><img src='as_pipe-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># other variables are implicit</span>
+<span class='fu'>vary_title</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>'My Title'</span>, type <span class='op'>=</span> <span class='st'>'l'</span><span class='op'>)</span>
+</div><div class='img'><img src='as_pipe-3.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'># modify a function</span>
 
 <span class='va'>f</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>b</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>{</span> <span class='va'>b</span> <span class='op'>+</span> <span class='va'>x</span> <span class='op'>}</span>
-<span class='va'>f_pipable</span> <span class='op'>&lt;-</span> <span class='fu'>as_pipe</span><span class='op'>(</span><span class='va'>f</span>, <span class='st'>'x'</span><span class='op'>)</span>
+<span class='va'>f_pipable</span> <span class='op'>&lt;-</span> <span class='fu'>as_pipe</span><span class='op'>(</span>call <span class='op'>=</span> <span class='va'>f</span>, arg_name <span class='op'>=</span> <span class='st'>'x'</span><span class='op'>)</span>
 <span class='va'>f_pipable</span>
-</div><div class='output co'>#&gt; Pipe-compatible function:
-#&gt;   f(..., x = "[input:x]")</div><div class='input'>
+</div><div class='output co'>#&gt; &lt;Pipe-compatible function&gt;
+#&gt; function (x, ...) 
+#&gt; {
+#&gt;     f(..., x = "[input:x]")
+#&gt; }
+#&gt; &lt;environment: 0x7f852047b578&gt;</div><div class='input'>
 <span class='fu'>f_pipable</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='co'># Advanced use</span>
+
+<span class='co'># Set option dipsaus.debug.as_pipe=TRUE to debug</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='st'>"dipsaus.debug.as_pipe"</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># Both `.(z)` and `z` work</span>
+
+<span class='va'>image2</span> <span class='op'>&lt;-</span> <span class='fu'>as_pipe</span><span class='op'>(</span>call <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span>
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, length.out <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span><span class='op'>)</span>,
+  y <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>z</span><span class='op'>)</span>,
+  z <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>16</span>, <span class='fl'>4</span><span class='op'>)</span>,
+  xlab <span class='op'>=</span> <span class='st'>"Time"</span>, ylab <span class='op'>=</span> <span class='st'>"Freq"</span>,
+  main <span class='op'>=</span> <span class='st'>"Debug"</span>
+<span class='op'>)</span>, arg_name <span class='op'>=</span> <span class='st'>'z'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>options("dipsaus.debug.as_pipe") is set to TRUE. This should be used only in debug mode. Do not use for production!</span></div><div class='img'><img src='as_pipe-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># main can be overwritten</span>
+<span class='fu'>image2</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>, <span class='fl'>5</span><span class='op'>)</span>, main <span class='op'>=</span> <span class='st'>"Production"</span><span class='op'>)</span>
+</div><div class='img'><img src='as_pipe-5.png' alt='' width='700' height='433' /></div><div class='input'>
+
+<span class='co'># reset debug option</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='st'>"dipsaus.debug.as_pipe"</span> <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
 
 </div></pre>
   </div>
