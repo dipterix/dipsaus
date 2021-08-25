@@ -144,7 +144,7 @@
   <span class='va'>...</span>,
   .callback <span class='op'>=</span> <span class='cn'>NULL</span>,
   .globals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  .ncores <span class='op'>=</span> <span class='fu'>future</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/re-exports.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .ncores <span class='op'>=</span> <span class='fu'>future</span><span class='fu'>::</span><span class='fu'><a href='https://future.futureverse.org/reference/re-exports.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>,
   .packages <span class='op'>=</span> <span class='fu'><a href='attached_packages.html'>attached_packages</a></span><span class='op'>(</span><span class='op'>)</span>,
   .focus_on_console <span class='op'>=</span> <span class='cn'>TRUE</span>,
   .rs <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -205,7 +205,8 @@ is only used when <code>.rs</code> is true</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='fastqueue2.html'>fastqueue2</a></code> instance</p>
+    <p>A list that should be, in most of the cases, identical to
+<code><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></code></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='rs_exec.html'>rs_exec</a></code></p></div>
@@ -214,17 +215,16 @@ is only used when <code>.rs</code> is true</p></td>
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
 
-  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>lapply_callr</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>a</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'>lapply_callr</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>a</span><span class='op'>)</span><span class='op'>{</span>
     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getpid.html'>Sys.getpid</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>a</span>, <span class='va'>x</span><span class='op'>)</span>
   <span class='op'>}</span>, a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-  <span class='va'>res</span><span class='op'>$</span><span class='fu'>as_list</span><span class='op'>(</span><span class='op'>)</span>
 
-  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>lapply_callr</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>30</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"a + x = %d"</span>, <span class='va'>a</span> <span class='op'>+</span> <span class='va'>x</span><span class='op'>)</span>
-  <span class='op'>}</span>, .globals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
-  .callback <span class='op'>=</span> <span class='va'>I</span>, .name <span class='op'>=</span> <span class='st'>"Test"</span><span class='op'>)</span>
-  <span class='va'>res</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='fu'>lapply_callr</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>30</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"a + x = %d"</span>, <span class='va'>a</span> <span class='op'>+</span> <span class='va'>x</span><span class='op'>)</span>
+    <span class='op'>}</span>, .globals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+    .callback <span class='op'>=</span> <span class='va'>I</span>, .name <span class='op'>=</span> <span class='st'>"Test"</span><span class='op'>)</span>
 
 <span class='op'>}</span>
 

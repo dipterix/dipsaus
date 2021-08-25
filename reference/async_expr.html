@@ -144,7 +144,7 @@
   .varname <span class='op'>=</span> <span class='st'>"x"</span>,
   envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
   .pre_run <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .ncore <span class='op'>=</span> <span class='fu'>future</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future/man/re-exports.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>,
+  .ncore <span class='op'>=</span> <span class='fu'>future</span><span class='fu'>::</span><span class='fu'><a href='https://future.futureverse.org/reference/re-exports.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -177,7 +177,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>passed to <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code></p></td>
+      <td><p>passed to <code><a href='https://future.futureverse.org/reference/future.html'>future::future</a></code></p></td>
     </tr>
     </table>
 
@@ -187,7 +187,7 @@
 returned depends on whether <code>async</code> is called. See details for workflow.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>async_expr</code> uses <code>lapply</code> and <code><a href='https://rdrr.io/pkg/future/man/future.html'>future::future</a></code> internally.
+    <p><code>async_expr</code> uses <code>lapply</code> and <code><a href='https://future.futureverse.org/reference/future.html'>future::future</a></code> internally.
 Within each loop, an item in <code>".X"</code> will be assigned to variable <code>"x"</code>
 (defined by <code>".varname"</code>) and enter the evaluation. During the evaluation,
 function <code>async</code> is provided. Expressions within <code>async</code> will be

@@ -175,7 +175,7 @@ progressr::handlers. See examples for detailed use case" />
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://progressr.futureverse.org'>progressr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://shiny.rstudio.com/'>shiny</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/HenrikBengtsson/future'>future</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://future.futureverse.org'>future</a></span><span class='op'>)</span>
 
 <span class='co'>## ------------------------------ Setup! -------------------------------</span>
 <span class='fu'><a href='https://progressr.futureverse.org/reference/handlers.html'>handlers</a></span><span class='op'>(</span><span class='fu'>handler_dipsaus_progress</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
@@ -193,13 +193,13 @@ progressr::handlers. See examples for detailed use case" />
 <span class='op'>}</span><span class='op'>)</span>
 
 <span class='co'># ------------------------ A future.apply case -------------------------</span>
-<span class='fu'><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></span><span class='op'>(</span><span class='va'>sequential</span><span class='op'>)</span>
+<span class='fu'><a href='https://future.futureverse.org/reference/plan.html'>plan</a></span><span class='op'>(</span><span class='va'>sequential</span><span class='op'>)</span>
 <span class='co'># test it yourself with plan(multisession)</span>
 
 <span class='fu'><a href='https://progressr.futureverse.org/reference/handlers.html'>handlers</a></span><span class='op'>(</span><span class='fu'>handler_dipsaus_progress</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://progressr.futureverse.org/reference/with_progress.html'>with_progress</a></span><span class='op'>(</span><span class='op'>{</span>
   <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://progressr.futureverse.org/reference/progressor.html'>progressor</a></span><span class='op'>(</span>along <span class='op'>=</span> <span class='va'>xs</span><span class='op'>)</span>
-  <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>future.apply</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span><span class='op'>(</span><span class='va'>xs</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>future.apply</span><span class='fu'>::</span><span class='fu'><a href='https://future.apply.futureverse.org/reference/future_lapply.html'>future_lapply</a></span><span class='op'>(</span><span class='va'>xs</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"x=%g"</span>, <span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
     <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
     <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
@@ -219,7 +219,7 @@ progressr::handlers. See examples for detailed use case" />
   <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observeEvent.html'>observeEvent</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>$</span><span class='va'>ok</span>, <span class='op'>{</span>
     <span class='fu'><a href='https://progressr.futureverse.org/reference/with_progress.html'>with_progress</a></span><span class='op'>(</span><span class='op'>{</span>
       <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://progressr.futureverse.org/reference/progressor.html'>progressor</a></span><span class='op'>(</span>along <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
-      <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>future.apply</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/future.apply/man/future_lapply.html'>future_lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>future.apply</span><span class='fu'>::</span><span class='fu'><a href='https://future.apply.futureverse.org/reference/future_lapply.html'>future_lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
         <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>p</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"Input %d|Result %d"</span>, <span class='va'>x</span>, <span class='va'>x</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
         <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
         <span class='va'>x</span><span class='op'>+</span><span class='fl'>1</span>
