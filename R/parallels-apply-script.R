@@ -16,7 +16,18 @@ wrap_callback <- function(.callback){
       .callback()
     }
   }
-  callback
+  function(el, ii){
+    re <- tryCatch({
+      callback(el, ii)
+    }, error = function(e){
+      ii
+    })
+    if(!length(re)){
+      return(ii)
+    } else {
+      return(re[[1]])
+    }
+  }
 }
 
 #' @title Apply function with \code{rs_exec}
@@ -34,22 +45,22 @@ wrap_callback <- function(.callback){
 #' @param .rs whether to create 'RStudio' jobs; default is false
 #' @param .quiet whether to suppress progress message
 #' @param .name the name of progress and jobs
-#' @returns A \code{\link{fastqueue2}} instance
+#' @returns A list that should be, in most of the cases, identical to
+#' \code{\link{lapply}}
 #' @examples
 #'
 #' if(interactive()){
 #'
-#'   res <- lapply_callr(1:3, function(x, a){
+#'   lapply_callr(1:3, function(x, a){
 #'     c(Sys.getpid(), a, x)
 #'   }, a = 1)
-#'   res$as_list()
 #'
-#'   res <- lapply_callr(1:30, function(x) {
-#'     Sys.sleep(0.1)
-#'     sprintf("a + x = %d", a + x)
-#'   }, .globals = list(a = 1),
-#'   .callback = I, .name = "Test")
-#'   res[[1]]
+#'   lapply_callr(1:30, function(x)
+#'     {
+#'       Sys.sleep(0.1)
+#'       sprintf("a + x = %d", a + x)
+#'     }, .globals = list(a = 1),
+#'     .callback = I, .name = "Test")
 #'
 #' }
 #'
@@ -75,7 +86,7 @@ lapply_callr <- function(
   )
   saveRDS(globals, file = f)
 
-  res <- fastqueue2()
+  res <- fastmap2()
 
   queue <- fastqueue2()
 
@@ -95,6 +106,10 @@ lapply_callr <- function(
   }, add = TRUE)
 
   p <- NULL
+
+  error <- FALSE
+  error_msg <- ""
+
   progressr::with_progress({
     if(is.function(callback)){
       p <- progressr::progressor(along = x)
@@ -102,26 +117,43 @@ lapply_callr <- function(
 
 
     lapply(seq_along(x), function(ii){
-      if(queue$size() >= .ncores){
-        h <- queue$remove()
-        while ((code <- h()) > 0) {
+      if(error){ return() }
+      while( queue$size() >= .ncores ){
+        item <- queue$remove()
+        if( (code <- item$check()) > 0 ){
+          queue$add(item)
           Sys.sleep(0.2)
+        } else {
+          if( code < 0 ){
+            # stop(attr(code, "rs_exec_error"), call. = FALSE)
+            error <<- TRUE
+            error_msg <<- attr(code, "rs_exec_error")
+            queue$reset()
+          }
+          res[[item$index]] <- attr(code, "rs_exec_result")
+
+          if(is.function(callback)){
+            p(message = callback(x[[item$index]], item$index))
+          }
         }
-        if( code < 0 ){
-          stop(attr(code, "rs_exec_error"), call. = FALSE)
-        }
-        res$add(attr(code, "rs_exec_result"))
       }
-      if(is.function(callback)){
-        p(message = callback(x[[ii]], ii))
-      }
+
 
       h <- rs_exec(bquote({
-        .env <- new.env()
-        .globals <- readRDS(.(f))
+        if( dir.exists(.(getwd()))){
+          setwd(.(getwd()))
+        }
 
-        list2env(.globals$globals, envir = .env)
+        .env <- new.env(parent = globalenv())
+        if(!file.exists(.(f))){
+          stop("Job stopped")
+        }
+        .globals <- readRDS(.(f))
+        .genv <- parent.env(.env)
+
+        list2env(.globals$globals, envir = .genv)
         .globals$args[[.(nm)]] <- .(x[[ii]])
+
         do.call(
           new_function2(
             args = .globals$formal,
@@ -135,24 +167,45 @@ lapply_callr <- function(
       name = sprintf("%s... - [%d]", .name, ii),
       wait = FALSE, packages = .packages,
       focus_on_console = FALSE, ignore.stdout = TRUE)
-      queue$add(h)
+      queue$add(list(
+        check = h,
+        index = ii
+      ))
     })
 
+    if( .rs && .focus_on_console ){
+      rs_focus_console(wait = 0.5)
+    }
+    if( error ){
+      queue$reset()
+    }
+    while( queue$size() > 0 ){
+      item <- queue$remove()
+
+      if( (code <- item$check()) > 0 ){
+        queue$add(item)
+        Sys.sleep(0.2)
+      } else {
+        if( code < 0 ){
+          # stop(attr(code, "rs_exec_error"), call. = FALSE)
+          error <- TRUE
+          error_msg <- attr(code, "rs_exec_error")
+          queue$reset()
+        }
+        res[[item$index]] <- attr(code, "rs_exec_result")
+
+        if(is.function(callback)){
+          p(message = callback(x[[item$index]], item$index))
+        }
+      }
+    }
   })
 
-  if( .rs && .focus_on_console ){
-    rs_focus_console(wait = 0.5)
+  if( error ){
+    stop(error_msg, call. = FALSE)
   }
-  while(queue$size() > 0){
-    h <- queue$remove()
-    while ((code <- h()) > 0) {
-      Sys.sleep(0.2)
-    }
-    if( code < 0 ){
-      stop(attr(code, "rs_exec_error"), call. = FALSE)
-    }
-    res$add(attr(code, "rs_exec_result"))
-  }
-  res
+
+  keys_idxs <- as.integer(names(res))
+  structure(res[sort.int(keys_idxs)], names = names(x))
 }
 

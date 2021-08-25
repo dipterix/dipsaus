@@ -44,7 +44,8 @@ is only used when \code{.rs} is true}
 \item{.name}{the name of progress and jobs}
 }
 \value{
-A \code{\link{fastqueue2}} instance
+A list that should be, in most of the cases, identical to
+\code{\link{lapply}}
 }
 \description{
 Apply function with \code{rs_exec}
@@ -53,17 +54,16 @@ Apply function with \code{rs_exec}
 
 if(interactive()){
 
-  res <- lapply_callr(1:3, function(x, a){
+  lapply_callr(1:3, function(x, a){
     c(Sys.getpid(), a, x)
   }, a = 1)
-  res$as_list()
 
-  res <- lapply_callr(1:30, function(x) {
-    Sys.sleep(0.1)
-    sprintf("a + x = \%d", a + x)
-  }, .globals = list(a = 1),
-  .callback = I, .name = "Test")
-  res[[1]]
+  lapply_callr(1:30, function(x)
+    {
+      Sys.sleep(0.1)
+      sprintf("a + x = \%d", a + x)
+    }, .globals = list(a = 1),
+    .callback = I, .name = "Test")
 
 }
 
