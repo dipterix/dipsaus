@@ -38,15 +38,18 @@ wrap_callback <- function(.callback){
 #' @param .callback a function takes zero, one, or two arguments
 #' and should return a string to show in the progress
 #' @param .globals a named list that \code{fun} relies on
-#' @param .ncores number of cores to use
+#' @param .ncores number of cores to use; only used when \code{.wait=TRUE}
 #' @param .packages packages to load
 #' @param .focus_on_console whether to focus on console once finished;
 #' is only used when \code{.rs} is true
 #' @param .rs whether to create 'RStudio' jobs; default is false
 #' @param .quiet whether to suppress progress message
 #' @param .name the name of progress and jobs
-#' @returns A list that should be, in most of the cases, identical to
-#' \code{\link{lapply}}
+#' @param .wait whether to wait for the results; default is true, which blocks
+#' the main session waiting for results.
+#' @returns When \code{.wait=TRUE}, returns a list that should be, in most of
+#' the cases, identical to \code{\link{lapply}}; when \code{.wait=FALSE},
+#' returns a function that collects results.
 #' @examples
 #'
 #' if(interactive()){
@@ -70,14 +73,22 @@ lapply_callr <- function(
   .globals = list(), .ncores = future::availableCores(),
   .packages = attached_packages(),
   .focus_on_console = TRUE, .rs = FALSE, .quiet = FALSE,
-  .name = ""){
+  .name = "", .wait = TRUE){
 
   stopifnot(.ncores >= 1)
 
   nm <- names(formals(fun))[[1]]
   tempdir(check = TRUE)
   f <- tempfile(fileext = '.rds')
-  on.exit({ unlink(f) }, add = TRUE)
+  old.handlers <- progressr::handlers(handler_dipsaus_progress())
+  on.exit({
+    try({
+      progressr::handlers(old.handlers)
+    }, silent = TRUE)
+    if(.wait){
+      unlink(f)
+    }
+  }, add = TRUE)
   globals <- list(
     formal = formals(fun),
     body = body(fun),
@@ -98,13 +109,6 @@ lapply_callr <- function(
   .packages <- unique('dipsaus', .packages)
 
 
-  old.handlers <- progressr::handlers(handler_dipsaus_progress())
-  on.exit({
-    try({
-      progressr::handlers(old.handlers)
-    }, silent = TRUE)
-  }, add = TRUE)
-
   p <- NULL
 
   error <- FALSE
@@ -118,7 +122,7 @@ lapply_callr <- function(
 
     lapply(seq_along(x), function(ii){
       if(error){ return() }
-      while( queue$size() >= .ncores ){
+      while( .wait && queue$size() >= .ncores ){
         item <- queue$remove()
         if( (code <- item$check()) > 0 ){
           queue$add(item)
@@ -179,7 +183,7 @@ lapply_callr <- function(
     if( error ){
       queue$reset()
     }
-    while( queue$size() > 0 ){
+    while( .wait && queue$size() > 0 ){
       item <- queue$remove()
 
       if( (code <- item$check()) > 0 ){
@@ -205,7 +209,28 @@ lapply_callr <- function(
     stop(error_msg, call. = FALSE)
   }
 
-  keys_idxs <- as.integer(names(res))
-  structure(res[sort.int(keys_idxs)], names = names(x))
+  if( .wait ){
+    keys_idxs <- as.integer(names(res))
+    structure(res[sort.int(keys_idxs)], names = names(x))
+  } else {
+    return(function(){
+      while( queue$size() > 0 ){
+        item <- queue$remove()
+        if( (code <- item$check()) > 0 ){
+          queue$add(item)
+          Sys.sleep(0.2)
+        } else {
+          if( code < 0 ){
+            # stop(attr(code, "rs_exec_error"), call. = FALSE)
+            stop(attr(code, "rs_exec_error"))
+          }
+          res[[item$index]] <- attr(code, "rs_exec_result")
+        }
+      }
+      keys_idxs <- as.integer(names(res))
+      structure(res[sort.int(keys_idxs)], names = names(x))
+    })
+  }
+
 }
 

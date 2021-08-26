@@ -15,7 +15,8 @@ lapply_callr(
   .focus_on_console = TRUE,
   .rs = FALSE,
   .quiet = FALSE,
-  .name = ""
+  .name = "",
+  .wait = TRUE
 )
 }
 \arguments{
@@ -30,7 +31,7 @@ and should return a string to show in the progress}
 
 \item{.globals}{a named list that \code{fun} relies on}
 
-\item{.ncores}{number of cores to use}
+\item{.ncores}{number of cores to use; only used when \code{.wait=TRUE}}
 
 \item{.packages}{packages to load}
 
@@ -42,10 +43,14 @@ is only used when \code{.rs} is true}
 \item{.quiet}{whether to suppress progress message}
 
 \item{.name}{the name of progress and jobs}
+
+\item{.wait}{whether to wait for the results; default is true, which blocks
+the main session waiting for results.}
 }
 \value{
-A list that should be, in most of the cases, identical to
-\code{\link{lapply}}
+When \code{.wait=TRUE}, returns a list that should be, in most of
+the cases, identical to \code{\link{lapply}}; when \code{.wait=FALSE},
+returns a function that collects results.
 }
 \description{
 Apply function with \code{rs_exec}

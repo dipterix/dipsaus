@@ -143,7 +143,14 @@ rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE){
   li[[nm]] <- key
 
   jsonlite::write_json(li, addin, auto_unbox = TRUE, pretty = TRUE)
-  message("Shortcut added, please restart RStudio")
+  if( rs_avail() ){
+    try({
+      rstudioapi::executeCommand("modifyKeyboardShortcuts", quiet = FALSE)
+      rstudioapi::showDialog("Notification", sprintf("Code generated. Please filter and register <p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Dipsaus shortcut %s</strong></p>in the menu, apply changes, and restart RStudio", which))
+    }, silent = TRUE)
+  } else {
+    message("Shortcut added, please edit the shortcut and restart RStudio")
+  }
 }
 
 #' @rdname dipsaus-rstudio-shortcuts
