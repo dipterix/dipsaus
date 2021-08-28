@@ -1,3 +1,17 @@
+dipsaus 0.1.8
+=======
+
+## Major Changes
+* Added `lapply_callr` to replace `async_workers` with cleaner and more robust implementation
+* Added `as_pipe` to make any functions to pipe-friendly
+* Added `rs_add_shortcut` to allow customized shortcuts in `RStudio`
+
+## Bug Fixes
+* Fixed a bug in `lapply_async2` when failing to restore plan
+
+## Enhancements
+* Updated `JavaScript` libraries
+
 dipsaus 0.1.7
 =======
 
