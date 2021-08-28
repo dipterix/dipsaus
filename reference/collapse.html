@@ -197,8 +197,8 @@ collapsing dimensions</p>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: microseconds
 #&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 653.908 653.908 653.908 653.908 653.908 653.908     1
-#&gt;  compare 156.276 156.276 156.276 156.276 156.276 156.276     1</div><div class='input'>
+#&gt;   result 650.421 650.421 650.421 650.421 650.421 650.421     1
+#&gt;  compare 166.045 166.045 166.045 166.045 166.045 166.045     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span>
@@ -209,8 +209,8 @@ collapsing dimensions</p>
   <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: milliseconds
 #&gt;     expr       min        lq      mean    median        uq       max neval
-#&gt;   result  47.82196  47.82196  47.82196  47.82196  47.82196  47.82196     1
-#&gt;  compare 200.45532 200.45532 200.45532 200.45532 200.45532 200.45532     1</div><div class='input'>
+#&gt;   result  55.49466  55.49466  55.49466  55.49466  55.49466  55.49466     1
+#&gt;  compare 183.45318 183.45318 183.45318 183.45318 183.45318 183.45318     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
