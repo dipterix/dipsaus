@@ -1,4 +1,6 @@
 #' Run jobs in other R sessions without waiting
+#' @description This function has been deprecated. Please use
+#' \code{\link{lapply_callr}} instead.
 #' @param X vector or list to be applied
 #' @param FUN function with the first argument to be each element of \code{X}
 #' @param ... further arguments to be passed to \code{FUN}

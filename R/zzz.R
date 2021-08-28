@@ -36,6 +36,20 @@ register_shiny <- function(){
 
 }
 
+.master_session_id <- local({
+  master_id <- NULL
+  function(uuid){
+    if(!missing(uuid)){
+      master_id <<- uuid
+    }
+    master_id
+  }
+})
+
+is_master <- function(){
+  identical(.master_session_id(), session_uuid())
+}
+
 .onLoad <- function(libname, pkgname){
 
   # add_js_script()
@@ -43,6 +57,11 @@ register_shiny <- function(){
   register_shiny()
 
   options("dipsaus.shortcuts" = fastmap2())
+
+  ns <- asNamespace(pkgname)
+
+  ns$.master_session_id( session_uuid() )
+
 
   # reg.finalizer(session_log, function(x){
   #   x$finalize()

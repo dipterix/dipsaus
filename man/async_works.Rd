@@ -56,7 +56,8 @@ function takes \code{timeout} argument that blocks the session at
 most \code{timeout} seconds waiting for the results. See examples.
 }
 \description{
-Run jobs in other R sessions without waiting
+This function has been deprecated. Please use
+\code{\link{lapply_callr}} instead.
 }
 \details{
 Unlike \code{future} package, where the global variables can be

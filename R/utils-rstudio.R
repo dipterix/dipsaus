@@ -143,6 +143,9 @@ rs_runjob_alt <- function(script, name, wait = TRUE,
 rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
                     wait = FALSE, packages = NULL, focus_on_console = FALSE,
                     ...){
+  if(!is_master()) {
+    stop("Function `rs_exec`, `lapply_callr` should not be nested.")
+  }
   if(!quoted){
     expr <- substitute(expr)
   }
@@ -154,6 +157,8 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   # 1: initializing
   writeLines('1', state_file)
   state_file <- normalizePath(state_file)
+
+  session_id <- .master_session_id()
 
   expr <- rlang::quo({
     # 2: started
@@ -181,6 +186,11 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
           suppressMessages({
             do.call('require', list(package = p, character.only = TRUE))
           })
+        })
+
+        local({
+          ns <- asNamespace('dipsaus')
+          ns$.master_session_id(!!session_id)
         })
 
         res <- ...msg...$fun()

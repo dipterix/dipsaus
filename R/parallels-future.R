@@ -60,7 +60,18 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
     } else {
       current_plan <- future::plan("list")
       on.exit({
-        future::plan(current_plan, substitute = FALSE, .call = NULL, .cleanup = FALSE, .init = FALSE)
+        # Restore plan might encounter errors, use try-catch
+        tryCatch({
+          future::plan(
+            current_plan,
+            substitute = FALSE,
+            .call = NULL,
+            .cleanup = FALSE,
+            .init = FALSE
+          )
+        }, error = function(e){
+          future::plan('sequential')
+        })
       }, add = TRUE, after = TRUE)
       if(is.character(plan) && plan == 'callr'){
         if (!requireNamespace("future.callr", quietly = TRUE)) {
