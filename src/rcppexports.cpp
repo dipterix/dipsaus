@@ -99,6 +99,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// check_missing_dots
+SEXP check_missing_dots(const SEXP env);
+RcppExport SEXP _dipsaus_check_missing_dots(SEXP envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const SEXP >::type env(envSEXP);
+    rcpp_result_gen = Rcpp::wrap(check_missing_dots(env));
+    return rcpp_result_gen;
+END_RCPP
+}
 // object_address
 std::string object_address(SEXP x);
 RcppExport SEXP _dipsaus_object_address(SEXP xSEXP) {
@@ -152,6 +163,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
     {"_dipsaus_fastcov", (DL_FUNC) &_dipsaus_fastcov, 8},
     {"_dipsaus_quantile2", (DL_FUNC) &_dipsaus_quantile2, 2},
+    {"_dipsaus_check_missing_dots", (DL_FUNC) &_dipsaus_check_missing_dots, 1},
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
     {"_dipsaus_get_sexp_type", (DL_FUNC) &_dipsaus_get_sexp_type, 1},

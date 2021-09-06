@@ -4,6 +4,31 @@
 #include "utils.h"
 
 // [[Rcpp::export]]
+SEXP check_missing_dots(const SEXP env){
+  if( TYPEOF(env) != ENVSXP ){
+    Rcpp::stop("`check_missing_dots` is asking for an environment");
+  }
+  SEXP dots = Rf_findVarInFrame(env, R_DotsSymbol);
+
+  std::vector<bool> is_missing(0);
+
+  if( dots != R_NilValue ){
+    SEXP el = R_NilValue;
+
+    for(; (dots != R_NilValue) && (dots != R_MissingArg); dots = CDR(dots) ){
+      el = CAR(dots);
+      if( el == R_MissingArg ){
+        is_missing.push_back(true);
+      } else {
+        is_missing.push_back(false);
+      }
+    }
+  }
+
+  return(Rcpp::wrap(is_missing));
+}
+
+// [[Rcpp::export]]
 std::string object_address(SEXP x) {
   std::ostringstream addr;
   addr << x;
@@ -253,3 +278,8 @@ double add_log10(const double e1, const double e2){
 double add_square(const double e1, const double e2){
   return e1 + e2 * e2;
 }
+
+
+/*** R
+(function(...){ check_missing_dots(environment()) })()
+*/

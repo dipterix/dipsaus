@@ -7,6 +7,13 @@
 #include <RcppParallel.h>
 
 /*
+ * Check if dots are missing values without evaluating
+ * @param env environment
+ * @return SEXP (LGLEXP)
+ */
+SEXP check_missing_dots(const SEXP env);
+
+/*
  * Calculate vector indices in array
  * @param ptr iterator where to save the calculated array indices to
  * @param ii index in vector must be greater equal than 0 but less than vector length

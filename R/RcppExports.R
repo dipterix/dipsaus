@@ -25,6 +25,10 @@ quantile2 <- function(x, q) {
     .Call(`_dipsaus_quantile2`, x, q)
 }
 
+check_missing_dots <- function(env) {
+    .Call(`_dipsaus_check_missing_dots`, env)
+}
+
 object_address <- function(x) {
     .Call(`_dipsaus_object_address`, x)
 }

@@ -2,9 +2,12 @@
 % Please edit documentation in R/language.R
 \name{get_dots}
 \alias{get_dots}
-\title{Get element from dots \code{'...'}}
+\alias{missing_dots}
+\title{Get or check elements from dots \code{'...'}}
 \usage{
 get_dots(..name, ..default = NULL, ...)
+
+missing_dots(envir = parent.frame())
 }
 \arguments{
 \item{..name}{character name of the argument}
@@ -12,24 +15,30 @@ get_dots(..name, ..default = NULL, ...)
 \item{..default}{R object to return if argument not found}
 
 \item{...}{dots that contains argument}
+
+\item{envir}{R environment}
+}
+\value{
+\code{missing_dots} returns logical vector with lengths matching
+with dot lengths. \code{get_dots} returns value corresponding to the name.
 }
 \description{
-Get specific key values from \code{'...'} without
-evaluating the rest of arguments.
-}
-\details{
-One could use \code{list(...)[[name]]} to extract any keys
-from the dots. However, such way reduces code readability. If
-some arguments have not evaluated, \code{list(...)} will
-\code{\link{force}} evaluating them. Normally it's fine if
-these expressions take little time to run, but if the
-expression require time to run, \code{\link{get_dots}} avoids
-unnecessary evaluations.
+Get information from \code{'...'} without
+evaluating the arguments.
 }
 \examples{
 
 
 # ------------------------ Basic Usage ---------------------------
+
+# missing_dots(environment()) is a fixed usage
+
+my_function <- function(...){
+  missing_dots(environment())
+}
+my_function(,)
+
+# get_dots
 plot2 <- function(...){
   title = get_dots('main', 'There is no title', ...)
   plot(...)

@@ -770,23 +770,30 @@ print.dipsaus_decorated <- function(x, ...){
 }
 
 
-#' @title Get element from dots \code{'...'}
-#' @description Get specific key values from \code{'...'} without
-#' evaluating the rest of arguments.
+#' @title Get or check elements from dots \code{'...'}
+#' @description Get information from \code{'...'} without
+#' evaluating the arguments.
+#' @param envir R environment
 #' @param ..name character name of the argument
 #' @param ..default R object to return if argument not found
 #' @param ... dots that contains argument
-#' @details One could use \code{list(...)[[name]]} to extract any keys
-#' from the dots. However, such way reduces code readability. If
-#' some arguments have not evaluated, \code{list(...)} will
-#' \code{\link{force}} evaluating them. Normally it's fine if
-#' these expressions take little time to run, but if the
-#' expression require time to run, \code{\link{get_dots}} avoids
-#' unnecessary evaluations.
+#'
+#' @return \code{missing_dots} returns logical vector with lengths matching
+#' with dot lengths. \code{get_dots} returns value corresponding to the name.
+#'
 #' @examples
 #'
 #'
 #' # ------------------------ Basic Usage ---------------------------
+#'
+#' # missing_dots(environment()) is a fixed usage
+#'
+#' my_function <- function(...){
+#'   missing_dots(environment())
+#' }
+#' my_function(,)
+#'
+#' # get_dots
 #' plot2 <- function(...){
 #'   title = get_dots('main', 'There is no title', ...)
 #'   plot(...)
@@ -833,6 +840,14 @@ get_dots <- function(..name, ..default = NULL, ...){
   }
 }
 
+#' @rdname get_dots
+#' @export
+missing_dots <- function(envir = parent.frame()){
+  if(!is.environment(envir)){
+    stop("missing_dots: `envir` must be an environment")
+  }
+  check_missing_dots(envir)
+}
 
 #' Test whether function has certain arguments
 #' @param fun function
