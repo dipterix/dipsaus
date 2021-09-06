@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get element from dots '...' — get_dots • dipsaus</title>
+<title>Get or check elements from dots '...' — get_dots • dipsaus</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Get element from dots '...' — get_dots" />
-<meta property="og:description" content="Get specific key values from '...' without
-evaluating the rest of arguments." />
+<meta property="og:title" content="Get or check elements from dots '...' — get_dots" />
+<meta property="og:description" content="Get information from '...' without
+evaluating the arguments." />
 
 
 
@@ -130,17 +130,19 @@ evaluating the rest of arguments." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get element from dots <code>'...'</code></h1>
+    <h1>Get or check elements from dots <code>'...'</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/dipterix/dipsaus/blob/master/R/language.R'><code>R/language.R</code></a></small>
     <div class="hidden name"><code>get_dots.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get specific key values from <code>'...'</code> without
-evaluating the rest of arguments.</p>
+    <p>Get information from <code>'...'</code> without
+evaluating the arguments.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_dots</span><span class='op'>(</span><span class='va'>..name</span>, ..default <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_dots</span><span class='op'>(</span><span class='va'>..name</span>, ..default <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>missing_dots</span><span class='op'>(</span>envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,22 +159,30 @@ evaluating the rest of arguments.</p>
       <th>...</th>
       <td><p>dots that contains argument</p></td>
     </tr>
+    <tr>
+      <th>envir</th>
+      <td><p>R environment</p></td>
+    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>One could use <code>list(...)[[name]]</code> to extract any keys
-from the dots. However, such way reduces code readability. If
-some arguments have not evaluated, <code><a href='https://rdrr.io/r/base/list.html'>list(...)</a></code> will
-<code><a href='https://rdrr.io/r/base/force.html'>force</a></code> evaluating them. Normally it's fine if
-these expressions take little time to run, but if the
-expression require time to run, <code>get_dots</code> avoids
-unnecessary evaluations.</p>
+    <p><code>missing_dots</code> returns logical vector with lengths matching
+with dot lengths. <code>get_dots</code> returns value corresponding to the name.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
 <span class='co'># ------------------------ Basic Usage ---------------------------</span>
+
+<span class='co'># missing_dots(environment()) is a fixed usage</span>
+
+<span class='va'>my_function</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='fu'>missing_dots</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='fu'>my_function</span><span class='op'>(</span>,<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE TRUE</div><div class='input'>
+<span class='co'># get_dots</span>
 <span class='va'>plot2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span><span class='op'>{</span>
   <span class='va'>title</span> <span class='op'>=</span> <span class='fu'>get_dots</span><span class='op'>(</span><span class='st'>'main'</span>, <span class='st'>'There is no title'</span>, <span class='va'>...</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
