@@ -175,8 +175,8 @@ environment.</p>
 <span class='fu'>f2</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># a is masked with value 1, return 2</span>
 </div><div class='output co'>#&gt; [1] 2</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span>  <span class='co'># global env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7f97a7e97ba0&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
-</div><div class='output co'>#&gt; &lt;environment: 0x7f97a7d2fe88&gt;</div><div class='input'>
+</div><div class='output co'>#&gt; &lt;environment: 0x7fec1d1abe50&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>  <span class='co'># masked env</span>
+</div><div class='output co'>#&gt; &lt;environment: 0x7fec1d2eccf8&gt;</div><div class='input'>
 <span class='va'>env</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/environment.html'>parent.env</a></span><span class='op'>(</span><span class='va'>env</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>f1</span><span class='op'>)</span><span class='op'>)</span>  <span class='co'># true</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>env</span><span class='op'>$</span><span class='va'>a</span>  <span class='co'># masked variables: a=1</span>
