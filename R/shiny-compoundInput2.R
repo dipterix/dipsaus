@@ -8,8 +8,7 @@
 #' @param min_ncomp minimum number of groups, default is 0, non-negative
 #' @param max_ncomp maximum number of groups, default is 10, greater or equal
 #' than \code{min_ncomp}
-#' @param label_color integer or characters, length of 1 or \code{max_ncomp},
-#' assigning colors to each group labels,
+#' @param label_color integer or characters, length of 1 or \code{max_ncomp}, assigning colors to each group labels; default is \code{NA}, and try to get color from foreground \code{par("fg")}
 #' @param value list of lists, initial values of each inputs, see examples.
 #' @param max_height maximum height of the widget
 #' @param ... will be ignored
@@ -39,7 +38,7 @@
 #'     column(
 #'       width = 4,
 #'       compoundInput2(
-#'         'compound', 'Group Label', label_color = 1:10,
+#'         'compound', 'Group Label', label_color = c(NA,1:9),
 #'         components = div(
 #'           textInput('txt', 'Text'),
 #'           selectInput('sel', 'Select', choices = 1:10, multiple = TRUE),
@@ -94,13 +93,16 @@ NULL
 compoundInput2 <- function(
   inputId, label = 'Group', components = shiny::tagList(),
   initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10,
-  value = NULL, label_color = 1, max_height = NULL, ...
+  value = NULL, label_color = NA, max_height = NULL, ...
 ){
   # add_js_script()
 
-  if( length(label_color) == 0 ){ label_color <- 1 }
+  if( length(label_color) == 0 ){ label_color <- NA }
   if( !length(label_color) %in% c(1, max_ncomp)){
     cat2('label_color must be length of 1 or equal to max_ncomp', level = 'FATAL')
+  }
+  if( any(is.na(label_color)) ){
+    label_color[is.na(label_color)] <- par("fg")
   }
   label_color <- col2hexStr( label_color )
   if( length(label_color) == 1 ){

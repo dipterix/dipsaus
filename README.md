@@ -1,11 +1,11 @@
-# A Dipping Sauce to Data Analysis and Visualization
+# Dipping Sauce for Data Analysis and Visualization
 
 <!-- badges: start -->
 [![CRAN-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
+[![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/ui#builds)
 [![R build status](https://github.com/dipterix/dipsaus/workflows/R-CMD-check/badge.svg)](https://github.com/dipterix/dipsaus/actions)
-[![Travis build status](https://travis-ci.org/dipterix/dipsaus.svg?branch=master)](https://travis-ci.org/dipterix/dipsaus)
+[![CRAN-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
 <!-- badges: end -->
-<!-- [![Cran-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus) -->
 
 
 Package `dipsaus` provides `add-ons` to various packages such as `shiny`, `rlang`, `future`, etc. to enhance these packages. To install the development version package from `Github`,
@@ -62,10 +62,10 @@ devtools::install_github('dipterix/dipsaus')
 * `to_ram_size` provides simple way to convert numbers to printable storage sizes in given units;
 * `time_delta` calculates time differences and returns a number in given units;
 * `ask_yesno`, `ask_or_default` interactively ask for user's input either in console or in `RStudio`;
-* `fastmap2` and `fastqueue2` provides a wrapper on `fastmap` package, giving the object list-like operations;
+* `fastmap2` and `fastqueue2` provides a wrapper of `fastmap` package, giving the object list-like operations;
 * `shared_finalizer` finalizes multiple elements when last element is garbage collected;
 * `dev_create` allows managing and grouping graphic devices;
 * `print_directory_tree` prints directory and containing files into tree-structures;
-* `rs_*` functions wrapping `rstudioapi` functions, but some works without `RStudio`;
+* `rs_*` functions wrapping `rstudioapi` functions, but work without `RStudio`;
 * `sexp_type2` get internal data type code;
 * `to_datauri` converts file to `base64` formats.

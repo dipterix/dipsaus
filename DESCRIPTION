@@ -25,6 +25,7 @@ Language: en-US
 Depends: R (>= 3.5.0)
 Imports:
     utils,
+    graphics,
     grDevices,
     parallel,
     Rcpp,

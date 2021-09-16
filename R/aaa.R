@@ -8,6 +8,7 @@
 #' @importFrom parallel clusterEvalQ
 #' @importFrom parallel stopCluster
 #' @importFrom utils flush.console
+#' @importFrom graphics par
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 

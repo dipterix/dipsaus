@@ -12,7 +12,7 @@ compoundInput2(
   min_ncomp = 0,
   max_ncomp = 10,
   value = NULL,
-  label_color = 1,
+  label_color = NA,
   max_height = NULL,
   ...
 )
@@ -33,8 +33,7 @@ than \code{min_ncomp}}
 
 \item{value}{list of lists, initial values of each inputs, see examples.}
 
-\item{label_color}{integer or characters, length of 1 or \code{max_ncomp},
-assigning colors to each group labels,}
+\item{label_color}{integer or characters, length of 1 or \code{max_ncomp}, assigning colors to each group labels; default is \code{NA}, and try to get color from foreground \code{par("fg")}}
 
 \item{max_height}{maximum height of the widget}
 
@@ -72,7 +71,7 @@ ui <- fluidPage(
     column(
       width = 4,
       compoundInput2(
-        'compound', 'Group Label', label_color = 1:10,
+        'compound', 'Group Label', label_color = c(NA,1:9),
         components = div(
           textInput('txt', 'Text'),
           selectInput('sel', 'Select', choices = 1:10, multiple = TRUE),
