@@ -5,6 +5,7 @@
 [![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/ui#builds)
 [![R build status](https://github.com/dipterix/dipsaus/workflows/R-CMD-check/badge.svg)](https://github.com/dipterix/dipsaus/actions)
 [![CRAN-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
+[![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/ui#builds)
 <!-- badges: end -->
 
 
