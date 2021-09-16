@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8.9000</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@
   min_ncomp <span class='op'>=</span> <span class='fl'>0</span>,
   max_ncomp <span class='op'>=</span> <span class='fl'>10</span>,
   value <span class='op'>=</span> <span class='cn'>NULL</span>,
-  label_color <span class='op'>=</span> <span class='fl'>1</span>,
+  label_color <span class='op'>=</span> <span class='cn'>NA</span>,
   max_height <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -185,8 +185,7 @@ than <code>min_ncomp</code></p></td>
     </tr>
     <tr>
       <th>label_color</th>
-      <td><p>integer or characters, length of 1 or <code>max_ncomp</code>,
-assigning colors to each group labels,</p></td>
+      <td><p>integer or characters, length of 1 or <code>max_ncomp</code>, assigning colors to each group labels; default is <code>NA</code>, and try to get color from foreground <code><a href='https://rdrr.io/r/graphics/par.html'>par("fg")</a></code></p></td>
     </tr>
     <tr>
       <th>max_height</th>
@@ -254,7 +253,7 @@ assigning colors to each group labels,</p></td>
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/column.html'>column</a></span><span class='op'>(</span>
       width <span class='op'>=</span> <span class='fl'>4</span>,
       <span class='fu'>compoundInput2</span><span class='op'>(</span>
-        <span class='st'>'compound'</span>, <span class='st'>'Group Label'</span>, label_color <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>,
+        <span class='st'>'compound'</span>, <span class='st'>'Group Label'</span>, label_color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span><span class='op'>)</span>,
         components <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/htmltools/man/builder.html'>div</a></span><span class='op'>(</span>
           <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/textInput.html'>textInput</a></span><span class='op'>(</span><span class='st'>'txt'</span>, <span class='st'>'Text'</span><span class='op'>)</span>,
           <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span><span class='op'>(</span><span class='st'>'sel'</span>, <span class='st'>'Select'</span>, choices <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, multiple <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,

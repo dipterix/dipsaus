@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8.9000</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
 <span class="co">#&gt; $aa</span>
 <span class="co">#&gt; [1] 1</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;       0       0       0</span></code></pre></div>
+<span class="co">#&gt;   0.001   0.000   0.000</span></code></pre></div>
 </div>
 <div id="javascript-style-of-creating-functions" class="section level3">
 <h3 class="hasAnchor">
@@ -242,8 +242,7 @@ li.map((el, ii) => {
   <span class="va">final_results</span></code></pre></div>
 <p>Here’s an example</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 
 <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span>
@@ -265,12 +264,11 @@ li.map((el, ii) => {
   <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">'Values'</span>, main <span class="op">=</span> <span class="st">'Histogram'</span><span class="op">)</span> <span class="op">-&gt;</span>
   <span class="va">result</span>
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">#&gt; -14.993   1.100   4.584   5.894   9.925  32.073</span></code></pre></div>
+<span class="co">#&gt; -8.4675  0.9892  4.5831  5.6752  9.4681 37.5866</span></code></pre></div>
 <p><img src="r_expr_addons_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:200] 1.513 0.736 0.758 -0.496 0.853 ...</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
+<span class="co">#&gt;  num [1:200] 0.692 0.333 2.622 -0.506 1.848 ...</span></code></pre></div>
 </div>
 <div id="do_aggregate" class="section level4">
 <h4 class="hasAnchor">
