@@ -197,8 +197,8 @@ collapsing dimensions</p>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: microseconds
 #&gt;     expr     min      lq    mean  median      uq     max neval
-#&gt;   result 640.701 640.701 640.701 640.701 640.701 640.701     1
-#&gt;  compare 172.325 172.325 172.325 172.325 172.325 172.325     1</div><div class='input'>
+#&gt;   result 645.437 645.437 645.437 645.437 645.437 645.437     1
+#&gt;  compare 263.690 263.690 263.690 263.690 263.690 263.690     1</div><div class='input'>
 <span class='co'># large data big difference</span>
 <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>300</span>,<span class='fl'>200</span>,<span class='fl'>105</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>microbenchmark</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html'>microbenchmark</a></span><span class='op'>(</span>
@@ -208,9 +208,9 @@ collapsing dimensions</p>
     <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='st'>'-'</span>, <span class='va'>v</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1e-10</span>
   <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Unit: milliseconds
-#&gt;     expr      min       lq     mean   median       uq      max neval
-#&gt;   result  51.2907  51.2907  51.2907  51.2907  51.2907  51.2907     1
-#&gt;  compare 193.8401 193.8401 193.8401 193.8401 193.8401 193.8401     1</div><div class='input'>
+#&gt;     expr       min        lq      mean    median        uq       max neval
+#&gt;   result  51.61975  51.61975  51.61975  51.61975  51.61975  51.61975     1
+#&gt;  compare 425.54384 425.54384 425.54384 425.54384 425.54384 425.54384     1</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
