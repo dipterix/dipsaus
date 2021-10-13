@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -140,8 +140,10 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "1-2,4,7,11"</span>
+
 <span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; [1] "1-4,7,11"</span>
+
 <span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] "1-7,11"</span></code></pre></div>
 </div>
@@ -153,15 +155,17 @@
 <code class="sourceCode R"><span class="co"># Total RAM in bytes</span>
 <span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; 15032385536.0 B</span>
+
 <span class="co"># Print-friendly</span>
 <span class="fu"><a href="../reference/to_ram_size.html">to_ram_size</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1024</span><span class="op">)</span>
 <span class="co">#&gt; 14.0 GB</span>
+
 <span class="co"># WARNING: $free is the total RAM - R usage, is no the actual free RAM</span>
 <span class="fu"><a href="../reference/mem_limit2.html">mem_limit2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; $total</span>
 <span class="co">#&gt; 15032385536.0 B</span>
 <span class="co">#&gt; $free</span>
-<span class="co">#&gt; 14985566320.0 B</span></code></pre></div>
+<span class="co">#&gt; 14985382928.0 B</span></code></pre></div>
 </div>
 <div id="interactive-questions" class="section level4">
 <h4 class="hasAnchor">

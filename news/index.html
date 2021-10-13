@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -132,6 +132,27 @@
       <small>Source: <a href='https://github.com/dipterix/dipsaus/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dipsaus-019" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.9">
+<a href="#dipsaus-019" class="anchor"></a>dipsaus 0.1.9<small> Unreleased </small>
+</h1>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<ul>
+<li>
+<code>compoundInput2</code> now respects the <code><a href="https://rdrr.io/r/graphics/par.html">par(fg)</a></code> and sets foreground accordingly</li>
+</ul>
+</div>
+<div id="big-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#big-fixes" class="anchor"></a>Big Fixes</h2>
+<ul>
+<li>Fixed <code>missing_dots</code> freezing the session when incorrectly called</li>
+<li>Fixed <code>autoconf</code> warnings</li>
+</ul>
+</div>
+</div>
     <div id="dipsaus-018" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.8">
 <a href="#dipsaus-018" class="anchor"></a>dipsaus 0.1.8<small> 2021-09-06 </small>
@@ -262,9 +283,9 @@
 <li>Added <code>make_forked_clusters</code> and <code>lapply_async2</code> now restores previous future strategy one exiting</li>
 </ul>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>make_forked_clusters</code> allows to set a backup strategy once forked process fails (for example, on windows)</li>
@@ -291,9 +312,9 @@
 <li>Added <code>async_works</code> to allow scheduling works in the background using multiple sessions.</li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Instead of showing “finished”, progress bar now shows square box once finished for cleaner output</li>
 <li>
@@ -376,9 +397,9 @@
 <code>print_directory_tree</code> generates directory tree as text</li>
 </ul>
 </div>
-<div id="minor-changes-2" class="section level2">
+<div id="minor-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-2" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>dev_create</code> can now set attributes and those attributes can be obtained by function <code>get_dev_attr</code> or method <code>dev_attributes</code>
@@ -427,9 +448,9 @@
 <code>new_function2</code> creates function that supports ‘quasi-quosure’ syntax</li>
 </ul>
 </div>
-<div id="minor-changes-3" class="section level2">
+<div id="minor-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-3" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-4" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Allow maximum height set for <code>compoundInput2</code>
 </li>
@@ -459,9 +480,9 @@
 <li>Added <code>get_dots</code> that can get variable from <code>...</code> without evaluating other variables</li>
 </ul>
 </div>
-<div id="minor-changes-4" class="section level2">
+<div id="minor-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-4" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-5" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>lapply_async2</code> now supporting more load-balance settings</li>
@@ -550,9 +571,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-5" class="section level2">
+<div id="minor-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-5" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-6" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Renamed <code>txtq_queue</code> to <code>text_queue</code>
 </li>
@@ -605,9 +626,9 @@
 </ul>
 </div>
 </div>
-<div id="minor-changes-6" class="section level2">
+<div id="minor-changes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-6" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-7" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -643,9 +664,9 @@
 <li>Added utility function <code>match_calls</code> to match and modify calls</li>
 </ul>
 </div>
-<div id="minor-changes-7" class="section level2">
+<div id="minor-changes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-7" class="anchor"></a>Minor Changes</h2>
+<a href="#minor-changes-8" class="anchor"></a>Minor Changes</h2>
 <ul>
 <li>Added <code>label_color</code> to <code>compoundInput2</code> to enable colored group labels</li>
 </ul>
