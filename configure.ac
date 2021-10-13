@@ -6,7 +6,7 @@ AC_PREREQ(2.69)
 
 ## ---[ VERSION ]-------------------------------------------------------------
 
-AC_INIT()
+AC_INIT
 
 
 RCPP_PKG_LIBS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
@@ -23,4 +23,5 @@ fi
 AC_SUBST(RCPP_PKG_LIBS)
 AC_SUBST(RCPP_PARALLRL_LIBS)
 
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT

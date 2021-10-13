@@ -12,6 +12,8 @@ SEXP check_missing_dots(const SEXP env){
 
   std::vector<bool> is_missing(0);
 
+  int count = 0;
+
   if( dots != R_NilValue ){
     SEXP el = R_NilValue;
 
@@ -21,6 +23,10 @@ SEXP check_missing_dots(const SEXP env){
         is_missing.push_back(true);
       } else {
         is_missing.push_back(false);
+      }
+      count++;
+      if(count > 1000){
+        Rcpp::stop("Cannot iterate through all dots. Are you calling `missing_dots` with correct environment?");
       }
     }
   }

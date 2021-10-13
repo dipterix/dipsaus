@@ -1,3 +1,13 @@
+dipsaus 0.1.9
+=======
+
+## Minor Changes
+* `compoundInput2` now respects the `par(fg)` and sets foreground accordingly
+
+## Big Fixes
+* Fixed `missing_dots` freezing the session when incorrectly called
+* Fixed `autoconf` warnings
+
 dipsaus 0.1.8
 =======
 
