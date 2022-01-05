@@ -34,7 +34,7 @@ fastmap2(missing_default = NULL)
 
 \method{length}{fastmap2}(x)
 
-\method{as.list}{fastmap2}(x, ...)
+\method{as.list}{fastmap2}(x, recursive = FALSE, ...)
 }
 \arguments{
 \item{missing_default}{passed to \code{fastmap::fastmap}}
@@ -48,6 +48,8 @@ fastmap2(missing_default = NULL)
 \item{i, j}{vector of names}
 
 \item{...}{passed to other methods}
+
+\item{recursive}{whether to recursively apply \code{\link[base]{as.list}}}
 }
 \value{
 A list of \code{'fastmap2'} instance
