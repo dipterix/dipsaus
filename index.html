@@ -30,6 +30,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,18 +44,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.9.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -81,7 +77,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dipterix/dipsaus/">
+  <a href="https://github.com/dipterix/dipsaus/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -98,18 +94,18 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="dipping-sauce-for-data-analysis-and-visualization" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#dipping-sauce-for-data-analysis-and-visualization" class="anchor"></a>Dipping Sauce for Data Analysis and Visualization</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="dipping-sauce-for-data-analysis-and-visualization">Dipping Sauce for Data Analysis and Visualization<a class="anchor" aria-label="anchor" href="#dipping-sauce-for-data-analysis-and-visualization"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p>Package <code>dipsaus</code> provides <code>add-ons</code> to various packages such as <code>shiny</code>, <code>rlang</code>, <code>future</code>, etc. to enhance these packages. To install the development version package from <code>Github</code>,</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'dipterix/dipsaus'</span><span class="op">)</span></code></pre></div>
 <p><code>dipsaus</code> provides <code>add-ons</code> from the following perspectives:</p>
-<div id="1-shiny-customized-widgets-vignette" class="section level3">
-<h3 class="hasAnchor">
-<a href="#1-shiny-customized-widgets-vignette" class="anchor"></a>1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html">Vignette</a>)</h3>
+<div class="section level3">
+<h3 id="1-shiny-customized-widgets-vignette">1. <code>Shiny</code> Customized Widgets (<a href="https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html" class="external-link">Vignette</a>)<a class="anchor" aria-label="anchor" href="#1-shiny-customized-widgets-vignette"></a>
+</h3>
 <ul>
 <li>
 <code>compoundInput2</code> assembles any shiny native inputs and create variable-length input;</li>
@@ -129,9 +125,9 @@
 <code>shiny_is_running</code> check if shiny is running;</li>
 </ul>
 </div>
-<div id="2-parallel-functions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#2-parallel-functions" class="anchor"></a>2. Parallel Functions</h3>
+<div class="section level3">
+<h3 id="2-parallel-functions">2. Parallel Functions<a class="anchor" aria-label="anchor" href="#2-parallel-functions"></a>
+</h3>
 <ul>
 <li>
 <code>collapse</code> is a parallel solution to calculate sum/mean along arrays, providing <code>4x</code> speed-ups for large arrays;</li>
@@ -149,18 +145,18 @@
 <code>rs_exec</code> starts a new R session or job in <code>RStudio</code>;</li>
 </ul>
 </div>
-<div id="3-r-expressions-vignette" class="section level3">
-<h3 class="hasAnchor">
-<a href="#3-r-expressions-vignette" class="anchor"></a>3. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html">Vignette</a>)</h3>
+<div class="section level3">
+<h3 id="3-r-expressions-vignette">3. R Expressions (<a href="https://dipterix.github.io/dipsaus/articles/r_expr_addons.html" class="external-link">Vignette</a>)<a class="anchor" aria-label="anchor" href="#3-r-expressions-vignette"></a>
+</h3>
 <ul>
 <li>
-<code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::quo</a></code>;</li>
+<code>eval_dirty</code> works as <code><a href="https://rdrr.io/r/base/eval.html" class="external-link">base::eval</a></code>, but supports quosures generated from <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html" class="external-link">rlang::quo</a></code>;</li>
 <li>
 <code>match_calls</code> match calls in a nested manner, and support changing the call arguments recursively;</li>
 <li>
-<code><a href="reference/%?&lt;-%.html">%?&lt;-%</a></code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist;</li>
+<code>%?&lt;-%</code> assigns default values to left-hand object. E.g. <code>a %?&lt;-% 1</code> assigns <code>a</code> to be <code>1</code> if <code>a</code> is <code>NULL</code> or does not exist;</li>
 <li>
-<code><a href="reference/%=&gt;%.html">%=&gt;%</a></code> provides JavaScript-style of creating functions;</li>
+<code>%=&gt;%</code> provides JavaScript-style of creating functions;</li>
 <li>
 <code>new_function2</code> creates new function with quasi-quotation;</li>
 <li>
@@ -173,9 +169,9 @@
 <code>test_farg</code> tests whether function contains desired arguments;</li>
 </ul>
 </div>
-<div id="4-utility-functions-vignette" class="section level3">
-<h3 class="hasAnchor">
-<a href="#4-utility-functions-vignette" class="anchor"></a>4. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html">Vignette</a>)</h3>
+<div class="section level3">
+<h3 id="4-utility-functions-vignette">4. Utility Functions (<a href="https://dipterix.github.io/dipsaus/articles/utility_functions.html" class="external-link">Vignette</a>)<a class="anchor" aria-label="anchor" href="#4-utility-functions-vignette"></a>
+</h3>
 <ul>
 <li>
 <code>cat2</code> act as base function <code>cat</code> but provides different levels with different colored outputs;</li>
@@ -220,50 +216,60 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=dipsaus">https://​cloud.r-project.org/​package=dipsaus</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/dipterix/dipsaus/">https://​github.com/​dipterix/​dipsaus/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/dipterix/dipsaus/issues">https://​github.com/​dipterix/​dipsaus/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=dipsaus" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/dipterix/dipsaus/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/dipterix/dipsaus/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing dipsaus</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Zhengjia Wang <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=dipsaus"><img src="https://www.r-pkg.org/badges/version/dipsaus" alt="CRAN-version"></a></li>
-<li><a href="https://dipterix.r-universe.dev/ui#builds"><img src="https://dipterix.r-universe.dev/badges/dipsaus" alt="Develop"></a></li>
-<li><a href="https://github.com/dipterix/dipsaus/actions"><img src="https://github.com/dipterix/dipsaus/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=dipsaus"><img src="http://cranlogs.r-pkg.org/badges/grand-total/dipsaus" alt="CRAN-version"></a></li>
-<li><a href="https://dipterix.r-universe.dev/ui#builds"><img src="https://dipterix.r-universe.dev/badges/dipsaus" alt="Develop"></a></li>
+<li><a href="https://CRAN.R-project.org/package=dipsaus" class="external-link"><img src="https://www.r-pkg.org/badges/version/dipsaus" alt="CRAN-version"></a></li>
+<li><a href="https://dipterix.r-universe.dev/ui#builds" class="external-link"><img src="https://dipterix.r-universe.dev/badges/dipsaus" alt="Develop"></a></li>
+<li><a href="https://github.com/dipterix/dipsaus/actions" class="external-link"><img src="https://github.com/dipterix/dipsaus/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=dipsaus" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/dipsaus" alt="CRAN-version"></a></li>
+<li><a href="https://dipterix.r-universe.dev/ui#builds" class="external-link"><img src="https://dipterix.r-universe.dev/badges/dipsaus" alt="Develop"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Zhengjia Wang.</p>
+  <p></p>
+<p>Developed by Zhengjia Wang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -271,6 +277,8 @@
 
   
 
+
+  
 
   </body>
 </html>
