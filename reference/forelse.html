@@ -20,7 +20,7 @@ statement, otherwise run "else" block.'><!-- mathjax --><script src="https://cdn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.9</span>
       </span>
     </div>
 
@@ -165,10 +165,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median        uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.80848  41.29955  65.66383  61.79062  88.09151 114.3924     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  330.88748 375.65062 423.44201 420.41375 469.71928 519.0248     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  317.41791 323.51111 336.49119 329.60430 346.02783 362.4513     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median       uq      max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   21.32748  56.24185  85.21803  91.15622 117.1633 143.1704     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  119.65682 181.94639 229.74603 244.23596 284.7906 325.3453     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  329.09132 350.57189 373.48050 372.05246 395.6751 419.2977     3</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
