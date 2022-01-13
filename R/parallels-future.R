@@ -135,7 +135,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         # future.scheduling = TRUE,
         # future.chunk.size = future.chunk.size,
         # future.seed = future.seed)
-      })
+      }, enable = interactive() || shiny_is_running())
     # }else{
     #   progressr::withProgressShiny({
     #     p <- progressr::progressor(along = x)

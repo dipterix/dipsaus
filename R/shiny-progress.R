@@ -161,6 +161,7 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
 #' @param intrusiveness A non-negative scalar on how intrusive
 #' (disruptive) the reporter to the user
 #' @param target where progression updates are rendered
+#' @param enable whether the progress should be reported
 #' @param ... passed to \code{\link[progressr]{make_progression_handler}}
 #' @examples
 #'
@@ -231,6 +232,7 @@ handler_dipsaus_progress <- function (
   title = getOption("dipsaus.progressr.title", "Progress"),
   intrusiveness = getOption("progressr.intrusiveness.gui", 1),
   target = if (is.null(shiny::getDefaultReactiveDomain())) "terminal" else "gui",
+  enable = interactive() || shiny_is_running(),
   ...)
 {
   reporter <- local({
@@ -296,5 +298,5 @@ handler_dipsaus_progress <- function (
   })
   progressr::make_progression_handler(
     name = "dipsaus_progress", reporter,
-    intrusiveness = intrusiveness, ...)
+    intrusiveness = intrusiveness, enable = enable, ...)
 }

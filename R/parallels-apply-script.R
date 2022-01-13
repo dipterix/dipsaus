@@ -114,7 +114,7 @@ lapply_callr <- function(
   error <- FALSE
   error_msg <- ""
 
-  progressr::with_progress({
+  progressr::with_progress(expr = {
     if(is.function(callback)){
       p <- progressr::progressor(along = x)
     }
@@ -203,7 +203,7 @@ lapply_callr <- function(
         }
       }
     }
-  })
+  }, enable = interactive() || shiny_is_running())
 
   if( error ){
     stop(error_msg, call. = FALSE)
