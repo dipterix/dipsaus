@@ -165,10 +165,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median        uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   28.08817  37.66107  66.76452  47.23397  86.10269 124.9714     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  375.06921 420.09525 461.91943 465.12130 505.34455 545.5678     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  437.65889 447.91288 475.67667 458.16687 494.68556 531.2042     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   20.93449  23.06583  42.81642  25.19716  53.75738  82.31761     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  293.67612 334.68108 362.80606 375.68604 397.37102 419.05600     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  229.18362 242.77129 267.99947 256.35896 287.40740 318.45583     3</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -185,7 +185,7 @@ or the result of <code>ALT_FUN()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>
