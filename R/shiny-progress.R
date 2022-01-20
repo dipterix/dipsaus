@@ -120,6 +120,7 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
     progress <- shiny::Progress$new(session = session, max = max, ...)
     inc <- function(detail, message = NULL, amount = 1, ...){
       if(!is.null(message) && length(message) == 1){ title <<- message }
+      current <<- current + amount
       progress$inc(detail = detail, message = title, amount = amount)
     }
     close <- function(message = 'Finished'){
@@ -133,6 +134,15 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
       current <<- value
       progress$set(value = value, message = title, detail = detail)
     }
+    # get_value <- function() {
+    #   try({
+    #     re <- progress$getValue()
+    #     if(!length(re) || !is.numeric(re)){
+    #       re <- current
+    #     }
+    #     re
+    #   }, silent = TRUE)
+    # }
     if(shiny_auto_close){
       parent_frame <- parent.frame()
       do.call(

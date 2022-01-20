@@ -8,6 +8,7 @@ handler_dipsaus_progress(
   title = getOption("dipsaus.progressr.title", "Progress"),
   intrusiveness = getOption("progressr.intrusiveness.gui", 1),
   target = if (is.null(shiny::getDefaultReactiveDomain())) "terminal" else "gui",
+  enable = interactive() || shiny_is_running(),
   ...
 )
 }
@@ -18,6 +19,8 @@ handler_dipsaus_progress(
 (disruptive) the reporter to the user}
 
 \item{target}{where progression updates are rendered}
+
+\item{enable}{whether the progress should be reported}
 
 \item{...}{passed to \code{\link[progressr]{make_progression_handler}}}
 }
