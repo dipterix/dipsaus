@@ -149,3 +149,41 @@ html_asis <- function(s, space = TRUE){
   Encoding(s) <- "UTF-8"
   shiny::HTML(s)
 }
+
+#' @name html_class
+#' @title Combine, add, or remove 'HTML' classes
+#' @description Combine 'HTML' classes to produce nice, clean 'HTML' class
+#' string via \code{combine_html_class}, or to remove a class via
+#' \code{remove_html_class}
+#' @param ... one or more characters, classes to combine; duplicated classes
+#' will be removed
+#' @param target characters, class list
+#' @param class one or more characters, classes to be removed from \code{target}
+#' @return A character string of new 'HTML' class
+#' @examples
+#'
+#' # Combine classes "a b c d e"
+#' combine_html_class("a", "b  a", c("c", " d", "b"), list("e ", "a"))
+#'
+#' # Remove class
+#' remove_html_class("a b   c  e", c("b", "c "))
+#'
+#' @export
+combine_html_class <- function(...){
+  s <- paste(c(...), collapse = " ", sep = " ")
+  s <- unlist(strsplit(s, " "))
+  s <- unique(s)
+  s <- s[!s %in% '']
+  paste(s, collapse = " ")
+}
+
+#' @rdname html_class
+#' @export
+remove_html_class <- function(target, class){
+  if (!length(target)) { return("") }
+  s <- unlist(strsplit(target, " "))
+  s <- unique(s)
+  class <- unlist(strsplit(class, " "))
+  s <- s[!s %in% c('', class)]
+  paste(s, collapse = " ")
+}

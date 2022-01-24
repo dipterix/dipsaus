@@ -160,6 +160,8 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
   session_id <- .master_session_id()
 
+  use_rs <- rs && rs_avail()
+
   expr <- rlang::quo({
     # 2: started
     writeLines('2', !!state_file)
@@ -181,6 +183,10 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
       tryCatch({
         options("raveio.settings_readonly" = TRUE)
+        if(!!use_rs){
+          options("crayon.enabled" = TRUE)
+          options("crayon.colors" = 256)
+        }
 
         lapply(!!packages, function(p){
           suppressMessages({
@@ -213,7 +219,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   })
   writeLines(deparse(rlang::quo_squash(expr)), script, sep = '\n')
 
-  if(rs && rs_avail()){
+  if(use_rs){
     if(wait){
       rs_runjob(script, name, focus_on_console = FALSE, ...)
     } else {
