@@ -10,20 +10,20 @@
 #'
 #' @export
 get_os <- function(){
-  if("windows" %in% stringr::str_to_lower(.Platform$OS.type)){
+  if("windows" %in% tolower(.Platform$OS.type)){
     return("windows")
   }
-  os <- stringr::str_to_lower(R.version$os)
-  if(stringr::str_detect(os, '^darwin')){
+  os <- tolower(R.version$os)
+  if(startsWith(os, "darwin")){
     return('darwin')
   }
-  if(stringr::str_detect(os, '^linux')){
+  if(startsWith(os, "linux")){
     return('linux')
   }
-  if(stringr::str_detect(os, '^solaris')){
+  if(startsWith(os, "solaris")){
     return('solaris')
   }
-  if(stringr::str_detect(os, '^win')){
+  if(startsWith(os, "win")){
     return('windows')
   }
   return('unknown')
