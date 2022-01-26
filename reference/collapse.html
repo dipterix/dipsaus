@@ -126,8 +126,8 @@ collapsing dimensions</p>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     expr     min      lq    mean  median      uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   result 770.642 770.642 770.642 770.642 770.642 770.642     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 175.180 175.180 175.180 175.180 175.180 175.180     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   result 672.591 672.591 672.591 672.591 672.591 672.591     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 166.239 166.239 166.239 166.239 166.239 166.239     1</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># large data big difference</span></span>
 <span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">200</span>,<span class="fl">105</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">200</span>,<span class="fl">105</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -138,9 +138,9 @@ collapsing dimensions</p>
 <span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">'-'</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1e-10</span></span>
 <span class="r-in">  <span class="op">}</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     expr      min       lq     mean   median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   result  68.2924  68.2924  68.2924  68.2924  68.2924  68.2924     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 237.0367 237.0367 237.0367 237.0367 237.0367 237.0367     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     expr       min        lq      mean    median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   result  51.19343  51.19343  51.19343  51.19343  51.19343  51.19343     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 232.13243 232.13243 232.13243 232.13243 232.13243 232.13243     1</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

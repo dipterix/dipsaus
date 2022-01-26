@@ -73,10 +73,10 @@ by default</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ste_mean</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ste_mean</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span>, na_as_zero <span class="op">=</span> <span class="va">na.rm</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for default</span>
-<span class="fu">ste_mean</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">ste_mean</span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span>, na_as_zero <span class="op">=</span> <span class="va">na.rm</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,6 +85,8 @@ by default</p>
 <dd><p>R object</p></dd>
 <dt>na.rm</dt>
 <dd><p>whether to remove <code>NA</code>; default is false</p></dd>
+<dt>na_as_zero</dt>
+<dd><p>whether convert <code>NA</code> to zero</p></dd>
 <dt>...</dt>
 <dd><p>passed to other methods</p></dd>
 </dl></div>
