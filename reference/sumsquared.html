@@ -86,7 +86,7 @@ elements exceeds 1000.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">sumsquared</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10003.51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9886.872</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Compare speed</span></span>
 <span class="r-in"><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
@@ -94,9 +94,9 @@ elements exceeds 1000.</p>
 <span class="r-in">  r <span class="op">=</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min     lq     mean  median     uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 29.917 33.120 34.20752 33.8050 35.526  53.343   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     r 69.801 72.902 75.65081 74.1505 76.503 102.705   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min      lq     mean  median     uq     max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 30.105 33.2125 34.43726 34.1780 35.877  48.726   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r 69.793 72.2690 76.06472 73.8575 75.957 155.834   100</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

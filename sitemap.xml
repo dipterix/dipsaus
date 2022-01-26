@@ -211,6 +211,9 @@
     <loc>/reference/match_calls.html</loc>
   </url>
   <url>
+    <loc>/reference/mean_se.html</loc>
+  </url>
+  <url>
     <loc>/reference/mem_limit2.html</loc>
   </url>
   <url>
@@ -287,6 +290,9 @@
   </url>
   <url>
     <loc>/reference/shiny_is_running.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ste_mean.html</loc>
   </url>
   <url>
     <loc>/reference/sumsquared.html</loc>
