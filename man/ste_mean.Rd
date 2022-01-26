@@ -5,14 +5,16 @@
 \alias{ste_mean.default}
 \title{Standard error of mean}
 \usage{
-ste_mean(x, na.rm = FALSE, ...)
+ste_mean(x, na.rm = FALSE, na_as_zero = na.rm, ...)
 
-\method{ste_mean}{default}(x, na.rm = FALSE, ...)
+\method{ste_mean}{default}(x, na.rm = FALSE, na_as_zero = na.rm, ...)
 }
 \arguments{
 \item{x}{R object}
 
 \item{na.rm}{whether to remove \code{NA}; default is false}
+
+\item{na_as_zero}{whether convert \code{NA} to zero}
 
 \item{...}{passed to other methods}
 }

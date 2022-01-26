@@ -4,12 +4,14 @@
 \alias{mean_se}
 \title{Calculates mean and standard error of mean}
 \usage{
-mean_se(x, na.rm = FALSE)
+mean_se(x, na.rm = FALSE, se_na_as_zero = na.rm)
 }
 \arguments{
 \item{x}{R numerical object}
 
 \item{na.rm}{whether to remove \code{NA}; default is false}
+
+\item{se_na_as_zero}{see \code{na_as_zero} in \code{\link{ste_mean}}}
 }
 \value{
 A named vector containing the \code{\link{mean}} and standard error
