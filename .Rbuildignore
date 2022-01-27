@@ -28,3 +28,4 @@ autom4te.cache
 ^checkbashisms$
 ^revdep$
 ^\.github$
+^CRAN-SUBMISSION$
