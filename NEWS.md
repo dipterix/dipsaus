@@ -1,3 +1,19 @@
+dipsaus 0.2.0
+=======
+
+## Major Changes
+* Allow `fastmap2` to `as.list` recursively
+* Added `mean_se` to calculate mean and standard error of mean
+* Re-exported `digest` from `digest` package
+* Added `combine_html_class` and `remove_html_class` to manipulate `HTML` classes
+* Force enabled `ANSI` color display for `rs_exec` when the jobs run in `RStudio`
+
+## Minor Changes
+* Cleaned `get_os` so it does not depend on `stringr` anymore
+
+## Big Fixes
+* Fixed `progress2` not working properly in non-interactive sessions (but `shiny` is still running)
+
 dipsaus 0.1.9
 =======
 
