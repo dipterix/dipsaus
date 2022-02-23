@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9000</span>
       </span>
     </div>
 
@@ -81,8 +81,8 @@
 
       
 
-      </header><script src="shiny_customized_widgets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="shiny_customized_widgets_files/dipsaus-0.2.0/dipsaus.css" rel="stylesheet">
-<script src="shiny_customized_widgets_files/dipsaus-0.2.0/dipsaus-dipterix-lib.js"></script><div class="row">
+      </header><script src="shiny_customized_widgets_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="shiny_customized_widgets_files/dipsaus-0.2.0.9000/dipsaus.css" rel="stylesheet">
+<script src="shiny_customized_widgets_files/dipsaus-0.2.0.9000/dipsaus-dipterix-lib.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Shiny Customized Widgets</h1>
@@ -7762,11 +7762,15 @@ class CompountInputItem{
   }
 
   receive_message( data ){
+    // console.log(data);
+    let changed = false;
     if( typeof data.ncomp === 'number' ){
       this.set_item_size( data.ncomp );
+      changed = true;
     }
 
     if(Array.isArray(data.value)){
+      changed = true;
       data.value.forEach((_i) => {
         if( _i && typeof(_i) === 'object' ){
           let idx = _i['.__item'];
@@ -7782,6 +7786,14 @@ class CompountInputItem{
           }
         }
       });
+
+    }
+
+    if( changed ){
+      this._listeners.forEach((callback) => {
+        callback({ defered: true });
+      });
+      $(this._el).trigger('change');
     }
 
 
@@ -7861,6 +7873,8 @@ function register_compoundInput2 ( Shiny, debug = false ){
     const _i = els[ _el.id ];
     if( _i ){
       _i.receive_message( data );
+    } else {
+      console.debug("Cannot find element: " + _el.id);
     }
   };
 

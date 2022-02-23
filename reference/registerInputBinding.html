@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9000</span>
       </span>
     </div>
 
@@ -69,7 +69,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">registerInputBinding</span><span class="op">(</span><span class="va">fname</span>, <span class="va">pkg</span>, <span class="va">shiny_binding</span>, update_function <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">registerInputBinding</span><span class="op">(</span>
+  <span class="va">fname</span>,
+  <span class="va">pkg</span>,
+  <span class="va">shiny_binding</span>,
+  update_function <span class="op">=</span> <span class="cn">NULL</span>,
+  quiet <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,6 +88,8 @@
 <dd><p>character, 'JavaScript' binding name.See examples</p></dd>
 <dt>update_function</dt>
 <dd><p>character, update function such as <code>"shiny::textInput"</code></p></dd>
+<dt>quiet</dt>
+<dd><p>logical, whether to suppress warnings</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

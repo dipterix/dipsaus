@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9000</span>
       </span>
     </div>
 
@@ -75,7 +75,9 @@
   <span class="va">inputIds</span>,
   uniform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"I"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">inputIds</span><span class="op">)</span><span class="op">)</span>,
   <span class="va">updates</span>,
-  snap <span class="op">=</span> <span class="fl">250</span>
+  snap <span class="op">=</span> <span class="fl">250</span>,
+  ignoreNULL <span class="op">=</span> <span class="cn">TRUE</span>,
+  ignoreInit <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -92,6 +94,8 @@ to a uniform values</p></dd>
 <dd><p>functions, equaling to length of <code>inputIds</code>, updating input values</p></dd>
 <dt>snap</dt>
 <dd><p>numeric, milliseconds to defer the changes</p></dd>
+<dt>ignoreNULL, ignoreInit</dt>
+<dd><p>passed to <code><a href="https://rdrr.io/pkg/shiny/man/bindEvent.html" class="external-link">bindEvent</a></code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
