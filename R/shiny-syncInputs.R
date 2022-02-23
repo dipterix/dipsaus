@@ -5,6 +5,7 @@
 #' to a uniform values
 #' @param updates functions, equaling to length of \code{inputIds}, updating input values
 #' @param snap numeric, milliseconds to defer the changes
+#' @param ignoreNULL,ignoreInit passed to \code{\link[shiny]{bindEvent}}
 #'
 #' @return none.
 #'
@@ -34,13 +35,16 @@
 #'
 #' @export
 sync_shiny_inputs <- function(input, session, inputIds,
-                              uniform = rep('I', length(inputIds)), updates, snap = 250){
-  env <- new.env(parent = emptyenv())
-  this_env <- environment()
+                              uniform = rep('I', length(inputIds)),
+                              updates, snap = 250,
+                              ignoreNULL = TRUE, ignoreInit = FALSE){
+  env <- fastmap::fastmap()
 
-  env$which_changed <- 0
-  env$suppress_other <- FALSE
-  env$val <- NULL
+  env$mset(
+    which_changed = 0,
+    suppress_other = FALSE,
+    val = NULL
+  )
 
   local_data <- reactiveValues(
     last_changed = Sys.time(),
@@ -48,50 +52,64 @@ sync_shiny_inputs <- function(input, session, inputIds,
   )
   lapply(seq_along(inputIds), function(ii){
     input_id <- inputIds[[ii]]
-    observeEvent(input[[input_id]], {
-      if(!env$suppress_other){
-        env$which_changed <- ii
-      }
-      if( env$which_changed == ii ){
-        env$val <- do.call(uniform[[ii]], list(input[[input_id]]))
-        local_data$last_changed <- Sys.time()
-      }
-    }, event.env = environment(), handler.env = environment())
+    shiny::bindEvent(
+      shiny::observe({
+        if(!env$get("suppress_other", missing = FALSE)){
+          env$set("which_changed", ii)
+        }
+        if( env$get("which_changed", missing = 0) == ii ){
+          env$set(key = "val", do.call(uniform[[ii]], list(input[[input_id]])))
+          local_data$last_changed <- Sys.time()
+        }
+      }),
+      input[[input_id]],
+      ignoreNULL = ignoreNULL,
+      ignoreInit = ignoreInit
+    )
   })
-  observeEvent(local_data$last_changed, {
-    if( env$which_changed == 0 ){ return() }
-    # suppress other inputs
-    env$suppress_other <- TRUE
 
-    lapply(seq_along(inputIds), function(ii){
-      if(ii != env$which_changed){
-        updates[[ii]](env$val)
-        # updateTextInput(session, env[[paste0('inname', 3 - which_changed)]], value = val)
+  shiny::bindEvent(
+    shiny::observe({
+      if( env$get("which_changed", missing = 0) == 0 ){ return() }
+      # suppress other inputs
+      env$set("suppress_other", value = TRUE)
+
+      lapply(seq_along(inputIds), function(ii){
+        if(ii != env$get("which_changed", missing = 0)){
+          updates[[ii]](env$get("val"))
+          # updateTextInput(session, env[[paste0('inname', 3 - which_changed)]], value = val)
+        }
+      })
+
+      local_data$last_updated <- Sys.time()
+    }),
+    local_data$last_changed,
+    ignoreNULL = TRUE,
+    ignoreInit = TRUE
+  )
+
+  shiny::bindEvent(
+    shiny::observe({
+      last_updated <- local_data$last_updated
+      if( is.null(last_updated) ){
+        env$set("suppress_other", FALSE)
+        return()
       }
-    })
-
-    local_data$last_updated <- Sys.time()
-  }, event.env = this_env, handler.env = this_env)
-
-  observe({
-    last_updated <- local_data$last_updated
-    if( is.null(last_updated) ){
-      env$suppress_other <- FALSE
-      return()
-    }
-    print(last_updated)
-    now <- Sys.time()
-    dif <- time_delta(last_updated, now) * 1000
-    if(dif > snap){
-      env$suppress_other <- FALSE
-      return()
-    }else{
-      if( dif < 10 ){
-        dif <- snap
+      now <- Sys.time()
+      dif <- time_delta(last_updated, now) * 1000
+      if(dif > snap){
+        env$set("suppress_other", FALSE)
+        return()
+      }else{
+        if( dif < 10 ){
+          dif <- snap
+        }
+        shiny::invalidateLater(dif)
       }
-      shiny::invalidateLater(dif)
-    }
-  }, env = this_env)
+    }),
+    local_data$last_updated,
+    ignoreNULL = TRUE, ignoreInit = TRUE
+  )
 
   invisible()
 }

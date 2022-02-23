@@ -259,11 +259,15 @@ class CompountInputItem{
   }
 
   receive_message( data ){
+    // console.log(data);
+    let changed = false;
     if( typeof data.ncomp === 'number' ){
       this.set_item_size( data.ncomp );
+      changed = true;
     }
 
     if(Array.isArray(data.value)){
+      changed = true;
       data.value.forEach((_i) => {
         if( _i && typeof(_i) === 'object' ){
           let idx = _i['.__item'];
@@ -279,6 +283,15 @@ class CompountInputItem{
           }
         }
       });
+
+    }
+
+
+    if( changed ){
+      this._listeners.forEach((callback) => {
+        callback({ defered: true });
+      });
+      $(this._el).trigger('change');
     }
 
 
@@ -358,6 +371,8 @@ function register_compoundInput2 ( Shiny, debug = false ){
     const _i = els[ _el.id ];
     if( _i ){
       _i.receive_message( data );
+    } else {
+      console.debug("Cannot find element: " + _el.id);
     }
   };
 

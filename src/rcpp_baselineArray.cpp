@@ -273,8 +273,8 @@ Rcpp::NumericVector baselineArray(
 //
 
 /*** R
-ravebuiltins::dev_ravebuiltins(F,F)
-rave::mount_demo_subject()
+# ravebuiltins::dev_ravebuiltins(F,F)
+# rave::mount_demo_subject()
 power = module_tools$get_power()$subset(Electrode = Electrode == 14)
 
 power$hybrid = FALSE

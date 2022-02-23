@@ -10,7 +10,9 @@ sync_shiny_inputs(
   inputIds,
   uniform = rep("I", length(inputIds)),
   updates,
-  snap = 250
+  snap = 250,
+  ignoreNULL = TRUE,
+  ignoreInit = FALSE
 )
 }
 \arguments{
@@ -24,6 +26,8 @@ to a uniform values}
 \item{updates}{functions, equaling to length of \code{inputIds}, updating input values}
 
 \item{snap}{numeric, milliseconds to defer the changes}
+
+\item{ignoreNULL, ignoreInit}{passed to \code{\link[shiny]{bindEvent}}}
 }
 \value{
 none.

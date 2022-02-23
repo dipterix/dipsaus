@@ -86,6 +86,7 @@ list2env(list(
 #' @param pkg character, package name, like \code{"shiny"}
 #' @param shiny_binding character, 'JavaScript' binding name.See examples
 #' @param update_function character, update function such as \code{"shiny::textInput"}
+#' @param quiet logical, whether to suppress warnings
 #' @return a list of binding functions, one is `JavaScript` object key in
 #' \code{Shiny.inputBindings}, the other is `shiny` update function in R end.
 #' @examples
@@ -101,10 +102,12 @@ list2env(list(
 #'                      'shiny.actionButtonInput', 'shiny::updateActionButton')
 #'
 #' @export
-registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL){
+registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL, quiet = FALSE){
   ns <- asNamespace(pkg)
   if( !is.function(ns[[fname]]) ){
-    cat2(sprintf('%s::%s is not a function', pkg, fname), level = 'FATAL')
+    if(!quiet){
+      stop(sprintf('%s::%s is not a function', pkg, fname))
+    }
   }
   binding <- list(
     binding = shiny_binding,

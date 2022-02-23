@@ -1,6 +1,17 @@
 dipsaus 0.2.0
 =======
 
+## Enhancement
+* `sync_shiny_inputs` uses `fastmap` instead of environments
+* `sync_shiny_inputs` uses the new `bindEvent` scheme to replace `observeEvent`
+
+## Bug Fixes
+* `compoundInput2` now activates callback functions once using `updateCompoundInput2`
+
+
+dipsaus 0.2.0
+=======
+
 ## Major Changes
 * Allow `fastmap2` to `as.list` recursively
 * Added `mean_se` to calculate mean and standard error of mean

@@ -4,7 +4,13 @@
 \alias{registerInputBinding}
 \title{Register customized input to enable support by compound input}
 \usage{
-registerInputBinding(fname, pkg, shiny_binding, update_function = NULL)
+registerInputBinding(
+  fname,
+  pkg,
+  shiny_binding,
+  update_function = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{fname}{character, function name, such as \code{"textInput"}}
@@ -14,6 +20,8 @@ registerInputBinding(fname, pkg, shiny_binding, update_function = NULL)
 \item{shiny_binding}{character, 'JavaScript' binding name.See examples}
 
 \item{update_function}{character, update function such as \code{"shiny::textInput"}}
+
+\item{quiet}{logical, whether to suppress warnings}
 }
 \value{
 a list of binding functions, one is `JavaScript` object key in
