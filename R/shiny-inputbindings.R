@@ -108,6 +108,7 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
     if(!quiet){
       stop(sprintf('%s::%s is not a function', pkg, fname))
     }
+    return(invisible())
   }
   binding <- list(
     binding = shiny_binding,
