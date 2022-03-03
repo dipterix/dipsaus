@@ -88,27 +88,32 @@ sync_shiny_inputs <- function(input, session, inputIds,
     ignoreInit = TRUE
   )
 
+  finished_updates <- shiny::debounce(
+    shiny::bindEvent(
+      shiny::reactive({
+        if(length(local_data$last_changed) && length(local_data$last_updated)) {
+          return(Sys.time())
+        } else {
+          return()
+        }
+      }),
+      local_data$last_changed,
+      local_data$last_updated,
+      ignoreNULL = TRUE,
+      ignoreInit = TRUE
+    ),
+    millis = snap
+  )
+
   shiny::bindEvent(
     shiny::observe({
-      last_updated <- local_data$last_updated
-      if( is.null(last_updated) ){
-        env$set("suppress_other", FALSE)
-        return()
-      }
-      now <- Sys.time()
-      dif <- time_delta(last_updated, now) * 1000
-      if(dif > snap){
-        env$set("suppress_other", FALSE)
-        return()
-      }else{
-        if( dif < 10 ){
-          dif <- snap
-        }
-        shiny::invalidateLater(dif)
-      }
+      local_data$last_updated <- NULL
+      local_data$last_changed <- NULL
+      env$set("suppress_other", FALSE)
     }),
-    local_data$last_updated,
-    ignoreNULL = TRUE, ignoreInit = TRUE
+    finished_updates(),
+    ignoreNULL = TRUE,
+    ignoreInit = FALSE
   )
 
   invisible()
