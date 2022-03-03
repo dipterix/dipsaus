@@ -29,7 +29,7 @@ implementation when the length of input x is less than 1e7."><!-- mathjax --><sc
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -120,14 +120,14 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 <span class="r-in">  <span class="op">}</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    expr     min      lq     mean   median</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) } 152.971 160.259 164.5283 162.4475</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 564.373 574.727 587.5994 582.4495</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 352.353 453.102 458.9203 458.1980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  165.515 236.813   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  589.882 749.600   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  462.649 549.227   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    expr     min      lq     mean  median</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) } 155.813 162.346 169.8987 166.550</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 571.706 585.983 617.0150 599.662</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 387.833 460.410 475.9099 468.591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        uq     max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  171.3535 238.010   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  619.1415 988.608   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  479.4065 605.280   100</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
