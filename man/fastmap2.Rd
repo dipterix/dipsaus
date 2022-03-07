@@ -34,7 +34,7 @@ fastmap2(missing_default = NULL)
 
 \method{length}{fastmap2}(x)
 
-\method{as.list}{fastmap2}(x, recursive = FALSE, ...)
+\method{as.list}{fastmap2}(x, recursive = FALSE, sorted = FALSE, ...)
 }
 \arguments{
 \item{missing_default}{passed to \code{fastmap::fastmap}}
@@ -50,6 +50,8 @@ fastmap2(missing_default = NULL)
 \item{...}{passed to other methods}
 
 \item{recursive}{whether to recursively apply \code{\link[base]{as.list}}}
+
+\item{sorted}{whether to sort names; default is false}
 }
 \value{
 A list of \code{'fastmap2'} instance

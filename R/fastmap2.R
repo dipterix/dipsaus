@@ -12,6 +12,7 @@
 #' @param value any R object
 #' @param x a \code{'fastmap2'} object
 #' @param recursive whether to recursively apply \code{\link[base]{as.list}}
+#' @param sorted whether to sort names; default is false
 #' @param ... passed to other methods
 #' @return A list of \code{'fastmap2'} instance
 #' @examples
@@ -179,13 +180,14 @@ update_fastmap2 <- function(from, to, override = TRUE){
 
 #' @rdname fastmap2
 #' @export
-as.list.fastmap2 <- function(x, recursive = FALSE, ...){
-  re <- .subset2(x, 'as_list')(...)
+as.list.fastmap2 <- function(x, recursive = FALSE, sorted = FALSE,
+                             ...){
+  re <- .subset2(x, 'as_list')(sort = sorted)
   if( recursive ){
     for(i in seq_along(re)){
       item <- re[[i]]
       if(inherits(item, "fastmap2")){
-        re[[i]] <- as.list(item, recursive = recursive, ...)
+        re[[i]] <- as.list(item, recursive = recursive, sorted = sorted, ...)
       }
     }
   }

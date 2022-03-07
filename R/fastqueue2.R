@@ -117,5 +117,5 @@ list_to_fastqueue2 <- function(li, queue = NULL){
 #' @rdname fastqueue2
 #' @export
 as.list.fastqueue2 <- function(x, ...){
-  .subset2(x, 'as_list')(...)
+  .subset2(x, 'as_list')()
 }

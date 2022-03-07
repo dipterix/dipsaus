@@ -1,9 +1,11 @@
-dipsaus 0.2.0
+dipsaus 0.2.1
 =======
 
 ## Enhancement
 * `sync_shiny_inputs` uses `fastmap` instead of environments
 * `sync_shiny_inputs` uses the new `bindEvent` scheme to replace `observeEvent`
+* Added `sorted` argument to `as.list.fastmap2`
+* Ignored `...` argument in `as.list.fastqueue2`
 
 ## Bug Fixes
 * `compoundInput2` now activates callback functions once using `updateCompoundInput2`
