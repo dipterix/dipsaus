@@ -5,6 +5,7 @@
 \alias{rs_add_insertion_shortcut}
 \alias{rs_add_shortcut}
 \alias{rs_remove_shortcut}
+\alias{rs_show_shortcut}
 \title{Register customized R code to 'RStudio' shortcuts}
 \usage{
 rs_add_insertion_shortcut(which, txt, force = FALSE)
@@ -12,6 +13,8 @@ rs_add_insertion_shortcut(which, txt, force = FALSE)
 rs_add_shortcut(which, expr, force = FALSE, quoted = FALSE)
 
 rs_remove_shortcut(which)
+
+rs_show_shortcut(which)
 }
 \arguments{
 \item{which}{integer from 1 to 10, which keyboard shortcut to edit}

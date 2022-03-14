@@ -181,6 +181,25 @@ rs_remove_shortcut <- function(which){
   return(invisible(TRUE))
 }
 
+#' @rdname dipsaus-rstudio-shortcuts
+#' @export
+rs_show_shortcut <- function(which) {
+  if(!is.character(which)){
+    if(which < 10) {
+      which <- sprintf("0%s", which)
+    } else {
+      which <- as.character(which)
+    }
+  }
+  fname <- shortcut_settings_path(which)
+  if(!file.exists(fname)){
+    warning("Shortcut ", which , " has not been set up yet. Please read ",
+            sQuote('help("rs_add_shortcut")'), " to set up shortcuts.")
+    return(invisible())
+  }
+  cat(readLines(fname), "", sep = "\n")
+}
+
 run_shortcut <- function(which){
   fname <- shortcut_settings_path(which)
   if(!file.exists(fname)){
