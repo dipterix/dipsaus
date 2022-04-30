@@ -4,6 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{digest}
+\alias{detectCores}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -12,5 +13,7 @@ below to see their documentation.
 
 \describe{
   \item{digest}{\code{\link[digest]{digest}}}
+
+  \item{parallel}{\code{\link[parallel]{detectCores}}}
 }}
 
