@@ -20,7 +20,7 @@ statement, otherwise run "else" block.'><!-- mathjax --><script src="https://cdn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9003</span>
       </span>
     </div>
 
@@ -165,10 +165,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq     mean    median        uq       max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.63982  24.95522  35.4338  29.27062  42.83078  56.39094     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  190.04691 220.73686 272.1963 251.42680 313.27102 375.11524     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  316.30094 321.60655 381.1481 326.91215 413.57174 500.23132     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median       uq      max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   73.72193  79.90142  97.97636  86.08091 110.1036 134.1262     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  501.48585 541.72530 562.43539 581.96475 592.9102 603.8556     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  520.45133 565.83927 587.19261 611.22720 620.5632 629.8993     3</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -185,7 +185,7 @@ or the result of <code>ALT_FUN()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
