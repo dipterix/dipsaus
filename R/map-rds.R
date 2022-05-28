@@ -125,6 +125,8 @@ FileMap <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
+      locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
+
       lockpath <- file.path(private$root_path, 'MAP-RDSLOCK')
       unlink(lockpath)
       if(dir.exists(private$db_dir)){

@@ -4,19 +4,21 @@
 \alias{lock}
 \alias{dipsaus_lock}
 \alias{dipsaus_unlock}
+\alias{dipsaus_resetlocks}
 \title{Create or Unlock a Lock}
 \usage{
-dipsaus_lock(name, exclusive = TRUE, timeout = 10)
+dipsaus_lock(name, timeout = 10, exclusive = TRUE)
 
-dipsaus_unlock(name, exclusive = TRUE, timeout = 10)
+dipsaus_unlock(name, timeout = 10, exclusive = TRUE)
+
+dipsaus_resetlocks(name)
 }
 \arguments{
 \item{name}{character, the locker's name, must be only letters and digits}
 
-\item{exclusive}{logical whether the locker is exclusive. True for write
-access, False for read access. Default is true.}
-
 \item{timeout}{numeric, seconds to wait for the locker to lock or unlock}
+
+\item{exclusive}{ignored}
 }
 \value{
 Logical, whether the operation succeed.
@@ -27,6 +29,10 @@ interrupt the lock procedure anytime, and don't have to worry about
 whether the lock exists or not.
 }
 \examples{
+
+# Clear existing locks
+dipsaus::dipsaus_resetlocks()
+
 # unlock to prepare for the example
 dipsaus_unlock('testlocker', timeout = 0.01)
 
@@ -44,6 +50,9 @@ if(!lock_success){
 
 # unlock
 dipsaus_unlock('testlocker', timeout = 0.01)
+
+# clean up
+dipsaus::dipsaus_resetlocks()
 
 
 }

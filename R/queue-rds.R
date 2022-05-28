@@ -161,6 +161,7 @@ FileQueue <- R6::R6Class(
     },
 
     destroy = function(){
+      locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
       dipsaus_unlock(self$lockfile)
       unlink(private$db_dir, recursive = TRUE, force = TRUE)
       unlink(file.path(private$root_path, 'LOCK'), force = TRUE)

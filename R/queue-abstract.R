@@ -217,22 +217,44 @@ AbstractQueue <- R6::R6Class(
 
     # Run expr making sure that locker is locked to be exclusive (for write-only)
     exclusive = function(expr, ...) {
-      on.exit({
-        if(is.function(self$free_locker)){
+      custom_locker <- is.function(self$get_locker) && is.function(self$free_locker)
+      if(self$has_locker){
+
+        if(custom_locker){
+          self$get_locker(...)
+        }else{
+          private$default_get_locker(...)
+        }
+
+
+        on.exit({
+          if(custom_locker){
+            self$free_locker()
+          }else{
+            private$default_free_locker()
+          }
+        }, add = FALSE, after = FALSE)
+
+
+        force(expr)
+
+        if(custom_locker){
           self$free_locker()
         }else{
           private$default_free_locker()
         }
-      })
-      if(is.function(self$get_locker)){
-        self$get_locker(...)
-      }else{
-        private$default_get_locker(...)
+        on.exit({}, add = FALSE, after = FALSE)
+
+      } else {
+        force(expr)
       }
-      force(expr)
     },
 
-    default_get_locker = function(timeout = 5){
+    default_get_locker = function(timeout = Inf){
+      timeout <- as.numeric(timeout)
+      if(is.na(timeout)) {
+        timeout <- Inf
+      }
       dipsaus_lock(self$lockfile, timeout = timeout)
     },
     default_free_locker = function(){
@@ -477,6 +499,7 @@ AbstractQueue <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
+      locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
       private$default_free_locker()
       delayedAssign('.lockfile', {
         cat2("Queue is destroyed", level = 'FATAL')

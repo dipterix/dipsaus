@@ -17,26 +17,46 @@ AbstractMap <- R6::R6Class(
       stopifnot2(private$valid, msg = 'Map is not valid')
       custom_locker <- is.function(self$get_locker) && is.function(self$free_locker)
       if(self$has_locker){
+
+        if(custom_locker){
+          self$get_locker(...)
+        }else{
+          private$default_get_locker(...)
+        }
+
+
         on.exit({
           if(custom_locker){
             self$free_locker()
           }else{
             private$default_free_locker()
           }
-        })
+        }, add = FALSE, after = FALSE)
+
+
+        force(expr)
+
         if(custom_locker){
-          self$get_locker(...)
+          self$free_locker()
         }else{
-          private$default_get_locker(...)
+          private$default_free_locker()
         }
+        on.exit({}, add = FALSE, after = FALSE)
+
+      } else {
+        force(expr)
       }
 
-      force(expr)
     },
 
-    default_get_locker = function(timeout = 10){
+    default_get_locker = function(timeout = Inf){
 
-      dipsaus_lock(self$lockfile, timeout = timeout)
+      timeout <- as.numeric(timeout)
+      if(is.na(timeout)) {
+        timeout <- Inf
+      }
+
+      dipsaus_lock(name = self$lockfile, timeout = timeout)
 
     },
     default_free_locker = function(){
@@ -243,6 +263,7 @@ AbstractMap <- R6::R6Class(
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
     destroy = function(){
+      locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
       private$default_free_locker()
       private$valid <- FALSE
       delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)

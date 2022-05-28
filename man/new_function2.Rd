@@ -6,7 +6,8 @@
 \usage{
 new_function2(
   args = alist(),
-  body = { },
+  body = {
+ },
   env = parent.frame(),
   quote_type = c("unquoted", "quote", "quo"),
   quasi_env = parent.frame()

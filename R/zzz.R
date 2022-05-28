@@ -52,20 +52,13 @@ is_master <- function(){
 
 .onLoad <- function(libname, pkgname){
 
-  # add_js_script()
-
-  register_shiny()
-
-  options("dipsaus.shortcuts" = fastmap2())
-
   ns <- asNamespace(pkgname)
-
+  assign(".locker_keys", fastmap::fastmap(), envir = ns)
   ns$.master_session_id( session_uuid() )
 
+  register_shiny()
+  options("dipsaus.shortcuts" = fastmap2())
 
-  # reg.finalizer(session_log, function(x){
-  #   x$finalize()
-  # }, onexit = TRUE)
 }
 
 

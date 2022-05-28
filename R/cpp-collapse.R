@@ -1,7 +1,5 @@
 #' @title Collapse Sensors And Calculate Summations/Mean
 #'
-#' (stable)
-#'
 #' @param x A numeric multi-mode tensor (array), without \code{NA}
 #' @param keep Which dimension to keep
 #' @param average collapse to sum or mean

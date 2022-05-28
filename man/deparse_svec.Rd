@@ -2,9 +2,7 @@
 % Please edit documentation in R/strings.R
 \name{deparse_svec}
 \alias{deparse_svec}
-\title{Convert Integer Vectors To String
-
-(stable)}
+\title{Convert Integer Vectors To String}
 \usage{
 deparse_svec(
   nums,
@@ -30,8 +28,6 @@ strings representing the input vector. For example, \code{c(1, 2, 3)} returns "1
 }
 \description{
 Convert Integer Vectors To String
-
-(stable)
 }
 \examples{
 deparse_svec(c(1:10, 15:18))

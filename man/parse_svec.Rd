@@ -2,9 +2,7 @@
 % Please edit documentation in R/strings.R
 \name{parse_svec}
 \alias{parse_svec}
-\title{Parse Text Into Numeric Vectors
-
-(stable)}
+\title{Parse Text Into Numeric Vectors}
 \usage{
 parse_svec(text, sep = ",", connect = "-:|", sort = FALSE, unique = TRUE)
 }
@@ -24,8 +22,6 @@ a numeric vector. For example, "1-3" returns \code{c(1, 2, 3)}
 }
 \description{
 Parse Text Into Numeric Vectors
-
-(stable)
 }
 \examples{
 parse_svec('1-10, 13:15,14-20')

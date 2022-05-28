@@ -46,7 +46,6 @@ Imports:
     fastmap (>= 1.1.0),
     base64url,
     base64enc,
-    synchronicity,
     digest,
     rlang (>= 0.4.0),
     startup,
@@ -62,7 +61,7 @@ Suggests:
     remotes,
     glue
 Roxygen: list(r6 = FALSE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 LinkingTo: 
     Rcpp,
     RcppParallel

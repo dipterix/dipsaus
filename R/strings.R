@@ -54,8 +54,6 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 
 #' @title Parse Text Into Numeric Vectors
 #'
-#' (stable)
-#'
 #' @param text string with chunks, e.g. \code{"1-10, 14, 16-20, 18-30"} has 4 chunks
 #' @param sep default is ",", character used to separate chunks
 #' @param connect characters defining connection links for example "1:10" is the same as "1-10"
@@ -111,8 +109,6 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = 
 }
 
 #' @title Convert Integer Vectors To String
-#'
-#' (stable)
 #'
 #' @param nums integer vector
 #' @param connect character used to connect consecutive numbers

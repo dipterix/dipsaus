@@ -2,9 +2,7 @@
 % Please edit documentation in R/cpp-collapse.R
 \name{collapse}
 \alias{collapse}
-\title{Collapse Sensors And Calculate Summations/Mean
-
-(stable)}
+\title{Collapse Sensors And Calculate Summations/Mean}
 \usage{
 collapse(x, keep, average = FALSE)
 }
@@ -21,8 +19,6 @@ collapsing dimensions
 }
 \description{
 Collapse Sensors And Calculate Summations/Mean
-
-(stable)
 }
 \examples{
 # Example 1
