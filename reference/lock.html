@@ -73,20 +73,21 @@ whether the lock exists or not.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dipsaus_lock</span><span class="op">(</span><span class="va">name</span>, exclusive <span class="op">=</span> <span class="cn">TRUE</span>, timeout <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dipsaus_lock</span><span class="op">(</span><span class="va">name</span>, timeout <span class="op">=</span> <span class="fl">10</span>, exclusive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu">dipsaus_unlock</span><span class="op">(</span><span class="va">name</span>, exclusive <span class="op">=</span> <span class="cn">TRUE</span>, timeout <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<span class="fu">dipsaus_unlock</span><span class="op">(</span><span class="va">name</span>, timeout <span class="op">=</span> <span class="fl">10</span>, exclusive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="fu">dipsaus_resetlocks</span><span class="op">(</span><span class="va">name</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>character, the locker's name, must be only letters and digits</p></dd>
-<dt>exclusive</dt>
-<dd><p>logical whether the locker is exclusive. True for write
-access, False for read access. Default is true.</p></dd>
 <dt>timeout</dt>
 <dd><p>numeric, seconds to wait for the locker to lock or unlock</p></dd>
+<dt>exclusive</dt>
+<dd><p>ignored</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -95,7 +96,11 @@ access, False for read access. Default is true.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># unlock to prepare for the example</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+<span class="r-in"><span class="co"># Clear existing locks</span></span>
+<span class="r-in"><span class="fu">dipsaus</span><span class="fu">::</span><span class="fu">dipsaus_resetlocks</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># unlock to prepare for the example</span></span>
 <span class="r-in"><span class="fu">dipsaus_unlock</span><span class="op">(</span><span class="st">'testlocker'</span>, timeout <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"></span>
@@ -111,11 +116,13 @@ access, False for read access. Default is true.</p></dd>
 <span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="va">lock_success</span><span class="op">)</span><span class="op">{</span></span>
 <span class="r-in">  <span class="fu"><a href="cat2.html">cat2</a></span><span class="op">(</span><span class="st">'attempt to lock testlocker failed'</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attempt to lock testlocker failed </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># unlock</span></span>
 <span class="r-in"><span class="fu">dipsaus_unlock</span><span class="op">(</span><span class="st">'testlocker'</span>, timeout <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># clean up</span></span>
+<span class="r-in"><span class="fu">dipsaus</span><span class="fu">::</span><span class="fu">dipsaus_resetlocks</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
