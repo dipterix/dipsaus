@@ -17,7 +17,7 @@ devtools::install_github('dipterix/dipsaus')
 
 `dipsaus` provides `add-ons` from the following perspectives:
 
-### 1. `Shiny` Customized Widgets ([Vignette](https://dipterix.github.io/dipsaus/articles/shiny_customized_widgets.html))
+### 1. `Shiny` Customized Widgets ([Vignette](https://dipterix.org/dipsaus/articles/shiny_customized_widgets.html))
 
 * `compoundInput2` assembles any shiny native inputs and create variable-length input;
 * `actionButtonStyled` add styles to shiny default `actionButton` and its updating function can also update the styles or enable/disable the button;
@@ -38,7 +38,7 @@ devtools::install_github('dipterix/dipsaus')
 * `fastcov2` calculates covariance matrices in parallel;
 * `rs_exec` starts a new R session or job in `RStudio`;
 
-### 3. R Expressions ([Vignette](https://dipterix.github.io/dipsaus/articles/r_expr_addons.html))
+### 3. R Expressions ([Vignette](https://dipterix.org/dipsaus/articles/r_expr_addons.html))
 
 * `eval_dirty` works as `base::eval`, but supports quosures generated from `rlang::quo`;
 * `match_calls` match calls in a nested manner, and support changing the call arguments recursively;
@@ -50,7 +50,7 @@ devtools::install_github('dipterix/dipsaus')
 * `forelse` provides Python-like for-else syntax;
 * `test_farg` tests whether function contains desired arguments;
 
-### 4. Utility Functions ([Vignette](https://dipterix.github.io/dipsaus/articles/utility_functions.html))
+### 4. Utility Functions ([Vignette](https://dipterix.org/dipsaus/articles/utility_functions.html))
 
 * `cat2` act as base function `cat` but provides different levels with different colored outputs;
 * `check_installed_packages`, `package_installed` checks if package(s) are installed;

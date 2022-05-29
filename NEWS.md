@@ -1,14 +1,24 @@
 dipsaus 0.2.1
 =======
 
+## Major Changes
+* Removed `synchronicity` package from dependency
+* `dipsaus_lock` and `dipsaus_unlock` is exclusive-only and will be deprecated in the future
+* `PersistContainer` is scheduled to be deprecated in the future
+* Re-export `detectCores` and `digest`
+* Added `get_credential` to generate strong passwords for different services using one single master password
+
 ## Enhancement
 * `sync_shiny_inputs` uses `fastmap` instead of environments
 * `sync_shiny_inputs` uses the new `bindEvent` scheme to replace `observeEvent`
 * Added `sorted` argument to `as.list.fastmap2`
 * Ignored `...` argument in `as.list.fastqueue2`
+* `rs_show_shortcut` shows current shortcut expressions
 
 ## Bug Fixes
 * `compoundInput2` now activates callback functions once using `updateCompoundInput2`
+* Fixed `get_ram` not working on windows when user has no access to run `wmic` command
+* Allow `lapply_async` progress bar to show in `shiny` applications (with backward compatibility)
 
 
 dipsaus 0.2.0
