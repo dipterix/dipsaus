@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
@@ -66,6 +66,17 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.1" id="dipsaus-021">dipsaus 0.2.1<a class="anchor" aria-label="anchor" href="#dipsaus-021"></a></h2>
 <div class="section level3">
+<h3 id="major-changes-0-2-1">Major Changes<a class="anchor" aria-label="anchor" href="#major-changes-0-2-1"></a></h3>
+<ul><li>Removed <code>synchronicity</code> package from dependency</li>
+<li>
+<code>dipsaus_lock</code> and <code>dipsaus_unlock</code> is exclusive-only and will be deprecated in the future</li>
+<li>
+<code>PersistContainer</code> is scheduled to be deprecated in the future</li>
+<li>Re-export <code>detectCores</code> and <code>digest</code>
+</li>
+<li>Added <code>get_credential</code> to generate strong passwords for different services using one single master password</li>
+</ul></div>
+<div class="section level3">
 <h3 id="enhancement-0-2-1">Enhancement<a class="anchor" aria-label="anchor" href="#enhancement-0-2-1"></a></h3>
 <ul><li>
 <code>sync_shiny_inputs</code> uses <code>fastmap</code> instead of environments</li>
@@ -76,12 +87,17 @@
 </li>
 <li>Ignored <code>...</code> argument in <code>as.list.fastqueue2</code>
 </li>
+<li>
+<code>rs_show_shortcut</code> shows current shortcut expressions</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-2-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h3>
 <ul><li>
 <code>compoundInput2</code> now activates callback functions once using <code>updateCompoundInput2</code>
-</li></ul></div>
+</li>
+<li>Fixed <code>get_ram</code> not working on windows when user has no access to run <code>wmic</code> command</li>
+<li>Allow <code>lapply_async</code> progress bar to show in <code>shiny</code> applications (with backward compatibility)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.0" id="dipsaus-020">dipsaus 0.2.0<small>2022-01-27</small><a class="anchor" aria-label="anchor" href="#dipsaus-020"></a></h2>
