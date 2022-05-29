@@ -112,11 +112,19 @@ get_ram_windows <- function(){
     return(NA)
   }
   ram <- safe_system2(cmd, c("MemoryChip", "get", "Capacity"), stdout = TRUE)
-  structure(
-    as.numeric(ram[[2]]),
-    class = "dipsaus_bytes",
-    unit = "B"
-  )
+
+  # User might have no access to the wmic command
+  if(length(ram) < 2) {
+    return(NA)
+  }
+  suppressWarnings({
+    ram <- as.numeric(ram[[2]])
+    return(structure(
+      as.numeric(ram),
+      class = "dipsaus_bytes",
+      unit = "B"
+    ))
+  })
 }
 
 get_ram_linux <- function(){
