@@ -283,12 +283,12 @@ translate_compoundInput <- function(data, session, name){
             # check whether name starts with session_scope if yes, this means
             # we register submodule in root session,
             # and we need to go back and remove session_scope in name
-            slen <- stringr::str_length(session_scope)
-            nlen <- stringr::str_length(widget_name)
+            slen <- nchar(session_scope, allowNA = TRUE, keepNA = TRUE)
+            nlen <- nchar(widget_name, allowNA = TRUE, keepNA = TRUE)
             if( slen < nlen - 1 ){
-              if( stringr::str_sub(widget_name, end = slen + 1) == sprintf('%s-', session_scope) ){
+              if( str_sub(widget_name, end = slen + 1) == sprintf('%s-', session_scope) ){
                 # need to remove scope from widget_name
-                widget_name <- stringr::str_sub(widget_name, start = slen + 2)
+                widget_name <- str_sub(widget_name, start = slen + 2)
               }
             }
           }

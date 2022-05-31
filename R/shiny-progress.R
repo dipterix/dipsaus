@@ -302,7 +302,7 @@ handler_dipsaus_progress <- function (
         }
         if (config$clear ) {
           # s <- sprintf('%s - Finished', title)
-          # ss <- paste(rep(' ', stringr::str_length(s)), collapse = '')
+          # ss <- paste(rep(' ', nchar(s)), collapse = '')
           # cat(sprintf('%s\r%s\n', s, ss))
           pb$close(sprintf('%s\r', cli::symbol$square_small_filled))
 

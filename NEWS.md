@@ -1,3 +1,14 @@
+dipsaus 0.2.2 (In Development)
+=======
+
+## Minor Changes
+
+* Replaced some functions from `stringr` to self-implemented base-R functions, plan to remove `stringr` in the future
+
+## Bug Fixes
+
+* Fixed `print_directory_tree` where an `if` condition generates warning for vectors with lengths greater than `1`
+
 dipsaus 0.2.1
 =======
 

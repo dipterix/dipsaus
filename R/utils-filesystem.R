@@ -18,9 +18,9 @@ assert_file_scalar <- function(x, allow_decimal = FALSE) {
   y <- readLines(x, n = 1, warn = FALSE)
   is_scalar <- FALSE
   if(allow_decimal){
-    is_scalar <- stringr::str_detect(y, '^[0-9]*[.]{0,1}[0-9]*$') && stringr::str_detect(y, '[0-9]+')
+    is_scalar <- str_detect(y, '^[0-9]*[.]{0,1}[0-9]*$') && str_detect(y, '[0-9]+')
   }else{
-    is_scalar <- stringr::str_detect(y, '^[0-9]+$')
+    is_scalar <- str_detect(y, '^[0-9]+$')
   }
 
   if( !is_scalar ){

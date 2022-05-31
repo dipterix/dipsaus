@@ -212,7 +212,7 @@ restart_session <- function(){
 prepare_install2 <- function(
   packages, restart = FALSE, repos = getOption('repos'), ...){
 
-  github_packages <- stringr::str_detect(packages, '/')
+  github_packages <- str_detect(packages, '/')
   cran_packages <- unique(packages[!github_packages])
   github_packages <- unique(packages[github_packages])
 

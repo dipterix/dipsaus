@@ -61,7 +61,7 @@ base64_to_image <- function(data, path){
     close(con)
   }, add = TRUE)
 
-  data <- stringr::str_replace(data, '^data:image.{0,10};base64,', '')
+  data <- str_replace(data, '^data:image.{0,10};base64,', '')
   base64enc::base64decode(data, output = con)
 
   invisible(normalizePath(path))

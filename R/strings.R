@@ -46,9 +46,9 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
   }
   re <- grDevices::adjustcolor(col, alpha.f = alpha)
   if(!transparent){
-    re <- stringr::str_sub(re, end = 7L)
+    re <- str_sub(re, end = 7L)
   }
-  stringr::str_replace(re, '^[^0-9A-F]*', prefix)
+  str_replace(re, '^[^0-9A-F]*', prefix)
 }
 
 
@@ -81,13 +81,13 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = 
   s <- stringr::str_trim(s)
   s <- s[s!='']
 
-  s <- s[stringr::str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
+  s <- s[str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
 
   re <- NULL
   for(ss in s){
-    if(stringr::str_detect(ss, sprintf('[%s]', connect))){
+    if(str_detect(ss, sprintf('[%s]', connect))){
       ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = TRUE))
-      ss <- ss[stringr::str_detect(ss, '^[0-9]+$')]
+      ss <- ss[str_detect(ss, '^[0-9]+$')]
       ss <- as.numeric(ss)
       if(length(ss) >= 2){
         re <- c(re, (ss[1]:ss[2]))
@@ -409,7 +409,7 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
                                  collapse = NULL, ...){
   root <- normalizePath(root, winslash = '/', mustWork = FALSE)
   target <- file.path(root, target)
-  target <- stringr::str_replace_all(target, '\\\\', '/')
+  target <- str_replace_all(target, '\\\\', '/')
   target <- normalizePath(target, mustWork = FALSE, winslash = '/')
 
   paths <- stringr::str_split(target, '\\\\|/', simplify = TRUE)
@@ -445,7 +445,7 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
 
     x <- c(as.list(tree_id[i, ]), list(child), list(''))
     Reduce(function(a,b){
-      if(a != '' && length(a) == 1){
+      if(length(a) == 1 && a != ''){
         df[[a]] <<- c(df[[a]], b)
       }
       b

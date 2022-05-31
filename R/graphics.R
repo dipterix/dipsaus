@@ -156,9 +156,9 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
     re <- lapply(devs, function(dev){
       dev_name <- attr(dev, 'dipsaus_dev_name')
-      id <- stringr::str_sub(dev_name, end = 6)
+      id <- str_sub(dev_name, end = 6)
       if(length(id) == 1 && isTRUE(id == private_id)){
-        return(stringr::str_sub(dev_name, start = 7))
+        return(str_sub(dev_name, start = 7))
       }else{
         NULL
       }

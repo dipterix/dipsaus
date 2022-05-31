@@ -3,7 +3,7 @@ safe_urlencode <- function(x){
   paste0('==', re)
 }
 safe_urldecode <- function(x){
-  x <- stringr::str_replace(as.character(x), pattern = '^==', '')
+  x <- str_replace(as.character(x), pattern = '^==', '')
   base64url::base64_urldecode(x)
 }
 
@@ -99,7 +99,7 @@ clear_env <- function(env, ...){
       return(invisible(env))
     }
     nms <- names(env)
-    nms <- nms[!stringr::str_detect(nms, '^\\.__rave')]
+    nms <- nms[!str_detect(nms, '^\\.__rave')]
     if(isNamespace(env)){
       nms <- nms[!nms %in% c(".__NAMESPACE__.", ".__S3MethodsTable__.")]
     }

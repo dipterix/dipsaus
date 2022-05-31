@@ -88,3 +88,24 @@ deparse1 <- function (expr, collapse = " ") {
   paste(deparse(expr), collapse = collapse)
 }
 
+str_sub <- function(x, start = 1L, end = -1L) {
+  if(end < 0) {
+    end <- nchar(x) + 1 + end
+  }
+  substr(x, start = start, stop = end)
+}
+
+str_detect <- function(x, pattern) {
+  grepl(pattern, x)
+}
+
+str_replace <- function(x, pattern, replacement) {
+  sub(pattern = pattern, replacement = replacement, x = x)
+}
+
+str_replace_all <- function(x, pattern, replacement) {
+  gsub(pattern = pattern, replacement = replacement, x = x)
+}
+
+
+
