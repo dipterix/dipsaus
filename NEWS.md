@@ -1,6 +1,9 @@
 dipsaus 0.2.2 (In Development)
 =======
 
+## Major Changes
+* Added a special `%OF%` to make sure the result is constrained
+
 ## Minor Changes
 
 * Replaced some functions from `stringr` to self-implemented base-R functions, plan to remove `stringr` in the future
