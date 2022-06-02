@@ -286,9 +286,10 @@ translate_compoundInput <- function(data, session, name){
             slen <- nchar(session_scope, allowNA = TRUE, keepNA = TRUE)
             nlen <- nchar(widget_name, allowNA = TRUE, keepNA = TRUE)
             if( slen < nlen - 1 ){
-              if( str_sub(widget_name, end = slen + 1) == sprintf('%s-', session_scope) ){
+              if( substr(widget_name, start = 1L, stop = slen + 1L) ==
+                  sprintf('%s-', session_scope) ){
                 # need to remove scope from widget_name
-                widget_name <- str_sub(widget_name, start = slen + 2)
+                widget_name <- substr(widget_name, start = slen + 2, stop = nchar(widget_name))
               }
             }
           }
