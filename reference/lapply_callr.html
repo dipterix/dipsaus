@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -89,35 +89,60 @@
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector or list</p></dd>
+
+
 <dt>fun</dt>
 <dd><p>function</p></dd>
+
+
 <dt>...</dt>
 <dd><p>passed to function, see <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></code></p></dd>
+
+
 <dt>.callback</dt>
 <dd><p>a function takes zero, one, or two arguments
 and should return a string to show in the progress</p></dd>
+
+
 <dt>.globals</dt>
 <dd><p>a named list that <code>fun</code> relies on</p></dd>
+
+
 <dt>.ncores</dt>
 <dd><p>number of cores to use; only used when <code>.wait=TRUE</code></p></dd>
+
+
 <dt>.packages</dt>
 <dd><p>packages to load</p></dd>
+
+
 <dt>.focus_on_console</dt>
 <dd><p>whether to focus on console once finished;
 is only used when <code>.rs</code> is true</p></dd>
+
+
 <dt>.rs</dt>
 <dd><p>whether to create 'RStudio' jobs; default is false</p></dd>
+
+
 <dt>.quiet</dt>
 <dd><p>whether to suppress progress message</p></dd>
+
+
 <dt>.name</dt>
 <dd><p>the name of progress and jobs</p></dd>
+
+
 <dt>.wait</dt>
 <dd><p>whether to wait for the results; default is true, which blocks
 the main session waiting for results.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>When <code>.wait=TRUE</code>, returns a list that should be, in most of
+    
+
+<p>When <code>.wait=TRUE</code>, returns a list that should be, in most of
 the cases, identical to <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></code>; when <code>.wait=FALSE</code>,
 returns a function that collects results.</p>
     </div>
@@ -158,7 +183,7 @@ returns a function that collects results.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

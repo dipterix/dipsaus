@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -84,22 +84,37 @@
     <h2>Arguments</h2>
     <dl><dt>.X</dt>
 <dd><p>a vector or a list to apply evaluation on</p></dd>
+
+
 <dt>.expr</dt>
 <dd><p>R expression, unquoted</p></dd>
+
+
 <dt>.varname</dt>
 <dd><p>variable name representing element of each <code>.X</code></p></dd>
+
+
 <dt>envir</dt>
 <dd><p>environment to evaluate expressions</p></dd>
+
+
 <dt>.pre_run</dt>
 <dd><p>expressions to be evaluated before looping.</p></dd>
+
+
 <dt>.ncore</dt>
 <dd><p>number of CPU cores</p></dd>
+
+
 <dt>...</dt>
 <dd><p>passed to <code><a href="https://future.futureverse.org/reference/future.html" class="external-link">future::future</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list whose length equals to <code>.X</code>. The value of each item
+    
+
+<p>a list whose length equals to <code>.X</code>. The value of each item
 returned depends on whether <code>async</code> is called. See details for workflow.</p>
     </div>
     <div id="details">
@@ -131,7 +146,7 @@ Below is the workflow:</p><ul><li><p>Run <code>.pre_run</code></p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

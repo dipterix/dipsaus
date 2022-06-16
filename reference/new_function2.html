@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -83,20 +83,31 @@
     <h2>Arguments</h2>
     <dl><dt>args</dt>
 <dd><p>named list of function formals</p></dd>
+
+
 <dt>body</dt>
 <dd><p>function body expression, supports 'quasi-quosure' syntax</p></dd>
+
+
 <dt>env</dt>
 <dd><p>declare environment of the function</p></dd>
+
+
 <dt>quote_type</dt>
 <dd><p>character, whether <code>body</code> is unquoted, quoted,
 or a 'quo' object (from 'rlang' package)</p></dd>
+
+
 <dt>quasi_env</dt>
 <dd><p>where the 'quasi-quosure' should be evaluated,
 default is parent environment</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a function</p>
+    
+
+<p>a function</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -137,7 +148,7 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     print(a + 1:10)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fa109278af0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff2c0159100&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">f2</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
@@ -155,26 +166,26 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = 123) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fa10888dd20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff2bf5ddc50&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># default with values unevaluated</span></span>
 <span class="r-in"><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">default</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># function (a = default){}</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = default) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fa105fb9f80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff2bf632868&gt;</span>
 <span class="r-in"><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">default</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = default) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fa105db1e08&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff2bf687e48&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># missing default</span></span>
 <span class="r-in"><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span>a <span class="op">=</span> <span class="op">)</span><span class="op">)</span>    <span class="co"># function (a){}</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fa107a60038&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff2bf6e0040&gt;</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -191,7 +202,7 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

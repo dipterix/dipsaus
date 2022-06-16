@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -85,26 +85,43 @@
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector, list</p></dd>
+
+
 <dt>FUN</dt>
 <dd><p>function to apply on each element of <code>x</code></p></dd>
+
+
 <dt>FUN.args</dt>
 <dd><p>more arguments to feed into <code>FUN</code></p></dd>
+
+
 <dt>callback</dt>
 <dd><p>function to run after each iteration</p></dd>
+
+
 <dt>plan</dt>
 <dd><p>logical, or character or <code>future</code> plan; see Details.</p></dd>
+
+
 <dt>future.chunk.size, future.seed</dt>
 <dd><p>see also <code>future_lapply</code>.
 If you want the callbacks
 to be called immediately after each loop, then set it to <code>1</code>,
 which is not optimal but the only way right now.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>passed to <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>same as
+    
+
+<p>same as
 <code>with(FUN.args, lapply(x, function(el){eval(body(FUN))}))</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -164,7 +181,7 @@ objects.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

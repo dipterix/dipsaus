@@ -18,7 +18,7 @@ plan (default is "multisession").'><!-- mathjax --><script src="https://cdnjs.cl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -83,19 +83,28 @@ plan (default is <code>"multisession"</code>).</p>
     <h2>Arguments</h2>
     <dl><dt>workers</dt>
 <dd><p>positive integer, number of cores to use</p></dd>
+
+
 <dt>on_failure</dt>
 <dd><p>alternative plan to use if failed. This is useful when
 forked process is not supported (like 'windows'); default is
 <code>options("dipsaus.cluster.backup")</code> or 'sequential'</p></dd>
+
+
 <dt>clean</dt>
 <dd><p>whether to reverse the plan on exit. This is useful when use
 <code>make_forked_clusters</code> inside of a function. See details and examples.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>passing to <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Current future plan</p>
+    
+
+<p>Current future plan</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -209,7 +218,7 @@ the outer function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

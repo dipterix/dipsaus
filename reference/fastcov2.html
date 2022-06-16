@@ -19,7 +19,7 @@ prior to calculation."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -81,22 +81,33 @@ prior to calculation.</p>
     <dl><dt>x</dt>
 <dd><p>a numeric vector, matrix or data frame; a matrix is highly
 recommended to maximize the performance</p></dd>
+
+
 <dt>y</dt>
 <dd><p>NULL (default) or a vector, matrix or data frame with compatible
 dimensions to x; the default is equivalent to <code>y = x</code></p></dd>
+
+
 <dt>col1</dt>
 <dd><p>integers indicating the subset (columns) of <code>x</code> to
 calculate the covariance; default is all the columns</p></dd>
+
+
 <dt>col2</dt>
 <dd><p>integers indicating the subset (columns) of <code>y</code> to
 calculate the covariance; default is all the columns</p></dd>
+
+
 <dt>df</dt>
 <dd><p>a scalar indicating the degrees of freedom; default is
 <code>nrow(x)-1</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A covariance matrix of <code>x</code> and <code>y</code>. Note that there is no
+    
+
+<p>A covariance matrix of <code>x</code> and <code>y</code>. Note that there is no
 <code>NA</code> handling. Any missing values will lead to <code>NA</code> in the
 resulting covariance matrices.</p>
     </div>
@@ -135,8 +146,8 @@ resulting covariance matrices.</p>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      expr      min       lq     mean   median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.871477 1.883021 1.957752 1.959414 1.995458 2.075662    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 3.014530 3.014975 3.070886 3.027104 3.046347 3.416677    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.868155 1.883608 1.975457 1.954677 2.054294 2.135576    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 2.984406 2.989465 3.162968 3.032231 3.338834 3.720238    10</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -153,7 +164,7 @@ resulting covariance matrices.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

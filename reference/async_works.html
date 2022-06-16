@@ -18,7 +18,7 @@ lapply_callr instead."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -91,35 +91,60 @@ lapply_callr instead."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>vector or list to be applied</p></dd>
+
+
 <dt>FUN</dt>
 <dd><p>function with the first argument to be each element of <code>X</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>further arguments to be passed to <code>FUN</code></p></dd>
+
+
 <dt>.globals</dt>
 <dd><p>global variables to be evaluated in <code>FUN</code></p></dd>
+
+
 <dt>.name</dt>
 <dd><p>job names, used if backed by <code>rstudioapi</code> jobs</p></dd>
+
+
 <dt>.rs</dt>
 <dd><p>whether to use <code>rstudioapi</code> jobs</p></dd>
+
+
 <dt>.wait</dt>
 <dd><p>whether to wait for the results</p></dd>
+
+
 <dt>.chunk_size</dt>
 <dd><p>used only when <code>.wait=FALSE</code>, chunk size for each
 workers at a time. Only useful for printing progress messages, but might
 slow down the process when <code>.chunk_size</code> is too small</p></dd>
+
+
 <dt>.nworkers</dt>
 <dd><p>number of workers at a time</p></dd>
+
+
 <dt>.simplify</dt>
 <dd><p>whether to simplify the results, i.e. merge list of results
 to vectors or arrays</p></dd>
+
+
 <dt>.quiet</dt>
 <dd><p>whether to suppress the printing messages</p></dd>
+
+
 <dt>.log</dt>
 <dd><p>internally used</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>.wait=TRUE</code>, returns the applied results of <code>FUN</code> on
+    
+
+<p>If <code>.wait=TRUE</code>, returns the applied results of <code>FUN</code> on
 each of <code>X</code>. The result types depend on <code>.simplify</code> (compare
 the difference between <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></code> and <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></code>). If
 <code>.wait=FALSE</code>, then returns a function that can check the result. The
@@ -184,7 +209,7 @@ such as read in from a file, process, generate summarizing reports).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

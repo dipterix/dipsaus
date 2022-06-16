@@ -18,7 +18,7 @@ reg.finalizer"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -90,18 +90,27 @@ reg.finalizer"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>object to finalize</p></dd>
+
+
 <dt>key</dt>
 <dd><p>characters that should be identical if
 finalization method is to be shared</p></dd>
+
+
 <dt>fin</dt>
 <dd><p>Shared finalization: function to call on finalization;
 see <code><a href="https://rdrr.io/r/base/reg.finalizer.html" class="external-link">reg.finalizer</a></code>. See details.</p></dd>
+
+
 <dt>onexit</dt>
 <dd><p>logical: should the finalization be run if the
 object is still uncollected at the end of the R session?
 See <code><a href="https://rdrr.io/r/base/reg.finalizer.html" class="external-link">reg.finalizer</a></code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>passed to other methods</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -251,8 +260,8 @@ instances, <code>fin</code> accepts no argument.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1224960 65.5    1990398 106.3         NA  1990398 106.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2268184 17.4   12070342  92.1      16384 23574785 179.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1226167 65.5    2140991 114.4         NA  2140991 114.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2259026 17.3   12062779  92.1      16384 23560003 179.8</span>
 <span class="r-in"><span class="va">file_exists</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"></span>
@@ -260,8 +269,8 @@ instances, <code>fin</code> accepts no argument.</p>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">e1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clean some shared files"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1224971 65.5    1990398 106.3         NA  1990398 106.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2268232 17.4   12070342  92.1      16384 23574785 179.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1226178 65.5    2140991 114.4         NA  2140991 114.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2259074 17.3   12062779  92.1      16384 23560003 179.8</span>
 <span class="r-in"><span class="va">e2</span><span class="op">$</span><span class="fu">valid</span><span class="op">(</span><span class="op">)</span>    <span class="co"># FALSE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"></span>
@@ -269,8 +278,8 @@ instances, <code>fin</code> accepts no argument.</p>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">e2</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clean some shared files"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1224992 65.5    1990398 106.3         NA  1990398 106.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2268246 17.4   12070342  92.1      16384 23574785 179.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1226199 65.5    2140991 114.4         NA  2140991 114.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2259088 17.3   12062779  92.1      16384 23560003 179.8</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -286,7 +295,7 @@ instances, <code>fin</code> accepts no argument.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

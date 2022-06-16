@@ -18,7 +18,7 @@ contrast."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1.9003</span>
       </span>
     </div>
 
@@ -84,23 +84,34 @@ contrast.</p>
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>array (tensor) to calculate contrast</p></dd>
+
+
 <dt>along_dim</dt>
 <dd><p>integer range from 1 to the maximum dimension of <code>x</code>.
 baseline along this dimension, this is usually the time dimension.</p></dd>
+
+
 <dt>baseline_indexpoints</dt>
 <dd><p>integer vector, which index points are counted
 into baseline window? Each index ranges from 1 to <code>dim(x)[[along_dim]]</code>.
 See Details.</p></dd>
+
+
 <dt>unit_dims</dt>
 <dd><p>integer vector, baseline unit: see Details.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>character, baseline method options are:
 <code>"percentage"</code>, <code>"sqrt_percentage"</code>, <code>"decibel"</code>,
 <code>"zscore"</code>, and <code>"sqrt_zscore"</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Contrast array with the same dimension as <code>x</code>.</p>
+    
+
+<p>Contrast array with the same dimension as <code>x</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -223,7 +234,7 @@ $$</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
