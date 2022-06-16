@@ -1,84 +1,97 @@
 # Defines shiny bindings
 
-shiny_input_bindings <- new.env(parent = emptyenv())
-list2env(list(
-  'shiny.textInput' = list(
-    binding = "shiny.textInput",
-    update_function = "shiny::updateTextInput"
-  ),
-  'shiny.textAreaInput' = list(
-    binding = "shiny.textareaInput",
-    update_function = "shiny::updateTextAreaInput"
-  ),
-  'shiny.passwordInput' = list(
-    binding = "shiny.passwordInput",
-    update_function = "shiny::updateTextInput"
-  ),
-  'shiny.numericInput' = list(
-    binding = "shiny.numberInput",
-    update_function = "shiny::updateNumericInput"
-  ),
-  'shiny.checkboxInput' = list(
-    binding = "shiny.checkboxInput",
-    update_function = "shiny::updateCheckboxInput"
-  ),
-  'shiny.sliderInput' = list(
-    binding = "shiny.sliderInput",
-    update_function = "shiny::updateSliderInput"
-  ),
-  'shiny.dateInput' = list(
-    binding = "shiny.dateInput",
-    update_function = "shiny::updateDateInput"
-  ),
-  'shiny.dateRangeInput' = list(
-    binding = "shiny.dateRangeInput",
-    update_function = 'shiny::updateDateRangeInput'
-  ),
-  'shiny.selectInput' = list(
-    binding = "shiny.selectInput",
-    update_function = 'shiny::updateSelectInput'
-  ),
-  'shiny.selectizeInput' = list(
-    binding = "shiny.selectInput",
-    update_function = 'shiny::updateSelectizeInput'
-  ),
-  'shiny.varSelectInput' = list(
-    binding = "shiny.selectInput",
-    update_function = 'shiny::updateVarSelectInput'
-  ),
-  'shiny.varSelectizeInput' = list(
-    binding = "shiny.selectInput",
-    update_function = 'shiny::updateVarSelectizeInput'
-  ),
-  'shiny.radioButtons' = list(
-    binding = "shiny.radioInput",
-    update_function = 'shiny::updateRadioButtons'
-  ),
-  'shiny.checkboxGroupInput' = list(
-    binding = "shiny.checkboxGroupInput",
-    update_function = 'shiny::updateCheckboxGroupInput'
-  ),
-  'shiny.actionButton' = list(
-    binding = "shiny.actionButtonInput",
-    update_function = 'shiny::updateActionButton'
-  ),
-  'shiny.actionLink' = list(
-    binding = "shiny.actionButtonInput",
-    update_function = 'shiny::updateActionButton'
-  ),
-  'shiny.fileInput' = list(
-    binding = "shiny.fileInputBinding",
-    update_function = NULL
-  ),
-  'dipsaus.compoundInput2' = list(
-    binding = "dipsaus.compoundInput2",
-    update_function = 'dipsaus.updateCompoundInput2'
-  ),
-  'dipsaus.actionButtonStyled' = list(
-    binding = "shiny.actionButtonInput",
-    update_function = 'dipsaus.updateActionButtonStyled'
-  )
-), envir = shiny_input_bindings)
+get_shiny_input_bindings <- function() {
+  bindings <- get(".shiny_input_bindings")
+  if(bindings$size() == 0) {
+    bindings$mset(
+      'shiny.textInput' = list(
+        binding = "shiny.textInput",
+        update_function = "shiny::updateTextInput"
+      ),
+      'shiny.textAreaInput' = list(
+        binding = "shiny.textareaInput",
+        update_function = "shiny::updateTextAreaInput"
+      ),
+      'shiny.passwordInput' = list(
+        binding = "shiny.passwordInput",
+        update_function = "shiny::updateTextInput"
+      ),
+      'shiny.numericInput' = list(
+        binding = "shiny.numberInput",
+        update_function = "shiny::updateNumericInput"
+      ),
+      'shiny.checkboxInput' = list(
+        binding = "shiny.checkboxInput",
+        update_function = "shiny::updateCheckboxInput"
+      ),
+      'shiny.sliderInput' = list(
+        binding = "shiny.sliderInput",
+        update_function = "shiny::updateSliderInput"
+      ),
+      'shiny.dateInput' = list(
+        binding = "shiny.dateInput",
+        update_function = "shiny::updateDateInput"
+      ),
+      'shiny.dateRangeInput' = list(
+        binding = "shiny.dateRangeInput",
+        update_function = 'shiny::updateDateRangeInput'
+      ),
+      'shiny.selectInput' = list(
+        binding = "shiny.selectInput",
+        update_function = 'shiny::updateSelectInput'
+      ),
+      'shiny.selectizeInput' = list(
+        binding = "shiny.selectInput",
+        update_function = 'shiny::updateSelectizeInput'
+      ),
+      'shiny.varSelectInput' = list(
+        binding = "shiny.selectInput",
+        update_function = 'shiny::updateVarSelectInput'
+      ),
+      'shiny.varSelectizeInput' = list(
+        binding = "shiny.selectInput",
+        update_function = 'shiny::updateVarSelectizeInput'
+      ),
+      'shiny.radioButtons' = list(
+        binding = "shiny.radioInput",
+        update_function = 'shiny::updateRadioButtons'
+      ),
+      'shiny.checkboxGroupInput' = list(
+        binding = "shiny.checkboxGroupInput",
+        update_function = 'shiny::updateCheckboxGroupInput'
+      ),
+      'shiny.actionButton' = list(
+        binding = "shiny.actionButtonInput",
+        update_function = 'shiny::updateActionButton'
+      ),
+      'shiny.actionLink' = list(
+        binding = "shiny.actionButtonInput",
+        update_function = 'shiny::updateActionButton'
+      ),
+      'shiny.fileInput' = list(
+        binding = "shiny.fileInputBinding",
+        update_function = NULL
+      ),
+      'shiny.fileInput' = list(
+        binding = "shiny.fileInputBinding",
+        update_function = NULL
+      ),
+      'shiny.textOutput' = list(
+        binding = "shiny.textOutput",
+        update_function = NULL
+      ),
+      'dipsaus.compoundInput2' = list(
+        binding = "dipsaus.compoundInput2",
+        update_function = 'dipsaus.updateCompoundInput2'
+      ),
+      'dipsaus.actionButtonStyled' = list(
+        binding = "shiny.actionButtonInput",
+        update_function = 'dipsaus.updateActionButtonStyled'
+      )
+    )
+  }
+  bindings
+}
 
 
 #' Register customized input to enable support by compound input
@@ -114,7 +127,9 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
     binding = shiny_binding,
     update_function = update_function
   )
-  shiny_input_bindings[[sprintf('%s.%s', pkg, fname)]] <- binding
+  # shiny_input_bindings[[sprintf('%s.%s', pkg, fname)]] <- binding
+  bindings <- get_shiny_input_bindings()
+  bindings$set(key = sprintf('%s.%s', pkg, fname), value = binding)
   invisible(binding)
 }
 
@@ -192,9 +207,11 @@ getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
     cat2(sprintf('Cannot find function %s in namespace %s', fname, pkg), level = 'FATAL')
   }
   binding_key <- sprintf('%s.%s', pkg, fname)
-  binding_re <- shiny_input_bindings[[ binding_key ]]
+  # binding_re <- shiny_input_bindings[[ binding_key ]]
+  bindings <- get_shiny_input_bindings()
+  binding_re <- bindings$get(key = binding_key, missing = NULL)
   if(is.null(binding_re)){
-    cat2(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding(%s, %s, shiny_binding, update_function = NULL)\n  to register this input type.', binding_key, fname, pkg), level = 'FATAL')
+    cat2(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding("%s", "%s", shiny_binding = "<JavaScript_binding>", update_function = "<R update function or NULL>")\n  to register this input type.', binding_key, fname, pkg), level = 'FATAL')
   }
   binding_re$call_function <- sprintf('%s::%s', pkg, fname)
   binding_re

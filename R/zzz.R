@@ -54,6 +54,7 @@ is_master <- function(){
 
   ns <- asNamespace(pkgname)
   assign(".locker_keys", fastmap::fastmap(), envir = ns)
+  assign(".shiny_input_bindings", fastmap::fastmap(), envir = ns)
   ns$.master_session_id( session_uuid() )
 
   register_shiny()
