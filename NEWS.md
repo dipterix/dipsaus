@@ -1,4 +1,6 @@
-dipsaus 0.2.2 (In Development)
+dipsaus 0.2.3 (In Development)
+
+dipsaus 0.2.2
 =======
 
 ## Major Changes
@@ -7,6 +9,7 @@ dipsaus 0.2.2 (In Development)
 ## Minor Changes
 
 * Replaced some functions from `stringr` to self-implemented base-R functions, plan to remove `stringr` in the future
+* Create `shiny_input_bindings` list on package load
 
 ## Bug Fixes
 
