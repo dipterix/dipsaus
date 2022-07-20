@@ -18,7 +18,7 @@ lapply_callr instead."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -71,20 +71,20 @@ lapply_callr instead."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">async_works</span><span class="op">(</span>
-  <span class="va">X</span>,
-  <span class="va">FUN</span>,
-  <span class="va">...</span>,
-  .globals <span class="op">=</span> <span class="cn">NULL</span>,
-  .name <span class="op">=</span> <span class="st">"Untitled"</span>,
-  .rs <span class="op">=</span> <span class="cn">FALSE</span>,
-  .wait <span class="op">=</span> <span class="cn">TRUE</span>,
-  .chunk_size <span class="op">=</span> <span class="cn">Inf</span>,
-  .nworkers <span class="op">=</span> <span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/re-exports.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span>,
-  .simplify <span class="op">=</span> <span class="cn">FALSE</span>,
-  .quiet <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">.log</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">async_works</span><span class="op">(</span></span>
+<span>  <span class="va">X</span>,</span>
+<span>  <span class="va">FUN</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  .globals <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .name <span class="op">=</span> <span class="st">"Untitled"</span>,</span>
+<span>  .rs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .wait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .chunk_size <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  .nworkers <span class="op">=</span> <span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  .simplify <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  .quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">.log</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -166,35 +166,35 @@ such as read in from a file, process, generate summarizing reports).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># requires a sub-process to run the code</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Basic usage</span></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span class="r-in"><span class="fu">async_works</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">  <span class="va">ii</span> <span class="op">+</span> <span class="va">a</span> <span class="co"># sub-process don't know a, hence must pass a as globals</span></span>
-<span class="r-in"><span class="op">}</span>, .globals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">a</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># non-blocking case</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in">  <span class="va">check</span> <span class="op">&lt;-</span> <span class="fu">async_works</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">    <span class="co"># simulating process, run run run</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="va">ii</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span>, .wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># check the results</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/PkgUtils.html" class="external-link">check</a></span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">'resolved'</span><span class="op">)</span> <span class="co"># whether it's resolved</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># block the session waiting for the results</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/PkgUtils.html" class="external-link">check</a></span><span class="op">(</span>timeout <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">'resolved'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># requires a sub-process to run the code</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Basic usage</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="fu">async_works</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ii</span> <span class="op">+</span> <span class="va">a</span> <span class="co"># sub-process don't know a, hence must pass a as globals</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, .globals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">a</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># non-blocking case</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">check</span> <span class="op">&lt;-</span> <span class="fu">async_works</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ii</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="co"># simulating process, run run run</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="va">ii</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>, .wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># check the results</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">check</span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">'resolved'</span><span class="op">)</span> <span class="co"># whether it's resolved</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># block the session waiting for the results</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">check</span><span class="op">(</span>timeout <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">'resolved'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -209,7 +209,7 @@ such as read in from a file, process, generate summarizing reports).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="va">args</span> <span class="op">%=&gt;%</span> <span class="va">expr</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">args</span> <span class="op">%=&gt;%</span> <span class="va">expr</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -92,45 +92,45 @@ the function body</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Formal arguments</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Formal arguments</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     print(a)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f91039ce8e0&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Informal arguments</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fec56ab2118&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Informal arguments</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     print(a)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f91039ce8e0&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Multiple inputs</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, b <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fec56ab2118&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Multiple inputs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, b <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a, b = 2, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     print(c(a, b, ...))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f91039ce8e0&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ----- JavaScript style of forEach -----</span></span>
-<span class="r-in"><span class="co"># ### Equivalent JavaScript Code:</span></span>
-<span class="r-in"><span class="co"># LETTERS.forEach((el, ii) =&gt; {</span></span>
-<span class="r-in"><span class="co">#   console.log('The index of letter ' + el + ' in "x" is: ' + ii);</span></span>
-<span class="r-in"><span class="co"># });</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="iapply.html">iapply</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="cat2.html">cat2</a></span><span class="op">(</span><span class="st">'The index of letter '</span>, <span class="va">el</span>, <span class="st">' in '</span>, <span class="fu"><a href="https://rdrr.io/r/base/sQuote.html" class="external-link">sQuote</a></span><span class="op">(</span><span class="st">'x'</span><span class="op">)</span>, <span class="st">' is: '</span>, <span class="va">ii</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">results</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fec56ab2118&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ----- JavaScript style of forEach -----</span></span></span>
+<span class="r-in"><span><span class="co"># ### Equivalent JavaScript Code:</span></span></span>
+<span class="r-in"><span><span class="co"># LETTERS.forEach((el, ii) =&gt; {</span></span></span>
+<span class="r-in"><span><span class="co">#   console.log('The index of letter ' + el + ' in "x" is: ' + ii);</span></span></span>
+<span class="r-in"><span><span class="co"># });</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="iapply.html">iapply</a></span><span class="op">(</span><span class="va">LETTERS</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op">%=&gt;%</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="cat2.html">cat2</a></span><span class="op">(</span><span class="st">'The index of letter '</span>, <span class="va">el</span>, <span class="st">' in '</span>, <span class="fu"><a href="https://rdrr.io/r/base/sQuote.html" class="external-link">sQuote</a></span><span class="op">(</span><span class="st">'x'</span><span class="op">)</span>, <span class="st">' is: '</span>, <span class="va">ii</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The index of letter  A  in  ‘x’  is:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The index of letter  B  in  ‘x’  is:  2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The index of letter  C  in  ‘x’  is:  3 </span>
@@ -171,7 +171,7 @@ the function body</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

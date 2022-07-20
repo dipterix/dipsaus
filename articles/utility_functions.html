@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -96,27 +96,27 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dipterix/dipsaus" class="external-link">dipsaus</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dipterix/dipsaus" class="external-link">dipsaus</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="cat-strings-with-levels-debug-info-warning-error-and-fatal">1. Cat strings with levels: <code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code>, and <code>FATAL</code><a class="anchor" aria-label="anchor" href="#cat-strings-with-levels-debug-info-warning-error-and-fatal"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Debug passed!'</span>, level <span class="op">=</span> <span class="st">'DEBUG'</span><span class="op">)</span>
-<span class="co">#&gt; ✔ Debug passed!</span>
-
-<span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'You are all set.'</span>, level <span class="op">=</span> <span class="st">'INFO'</span><span class="op">)</span>
-<span class="co">#&gt; ♥ You are all set.</span>
-
-<span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Wait a second...'</span>, level <span class="op">=</span> <span class="st">'WARNING'</span><span class="op">)</span>
-<span class="co">#&gt; ⚠ Wait a second...</span>
-
-<span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Ooops'</span>, level <span class="op">=</span> <span class="st">'ERROR'</span><span class="op">)</span>
-<span class="co">#&gt; ✖ Ooops</span>
-
-<span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Bi--Doop---'</span>, level <span class="op">=</span> <span class="st">'FATAL'</span><span class="op">)</span>
-<span class="co">#&gt; ✖ Bi--Doop---</span>
-<span class="co">#&gt; Error: </span>
-<span class="co">#&gt; ...</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Debug passed!'</span>, level <span class="op">=</span> <span class="st">'DEBUG'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Debug passed!</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'You are all set.'</span>, level <span class="op">=</span> <span class="st">'INFO'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ♥ You are all set.</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Wait a second...'</span>, level <span class="op">=</span> <span class="st">'WARNING'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ⚠ Wait a second...</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Ooops'</span>, level <span class="op">=</span> <span class="st">'ERROR'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✖ Ooops</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cat2.html">cat2</a></span><span class="op">(</span><span class="st">'Bi--Doop---'</span>, level <span class="op">=</span> <span class="st">'FATAL'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✖ Bi--Doop---</span></span>
+<span><span class="co">#&gt; Error: </span></span>
+<span><span class="co">#&gt; ...</span></span></code></pre></div>
 <p><em>Level <code>FATAL</code> will raise errors.</em></p>
 </div>
 <div class="section level4">
@@ -124,42 +124,42 @@
 </h4>
 <p><code>parse_svec</code> converts characters like <code>"7-10,14-15"</code> to numeric vectors</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/parse_svec.html">parse_svec</a></span><span class="op">(</span><span class="st">"7-10,14-15"</span><span class="op">)</span>
-<span class="co">#&gt; [1]  7  8  9 10 14 15</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/parse_svec.html">parse_svec</a></span><span class="op">(</span><span class="st">"7-10,14-15"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  7  8  9 10 14 15</span></span></code></pre></div>
 <p><code>deparse_svec</code> reverse the process</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">5</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "1-3,5,7"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">5</span>,<span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "1-3,5,7"</span></span></code></pre></div>
 <p>Parameter <code>max_lag</code> in <code>deparse_svec</code> changes the threshold of integers collapsed together:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "1-2,4,7,11"</span>
-
-<span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; [1] "1-4,7,11"</span>
-
-<span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; [1] "1-7,11"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "1-2,4,7,11"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "1-4,7,11"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/deparse_svec.html">deparse_svec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">7</span>,<span class="fl">11</span><span class="op">)</span>, max_lag <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "1-7,11"</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="system-information">3. System Information<a class="anchor" aria-label="anchor" href="#system-information"></a>
 </h4>
 <p>The goal is to work as an alternative to retrieve system information. For example, R doesn’t provide functions to get memory limits, or CPU chip-set information on Linux or MacOS.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Total RAM in bytes</span>
-<span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; 15032385536.0 B</span>
-
-<span class="co"># Print-friendly</span>
-<span class="fu"><a href="../reference/to_ram_size.html">to_ram_size</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1024</span><span class="op">)</span>
-<span class="co">#&gt; 14.0 GB</span>
-
-<span class="co"># WARNING: $free is the total RAM - R usage, is no the actual free RAM</span>
-<span class="fu"><a href="../reference/mem_limit2.html">mem_limit2</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; $total</span>
-<span class="co">#&gt; 15032385536.0 B</span>
-<span class="co">#&gt; $free</span>
-<span class="co">#&gt; 14980162040.0 B</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Total RAM in bytes</span></span>
+<span><span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 15032385536.0 B</span></span>
+<span></span>
+<span><span class="co"># Print-friendly</span></span>
+<span><span class="fu"><a href="../reference/to_ram_size.html">to_ram_size</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_ram.html">get_ram</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1024</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 14.0 GB</span></span>
+<span></span>
+<span><span class="co"># WARNING: $free is the total RAM - R usage, is no the actual free RAM</span></span>
+<span><span class="fu"><a href="../reference/mem_limit2.html">mem_limit2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $total</span></span>
+<span><span class="co">#&gt; 15032385536.0 B</span></span>
+<span><span class="co">#&gt; $free</span></span>
+<span><span class="co">#&gt; 14979506488.0 B</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="interactive-questions">4. Interactive Questions<a class="anchor" aria-label="anchor" href="#interactive-questions"></a>
@@ -197,7 +197,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

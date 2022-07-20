@@ -19,7 +19,7 @@ prior to calculation."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@ prior to calculation.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">col1</span>, <span class="va">col2</span>, <span class="va">df</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">col1</span>, <span class="va">col2</span>, <span class="va">df</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -114,42 +114,42 @@ resulting covariance matrices.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Get numbers of threads to 2</span></span>
-<span class="r-in"><span class="fu">RcppParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RcppParallel/man/setThreadOptions.html" class="external-link">setThreadOptions</a></span><span class="op">(</span>numThreads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">400</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Call `cov(x)` to compare</span></span>
-<span class="r-in"><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get numbers of threads to 2</span></span></span>
+<span class="r-in"><span><span class="fu">RcppParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RcppParallel/man/setThreadOptions.html" class="external-link">setThreadOptions</a></span><span class="op">(</span>numThreads <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">400</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Call `cov(x)` to compare</span></span></span>
+<span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]        [,3]       [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.17251985 -0.1463312  0.08239227  0.1336536</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.14633119  1.1509356 -0.12009329 -0.0259273</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.08239227 -0.1200933  0.91439945  0.0385713</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.13365361 -0.0259273  0.03857130  0.8697899</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Calculate covariance of subsets</span></span>
-<span class="r-in"><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span>, col2 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate covariance of subsets</span></span></span>
+<span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span>, col2 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         [,1]       [,2]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.17252 -0.1463312</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Speed comparison</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100000</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
-<span class="r-in">  fastcov2 <span class="op">=</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, col2 <span class="op">=</span> <span class="fl">51</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span>,</span>
-<span class="r-in">  cov <span class="op">=</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cov</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span>, <span class="va">x</span><span class="op">[</span>,<span class="fl">51</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span>,</span>
-<span class="r-in">  unit <span class="op">=</span> <span class="st">'ms'</span>, times <span class="op">=</span> <span class="fl">10</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Speed comparison</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100000</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  fastcov2 <span class="op">=</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, col2 <span class="op">=</span> <span class="fl">51</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  cov <span class="op">=</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cov</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span>, <span class="va">x</span><span class="op">[</span>,<span class="fl">51</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  unit <span class="op">=</span> <span class="st">'ms'</span>, times <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      expr      min       lq     mean   median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.916484 1.936788 2.014316 1.983706 2.030307 2.265984    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 3.022732 3.030575 3.090019 3.044589 3.072867 3.365924    10</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 2.004231 2.015753 2.088750 2.056309 2.179934 2.249535    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 3.020416 3.025957 3.145247 3.076656 3.169933 3.432749    10</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -164,7 +164,7 @@ resulting covariance matrices.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

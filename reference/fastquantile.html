@@ -20,7 +20,7 @@ implementation when the length of input x is less than 1e7."><!-- mathjax --><sc
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="va">q</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="va">q</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -99,43 +99,43 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># create input x with NAs</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">10</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># compute median</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create input x with NAs</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">10</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># compute median</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01298609</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># base method</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># base method</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  50% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-in"><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Comparison</span></span>
-<span class="r-in"><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="op">{</span></span>
-<span class="r-in">    <span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span>,<span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span>,<span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Comparison</span></span></span>
+<span class="r-in"><span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,<span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,<span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    expr     min       lq     mean   median</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) } 160.543 167.2855 171.5239 170.3840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 579.865 586.6540 599.4404 594.2805</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 355.485 464.3745 472.7677 472.3250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) } 157.296 161.9140 167.3871 164.5960</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 569.416 579.5870 595.6630 587.7130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 380.751 457.7875 466.2599 463.2195</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  174.0135 239.263   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  602.3280 791.376   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  478.1595 555.735   100</span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  168.3795 328.228   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  598.0850 775.675   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  471.6040 564.355   100</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +150,7 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

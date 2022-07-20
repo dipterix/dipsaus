@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -99,37 +99,37 @@
 </h3>
 <p>When coding in R, the data checking is actually a headache. For example, to check if a variable <code>aa</code> exists and not <code>NULL</code>, otherwise set a default value to be 1, the check looks like:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">'aa'</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span> <span class="op">)</span><span class="op">{</span>
-  <span class="va">aa</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">'aa'</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span> <span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">aa</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>Most of time we are repeating ourselves. With <code>%?&lt;-%</code> operator, we just need:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">aa</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fl">1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">aa</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fl">1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>The powerful part is the left-hand side can be any expression. For example,</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">l</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">l</span><span class="op">$</span><span class="va">aa</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fl">1</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">l</span><span class="op">)</span>
-<span class="co">#&gt; $aa</span>
-<span class="co">#&gt; [1] 1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">l</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="va">aa</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">l</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $aa</span></span>
+<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p>If the value exists, then <code>%?&lt;-%</code> does nothing (not even evaluate the expressions on the right-hand side)</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># e already exists</span>
-<span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-
-<span class="co"># %?&lt;-% will not evaluate rhs, nor assign values</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span>
-  <span class="va">e</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">}</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-<span class="co">#&gt; $aa</span>
-<span class="co">#&gt; [1] 1</span>
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;       0       0       0</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># e already exists</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># %?&lt;-% will not evaluate rhs, nor assign values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="va">e</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $aa</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
+<span><span class="co">#&gt;    user  system elapsed </span></span>
+<span><span class="co">#&gt;       0       0       0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="javascript-style-of-creating-functions">2. JavaScript-style of creating functions<a class="anchor" aria-label="anchor" href="#javascript-style-of-creating-functions"></a>
@@ -146,68 +146,68 @@ li.map((el, ii) => {
 });
 </script><p><code>dipsaus</code> provides functions <code>iapply</code>, and <code>%=&gt;%</code>, together with <code>glue</code> package, we can apply elements like this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># gl &lt;- glue::glue</span>
-<span class="co"># `%&gt;%` &lt;- magrittr::`%&gt;%`</span>
-
-<span class="va">li</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'T'</span>, <span class="st">'G'</span>, <span class="st">'C'</span><span class="op">)</span>
-<span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="st">'The index for {el} is {ii}'</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-<span class="co">#&gt; [1] "The index for A is 1" "The index for T is 2" "The index for G is 3"</span>
-<span class="co">#&gt; [4] "The index for C is 4"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># gl &lt;- glue::glue</span></span>
+<span><span class="co"># `%&gt;%` &lt;- magrittr::`%&gt;%`</span></span>
+<span></span>
+<span><span class="va">li</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'T'</span>, <span class="st">'G'</span>, <span class="st">'C'</span><span class="op">)</span></span>
+<span><span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="st">'The index for {el} is {ii}'</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The index for A is 1" "The index for T is 2" "The index for G is 3"</span></span>
+<span><span class="co">#&gt; [4] "The index for C is 4"</span></span></code></pre></div>
 <p><code>%=&gt;%</code> collect the left-hand side elements as arguments and right-hand side expression as body and create function:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, b<span class="op">=</span><span class="va">a</span><span class="op">^</span><span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span> , <span class="va">b</span>,<span class="va">...</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="co">#&gt; function (a, b = a^2, ...) </span>
-<span class="co">#&gt; {</span>
-<span class="co">#&gt;     print(c(a, b, ...))</span>
-<span class="co">#&gt; }</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, b<span class="op">=</span><span class="va">a</span><span class="op">^</span><span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span> , <span class="va">b</span>,<span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; function (a, b = a^2, ...) </span></span>
+<span><span class="co">#&gt; {</span></span>
+<span><span class="co">#&gt;     print(c(a, b, ...))</span></span>
+<span><span class="co">#&gt; }</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="match-nested-calls-match_calls">3. Match nested calls <code>match_calls</code><a class="anchor" aria-label="anchor" href="#match-nested-calls-match_calls"></a>
 </h3>
 <p>The function <code>match.call</code> provided by base package let us format calls with formals matched.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; textInput(inputId = "inputId", label = "label", value = "aaa")</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; textInput(inputId = "inputId", label = "label", value = "aaa")</span></span></code></pre></div>
 <p>This is already powerful as we can parse the expressions using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> to get the input parameters. However, when encounter the nested calls like <code>shiny</code> UI components, <code>match.call</code> does not work well. We can’t see the matched results inside of the nested functions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">tagList</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span>
-      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput("inputId", "label", "aaa")))))</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">tagList</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput("inputId", "label", "aaa")))))</span></span></code></pre></div>
 <p><code>match_calls</code> solves this problem by recursively calling <code>match.call</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span>
-      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput(inputId = "inputId", label = "label", </span>
-<span class="co">#&gt;     value = "aaa")))))</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput(inputId = "inputId", label = "label", </span></span>
+<span><span class="co">#&gt;     value = "aaa")))))</span></span></code></pre></div>
 <p>It can also change modify the calls. For example, we want to add <code>ns</code> to input ID in shiny modules, then the following <code>replave_args</code> changes <code>"inputId"</code> to <code>ns("inputId")</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span>
-      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, replace_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-  <span class="st">'inputId'</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/call.html" class="external-link">as.call</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">ns</span><span class="op">)</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">}</span>
-<span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput(inputId = ns("inputId"), </span>
-<span class="co">#&gt;     label = "label", value = "aaa")))))</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, replace_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">'inputId'</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/call.html" class="external-link">as.call</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">ns</span><span class="op">)</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput(inputId = ns("inputId"), </span></span>
+<span><span class="co">#&gt;     label = "label", value = "aaa")))))</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pipe-friendly-functions">4. Pipe-friendly functions<a class="anchor" aria-label="anchor" href="#pipe-friendly-functions"></a>
@@ -218,72 +218,72 @@ li.map((el, ii) => {
 </h4>
 <p><code>no_op</code> takes whatever input in, and returns the input, with side effects. For example, we want to plot the results from the pipe and continue the analysis, usually this is what happens:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu">do_something</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">x_tmp</span>
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x_tmp</span><span class="op">)</span>
-
-<span class="va">x_tmp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu">do_others</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">final_results</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">do_something</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">x_tmp</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x_tmp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x_tmp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">do_others</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">final_results</span></span></code></pre></div>
 <p>With <code>no_op</code>, the pipe becomes:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu">do_something</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">plot</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu">do_others</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">final_results</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">do_something</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">plot</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">do_others</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">final_results</span></span></code></pre></div>
 <p>Here’s an example</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, <span class="va">el</span>, <span class="va">ii</span><span class="op">)</span>
-  <span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="va">unlist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  
-  <span class="co"># Begin no-ops, result will not change</span>
-  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="op">{</span>
-    <span class="co"># Use expression and "." to refer the data</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span>
-    <span class="co"># Use function and pass ... to function</span>
-    <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>, 
-    type <span class="op">=</span> <span class="st">'p'</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>,<span class="fl">20</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>,
-    xlab <span class="op">=</span> <span class="st">'Time'</span>, ylab <span class="op">=</span> <span class="st">'Value'</span>, las <span class="op">=</span> <span class="fl">1</span>
-  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">'Values'</span>, main <span class="op">=</span> <span class="st">'Histogram'</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">result</span>
-<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">#&gt; -21.143   1.524   4.435   5.788   9.821  31.698</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, <span class="va">el</span>, <span class="va">ii</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">unlist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  </span>
+<span>  <span class="co"># Begin no-ops, result will not change</span></span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>    <span class="co"># Use expression and "." to refer the data</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span></span>
+<span>    <span class="co"># Use function and pass ... to function</span></span>
+<span>    <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">'p'</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>,<span class="fl">20</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">'Time'</span>, ylab <span class="op">=</span> <span class="st">'Value'</span>, las <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">'Values'</span>, main <span class="op">=</span> <span class="st">'Histogram'</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">result</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt; -12.248   1.070   4.197   5.674   9.714  28.076</span></span></code></pre></div>
 <p><img src="r_expr_addons_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:200] 1.562 0.359 2.109 0.384 1.565 ...</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  num [1:200] 1.001 0.922 3.056 2.329 0.673 ...</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="do_aggregate">
 <code>do_aggregate</code><a class="anchor" aria-label="anchor" href="#do_aggregate"></a>
 </h4>
 <p>This is a wrapper of <code>aggregate</code> function. When using formula, <code>aggregate</code> requires the formula to be the first element. If the pipe results are <code>data.frame</code> and we want to use formula, it’s super inconvenient.</p>
-<pre><code><span class="co">## S3 method for class 'formula'</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data</span>, <span class="va">FUN</span>, <span class="va">...</span>, <span class="va">subset</span>, na.action <span class="op">=</span> <span class="va">na.omit</span><span class="op">)</span></code></pre>
+<pre><code><span><span class="co">## S3 method for class 'formula'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data</span>, <span class="va">FUN</span>, <span class="va">...</span>, <span class="va">subset</span>, na.action <span class="op">=</span> <span class="va">na.omit</span><span class="op">)</span></span></code></pre>
 <p><code>do_aggregate</code> allows the first element to be data frames while using formula:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ToothGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/do_aggregate.html">do_aggregate</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">mean</span><span class="op">)</span>
-<span class="co">#&gt;   supp dose   len</span>
-<span class="co">#&gt; 1   OJ  0.5 13.23</span>
-<span class="co">#&gt; 2   VC  0.5  7.98</span>
-<span class="co">#&gt; 3   OJ  1.0 22.70</span>
-<span class="co">#&gt; 4   VC  1.0 16.77</span>
-<span class="co">#&gt; 5   OJ  2.0 26.06</span>
-<span class="co">#&gt; 6   VC  2.0 26.14</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ToothGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/do_aggregate.html">do_aggregate</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   supp dose   len</span></span>
+<span><span class="co">#&gt; 1   OJ  0.5 13.23</span></span>
+<span><span class="co">#&gt; 2   VC  0.5  7.98</span></span>
+<span><span class="co">#&gt; 3   OJ  1.0 22.70</span></span>
+<span><span class="co">#&gt; 4   VC  1.0 16.77</span></span>
+<span><span class="co">#&gt; 5   OJ  2.0 26.06</span></span>
+<span><span class="co">#&gt; 6   VC  2.0 26.14</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -303,7 +303,7 @@ li.map((el, ii) => {
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">flex_div</span><span class="op">(</span><span class="va">...</span>, ncols <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">flex_div</span><span class="op">(</span><span class="va">...</span>, ncols <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -99,21 +99,21 @@ on the top margin.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">flex_div</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">'sel'</span>, label <span class="op">=</span> <span class="st">'Select input'</span>,</span>
-<span class="r-in">                     choices <span class="op">=</span> <span class="st">''</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'id2'</span>, label <span class="op">=</span> <span class="fu"><a href="html_asis.html">html_asis</a></span><span class="op">(</span><span class="st">' '</span><span class="op">)</span>, width <span class="op">=</span> <span class="st">'100%'</span>,</span>
-<span class="r-in">                   value <span class="op">=</span> <span class="st">'Heights aligned'</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="actionButtonStyled.html">actionButtonStyled</a></span><span class="op">(</span><span class="st">'ok2'</span>, <span class="st">'Button'</span>, width <span class="op">=</span> <span class="st">'100%'</span>,<span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span><span class="st">'sl'</span>, <span class="st">'Item 4'</span>, min <span class="op">=</span> <span class="fl">1</span>, max <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">                     value <span class="op">=</span> <span class="fl">1.5</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fileInput.html" class="external-link">fileInput</a></span><span class="op">(</span><span class="st">'aa'</span>, <span class="st">'item 5'</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span>
-<span class="r-in">  ncols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># Try to assign 2 or 3 items per column</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">                  server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">flex_div</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">'sel'</span>, label <span class="op">=</span> <span class="st">'Select input'</span>,</span></span>
+<span class="r-in"><span>                     choices <span class="op">=</span> <span class="st">''</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'id2'</span>, label <span class="op">=</span> <span class="fu"><a href="html_asis.html">html_asis</a></span><span class="op">(</span><span class="st">' '</span><span class="op">)</span>, width <span class="op">=</span> <span class="st">'100%'</span>,</span></span>
+<span class="r-in"><span>                   value <span class="op">=</span> <span class="st">'Heights aligned'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="actionButtonStyled.html">actionButtonStyled</a></span><span class="op">(</span><span class="st">'ok2'</span>, <span class="st">'Button'</span>, width <span class="op">=</span> <span class="st">'100%'</span>,<span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span><span class="st">'sl'</span>, <span class="st">'Item 4'</span>, min <span class="op">=</span> <span class="fl">1</span>, max <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                     value <span class="op">=</span> <span class="fl">1.5</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fileInput.html" class="external-link">fileInput</a></span><span class="op">(</span><span class="st">'aa'</span>, <span class="st">'item 5'</span>, width <span class="op">=</span> <span class="st">'100%'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  ncols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span> <span class="co"># Try to assign 2 or 3 items per column</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidRow</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -128,7 +128,7 @@ on the top margin.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

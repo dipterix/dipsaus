@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -69,9 +69,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dev_create</span><span class="op">(</span><span class="va">...</span>, env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">get_dev_attr</span><span class="op">(</span><span class="va">which</span>, dev <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.cur</a></span><span class="op">(</span><span class="op">)</span>, ifnotfound <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dev_create</span><span class="op">(</span><span class="va">...</span>, env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span>, attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_dev_attr</span><span class="op">(</span><span class="va">which</span>, dev <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.cur</a></span><span class="op">(</span><span class="op">)</span>, ifnotfound <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -110,57 +110,57 @@ are attributes to set to the devices</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="co">## Unix-specific example</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create multiple named devices, setting attributes to the second graph</span></span>
-<span class="r-in"><span class="va">devs</span> <span class="op">&lt;-</span> <span class="fu">dev_create</span><span class="op">(</span></span>
-<span class="r-in">  line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11</a></span><span class="op">(</span><span class="op">)</span>, points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">x11</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># switch to device named "points"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">devs</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'points'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="co">## Unix-specific example</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create multiple named devices, setting attributes to the second graph</span></span></span>
+<span class="r-in"><span><span class="va">devs</span> <span class="op">&lt;-</span> <span class="fu">dev_create</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11</a></span><span class="op">(</span><span class="op">)</span>, points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">x11</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># switch to device named "points"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">devs</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'points'</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'devs' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot points, with pch given as preset</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, pch <span class="op">=</span> <span class="fu">get_dev_attr</span><span class="op">(</span>which <span class="op">=</span> <span class="st">'pch'</span>, ifnotfound <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot points, with pch given as preset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, pch <span class="op">=</span> <span class="fu">get_dev_attr</span><span class="op">(</span>which <span class="op">=</span> <span class="st">'pch'</span>, ifnotfound <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="graphic-devices-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># switch to "line" device</span></span>
-<span class="r-in"><span class="va">devs</span><span class="op">$</span><span class="fu">dev_switch</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># switch to "line" device</span></span></span>
+<span class="r-in"><span><span class="va">devs</span><span class="op">$</span><span class="fu">dev_switch</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'devs' not found</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="graphic-devices-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create another group with conflict name</span></span>
-<span class="r-in"><span class="va">dev_another</span> <span class="op">&lt;-</span> <span class="fu">dev_create</span><span class="op">(</span>line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create another group with conflict name</span></span></span>
+<span class="r-in"><span><span class="va">dev_another</span> <span class="op">&lt;-</span> <span class="fu">dev_create</span><span class="op">(</span>line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_for_XQuartz():</span> X11 library is missing: install XQuartz from www.xquartz.org</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Query device name with 'line'</span></span>
-<span class="r-in"><span class="va">dev_another</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span>  <span class="co"># 4</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query device name with 'line'</span></span></span>
+<span class="r-in"><span><span class="va">dev_another</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span>  <span class="co"># 4</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'dev_another' not found</span>
-<span class="r-in"><span class="va">devs</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span>  <span class="co"># 2, doesn't conflict with the new groups</span></span>
+<span class="r-in"><span><span class="va">devs</span><span class="op">$</span><span class="fu">dev_which</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span>  <span class="co"># 2, doesn't conflict with the new groups</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'devs' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> agg_png </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       2 </span>
-<span class="r-in"><span class="co"># close one or more device</span></span>
-<span class="r-in"><span class="va">dev_another</span><span class="op">$</span><span class="fu">dev_off</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># close one or more device</span></span></span>
+<span class="r-in"><span><span class="va">dev_another</span><span class="op">$</span><span class="fu">dev_off</span><span class="op">(</span><span class="st">'line'</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'dev_another' not found</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> agg_png </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       2 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># close all devices</span></span>
-<span class="r-in"><span class="va">devs</span><span class="op">$</span><span class="fu">dev_off</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># close all devices</span></span></span>
+<span class="r-in"><span><span class="va">devs</span><span class="op">$</span><span class="fu">dev_off</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'devs' not found</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.list</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> agg_png </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       2 </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -175,7 +175,7 @@ are attributes to set to the devices</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

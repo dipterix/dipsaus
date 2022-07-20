@@ -22,7 +22,7 @@ sessions. See cache method in 'details'."><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -124,58 +124,58 @@ the value will be deleted once the session is closed.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">container</span> <span class="op">=</span> <span class="va">PersistContainer</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Reset the container so that values are cleared</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span>all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Store `1` to 'a' with signature 111 to a non-persist map</span></span>
-<span class="r-in"><span class="co"># returns 1</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">1</span>, signature <span class="op">=</span> <span class="fl">111</span>, persist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">container</span> <span class="op">=</span> <span class="va">PersistContainer</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Reset the container so that values are cleared</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span>all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Store `1` to 'a' with signature 111 to a non-persist map</span></span></span>
+<span class="r-in"><span><span class="co"># returns 1</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">1</span>, signature <span class="op">=</span> <span class="fl">111</span>, persist <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Replace 'a' with 3</span></span>
-<span class="r-in"><span class="co"># returns 3</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">3</span>, signature <span class="op">=</span> <span class="fl">111</span>,</span>
-<span class="r-in">                persist <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Replace 'a' with 3</span></span></span>
+<span class="r-in"><span><span class="co"># returns 3</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">3</span>, signature <span class="op">=</span> <span class="fl">111</span>,</span></span>
+<span class="r-in"><span>                persist <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># check if 'a' exists with signature 111</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span>, signature <span class="op">=</span> <span class="fl">111</span><span class="op">)</span>    <span class="co"># TRUE</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># check if 'a' exists with signature 111</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span>, signature <span class="op">=</span> <span class="fl">111</span><span class="op">)</span>    <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    a </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-in"><span class="co"># When you only have 'a' but no signature</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span>                     <span class="co"># TRUE</span></span>
+<span class="r-in"><span><span class="co"># When you only have 'a' but no signature</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span>                     <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    a </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-in"><span class="co"># check if 'a' exists with wrong signature 222</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span>, signature <span class="op">=</span> <span class="fl">222</span><span class="op">)</span>    <span class="co"># FALSE</span></span>
+<span class="r-in"><span><span class="co"># check if 'a' exists with wrong signature 222</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">has</span><span class="op">(</span><span class="st">'a'</span>, signature <span class="op">=</span> <span class="fl">222</span><span class="op">)</span>    <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     a </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FALSE </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Store 'a' with 2 with same signature</span></span>
-<span class="r-in"><span class="co"># will fail and ignore the value (value will not be evaluated if signatured)</span></span>
-<span class="r-in"><span class="co"># Return 2 (Important! use cached values)</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>, signature <span class="op">=</span> <span class="fl">111</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Store 'a' with 2 with same signature</span></span></span>
+<span class="r-in"><span><span class="co"># will fail and ignore the value (value will not be evaluated if signatured)</span></span></span>
+<span class="r-in"><span><span class="co"># Return 2 (Important! use cached values)</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, signature <span class="op">=</span> <span class="fl">111</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># When no signature is present</span></span>
-<span class="r-in"><span class="co"># If the key exists (no signature provided), return stored value</span></span>
-<span class="r-in"><span class="co"># returns 3</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># When no signature is present</span></span></span>
+<span class="r-in"><span><span class="co"># If the key exists (no signature provided), return stored value</span></span></span>
+<span class="r-in"><span><span class="co"># returns 3</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># replace is TRUE (no signature provided), signature will be some default value</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">2</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># replace is TRUE (no signature provided), signature will be some default value</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">cache</span><span class="op">(</span>key <span class="op">=</span> <span class="st">'a'</span>, value <span class="op">=</span> <span class="fl">2</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># destroy the container to free disk space</span></span>
-<span class="r-in"><span class="va">container</span><span class="op">$</span><span class="fu">destroy</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># destroy the container to free disk space</span></span></span>
+<span class="r-in"><span><span class="va">container</span><span class="op">$</span><span class="fu">destroy</span><span class="op">(</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -190,7 +190,7 @@ the value will be deleted once the session is closed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

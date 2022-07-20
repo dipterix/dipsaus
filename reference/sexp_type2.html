@@ -19,7 +19,7 @@ for more different SEXPTYPEs."><!-- mathjax --><script src="https://cdnjs.cloudf
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2.9000</span>
       </span>
     </div>
 
@@ -73,13 +73,13 @@ for more different <code>SEXPTYPE</code>s.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="co"># S3 method for sexp_type2</span>
-<span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for sexp_type2</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for sexp_type2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for sexp_type2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -107,34 +107,34 @@ for more different <code>SEXPTYPE</code>s.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># 1 vs 1L</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Integer case</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 1 vs 1L</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Integer case</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13 INTSXP     integer vectors </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># double</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># double</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14 REALSXP    numeric vectors </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Built-in function</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Built-in function</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 BUILTINSXP  builtin functions </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># normal functions</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">sexp_type2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># normal functions</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="va">sexp_type2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 CLOSXP      closures </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># symbols (quoted names)</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># symbols (quoted names)</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">`+`</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 SYMSXP      symbols </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Calls (quoted expressions)</span></span>
-<span class="r-in"><span class="fu">sexp_type2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="op">{</span><span class="va">`+`</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calls (quoted expressions)</span></span></span>
+<span class="r-in"><span><span class="fu">sexp_type2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="op">{</span><span class="va">`+`</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 LANGSXP     language objects </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -149,7 +149,7 @@ for more different <code>SEXPTYPE</code>s.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
