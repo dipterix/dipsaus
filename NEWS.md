@@ -1,5 +1,10 @@
 dipsaus 0.2.3 (In Development)
 
+## Minor Changes
+
+* `parse_svec` handles multiple lengths all together, and `parse_svec(1:10)` is equivalent to `parse_svec("1:10")`
+
+
 dipsaus 0.2.2
 =======
 

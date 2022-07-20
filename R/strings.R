@@ -69,6 +69,10 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = 
   connect[connect %in% c('|', ':')] <- paste0('\\', connect[connect %in% c('|', ':')])
   connect <- paste(connect, collapse = '')
 
+  if(length(text) != 1) {
+    text <- paste(text, collapse = sep)
+  }
+
 
   if(length(text) == 0 || stringr::str_trim(text) == ''){
     return(NULL)
