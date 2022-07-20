@@ -165,18 +165,14 @@ compoundInput2 <- function(
   value <- shiny::restoreInput(id = inputId, default = value)
 
   if(length(max_height)){
-    ...overflow_x <- 'hidden'
-    ...overflow_y <- 'scroll'
+    ...style <- sprintf('max-height:%s;overflow-x:hidden;overflow-y:auto', max_height)
   } else{
-    max_height <- 'auto'
-    ...overflow_x <- 'hidden'
-    ...overflow_y <- 'auto'
+    ...style <- NULL
   }
   comp_ui <- quote(shiny::div(
     id = inputId,
     class = 'dipsaus-compound-input',
-    style = sprintf('max-height:%s;overflow-x:%s;overflow-y:%s',
-                    ...max_height, ...overflow_x, ...overflow_y),
+    style = ...style,
     # shiny::singleton(shiny::tags$head(
     #   shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
     #   shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
@@ -217,7 +213,7 @@ compoundInput2 <- function(
     inputId = inputId, ...make_ui = ...make_ui, ...initial_ncomp = initial_ncomp,
     ...min_ncomp = min_ncomp, ...max_ncomp = max_ncomp, ...label = label,
     ...label_color = label_color, ...value = value, ...this_env = ...this_env,
-    ...max_height = max_height, ...overflow_x = ...overflow_x, ...overflow_y = ...overflow_y
+    ...style = ...style
   ), enclos = parent_env)
 
 
