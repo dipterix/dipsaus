@@ -615,3 +615,34 @@ rs_save_all <- function(){
   warning('RStudio version too low, please update RStudio')
 }
 
+#' @title Use 'RStudio' to open and edit files
+#' @param path path to file
+#' @param create whether to create if path is not found; default is true
+#' @return Opens the file pointing to \code{path} to edit, and returns the
+#' path
+#' @export
+rs_edit_file <- function(path, create = TRUE) {
+  if(!interactive()) {
+    warning("`rs_edit_file`: must run in interactive mode")
+    return(path)
+  }
+  if(!file.exists(path)) {
+    if(!create) {
+      stop("`rs_edit_file`: File path not exists, cannot open: ", path)
+    }
+    root <- dirname(path)
+    if(!dir.exists(root)) {
+      dir.create(root, showWarnings = FALSE, recursive = TRUE)
+    }
+    file.create(path)
+  }
+
+  path <- normalizePath(path, mustWork = TRUE)
+
+  if(rs_avail() && rstudioapi::hasFun("navigateToFile")) {
+    rstudioapi::navigateToFile(path)
+  } else {
+    utils::file.edit(path)
+  }
+  invisible(path)
+}
