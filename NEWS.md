@@ -5,6 +5,9 @@ dipsaus 0.2.3 (In Development)
 
 * `parse_svec` handles multiple lengths all together, and `parse_svec(1:10)` is equivalent to `parse_svec("1:10")`
 
+## Bug Fixes
+
+* Fixed "offset-parent" issue in `compoundInput2` when max-height is unset, but overflow is still hidden for the select inputs
 
 dipsaus 0.2.2
 =======

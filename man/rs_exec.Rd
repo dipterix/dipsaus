@@ -12,7 +12,8 @@ rs_exec(
   wait = FALSE,
   packages = NULL,
   focus_on_console = FALSE,
-  ...
+  ...,
+  nested_ok = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ jobs; useful when users want to focus on writing code; default is false.
 This feature works with 'RStudio' (\code{>=1.4})}
 
 \item{...}{internally used}
+
+\item{nested_ok}{whether nested \code{rs_exec} is allowed; default is false;
+Set to true to allow nested parallel code, but use at your own risk.}
 }
 \value{
 If \code{wait=TRUE}, returns evaluation results of \code{expr},

@@ -14,8 +14,8 @@ cat2(
   labels = NULL,
   append = FALSE,
   end = "\\n",
-  pal = list(DEBUG = "grey60", INFO = "#1d9f34", WARNING = "#ec942c", ERROR =
-    "#f02c2c", FATAL = "#763053", DEFAULT = "grey60"),
+  pal = list(DEBUG = "grey60", INFO = "#1d9f34", WARNING = "#ec942c", ERROR = "#f02c2c",
+    FATAL = "#763053", DEFAULT = "grey60"),
   use_cli = TRUE,
   bullet = "auto"
 )
