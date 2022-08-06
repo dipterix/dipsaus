@@ -262,12 +262,11 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
   env <- parent.frame()
   lhs <- substitute(lhs)
 
-  tryCatch({
+  isnull <- tryCatch({
     is.null(eval(lhs, envir = env))
   }, error = function(e){
     return(TRUE)
-  }) ->
-    isnull
+  })
 
   if(isnull){
     eval(as.call(list( quote(`<-`), lhs, value )), envir = env)

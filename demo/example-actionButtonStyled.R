@@ -8,9 +8,9 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
-  btn_types = c('default', 'primary', 'info', 'success', 'warning', 'danger')
+  btn_types <- c('default', 'primary', 'info', 'success', 'warning', 'danger')
   observeEvent(input$btn, {
-    btype = btn_types[((input$btn-1) %% (length(btn_types)-1)) + 1]
+    btype <- btn_types[((input$btn-1) %% (length(btn_types)-1)) + 1]
     updateActionButtonStyled(session, 'btn2', type = btype)
   })
   observeEvent(input$btn2, {

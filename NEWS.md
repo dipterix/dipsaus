@@ -1,9 +1,14 @@
 dipsaus 0.2.3 (In Development)
 =======
 
+## Major Changes
+
+* Added `rstudioapi` wrapper `rs_edit_file` to allow editing files directly in `RStudio`
+
 ## Minor Changes
 
 * `parse_svec` handles multiple lengths all together, and `parse_svec(1:10)` is equivalent to `parse_svec("1:10")`
+* Allowed `rs_exec` to run nested. However, there is a risk of parent process ends before the nested child process finishes. In this case, parent temporary directory will be destroyed, and child process will become orphan (results will become unavailable) 
 
 ## Bug Fixes
 
