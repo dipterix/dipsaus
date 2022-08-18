@@ -164,6 +164,8 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
   use_rs <- rs && rs_avail(child_ok = TRUE, shiny_ok = TRUE)
 
+  sys_env <- Sys.getenv()
+
   expr <- rlang::quo({
     # 2: started
     writeLines('2', !!state_file)
@@ -199,6 +201,8 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
         local({
           ns <- asNamespace('dipsaus')
           ns$.master_session_id(!!session_id)
+          sys_env <- .(sys_env)
+          do.call(Sys.setenv, as.list(sys_env))
         })
 
         res <- ...msg...$fun()
