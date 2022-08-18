@@ -201,7 +201,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
         local({
           ns <- asNamespace('dipsaus')
           ns$.master_session_id(!!session_id)
-          sys_env <- .(sys_env)
+          sys_env <- !!sys_env
           do.call(Sys.setenv, as.list(sys_env))
         })
 
