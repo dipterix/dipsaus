@@ -650,3 +650,63 @@ rs_edit_file <- function(path, create = TRUE) {
   }
   invisible(path)
 }
+
+
+#' @title Add secondary 'CRAN'-like repository to the 'RStudio' settings
+#' @description Add self-hosted repository, such as 'drat', 'r-universe' to
+#' 'RStudio' preference. Please restart 'RStudio' to take changes into effect.
+#' @param name repository name, must be unique and readable
+#' @param url the website address of the repository, starting with schemes
+#' such as \code{'https'}.
+#' @param add whether to add to existing repository; default is true
+#' @returns a list of settings.
+#' @details 'RStudio' allows to add secondary 'CRAN'-like repository to its
+#' preference, such that users can add on-going self-hosted developing
+#' repositories (such as package \code{'drat'}, or 'r-universe'). These
+#' repositories will be set automatically when running
+#' \code{\link[utils]{install.packages}}.
+#' @export
+rs_set_repos <- function(name, url, add = TRUE) {
+
+  stopifnot2(rs_avail(),
+             msg = "Please use the latest RStudio to call this function API.")
+  if(length(name) != 1 || !is.character(name) || !nzchar(name) || name == "CRAN") {
+    stop("`rs_set_repos`: name must be non-empty string and cannot be 'CRAN'")
+  }
+  if(length(url) != 1 || !is.character(url) || !(
+    startsWith(tolower(url), "https://") ||
+    startsWith(tolower(url), "http://")
+  )) {
+    stop("`rs_set_repos`: url must start with http:// or https://")
+  }
+  mirror <- rstudioapi::readRStudioPreference(name = "cran_mirror", default = NULL)
+  if(!is.list(mirror)) {
+    mirror <- list(
+      name = "0-Cloud",
+      host = "cloud.r-project.org",
+      url = "https://cloud.r-project.org/",
+      country = ""
+    )
+  }
+  repos <- list()
+  if(add) {
+    sec_repo <- unlist(strsplit(as.character(mirror$secondary), "\\|"))
+    if(length(sec_repo)) {
+      sec_repo <- matrix(sec_repo, ncol = 2, byrow = TRUE)
+      for(ii in seq_len(nrow(sec_repo))) {
+        repos[[ sec_repo[ii, 1] ]] <- sec_repo[ii, 2]
+      }
+    } else {
+      sec_repo <- NULL
+    }
+  } else {
+    sec_repo <- NULL
+  }
+  repos[[name]] <- url
+
+
+  mirror$secondary <- paste(sprintf("%s|%s", names(repos), unlist(repos)),
+                            collapse = "|")
+  rstudioapi::writeRStudioPreference("cran_mirror", mirror)
+  invisible(mirror)
+}

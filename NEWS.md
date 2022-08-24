@@ -1,4 +1,16 @@
-dipsaus 0.2.3 (In Development)
+dipsaus 0.2.4 (In Development)
+=======
+
+## Major Changes
+
+* Automatically set system environments to be the same as master process in `rs_exec`
+* Added `rs_set_repos` to set `RStudio` preference, allowing to add `CRAN`-like repositories when running inside of `RStudio` 
+
+## Minor Changes
+
+* Upgraded `JavaScript` libraries to fix the dependence vulnerability issues
+
+dipsaus 0.2.3
 =======
 
 ## Major Changes
