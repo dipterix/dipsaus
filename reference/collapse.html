@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,6 @@ collapsing dimensions</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3 (performance)</span></span></span>
-<span class="r-in"><span><span class="fu">RcppParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RcppParallel/man/setThreadOptions.html" class="external-link">setThreadOptions</a></span><span class="op">(</span>numThreads <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># auto multicores</span></span></span>
 <span class="r-in"><span><span class="co"># Small data, no big difference, even slower</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">240</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span></span>
@@ -125,8 +124,8 @@ collapsing dimensions</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     expr     min      lq    mean  median      uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   result 681.391 681.391 681.391 681.391 681.391 681.391     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 167.595 167.595 167.595 167.595 167.595 167.595     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   result 611.696 611.696 611.696 611.696 611.696 611.696     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 163.250 163.250 163.250 163.250 163.250 163.250     1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># large data big difference</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/prod.html" class="external-link">prod</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">200</span>,<span class="fl">105</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">300</span>,<span class="fl">200</span>,<span class="fl">105</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -138,8 +137,8 @@ collapsing dimensions</p>
 <span class="r-in"><span>  <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     expr       min        lq      mean    median        uq       max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   result  65.86078  65.86078  65.86078  65.86078  65.86078  65.86078     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 221.99861 221.99861 221.99861 221.99861 221.99861 221.99861     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   result  63.70026  63.70026  63.70026  63.70026  63.70026  63.70026     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compare 244.01753 244.01753 244.01753 244.01753 244.01753 244.01753     1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

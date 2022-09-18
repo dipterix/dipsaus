@@ -20,7 +20,7 @@
     online, such as how to synchronize shiny inputs without freezing the app,
     or how to get memory size on Linux or MacOS system. The enhancements 
     roughly fall into these four categories: 1. shiny input widgets; 2. 
-    high-performance computing using RcppParallel and future package; 3. 
+    high-performance computing using the future package; 3. 
     modify R calls and convert among numbers, strings, and other objects. 4. 
     utility functions to get system information such like CPU chip-set, memory 
     limit, etc.'>
@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9000</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
 <li>
 <code>make_forked_clusters</code> enables <code>multicore</code> (forked clusters) in <code>future</code> package even in <code>RStudio</code> environment;</li>
 <li>
-<code>baseline_array</code> to baseline arrays in <code>RcppParallel</code>;</li>
+<code>baseline_array</code> to baseline arrays in multicore;</li>
 <li>
 <code>shift_array</code> to shift arrays along given dimensions;</li>
 <li>
