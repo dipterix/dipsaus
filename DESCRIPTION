@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.2.4
+Version: 0.2.4.9000
 Authors@R: c(
     person("Zhengjia", "Wang", email = "dipterix.wang@gmail.com", role = c("aut", "cre")),
     person("John", "Magnotti", email = "John.Magnotti@pennmedicine.upenn.edu", role = c("ctb"),
@@ -17,7 +17,7 @@ Description: Works as an "add-on" to packages like 'shiny', 'future', as well as
     online, such as how to synchronize 'shiny' inputs without freezing the app,
     or how to get memory size on 'Linux' or 'MacOS' system. The enhancements 
     roughly fall into these four categories: 1. 'shiny' input widgets; 2. 
-    high-performance computing using 'RcppParallel' and 'future' package; 3. 
+    high-performance computing using the 'future' package; 3. 
     modify R calls and convert among numbers, strings, and other objects. 4. 
     utility functions to get system information such like CPU chip-set, memory 
     limit, etc.
@@ -34,7 +34,6 @@ Imports:
     grDevices,
     parallel,
     Rcpp,
-    RcppParallel,
     R6,
     shiny,
     cli,
@@ -63,6 +62,5 @@ Suggests:
 Roxygen: list(r6 = FALSE)
 RoxygenNote: 7.2.1
 LinkingTo: 
-    Rcpp,
-    RcppParallel
+    Rcpp
 VignetteBuilder: knitr

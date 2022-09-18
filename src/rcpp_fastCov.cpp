@@ -1,12 +1,11 @@
 #include <cstdlib>
 #include <Rcpp.h>
-// [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
+#include "TinyParallel.h"
 
 using namespace Rcpp;
-// using namespace RcppParallel;
+// using namespace TinyParallel;
 
-struct FastCov : public RcppParallel::Worker
+struct FastCov : public TinyParallel::Worker
 {
   Rcpp::NumericVector &x1;
   Rcpp::NumericVector &x2;
@@ -98,7 +97,7 @@ SEXP fastcov(
 
 /*** R
 devtools::load_all()
-RcppParallel::setThreadOptions(numThreads = 8)
+TinyParallel::setThreadOptions(numThreads = 8)
 
 x <- as.data.frame(matrix(rnorm(100000), nrow = 1000))
 y <- matrix(rnorm(100000), nrow = 1000)

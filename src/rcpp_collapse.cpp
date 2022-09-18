@@ -1,12 +1,11 @@
 #include <cstdlib>
 #include <Rcpp.h>
-// [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
+#include "TinyParallel.h"
 
 using namespace Rcpp;
-// using namespace RcppParallel;
+// using namespace TinyParallel;
 
-struct Collapse : public RcppParallel::Worker
+struct Collapse : public TinyParallel::Worker
 {
   const Rcpp::NumericVector x;
   const Rcpp::IntegerVector dims;
@@ -15,7 +14,7 @@ struct Collapse : public RcppParallel::Worker
   const int total_dim;
   const int out_dim;
 
-  RcppParallel::RVector<double> y;
+  TinyParallel::RVector<double> y;
 
   Collapse(
     const Rcpp::NumericVector x,
@@ -132,7 +131,7 @@ Rcpp::NumericVector collapser(
 }
 
 /*** R
-RcppParallel::setThreadOptions(numThreads = 4)
+TinyParallel::setThreadOptions(numThreads = 4)
 dat = array(1:16, c(4,4))
 dat[1,1] = NA
 dat[2,1] = Inf

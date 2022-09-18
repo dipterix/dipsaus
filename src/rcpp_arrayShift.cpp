@@ -1,22 +1,21 @@
 #include <cstdlib>
 #include <Rcpp.h>
 // [[Rcpp::plugins(cpp11)]]
-// [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
+#include "TinyParallel.h"
 #include "utils.h"
 
 using namespace Rcpp;
 
-struct ArrShift : public RcppParallel::Worker
+struct ArrShift : public TinyParallel::Worker
 {
-  const RcppParallel::RVector<double> x;
-  const RcppParallel::RVector<int> dims;
+  const TinyParallel::RVector<double> x;
+  const TinyParallel::RVector<int> dims;
   const int64_t tidx;
   const int64_t sidx;
-  const RcppParallel::RVector<int> shift;
+  const TinyParallel::RVector<int> shift;
   int64_t leap;
 
-  RcppParallel::RVector<double> y;
+  TinyParallel::RVector<double> y;
 
   ArrShift(
     const Rcpp::NumericVector x,
@@ -125,7 +124,7 @@ Rcpp::NumericVector arrayShift(const Rcpp::NumericVector x,
   ArrShift arrShift(x, tidx, sidx, shift, dims, leap, re);
 
   // arrShift.do_shift(0, len);
-  parallelFor(0, len, arrShift, len / 24);
+  TinyParallel::parallelFor(0, len, arrShift, len / 24);
 
   re.attr("dim") = dims;
   return re;

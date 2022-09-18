@@ -32,7 +32,7 @@ devtools::install_github('dipterix/dipsaus')
 
 * `collapse` is a parallel solution to calculate sum/mean along arrays, providing `4x` speed-ups for large arrays;
 * `make_forked_clusters` enables `multicore` (forked clusters) in `future` package even in `RStudio` environment;
-* `baseline_array` to baseline arrays in `RcppParallel`;
+* `baseline_array` to baseline arrays in multicore;
 * `shift_array` to shift arrays along given dimensions;
 * `lapply_async2` uses `future` package, but with progress bar either in console or in shiny apps;
 * `fastcov2` calculates covariance matrices in parallel;

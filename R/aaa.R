@@ -1,6 +1,5 @@
 #' @import shiny
 #' @importFrom Rcpp sourceCpp
-#' @import RcppParallel
 #' @importFrom R6 R6Class
 #' @importFrom base64url base64_urldecode
 #' @importFrom base64url base64_urlencode

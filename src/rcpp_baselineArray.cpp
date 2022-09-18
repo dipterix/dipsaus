@@ -2,21 +2,21 @@
 // [[Rcpp::plugins(cpp11)]]
 using namespace Rcpp;
 
-struct Baseliner : public RcppParallel::Worker
+struct Baseliner : public TinyParallel::Worker
 {
-  const RcppParallel::RVector<double> x;
-  const RcppParallel::RVector<int> dims;
-  RcppParallel::RVector<int> dat_vec_idx;
+  const TinyParallel::RVector<double> x;
+  const TinyParallel::RVector<int> dims;
+  TinyParallel::RVector<int> dat_vec_idx;
   const Rcpp::NumericVector bl;
-  const RcppParallel::RVector<int> bldims;
-  RcppParallel::RVector<int> bl_vec_idx;
-  const RcppParallel::RVector<int> per;
-  const RcppParallel::RVector<int> per_dim;
+  const TinyParallel::RVector<int> bldims;
+  TinyParallel::RVector<int> bl_vec_idx;
+  const TinyParallel::RVector<int> per;
+  const TinyParallel::RVector<int> per_dim;
   const int method;
   const int64_t blloop_len;
   const int64_t innerloop_len;
 
-  RcppParallel::RVector<double> y;
+  TinyParallel::RVector<double> y;
 
   Baseliner(
     const Rcpp::NumericVector x,

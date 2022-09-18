@@ -65,7 +65,6 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' @description Register temporary code that will install packages at
 #' next session. The code will be automatically removed once executed.
 #' @param packages characters, vector of package names
-#' @param update_all whether to update all installed packages before
 #' installation; default is false
 #' @param restart whether to restart session automatically
 #' @param repos repositories to search for packages
@@ -85,111 +84,6 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' @name prepare_install
 NULL
 
-#' @rdname prepare_install
-#' @export
-prepare_install <- function(packages, update_all = FALSE,
-                            restart = FALSE,
-                            repos = getOption('repos')){
-  warning('prepare_install is soft-deprecated and may cause R failures, use `prepare_install2` instead')
-  profile <- startup::find_rprofile()
-  if(!length(profile)){
-    startup::install()
-  }
-  profile <- startup::find_rprofile()
-
-  s <- readLines(profile)
-
-  lines <- grep('^#\\ \\-\\-\\-\\ dipsaus\\ temporary', s)
-  if(length(lines) >= 2) {
-    message('Previous installation code found. Remove and replace with new one...')
-    s <- s[-(seq(min(lines), max(lines)))]
-  }
-
-  if(!length(repos)){
-    repos <- c()
-  }
-  if(!'CRAN' %in% names(repos) || repos[['CRAN']] == '@CRAN@'){
-    repos[['CRAN']] <- 'https://cran.rstudio.com/'
-  }
-  repos <- c(list('dipterix' = 'https://dipterix.github.io/drat/'), as.list(repos))
-  # Add two alternative repositories that provide patches
-  repos <- unlist(repos, use.names = TRUE)
-
-  # prepend lines to s
-
-  pre <- paste("# --- dipsaus temporary startup (BEGIN)---
-# This is one-time startup code REMOVE the block once finished
-message('Execute temporary startup code to install packages...')
-tryCatch({
-  # Add repository
-  repos <- %s
-  if(%s){
-    utils::update.packages(ask = FALSE, repos = repos)
-  }
-  packages <- %s
-  installed <- utils::installed.packages()
-  for(p in unique(packages)){
-    if(system.file('', package = p) != '' && p %%in%% installed[,1]){
-      pver <- utils::packageVersion(p)[[1]]
-      sver <- installed[installed[,1] == p, 3][[1]]
-      if(utils::compareVersion(as.character(pver), sver) > 0){
-        # newly installed
-        next()
-      }
-    }
-
-    tryCatch({
-      utils::install.packages(p, repos = repos, type = 'binary')
-    }, warning = function(e){
-      if(grepl('^package .*is not available \\\\(as a binary package', e$message)){
-        utils::install.packages(p, repos = repos, type = 'source')
-      }
-    }, error = function(e){})
-  }
-}, error = function(e){
-  message('Error found during installation procedure')
-  print(traceback(e))
-}, finally = {
-  message('Removing temporary installation scripts.')
-  profile <- '%s'
-  s <- readLines(profile)
-  lines <- grep('^#\\\\ \\\\-\\\\-\\\\-\\\\ dipsaus\\\\ temporary', s)
-  if(length(lines) >= 2) {
-    s <- s[-(seq(min(lines), max(lines)))]
-    writeLines(s, con = profile)
-  }
-})
-message('Done.')
-# --- dipsaus temporary startup (END)---", collapse = '\n')
-
-  packages <- unique(packages)
-  if(length(packages)){
-    pre <- sprintf(pre, paste(deparse(repos), collapse = ''),
-                   paste(deparse(update_all), collapse = ''),
-                   paste(deparse(packages), collapse = ''),
-                   startup::find_rprofile())
-  } else {
-    pre <- NULL
-  }
-
-  writeLines(c(pre, s), con = profile)
-
-  if(restart){
-    f <- get0('.rs.restartR')
-    if(is.function(f)){
-      message('Restarting RStudio rsession. Might take a while. Please wait...')
-      f()
-      return(invisible())
-    }
-    # Not in rstudio session
-    message('Using startup::restart()')
-    startup::restart()
-    return(invisible())
-  }
-  message('Please restart ALL R session now. Next startup might take a while. Please wait until finished')
-  return(invisible())
-}
-
 #' Restart R Session
 #' @description Utilize 'RStudio' functions to restart, if running without
 #' 'RStudio', use \code{startup}{restart} instead.
@@ -202,7 +96,7 @@ restart_session <- function(){
     return(invisible())
   }
   # Not in rstudio session
-  message('Using startup::restart()')
+  warning('From next version, `restart_session` only works in RStudio. Please consider using startup::restart() in the future')
   startup::restart()
   return(invisible())
 }
@@ -211,6 +105,8 @@ restart_session <- function(){
 #' @export
 prepare_install2 <- function(
   packages, restart = FALSE, repos = getOption('repos'), ...){
+
+  warning("`prepare_install2` will be deprecated in the future. Please consider seeking for alternatives. For RAVE users, please check the new installation instructions.")
 
   github_packages <- str_detect(packages, '/')
   cran_packages <- unique(packages[!github_packages])

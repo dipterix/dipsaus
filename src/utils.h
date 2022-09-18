@@ -3,8 +3,7 @@
 
 #include <stdlib.h>
 #include <Rcpp.h>
-// [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
+#include "TinyParallel.h"
 
 /*
  * Check if dots are missing values without evaluating
@@ -23,7 +22,7 @@ SEXP check_missing_dots(const SEXP env);
 void get_index(Rcpp::IntegerVector::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
 void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const Rcpp::IntegerVector& dims);
-void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims);
+void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const TinyParallel::RVector<int>& dims);
 
 
 
@@ -35,8 +34,8 @@ void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParalle
  */
 int64_t get_ii(Rcpp::IntegerVector idx, Rcpp::IntegerVector dim);
 int64_t get_ii(std::vector<int64_t> idx, Rcpp::IntegerVector dim);
-int64_t get_ii(std::vector<int64_t> idx, RcppParallel::RVector<int> dim);
-int64_t get_ii(RcppParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim);
+int64_t get_ii(std::vector<int64_t> idx, TinyParallel::RVector<int> dim);
+int64_t get_ii(TinyParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim);
 
 
 

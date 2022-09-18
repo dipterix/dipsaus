@@ -35,7 +35,6 @@ compare = apply(x, c(3,2), sum)
 sum(abs(result - compare)) # The same, yield 0 or very small number (1e-10)
 
 # Example 3 (performance)
-RcppParallel::setThreadOptions(numThreads = -1) # auto multicores
 # Small data, no big difference, even slower
 x = array(rnorm(240), dim = c(4,5,6,2))
 microbenchmark::microbenchmark(

@@ -21,9 +21,6 @@
 #'
 #' @examples
 #'
-#' # Get numbers of threads to 2
-#' RcppParallel::setThreadOptions(numThreads = 2)
-#'
 #' x <- matrix(rnorm(400), nrow = 100)
 #'
 #' # Call `cov(x)` to compare

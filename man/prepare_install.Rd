@@ -5,19 +5,10 @@
 \alias{prepare_install2}
 \title{Install Packages at Next Startup}
 \usage{
-prepare_install(
-  packages,
-  update_all = FALSE,
-  restart = FALSE,
-  repos = getOption("repos")
-)
-
 prepare_install2(packages, restart = FALSE, repos = getOption("repos"), ...)
 }
 \arguments{
-\item{packages}{characters, vector of package names}
-
-\item{update_all}{whether to update all installed packages before
+\item{packages}{characters, vector of package names
 installation; default is false}
 
 \item{restart}{whether to restart session automatically}

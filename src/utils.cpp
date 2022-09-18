@@ -109,7 +109,7 @@ SEXP set_dim(SEXP &x, SEXP &dim){
   return R_NilValue;
 }
 
-void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const RcppParallel::RVector<int>& dims){
+void get_index(std::vector<int64_t>::iterator ptr, int64_t ii, const TinyParallel::RVector<int>& dims){
   int64_t rem = 0;
   int64_t leap = 1;
   std::size_t jj;
@@ -206,7 +206,7 @@ int64_t get_ii(std::vector<int64_t> idx, Rcpp::IntegerVector dim){
   }
   return ii;
 }
-int64_t get_ii(RcppParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim){
+int64_t get_ii(TinyParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim){
 
   int64_t ii = 0;
   int64_t leap = 1;
@@ -221,7 +221,7 @@ int64_t get_ii(RcppParallel::RVector<int64_t> idx, Rcpp::IntegerVector dim){
   return ii;
 }
 
-int64_t get_ii(std::vector<int64_t> idx, RcppParallel::RVector<int> dim){
+int64_t get_ii(std::vector<int64_t> idx, TinyParallel::RVector<int> dim){
   int64_t ii = 0;
   int64_t leap = 1;
 

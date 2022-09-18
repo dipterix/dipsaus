@@ -612,10 +612,10 @@ PACKAGE_STRING=''
 PACKAGE_BUGREPORT=''
 PACKAGE_URL=''
 
+ac_unique_file="dipsaus"
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-RCPP_PARALLRL_LIBS
-RCPP_PKG_LIBS
+PKG_CFLAGS
 target_alias
 host_alias
 build_alias
@@ -1717,19 +1717,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-RCPP_PKG_LIBS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
-RCPP_PARALLRL_LIBS=`${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()"`
-
-
-if test `uname` = "Darwin" ; then
-  darwin="yes"
-else
-  darwin="no"
-fi
 
 ## --- Output ----------------------------------------------------------------
-
-
+## Substitute and generate Makevars
+PKG_CFLAGS="${PKG_CFLAGS} -I../inst/include"
 
 ac_config_files="$ac_config_files src/Makevars"
 
@@ -2884,4 +2875,10 @@ printf "%s\n" "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2
 fi
 
 
+echo "
+================================
+compiler flags: ${PKG_CFLAGS}
+link argument:  ${PKG_LIBS}
+================================
+"
 
