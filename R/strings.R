@@ -65,8 +65,11 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 #' parse_svec('1-10, 13:15,14-20')
 #' @export
 parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = TRUE){
-  connect <- unlist(stringr::str_split(connect, ''))
-  connect[connect %in% c('|', ':')] <- paste0('\\', connect[connect %in% c('|', ':')])
+  connect <- unique(unlist(strsplit(connect, '')))
+  connect[connect %in% c('|', ':', '~')] <- paste0('\\', connect[connect %in% c('|', ':', '~')])
+  if('-' %in% connect) {
+    connect <- c(connect[connect != "-"], "-")
+  }
   connect <- paste(connect, collapse = '')
 
   if(length(text) != 1) {
@@ -74,25 +77,35 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = 
   }
 
 
-  if(length(text) == 0 || stringr::str_trim(text) == ''){
+  if(length(text) == 0 || !nzchar(trimws(text))){
     return(NULL)
   }
 
   if(is.numeric(text)){
+    if(unique) {
+      text <- unique(text)
+    }
+    if(sort) {
+      text <- sort(text)
+    }
     return(text)
   }
-  s <- as.vector(stringr::str_split(text, sep, simplify = TRUE))
-  s <- stringr::str_trim(s)
+  s <- unlist(strsplit(text, sep, perl = TRUE))
+  s <- trimws(s)
   s <- s[s!='']
 
-  s <- s[str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
+  s <- s[grepl(sprintf('^[0-9\\ %s]+$', connect), s)]
+  # s <- s[str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
 
   re <- NULL
   for(ss in s){
-    if(str_detect(ss, sprintf('[%s]', connect))){
-      ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = TRUE))
-      ss <- ss[str_detect(ss, '^[0-9]+$')]
+    if(grepl(sprintf('[%s]', connect), ss)){
+      ss <- unlist(strsplit(ss,  sprintf('[%s]', connect), perl = TRUE))
+      # ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = TRUE))
+      ss <- trimws(ss)
+      ss <- ss[grepl('^[0-9]+$', ss)]
       ss <- as.numeric(ss)
+      ss <- ss[!is.na(ss)]
       if(length(ss) >= 2){
         re <- c(re, (ss[1]:ss[2]))
       }
