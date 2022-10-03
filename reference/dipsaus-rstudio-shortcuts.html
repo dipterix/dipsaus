@@ -21,7 +21,7 @@ allow 10 customized R expressions to be registered. The first five
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9002</span>
       </span>
     </div>
 
@@ -83,7 +83,9 @@ allow 10 customized R expressions to be registered. The first five
 <span></span>
 <span><span class="fu">rs_remove_shortcut</span><span class="op">(</span><span class="va">which</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">rs_show_shortcut</span><span class="op">(</span><span class="va">which</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">rs_show_shortcut</span><span class="op">(</span><span class="va">which</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rs_quick_debug</span><span class="op">(</span>env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -108,6 +110,10 @@ registered</p></dd>
 <dt>quoted</dt>
 <dd><p>whether <code>expr</code> is quoted, default is false</p></dd>
 
+
+<dt>env</dt>
+<dd><p>environment to debug code; default is global environment</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -120,6 +126,16 @@ keys are <code>'Alt' + 1</code> to <code>'Alt' + 0</code>. On Apple, 'Alt' is
 equivalent to 'option' key.</p>
 <p>2. run <code>rs_add_insertion_shortcut</code> or <code>rs_add_shortcut</code> to
 customize the behaviors of each shortcuts; see Examples.</p>
+<p>Function <code>rs_quick_debug</code> provides quick way to debug a script or
+function without messing up the code. The script only works in 'RStudio'.
+When executing the quick-debug function, the cursor context will be
+automatically resolved and nearest debugging code blocks will be searched
+and executed.
+To enable this feature, add a line with <code>"# DIPSAUS: DEBUG START"</code> in
+your code, followed by debugging code blocks in comments. The script will
+figure it out. Since the 'RStudio' context will be obtained when executing
+the function, it is recommended to add this function to your shortcuts.
+By default, if the shortcut-1 is unset, this function will be executed.</p>
     </div>
 
     <div id="ref-examples">
@@ -140,8 +156,8 @@ customize the behaviors of each shortcuts; see Examples.</p>
 <span class="r-in"><span><span class="co"># restart RStudio and try `Alt+9`</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Adds an expression to Alt+1</span></span></span>
-<span class="r-in"><span><span class="fu">rs_add_shortcut</span><span class="op">(</span><span class="fl">1</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Adds an expression to Alt+2</span></span></span>
+<span class="r-in"><span><span class="fu">rs_add_shortcut</span><span class="op">(</span><span class="fl">2</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"system.time({\n%s\n})\n"</span>,</span></span>
 <span class="r-in"><span>                  <span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/rstudioapi/reference/selections.html" class="external-link">selectionGet</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">expr</span><span class="op">)</span></span></span>
@@ -150,6 +166,22 @@ customize the behaviors of each shortcuts; see Examples.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select any valid R code and press Alt+1</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># --------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run this to set your shortcut (one-time setup)</span></span></span>
+<span class="r-in"><span><span class="fu">rs_add_shortcut</span><span class="op">(</span><span class="fl">1</span>, <span class="op">{</span> <span class="fu">dipsaus</span><span class="fu">::</span><span class="fu">rs_quick_debug</span><span class="op">(</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add debug feature: insert the following comment anywhere in your code</span></span></span>
+<span class="r-in"><span><span class="co"># You may open a new script in the RStudio</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># DIPSAUS: DEBUG START</span></span></span>
+<span class="r-in"><span><span class="co"># message("Debugging...")</span></span></span>
+<span class="r-in"><span><span class="co"># a &lt;- 1</span></span></span>
+<span class="r-in"><span><span class="co"># print(a)</span></span></span>
+<span class="r-in"><span><span class="co"># message("Finished")</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Place your cursor here, press the shortcut key</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
