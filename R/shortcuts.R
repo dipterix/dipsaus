@@ -11,6 +11,7 @@
 #' @param force whether to remove existing shortcut if the hot-key has been
 #' registered
 #' @param quoted whether \code{expr} is quoted, default is false
+#' @param env environment to debug code; default is global environment
 #' @details There are two steps to register an 'RStudio' keyboard shortcut.
 #'
 #' 1. Please enable the shortcuts by opening
@@ -22,6 +23,17 @@
 #'
 #' 2. run \code{rs_add_insertion_shortcut} or \code{rs_add_shortcut} to
 #' customize the behaviors of each shortcuts; see Examples.
+#'
+#' Function \code{rs_quick_debug} provides quick way to debug a script or
+#' function without messing up the code. The script only works in 'RStudio'.
+#' When executing the quick-debug function, the cursor context will be
+#' automatically resolved and nearest debugging code blocks will be searched
+#' and executed.
+#' To enable this feature, add a line with \code{"# DIPSAUS: DEBUG START"} in
+#' your code, followed by debugging code blocks in comments. The script will
+#' figure it out. Since the 'RStudio' context will be obtained when executing
+#' the function, it is recommended to add this function to your shortcuts.
+#' By default, if the shortcut-1 is unset, this function will be executed.
 #'
 #' @examples
 #'
@@ -40,8 +52,8 @@
 #' # restart RStudio and try `Alt+9`
 #'
 #'
-#' # Adds an expression to Alt+1
-#' rs_add_shortcut(1, {
+#' # Adds an expression to Alt+2
+#' rs_add_shortcut(2, {
 #'   expr <- sprintf("system.time({\n%s\n})\n",
 #'                   rstudioapi::selectionGet()$value)
 #'   cat(expr)
@@ -50,6 +62,22 @@
 #'
 #' # Select any valid R code and press Alt+1
 #'
+#' # --------------------------------------------
+#'
+#' # run this to set your shortcut (one-time setup)
+#' rs_add_shortcut(1, { dipsaus::rs_quick_debug() })
+#'
+#' # Add debug feature: insert the following comment anywhere in your code
+#' # You may open a new script in the RStudio
+#'
+#' # DIPSAUS: DEBUG START
+#' # message("Debugging...")
+#' # a <- 1
+#' # print(a)
+#' # message("Finished")
+#'
+#'
+#' # Place your cursor here, press the shortcut key
 #'
 #' }
 #'
@@ -164,6 +192,12 @@ rs_remove_shortcut <- function(which){
   } else {
     which <- sprintf("%d", which)
   }
+
+  fname <- shortcut_settings_path(which)
+  if(file.exists(fname)){
+    unlink(fname)
+  }
+
   addin <- path_addins_json(check = FALSE)
   if(!file.exists(addin)){ return(TRUE) }
   file.copy(addin, sprintf('%s.bak', addin))
@@ -212,7 +246,12 @@ run_shortcut <- function(which){
 }
 
 shortcut01 <- function(){
-  run_shortcut("01")
+  fname <- shortcut_settings_path("01")
+  if(!file.exists(fname)){
+    rs_quick_debug()
+  } else {
+    run_shortcut("01")
+  }
 }
 
 shortcut02 <- function(){
@@ -251,3 +290,34 @@ shortcut10 <- function(){
   run_shortcut("10")
 }
 
+#' @rdname dipsaus-rstudio-shortcuts
+#' @export
+rs_quick_debug <- function(env = globalenv()) {
+  # ----- DIPSAUS: DEBUG START--------
+  # test
+  ctx <- rstudioapi::getActiveDocumentContext()
+  row <- ctx$selection[[1]]$range$start[1]
+  sub <- ctx$contents[seq_len(row)]
+  sub <- trimws(sub)
+
+  # Find latest debug start
+  debug_start <- which(grepl("^#[ -]{0, }DIPSAUS[^a-zA-Z0-9]{0,}DEBUG START", sub))
+  if(!length(debug_start)) { return() }
+  debug_start <- debug_start[[length(debug_start)]]
+  # find the end of comment
+  sub <- ctx$contents[seq(debug_start, length(ctx$contents))]
+  sub <- trimws(sub)
+
+  idx <- deparse_svec(which(startsWith(sub, "#")), concatenate = FALSE)[[1]]
+  idx <- parse_svec(idx)
+  sub <- sub[idx[-1]]
+  if(!length(sub)) { return() }
+
+  # try to run without #
+  sub <- gsub("^#", "", sub)
+
+  cat("# Running the following debug code: ", sub, "", sep = "\n")
+
+  eval(parse(text = sub), envir = env)
+
+}

@@ -6,6 +6,7 @@
 \alias{rs_add_shortcut}
 \alias{rs_remove_shortcut}
 \alias{rs_show_shortcut}
+\alias{rs_quick_debug}
 \title{Register customized R code to 'RStudio' shortcuts}
 \usage{
 rs_add_insertion_shortcut(which, txt, force = FALSE)
@@ -15,6 +16,8 @@ rs_add_shortcut(which, expr, force = FALSE, quoted = FALSE)
 rs_remove_shortcut(which)
 
 rs_show_shortcut(which)
+
+rs_quick_debug(env = globalenv())
 }
 \arguments{
 \item{which}{integer from 1 to 10, which keyboard shortcut to edit}
@@ -27,6 +30,8 @@ registered}
 \item{expr}{expression to run if shortcut is pressed}
 
 \item{quoted}{whether \code{expr} is quoted, default is false}
+
+\item{env}{environment to debug code; default is global environment}
 }
 \description{
 'RStudio' keyboard shortcuts is handy, however, it is non-trivial
@@ -47,6 +52,17 @@ equivalent to 'option' key.
 
 2. run \code{rs_add_insertion_shortcut} or \code{rs_add_shortcut} to
 customize the behaviors of each shortcuts; see Examples.
+
+Function \code{rs_quick_debug} provides quick way to debug a script or
+function without messing up the code. The script only works in 'RStudio'.
+When executing the quick-debug function, the cursor context will be
+automatically resolved and nearest debugging code blocks will be searched
+and executed.
+To enable this feature, add a line with \code{"# DIPSAUS: DEBUG START"} in
+your code, followed by debugging code blocks in comments. The script will
+figure it out. Since the 'RStudio' context will be obtained when executing
+the function, it is recommended to add this function to your shortcuts.
+By default, if the shortcut-1 is unset, this function will be executed.
 }
 \examples{
 
@@ -65,8 +81,8 @@ rs_add_insertion_shortcut(9, " \%?<-\% ", force = TRUE)
 # restart RStudio and try `Alt+9`
 
 
-# Adds an expression to Alt+1
-rs_add_shortcut(1, {
+# Adds an expression to Alt+2
+rs_add_shortcut(2, {
   expr <- sprintf("system.time({\n\%s\n})\n",
                   rstudioapi::selectionGet()$value)
   cat(expr)
@@ -75,6 +91,22 @@ rs_add_shortcut(1, {
 
 # Select any valid R code and press Alt+1
 
+# --------------------------------------------
+
+# run this to set your shortcut (one-time setup)
+rs_add_shortcut(1, { dipsaus::rs_quick_debug() })
+
+# Add debug feature: insert the following comment anywhere in your code
+# You may open a new script in the RStudio
+
+# DIPSAUS: DEBUG START
+# message("Debugging...")
+# a <- 1
+# print(a)
+# message("Finished")
+
+
+# Place your cursor here, press the shortcut key
 
 }
 
