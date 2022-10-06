@@ -20,7 +20,7 @@ statement, otherwise run "else" block.'><!-- mathjax --><script src="https://cdn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.4.9003</span>
       </span>
     </div>
 
@@ -172,10 +172,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median       uq       max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   21.62339  40.04939  49.91873  58.47539  64.0664  69.65741     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  109.27876 124.89252 171.52865 140.50628 202.6536 264.80090     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  128.11441 170.49541 211.10380 212.87641 252.5985 292.32057     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   21.00045  26.77177  36.84413  32.54309  44.76597  56.98885     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  219.86999 228.11105 239.76446 236.35212 249.71170 263.07128     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  185.22198 207.24544 246.69840 229.26889 277.43661 325.60432     3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
