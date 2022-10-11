@@ -133,6 +133,14 @@ struct Baseliner : public TinyParallel::Worker
         }
         break;
 
+      case 5: // 5. baseline by subtract mean
+        bl_mean = std::accumulate( bl_container.begin(), bl_container.end(), 0.0) / bl_len;
+        for(; ptr_cpp_int_1 != dat_vec_idx.end(); ptr_cpp_int_1++ ){
+          arr_idx = *ptr_cpp_int_1 + dat_partial_ii;
+          y[ arr_idx ] = x[ arr_idx ] - bl_mean;
+        }
+        break;
+
       }
 
     }

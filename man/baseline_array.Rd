@@ -9,7 +9,8 @@ baseline_array(
   along_dim,
   baseline_indexpoints,
   unit_dims = seq_along(dim(x))[-along_dim],
-  method = c("percentage", "sqrt_percentage", "decibel", "zscore", "sqrt_zscore")
+  method = c("percentage", "sqrt_percentage", "decibel", "zscore", "sqrt_zscore",
+    "subtract_mean")
 )
 }
 \arguments{

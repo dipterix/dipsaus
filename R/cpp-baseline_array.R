@@ -130,10 +130,12 @@
 #'
 #'
 #' @export
-baseline_array <- function(x, along_dim, baseline_indexpoints,
-                          unit_dims = seq_along(dim(x))[-along_dim],
-                          method = c("percentage", "sqrt_percentage",
-                                     "decibel", "zscore", "sqrt_zscore")) {
+baseline_array <- function(
+    x, along_dim, baseline_indexpoints,
+    unit_dims = seq_along(dim(x))[-along_dim],
+    method = c("percentage", "sqrt_percentage", "decibel",
+               "zscore", "sqrt_zscore", "subtract_mean")
+) {
   # baselineArray(x, bl, dim(x), dim(bl), 2L, c(0L, 1L, 3L), c(2L), method)
   stopifnot2(is.array(x), msg = paste0(sQuote('x'), ' must be an array/matrix'))
   dims <- dim(x)
@@ -144,7 +146,7 @@ baseline_array <- function(x, along_dim, baseline_indexpoints,
   ))
 
   # method
-  blmethods <- c("percentage", "sqrt_percentage", "decibel", "zscore", "sqrt_zscore")
+  blmethods <- c("percentage", "sqrt_percentage", "decibel", "zscore", "sqrt_zscore", "subtract_mean")
   method <- match.arg(method)
   method <- which(blmethods %in% method)
   stopifnot2(length(method) == 1, msg = paste0(
