@@ -1,4 +1,19 @@
-dipsaus 0.2.4 (In Development)
+dipsaus 0.2.5 (In Development)
+=======
+
+## Changes
+
+* Removed `RcppParallel`, using `TinyThread` only to avoid `TBB` related installation issues
+* Removed `autoconf` script, using a much simpler way to generate compiler flags
+* Added keyboard shortcut to run debugging code easily
+* Allowed `parse_svec` to have space around connectors
+* Added a new method to `baseline_array` for absolute contrast
+
+## Bug Fixes
+
+* Fixed `TinyThread` memory leak issues
+
+dipsaus 0.2.4
 =======
 
 ## Major Changes

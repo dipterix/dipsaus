@@ -24,7 +24,6 @@ CRAN-RELEASE
 autom4te.cache
 ^\config-log$
 ^\config-status$
-^src/Makevars$
 ^checkbashisms$
 ^revdep$
 ^\.github$
