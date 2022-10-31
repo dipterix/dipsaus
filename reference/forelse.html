@@ -20,7 +20,7 @@ statement, otherwise run "else" block.'><!-- mathjax --><script src="https://cdn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9000</span>
       </span>
     </div>
 
@@ -172,10 +172,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   33.92089  65.44067  87.63431  96.96045 114.4910 132.0216     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  258.54517 317.05732 358.32419 375.56947 408.2137 440.8579     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  172.72176 219.41556 271.11540 266.10936 320.3122 374.5151     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean   median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   25.39133  44.92827  54.18853  64.4652  68.58713  72.70907     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  235.06877 271.27669 327.00705 307.4846 372.97619 438.46776     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  246.77247 316.40530 378.51982 386.0381 444.39349 502.74885     3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
