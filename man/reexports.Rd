@@ -5,6 +5,7 @@
 \alias{reexports}
 \alias{digest}
 \alias{detectCores}
+\alias{ansi_strip}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -12,6 +13,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
+  \item{cli}{\code{\link[cli]{ansi_strip}}}
+
   \item{digest}{\code{\link[digest]{digest}}}
 
   \item{parallel}{\code{\link[parallel]{detectCores}}}
