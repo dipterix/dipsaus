@@ -9,6 +9,7 @@ rs_exec(
   name = "Untitled",
   quoted = FALSE,
   rs = TRUE,
+  as_promise = FALSE,
   wait = FALSE,
   packages = NULL,
   focus_on_console = FALSE,
@@ -24,6 +25,9 @@ rs_exec(
 \item{quoted}{is \code{expr} quoted}
 
 \item{rs}{whether to use 'RStudio' by default}
+
+\item{as_promise}{whether to return as a \code{\link[promises]{promise}}
+object; default is no}
 
 \item{wait}{whether to wait for the result.}
 

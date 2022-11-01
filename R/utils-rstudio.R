@@ -92,6 +92,8 @@ rs_runjob_alt <- function(script, name, wait = TRUE,
 #' @param rs whether to use 'RStudio' by default
 #' @param wait whether to wait for the result.
 #' @param packages packages to load in the sub-sessions
+#' @param as_promise whether to return as a \code{\link[promises]{promise}}
+#' object; default is no
 #' @param focus_on_console whether to return back to console after creating
 #' jobs; useful when users want to focus on writing code; default is false.
 #' This feature works with 'RStudio' (\code{>=1.4})
@@ -143,6 +145,41 @@ rs_runjob_alt <- function(script, name, wait = TRUE,
 #'
 #' @export
 rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
+                    as_promise = FALSE, wait = FALSE, packages = NULL,
+                    focus_on_console = FALSE, ..., nested_ok = FALSE) {
+  if(as_promise && !package_installed("promises")) {
+    stop("Cannot run `rs_exec`: Please install `promises` package")
+  }
+  if(!quoted){
+    expr <- substitute(expr)
+  }
+  check <- rs_exec_internal(
+    expr = expr, name = name, quoted = TRUE, rs = rs, wait = wait,
+    packages = packages, focus_on_console = focus_on_console,
+    nested_ok = nested_ok, ...)
+
+  if(!as_promise) {
+    return(check)
+  }
+  promises::promise(function(resolve, reject) {
+    later <- asNamespace("later")
+    f <- function() {
+      status <- check()
+      if(status == 0) {
+        resolve(attr(status, "rs_exec_result"))
+        return()
+      } else if (status < 0) {
+        reject(attr(status, 'rs_exec_error'))
+        return()
+      } else {
+        later$later(f, delay = 2)
+      }
+    }
+    f()
+  })
+}
+
+rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
                     wait = FALSE, packages = NULL, focus_on_console = FALSE,
                     ..., nested_ok = FALSE){
   if(!nested_ok && !is_master()) {
