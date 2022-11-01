@@ -18,7 +18,7 @@ detected, otherwise call system command via Rscript"><!-- mathjax --><script src
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9001</span>
       </span>
     </div>
 
@@ -76,6 +76,7 @@ detected, otherwise call system command via <code>Rscript</code></p>
 <span>  name <span class="op">=</span> <span class="st">"Untitled"</span>,</span>
 <span>  quoted <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  as_promise <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  wait <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  packages <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  focus_on_console <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -100,6 +101,11 @@ detected, otherwise call system command via <code>Rscript</code></p>
 
 <dt>rs</dt>
 <dd><p>whether to use 'RStudio' by default</p></dd>
+
+
+<dt>as_promise</dt>
+<dd><p>whether to return as a <code><a href="https://rstudio.github.io/promises//reference/promise.html" class="external-link">promise</a></code>
+object; default is no</p></dd>
 
 
 <dt>wait</dt>
