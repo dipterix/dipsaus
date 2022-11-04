@@ -6,6 +6,7 @@
 \alias{digest}
 \alias{detectCores}
 \alias{ansi_strip}
+\alias{entrace}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -18,5 +19,7 @@ below to see their documentation.
   \item{digest}{\code{\link[digest]{digest}}}
 
   \item{parallel}{\code{\link[parallel]{detectCores}}}
+
+  \item{rlang}{\code{\link[rlang]{entrace}}}
 }}
 

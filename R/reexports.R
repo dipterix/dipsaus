@@ -10,3 +10,7 @@ parallel::detectCores
 #' @export
 cli::ansi_strip
 
+
+#' @importFrom rlang entrace
+#' @export
+rlang::entrace
