@@ -67,6 +67,9 @@
     <loc>/reference/attached_packages.html</loc>
   </url>
   <url>
+    <loc>/reference/base64-url.html</loc>
+  </url>
+  <url>
     <loc>/reference/base64_to_image.html</loc>
   </url>
   <url>
@@ -233,9 +236,6 @@
   </url>
   <url>
     <loc>/reference/parse_svec.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepare_install.html</loc>
   </url>
   <url>
     <loc>/reference/print_directory_tree.html</loc>
