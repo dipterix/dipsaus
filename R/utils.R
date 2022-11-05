@@ -1,10 +1,10 @@
 safe_urlencode <- function(x){
-  re <- base64url::base64_urlencode(as.character(x))
+  re <- base64_urlencode(as.character(x))
   paste0('==', re)
 }
 safe_urldecode <- function(x){
   x <- str_replace(as.character(x), pattern = '^==', '')
-  base64url::base64_urldecode(x)
+  base64_urldecode(x)
 }
 
 

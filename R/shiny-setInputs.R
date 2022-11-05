@@ -65,7 +65,7 @@ set_shiny_input <- function(
     },
     'value' = {
       raw <- jsonlite::toJSON(value, auto_unbox = TRUE, digits = 22)
-      raw <- base64url::base64_urlencode(raw)
+      raw <- base64_urlencode(raw)
     },
     'expression' = {
       if(!quoted){
@@ -73,7 +73,7 @@ set_shiny_input <- function(
       }
       raw <- paste(deparse(value), collapse = '\n')
       raw <- jsonlite::toJSON(raw, auto_unbox = TRUE)
-      raw <- base64url::base64_urlencode(raw)
+      raw <- base64_urlencode(raw)
     },
     'proxy' = {
       env <- ensure_shiny_proxy(session = session)
@@ -147,11 +147,11 @@ registerSetInputs <- function(){
       },
 
       'value' = {
-        jsonlite::fromJSON(base64url::base64_urldecode(raw))
+        jsonlite::fromJSON(base64_urldecode(raw))
       },
 
       'expression' = {
-        raw <- jsonlite::fromJSON(base64url::base64_urldecode(raw))
+        raw <- jsonlite::fromJSON(base64_urldecode(raw))
         str2lang(raw)
       },
 

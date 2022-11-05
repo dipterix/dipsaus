@@ -138,26 +138,26 @@ get_credential <- function(
         special_chr0 <- special_chr
       }
     }
-    special_enc <- base64url::base64_urlencode(special_chr0)
+    special_enc <- base64_urlencode(special_chr0)
     service <- gsub(illegal_regexp, "", service)
     if(length(service) != 1 || service == "") { stop("Invalid service") }
-    service <- base64url::base64_urlencode(service)
+    service <- base64_urlencode(service)
     token <- gsub(illegal_regexp, "", token)
     if(length(token) != 1 || service == token) { stop("Invalid token") }
-    token <- base64url::base64_urlencode(token)
+    token <- base64_urlencode(token)
     seed <- as.integer(seed)
     if(length(seed) != 5 || any(is.na(seed) | seed <= 0)) { stop("Invalid seed") }
-    seed <- base64url::base64_urlencode(paste(seed, collapse = " "))
-    base64url::base64_urlencode(sprintf("%s\t%s\t%s\t%s", service, token, seed, special_enc))
+    seed <- base64_urlencode(paste(seed, collapse = " "))
+    base64_urlencode(sprintf("%s\t%s\t%s\t%s", service, token, seed, special_enc))
   }
 
   decode <- function(s) {
-    s <- base64url::base64_urldecode(s)
+    s <- base64_urldecode(s)
     s <- strsplit(s, split = "\t")[[1]]
-    service <- base64url::base64_urldecode(s[[1]])
-    token <- base64url::base64_urldecode(s[[2]])
-    seed <- as.integer(strsplit(base64url::base64_urldecode(s[[3]]), " ")[[1]])
-    specials <- base64url::base64_urldecode(s[[4]])
+    service <- base64_urldecode(s[[1]])
+    token <- base64_urldecode(s[[2]])
+    seed <- as.integer(strsplit(base64_urldecode(s[[3]]), " ")[[1]])
+    specials <- base64_urldecode(s[[4]])
     if(length(service) != 1 || service == "" ||
        grepl(illegal_regexp, service)) { stop("Invalid service") }
     if(length(token) != 1 || service == token ||

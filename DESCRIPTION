@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.2.5.9002
+Version: 0.2.5.9003
 Authors@R: c(
     person("Zhengjia", "Wang", email = "dipterix.wang@gmail.com", role = c("aut", "cre")),
     person("John", "Magnotti", email = "John.Magnotti@pennmedicine.upenn.edu", role = c("ctb"),
@@ -43,11 +43,9 @@ Imports:
     future.apply,
     progressr,
     fastmap (>= 1.1.0),
-    base64url,
     base64enc,
     digest,
     rlang (>= 0.4.0),
-    startup,
     rstudioapi (>= 0.11)
 Suggests:
     knitr,

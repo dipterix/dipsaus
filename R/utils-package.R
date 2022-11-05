@@ -60,30 +60,6 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
   return(pkgs)
 }
 
-
-#' Install Packages at Next Startup
-#' @description Register temporary code that will install packages at
-#' next session. The code will be automatically removed once executed.
-#' @param packages characters, vector of package names
-#' installation; default is false
-#' @param restart whether to restart session automatically
-#' @param repos repositories to search for packages
-#' @param ... internal arguments
-#' @return None
-#' @details
-#' \code{prepare_install} is soft-deprecated, use \code{prepare_install2}
-#' instead.
-#'
-#' Installing packages in R session could require restarts if
-#' a package to be updated has been loaded. Normally restarting R
-#' fixes the problem. However, under some circumstances, such as with a
-#' startup code in profile, restarting R might still fail the
-#' installation. \code{prepare_install2} starts a new session with clean
-#' environments for installation.
-#'
-#' @name prepare_install
-NULL
-
 #' Restart R Session
 #' @description Utilize 'RStudio' functions to restart, if running without
 #' 'RStudio', use \code{startup}{restart} instead.
@@ -96,33 +72,7 @@ restart_session <- function(){
     return(invisible())
   }
   # Not in rstudio session
-  warning('From next version, `restart_session` only works in RStudio. Please consider using startup::restart() in the future')
-  startup::restart()
+  warning('`restart_session` only works in RStudio. Please consider using startup::restart()')
   return(invisible())
 }
 
-#' @rdname prepare_install
-#' @export
-prepare_install2 <- function(
-  packages, restart = FALSE, repos = getOption('repos'), ...){
-
-  warning("`prepare_install2` will be deprecated in the future. Please consider seeking for alternatives. For RAVE users, please check the new installation instructions.")
-
-  github_packages <- str_detect(packages, '/')
-  cran_packages <- unique(packages[!github_packages])
-  github_packages <- unique(packages[github_packages])
-
-  if(length(github_packages) && !package_installed('remotes')){
-    cran_packages <- c(cran_packages, 'remotes')
-  }
-  if(length(cran_packages)){
-    rs_install_r(cran_packages, repos = repos, rs = FALSE, ...)
-  }
-  if(length(github_packages)){
-    rs_install_github(github_packages, repos = repos, rs = FALSE, ...)
-  }
-  if( restart ){
-    restart_session()
-  }
-  invisible()
-}
