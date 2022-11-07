@@ -6,7 +6,12 @@
 \alias{digest}
 \alias{detectCores}
 \alias{ansi_strip}
+\alias{tree}
 \alias{entrace}
+\alias{cnd_entrace}
+\alias{abort}
+\alias{error_cnd}
+\alias{trace_back}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,12 +19,12 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{cli}{\code{\link[cli]{ansi_strip}}}
+  \item{cli}{\code{\link[cli]{ansi_strip}}, \code{\link[cli]{tree}}}
 
   \item{digest}{\code{\link[digest]{digest}}}
 
   \item{parallel}{\code{\link[parallel]{detectCores}}}
 
-  \item{rlang}{\code{\link[rlang]{entrace}}}
+  \item{rlang}{\code{\link[rlang]{abort}}, \code{\link[rlang:entrace]{cnd_entrace}}, \code{\link[rlang]{entrace}}, \code{\link[rlang:cnd]{error_cnd}}, \code{\link[rlang]{trace_back}}}
 }}
 

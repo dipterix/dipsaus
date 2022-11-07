@@ -1,4 +1,16 @@
-dipsaus 0.2.5 (In Development)
+dipsaus 0.2.6 (In Development)
+=======
+
+## Changes
+
+* Re-exports some `cli`, `rlang` functions
+* Using the most recent fixed version of `tinythread` that correctly join `pthread`
+* Allowed `rs_exec` to return as a promise object
+* Removed `base64url` from dependence and implemented equivalent functions using `base64enc`
+* Removed `prepare_install2`
+* Removed `startup` form dependence
+
+dipsaus 0.2.5
 =======
 
 ## Changes

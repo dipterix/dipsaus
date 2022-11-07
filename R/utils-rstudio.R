@@ -148,7 +148,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
                     as_promise = FALSE, wait = FALSE, packages = NULL,
                     focus_on_console = FALSE, ..., nested_ok = FALSE) {
   if(as_promise && !package_installed("promises")) {
-    stop("Cannot run `rs_exec`: Please install `promises` package")
+    stop("Cannot run `rs_exec`: Please install `promises` & `later` package")
   }
   if(!quoted){
     expr <- substitute(expr)
@@ -162,7 +162,6 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
     return(check)
   }
   promises::promise(function(resolve, reject) {
-    later <- asNamespace("later")
     f <- function() {
       status <- check()
       if(status == 0) {
@@ -172,7 +171,7 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
         reject(attr(status, 'rs_exec_error'))
         return()
       } else {
-        later$later(f, delay = 2)
+        later::later(f, delay = 2)
       }
     }
     f()

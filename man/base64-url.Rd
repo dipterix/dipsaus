@@ -3,9 +3,12 @@
 \name{base64-url}
 \alias{base64-url}
 \alias{base64_urlencode}
+\alias{base64_urldecode}
 \title{Encode or decode 'base64'}
 \usage{
 base64_urlencode(x)
+
+base64_urldecode(x)
 }
 \arguments{
 \item{x}{character vector to encode or decode}
@@ -15,5 +18,17 @@ character vector of the same length as \code{x}
 }
 \description{
 Compatible with results from package \code{'base64url'},
-but implemented with package \code{'base64enc'}
+but implemented with package \code{'base64enc'}. I simply do not like it
+when I have to depend on two packages that can achieve the same goal.
+This implementation is slower. If you have \code{'base64url'} installed,
+please use that version.
+}
+\examples{
+
+x = "plain text"
+encoded = base64_urlencode(x)
+decoded = base64_urldecode(encoded)
+print(encoded)
+print(decoded)
+
 }
