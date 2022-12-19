@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9005</span>
       </span>
     </div>
 
@@ -129,7 +129,7 @@
 <span><span class="co">#&gt; $aa</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.001   0.000   0.000</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.000   0.000   0.001</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="javascript-style-of-creating-functions">2. JavaScript-style of creating functions<a class="anchor" aria-label="anchor" href="#javascript-style-of-creating-functions"></a>
@@ -170,24 +170,24 @@ li.map((el, ii) => {
 </h3>
 <p>The function <code>match.call</code> provided by base package let us format calls with formals matched.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; textInput(inputId = "inputId", label = "label", value = "aaa")</span></span></code></pre></div>
 <p>This is already powerful as we can parse the expressions using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> to get the input parameters. However, when encounter the nested calls like <code>shiny</code> UI components, <code>match.call</code> does not work well. We can’t see the matched results inside of the nested functions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">tagList</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">tagList</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput("inputId", "label", "aaa")))))</span></span></code></pre></div>
 <p><code>match_calls</code> solves this problem by recursively calling <code>match.call</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -195,10 +195,10 @@ li.map((el, ii) => {
 <span><span class="co">#&gt;     value = "aaa")))))</span></span></code></pre></div>
 <p>It can also change modify the calls. For example, we want to add <code>ns</code> to input ID in shiny modules, then the following <code>replave_args</code> changes <code>"inputId"</code> to <code>ns("inputId")</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, replace_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -258,13 +258,13 @@ li.map((el, ii) => {
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">'Values'</span>, main <span class="op">=</span> <span class="st">'Histogram'</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">result</span></span>
-<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt;  -9.625   1.407   5.425   6.338  10.635  27.087</span></span></code></pre></div>
+<span><span class="co">#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
+<span><span class="co">#&gt; -13.3475   0.8398   3.4285   5.0994   9.4762  31.9444</span></span></code></pre></div>
 <p><img src="r_expr_addons_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  num [1:200] 1.254 0.888 0.94 1.948 1.156 ...</span></span></code></pre></div>
+<span><span class="co">#&gt;  num [1:200] 3.124 0.735 1.503 -0.259 -0.261 ...</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="do_aggregate">
@@ -303,7 +303,7 @@ li.map((el, ii) => {
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
