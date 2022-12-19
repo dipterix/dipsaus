@@ -92,7 +92,12 @@ list_to_fastqueue2 <- function(li, queue = NULL){
 #' @rdname fastqueue2
 #' @export
 `[.fastqueue2` <- function(x, i, j = NULL, ...){
-  .subset2(x, "mat")(unlist(c(i, j, ...)))
+  if(missing(i)) {
+    return( .subset2(x, "as_list")(...) )
+  } else {
+    return( .subset2(x, "mat")(unlist(c(i, j, ...))) )
+  }
+
 }
 
 #' @export

@@ -133,7 +133,11 @@ update_fastmap2 <- function(from, to, override = TRUE){
 #' @rdname fastmap2
 #' @export
 `[.fastmap2` <- function(x, i, j = NULL, ...){
-  .subset2(x, 'mget')(as.character(unlist(c(i, j, ...))))
+  if(missing(i)) {
+    return( .subset2(x, "as_list")(...) )
+  } else {
+    return( .subset2(x, 'mget')(as.character(unlist(c(i, j, ...)))) )
+  }
 }
 
 #' @rdname fastmap2
