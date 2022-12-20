@@ -3,9 +3,8 @@
 <!-- badges: start -->
 [![CRAN-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
 [![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/ui#builds)
-[![R build status](https://github.com/dipterix/dipsaus/workflows/R-CMD-check/badge.svg)](https://github.com/dipterix/dipsaus/actions)
+[![R build status](https://github.com/dipterix/dipsaus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dipterix/dipsaus/actions/workflows/R-CMD-check.yaml)
 [![CRAN-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
-[![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/ui#builds)
 <!-- badges: end -->
 
 
