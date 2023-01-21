@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dipsaus</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -67,7 +67,8 @@
 <h2 class="page-header" data-toc-text="0.2.6" id="dipsaus-026-in-development">dipsaus 0.2.6 (In Development)<a class="anchor" aria-label="anchor" href="#dipsaus-026-in-development"></a></h2>
 <div class="section level3">
 <h3 id="changes-0-2-6">Changes<a class="anchor" aria-label="anchor" href="#changes-0-2-6"></a></h3>
-<ul><li>Re-exports some <code>cli</code>, <code>rlang</code> functions</li>
+<ul><li>Fixed <code>fastmap2</code> and <code>fastqueue2</code> when subsetting with missing index resulting in errors</li>
+<li>Re-exports some <code>cli</code>, <code>rlang</code> functions</li>
 <li>Using the most recent fixed version of <code>tinythread</code> that correctly join <code>pthread</code>
 </li>
 <li>Allowed <code>rs_exec</code> to return as a promise object</li>
@@ -75,7 +76,8 @@
 </li>
 <li>Removed <code>prepare_install2</code>
 </li>
-<li>Removed <code>startup</code> form dependence</li>
+<li>Removed <code>startup</code> from dependence</li>
+<li>Fixed <code>Javascript</code> vulnerability issues</li>
 </ul></div>
 </div>
     <div class="section level2">
