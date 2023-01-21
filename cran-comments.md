@@ -1,4 +1,4 @@
-# Current submission (0.2.5):
+# Current submission:
 
 Self check showed zero error/warning/note
 
