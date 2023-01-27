@@ -28,3 +28,4 @@ autom4te.cache
 ^revdep$
 ^\.github$
 ^CRAN-SUBMISSION$
+^shortcuts\.R$
