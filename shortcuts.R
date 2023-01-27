@@ -36,7 +36,7 @@ dipsaus::rs_add_shortcut(5, {
     image_path <- file.path(tools::R_user_dir(package = "dipsaus", which = "cache"), "temporary", "snapshot.RData")
     if(file.exists(image_path)) {
       message("Loading saved workspace from: ", image_path)
-      load(image_path, envir = globalenv())
+      load(image_path, envir = globalenv(), verbose = TRUE)
     }
   })
 })
