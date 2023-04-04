@@ -53,8 +53,10 @@ future_is_sequential <- function(){
   inherits(future::plan(), 'sequential')
 }
 
-rs_runjob_alt <- function(script, name, wait = TRUE,
-                          args = "--vanilla", ...){
+rs_runjob_alt <- function(
+    script, name, wait = TRUE, args = "--vanilla",
+    ignore.stdout = FALSE, ignore.stderr = FALSE,
+    ...){
   # use RScript
   if(!file.exists(script)){
     stop("script is missing")
@@ -73,12 +75,27 @@ rs_runjob_alt <- function(script, name, wait = TRUE,
     s
   )
 
-  cmd <- sprintf('"%s" %s "%s"', rscript, paste(args, collapse = " "), script)
-  if(get_os() == "windows"){
-    system(cmd, wait = wait, show.output.on.console = FALSE, invisible = TRUE, minimized = TRUE, intern = FALSE, ...)
-  } else {
-    system(cmd, wait = wait, intern = FALSE, ...)
+  # cmd <- sprintf('"%s" %s "%s"', rscript, paste(args, collapse = " "), script)
+  call_args <- list(
+    command = rscript,
+    args = c(args, shQuote(script)),
+    wait = wait,
+    ...
+  )
+  if( ignore.stdout ) {
+    call_args$stdout <- nullfile()
   }
+  if( ignore.stderr ) {
+    call_args$stderr <- nullfile()
+  }
+  if(get_os() == "windows"){
+    call_args$minimized <- TRUE
+    call_args$invisible <- TRUE
+    # system(cmd, wait = wait, show.output.on.console = FALSE, invisible = TRUE, minimized = TRUE, intern = FALSE, ...)
+  } else {
+    # system(cmd, wait = wait, intern = FALSE, ...)
+  }
+  do.call(system2, call_args)
 
   return()
 }
