@@ -108,7 +108,10 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
   call <- as_call(quote(FUN), quote(el), .list = FUN.args)
   if(is.null(callback_call)){
     f <- dipsaus::new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
-    fs <- future.apply::future_lapply(x, f, future.seed = future.seed)
+    fs <- future.apply::future_lapply(
+      x, f, future.seed = future.seed,
+      future.scheduling = TRUE,
+      future.chunk.size = future.chunk.size)
   }else{
 
     old.handlers <- progressr::handlers(handler_dipsaus_progress())
