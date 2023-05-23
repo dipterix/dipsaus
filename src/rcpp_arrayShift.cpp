@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <Rcpp.h>
-// [[Rcpp::plugins(cpp11)]]
 #include "TinyParallel.h"
 #include "utils.h"
 

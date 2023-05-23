@@ -8,10 +8,14 @@
 <!-- badges: end -->
 
 
-Package `dipsaus` provides `add-ons` to various packages such as `shiny`, `rlang`, `future`, etc. to enhance these packages. To install the development version package from `Github`,
+Package `dipsaus` provides `add-ons` to various packages such as `shiny`, `rlang`, `future`, etc. to enhance these packages. To install the package,
 
 ```r
-devtools::install_github('dipterix/dipsaus')
+# To install the development package
+# remotes::install_github('dipterix/dipsaus')
+
+# To install from CRAN
+install.packages("dipsaus")
 ```
 
 `dipsaus` provides `add-ons` from the following perspectives:
@@ -51,13 +55,10 @@ devtools::install_github('dipterix/dipsaus')
 
 ### 4. Utility Functions ([Vignette](https://dipterix.org/dipsaus/articles/utility_functions.html))
 
-* `cat2` act as base function `cat` but provides different levels with different colored outputs;
 * `check_installed_packages`, `package_installed` checks if package(s) are installed;
-* `prepare_install2` runs a different session to install R packages on `osx` or `Linux`;
 * `col2hexStr` convert color to hex strings that are friendly to `HTML`, `CSS` and `JavaScript`;
 * `parse_svec` converts a string into integer vectors, `deparse_svec` converts integer vectors back into a compact string;
 * `drop_nulls` removes invalid items within lists;
-* `get_cpu` gets CPU types and chip-set names;
 * `get_ram`, `mem_limit2` gets total RAM size as an alternatives for `mem.limits` in non-windows environment;
 * `to_ram_size` provides simple way to convert numbers to printable storage sizes in given units;
 * `time_delta` calculates time differences and returns a number in given units;
