@@ -1,9 +1,12 @@
-pandoc: 2.7.3
+pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   r_expr_addons: r_expr_addons.html
   shiny_customized_widgets: shiny_customized_widgets.html
   utility_functions: utility_functions.html
-last_built: 2023-04-07T00:42Z
+last_built: 2023-05-26T16:01Z
+urls:
+  reference: https://dipterix.org/dipsaus/reference
+  article: https://dipterix.org/dipsaus/articles
 
