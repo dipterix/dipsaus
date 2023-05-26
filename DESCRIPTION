@@ -21,7 +21,8 @@ Description: Works as an "add-on" to packages like 'shiny', 'future', as well as
     modify R calls and convert among numbers, strings, and other objects. 4. 
     utility functions to get system information such like CPU chip-set, memory 
     limit, etc.
-URL: https://github.com/dipterix/dipsaus
+URL: https://github.com/dipterix/dipsaus,
+    https://dipterix.org/dipsaus/
 BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3
 Encoding: UTF-8

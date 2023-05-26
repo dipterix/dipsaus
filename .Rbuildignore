@@ -29,3 +29,6 @@ autom4te.cache
 ^\.github$
 ^CRAN-SUBMISSION$
 ^shortcuts\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
