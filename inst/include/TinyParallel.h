@@ -5,7 +5,6 @@
 #include "TinyParallel/TinyThread.h"
 
 #include "TinyParallel/RVector.h"
-#include "TinyParallel/RMatrix.h"
 
 namespace TinyParallel {
 
