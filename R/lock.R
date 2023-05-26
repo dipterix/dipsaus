@@ -160,7 +160,8 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
     timeout <- 0
   }
   name <- gsub('[^a-zA-Z0-9]', "", name)
-  root_path <- file.path(R_user_dir("dipsaus", which = "cache"), "file_locks")
+  cache_dir <- R_user_dir("dipsaus", which = "cache")
+  root_path <- file.path(cache_dir, "file_locks")
   lock_path <- file.path(root_path, name)
 
   unlocked <- function() {
@@ -178,6 +179,7 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
   try({
     if(validate_key(lock_path, lkey)) {
       unlink(lock_path)
+      remove_empty_dir(cache_dir, recursive = TRUE)
       return(unlocked())
     }
   }, silent = TRUE)
@@ -193,6 +195,7 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
     try({
       if(validate_key(lock_path, lkey)) {
         unlink(lock_path)
+        remove_empty_dir(cache_dir, recursive = TRUE)
         return(unlocked())
       }
     }, silent = TRUE)
@@ -206,7 +209,8 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
 #' @rdname lock
 #' @export
 dipsaus_resetlocks <- function(name) {
-  root_path <- file.path(R_user_dir("dipsaus", which = "cache"), "file_locks")
+  cache_dir <- R_user_dir("dipsaus", which = "cache")
+  root_path <- file.path(cache_dir, "file_locks")
   if(missing(name)) {
     unlink(root_path, recursive = TRUE, force = TRUE)
   } else {
@@ -217,7 +221,7 @@ dipsaus_resetlocks <- function(name) {
       unlink(lock_path, force = TRUE)
     }
   }
-
+  remove_empty_dir(cache_dir, recursive = TRUE)
 }
 
 # .locks <- local({

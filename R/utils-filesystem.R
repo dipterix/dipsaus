@@ -55,3 +55,26 @@ file_create <- function(x, showWarnings = FALSE, recursive = TRUE) {
 microtime <- function() {
   strftime(Sys.time(), "%Y-%m-%d %H:%M:%OS9", usetz = TRUE)
 }
+
+
+remove_empty_dir <- function(path, all.files = TRUE, recursive = FALSE, verbose = FALSE) {
+  if(!dir.exists(path)) { return() }
+  sub_files <- list.files(path = path, recursive = FALSE, all.files = all.files, include.dirs = TRUE, no.. = TRUE, full.names = TRUE)
+  if( recursive ) {
+    if(length(sub_files) > 0L) {
+      sub_dirs <- sub_files[dir.exists(sub_files)]
+      for(dir in sub_dirs) {
+        Recall(dir, all.files = all.files, recursive = recursive)
+      }
+      sub_files <- list.files(path = path, recursive = FALSE, all.files = all.files, include.dirs = TRUE, no.. = TRUE, full.names = TRUE)
+    }
+
+  }
+  if(!length(sub_files)) {
+    if(verbose) {
+      message("Removing empty folder: ", path)
+    }
+    unlink(path, recursive = TRUE, force = TRUE)
+  }
+}
+

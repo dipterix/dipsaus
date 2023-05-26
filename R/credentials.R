@@ -115,9 +115,15 @@ get_credential <- function(
     }
   }
 
+  config_dir <- R_user_dir("dipsaus", "config")
+  default_tokenfile <- file.path(config_dir, "credential_tokenfile")
   if(is.null(tokenfile)) {
-    tokenfile <- getOption("dipsaus.file.credential",
-                         file.path(R_user_dir("dipsaus", "config"), "credential_tokenfile"))
+    tokenfile <- getOption("dipsaus.file.credential", default_tokenfile)
+    on.exit({
+      if(!file.exists(default_tokenfile)) {
+        remove_empty_dir(config_dir, recursive = TRUE)
+      }
+    })
   }
 
   ensure_tokenfile <- function() {

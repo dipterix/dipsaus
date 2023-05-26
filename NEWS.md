@@ -1,4 +1,22 @@
-dipsaus 0.2.6 (In Development)
+dipsaus 0.2.8 (In Development)
+=======
+
+## Changes
+
+
+dipsaus 0.2.7
+=======
+
+## Changes
+
+* Added more default shortcuts
+* Used `system2` instead of `system` in `rs_runjob_alt` for more controls
+* Upgraded `JavaScript` libraries
+* Fixed `lapply_async2` not respecting chunk size when `callback` is unspecified
+* Removed `cpp11` compiling flags to use system defaults
+* Actively clear users cache directory when directories are empty
+
+dipsaus 0.2.6
 =======
 
 ## Changes
