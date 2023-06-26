@@ -3,6 +3,7 @@ dipsaus 0.2.8 (In Development)
 
 ## Changes
 
+* Added `fancyFileInput` with customized `CSS` to original `shiny::fileInput`
 
 dipsaus 0.2.7
 =======
