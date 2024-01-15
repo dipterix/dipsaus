@@ -313,6 +313,12 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
   switch (TYPEOF(x))
   {
     case NILSXP:
+    case PROMSXP:
+    case SPECIALSXP:
+    case BUILTINSXP:
+    case EXTPTRSXP:
+    // 25	S4SXP	S4 classes not of simple type
+    // case S4SXP:
       return true;
     case ENVSXP:
       env = x;
