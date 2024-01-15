@@ -25,6 +25,10 @@ quantile2 <- function(x, q) {
     .Call(`_dipsaus_quantile2`, x, q)
 }
 
+remove_srcref <- function(obj, verbose = FALSE) {
+    .Call(`_dipsaus_remove_srcref`, obj, verbose)
+}
+
 check_missing_dots <- function(env) {
     .Call(`_dipsaus_check_missing_dots`, env)
 }
@@ -43,5 +47,13 @@ get_sexp_type <- function(x) {
 
 set_dim <- function(x, dim) {
     .Call(`_dipsaus_set_dim`, x, dim)
+}
+
+is_namespace <- function(rho) {
+    .Call(`_dipsaus_is_namespace`, rho)
+}
+
+is_env_from_package <- function(x, recursive) {
+    .Call(`_dipsaus_is_env_from_package`, x, recursive)
 }
 

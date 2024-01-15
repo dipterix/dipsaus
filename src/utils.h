@@ -57,4 +57,7 @@ SEXP sumsquared(SEXP &x);
 SEXPTYPE get_sexp_type(const SEXP &x);
 SEXP set_dim(SEXP &x, SEXP &dim);
 
+
+bool is_env_from_package(SEXP &x, const bool& recursive = true);
+
 #endif

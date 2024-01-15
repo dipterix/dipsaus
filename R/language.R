@@ -915,3 +915,118 @@ test_farg <- function(fun, arg, dots = TRUE){
     arg <= length(fm)
   }
 }
+
+
+#' Remove source reference from function or expression
+#' @description
+#' Remove source reference (see \code{\link{srcref}}) recursively and in-place.
+#' Please see 'Details' for side effects.
+#'
+#' @param x R object
+#' @param verbose whether to print debug information
+#' @return Returns the same input, but the \code{'srcref'} attributes are removed
+#' @details
+#' When running under interactive mode (or \code{"keep.source"} option is
+#' \code{TRUE}), R stores the source code that generate the function or
+#' expression in an environment as an attribute. Normally the reference data
+#' does not affect the results. However, when trying to compare or digest the
+#' data, the source reference will be included in the serialization data,
+#' resulting in different digests (see 'Examples').
+#'
+#' It might be to remove the source data before comparing. One option is to
+#' run the script non-interactively or set \code{"keep.source"} to false.
+#' Alternatively, we could remove this attributes from R objects. R functions
+#' \code{\link[utils]{removeSource}} removes source from function and language
+#' objects recursively. However, this is far from enough when comparing or
+#' generating hash for R objects, since a \code{function}, \code{pairlist},
+#' \code{environment}, or \code{list} may contains functions or expressions (
+#' sometimes nested) that keeps source code.
+#'
+#' @section Side Effects and Exceptions:
+#'
+#' \code{remove_source} removes source reference recursively for most R objects.
+#' Unlike \code{\link[utils]{removeSource}} which returns a new object,
+#' \code{remove_source} alters the original R object, allowing elements in the
+#' lists and environments to be modified without copying on write. However,
+#' this side effect need to be used carefully, if the script depends on
+#' extracting the source code. For example, \code{\link{deparse}} with
+#' \code{control = "source"} will fail if source is removed.
+#'
+#' \code{remove_source} ignores the objects that come from \code{namespace}
+#' (most likely package variables).
+#'
+#' @examples
+#'
+#'
+#' keep_source <- getOption("keep.source", TRUE)
+#' options(keep.source = TRUE)
+#' x <- function(){ a + 1L }
+#' y   <-   function(){ a + 1L }
+#'
+#' identical(x, y, ignore.srcref = FALSE)          # FALSE
+#' is.null(attr(x, "srcref"))  # FALSE
+#'
+#' # x is equal to y if we ignore the code generating them
+#' identical(x, y, ignore.srcref = TRUE)           # TRUE
+#'
+#' # digest x and y
+#' digest(x)
+#' digest(y)
+#' digest(x) == digest(y)      # FALSE
+#'
+#' remove_source(x)
+#' remove_source(y)
+#'
+#' identical(x, y)             # TRUE
+#' is.null(attr(x, "srcref"))  # TRUE
+#' digest(x) == digest(y)      # TRUE
+#'
+#'
+#' ## Not example below
+#' # reset this example options
+#' options(keep.source = keep_source)
+#'
+#'
+#'
+#' @export
+remove_source <- function(x, verbose = FALSE) {
+  invisible(remove_srcref(x, verbose = isTRUE(verbose)))
+}
+
+
+#' Check whether a function, environment comes from a namespace
+#' @description
+#' A coarse way to find if a function comes from a package.
+#'
+#' @param x function, environment, language (with environment attached)
+#' @param recursive whether to recursively search parent environments
+#' @returns logical true if \code{x} is \code{NULL} or its environment is
+#' defined in a namespace; returns false if the object is atomic (other than
+#' \code{NULL}), defined in or derived from global environment, or empty
+#' environment.
+#' @examples
+#'
+#'
+#' is_from_namespace(baseenv())        # TRUE
+#' is_from_namespace(utils::read.csv)  # TRUE
+#' is_from_namespace(NULL)             # TRUE
+#'
+#' x <- function(){}
+#' is_from_namespace(x)                # FALSE
+#' is_from_namespace(emptyenv())       # FALSE
+#'
+#' # Let environment of `x` be base environment
+#' # (exception case)
+#' environment(x) <- baseenv()
+#' is_from_namespace(x)        # TRUE
+#'
+#'
+#' @export
+is_from_namespace <- function(x, recursive = TRUE) {
+  if( recursive ) {
+    recursive <- TRUE
+  } else {
+    recursive <- FALSE
+  }
+  return( is_env_from_package(x, recursive) )
+}

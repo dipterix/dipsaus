@@ -284,6 +284,63 @@ double add_square(const double e1, const double e2){
   return e1 + e2 * e2;
 }
 
+// [[Rcpp::export]]
+bool is_namespace(SEXP &rho) {
+  if (rho == R_BaseNamespace)
+    return true;
+  else if (TYPEOF(rho) == ENVSXP) {
+    SEXP info = Rf_findVarInFrame3(rho, Rf_install(".__NAMESPACE__."), TRUE);
+    if (info != R_UnboundValue && TYPEOF(info) == ENVSXP) {
+      PROTECT(info);
+      SEXP spec = Rf_findVarInFrame3(info, Rf_install("spec"), TRUE);
+      UNPROTECT(1);
+      if (spec != R_UnboundValue &&
+          TYPEOF(spec) == STRSXP && LENGTH(spec) > 0)
+        return true;
+      else
+        return false;
+    }
+    else return false;
+  }
+  else return false;
+}
+
+// [[Rcpp::export]]
+bool is_env_from_package(SEXP &x, const bool& recursive) {
+
+  SEXP env;
+
+  switch (TYPEOF(x))
+  {
+    case NILSXP:
+      return true;
+    case ENVSXP:
+      env = x;
+      break;
+    case CLOSXP:
+      env = CLOENV(x);
+      break;
+    default:
+      env = Rf_getAttrib(x, Rf_install(".Environment"));
+  }
+
+  if( TYPEOF(env) - ENVSXP != 0 ) { return false; }
+
+  if( env == R_GlobalEnv ) { return false; }
+  if( env == R_EmptyEnv ) { return false; }
+  if( env == R_BaseEnv ) { return true; }
+
+  if( is_namespace(x) ) { return true; }
+
+  // recursively check
+  if( recursive ) {
+    SEXP enclos = ENCLOS(env);
+    return is_env_from_package( enclos, recursive );
+  }
+
+  return false;
+
+}
 
 /*** R
 (function(...){ check_missing_dots(environment()) })()

@@ -294,12 +294,16 @@ shortcut10 <- function(){
 #' @export
 rs_quick_debug <- function(env = globalenv()) {
   # ----- DIPSAUS: DEBUG START--------
+  # ctx <- rstudioapi::getActiveDocumentContext()
+  # row <- ctx$selection[[1]]$range$start[1]
+  # sub <- ctx$contents[seq_len(row)]
+  # sub <- trimws(sub)
+
   # test
   ctx <- rstudioapi::getActiveDocumentContext()
   row <- ctx$selection[[1]]$range$start[1]
   sub <- ctx$contents[seq_len(row)]
   sub <- trimws(sub)
-
   # Find latest debug start
   debug_start <- which(grepl("^#[ -]{0, }DIPSAUS[^a-zA-Z0-9]{0,}DEBUG START", sub))
   if(!length(debug_start)) { return() }
@@ -308,13 +312,38 @@ rs_quick_debug <- function(env = globalenv()) {
   sub <- ctx$contents[seq(debug_start, length(ctx$contents))]
   sub <- trimws(sub)
 
-  idx <- deparse_svec(which(startsWith(sub, "#")), concatenate = FALSE)[[1]]
+  # check format: is it an R script?
+  script_type <- "r"
+  if( grepl("\\.(cpp|h|c)$", ctx$path, ignore.case = TRUE) ) {
+    script_type <- "cpp"
+  }
+
+  remove_comments <- TRUE
+  if( script_type %in% c("cpp") ) {
+
+    # find */
+    debug_end <- which(grepl("[*]{1,}/", sub))
+    if(length(debug_end)) {
+      debug_end <- debug_end[[1]]
+
+      idx <- deparse_svec(seq_len(debug_end - 1))
+      remove_comments <- FALSE
+    }
+
+  }
+  if(remove_comments) {
+    idx <- deparse_svec(which(startsWith(sub, "#")), concatenate = FALSE)[[1]]
+  }
+
   idx <- parse_svec(idx)
   sub <- sub[idx[-1]]
   if(!length(sub)) { return() }
 
   # try to run without #
-  sub <- gsub("^#", "", sub)
+  if( remove_comments ) {
+    sub <- gsub("^#", "", sub)
+  }
+
 
   cat("# Running the following debug code: ", sub, "", sep = "\n")
 

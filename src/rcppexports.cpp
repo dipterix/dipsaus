@@ -99,6 +99,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// remove_srcref
+SEXP remove_srcref(SEXP& obj, const bool& verbose);
+RcppExport SEXP _dipsaus_remove_srcref(SEXP objSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP& >::type obj(objSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(remove_srcref(obj, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // check_missing_dots
 SEXP check_missing_dots(const SEXP env);
 RcppExport SEXP _dipsaus_check_missing_dots(SEXP envSEXP) {
@@ -155,6 +167,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// is_namespace
+bool is_namespace(SEXP& rho);
+RcppExport SEXP _dipsaus_is_namespace(SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP& >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_namespace(rho));
+    return rcpp_result_gen;
+END_RCPP
+}
+// is_env_from_package
+bool is_env_from_package(SEXP& x, const bool& recursive);
+RcppExport SEXP _dipsaus_is_env_from_package(SEXP xSEXP, SEXP recursiveSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type recursive(recursiveSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_env_from_package(x, recursive));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_cpp_forelse", (DL_FUNC) &_dipsaus_cpp_forelse, 3},
@@ -163,11 +198,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
     {"_dipsaus_fastcov", (DL_FUNC) &_dipsaus_fastcov, 8},
     {"_dipsaus_quantile2", (DL_FUNC) &_dipsaus_quantile2, 2},
+    {"_dipsaus_remove_srcref", (DL_FUNC) &_dipsaus_remove_srcref, 2},
     {"_dipsaus_check_missing_dots", (DL_FUNC) &_dipsaus_check_missing_dots, 1},
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
     {"_dipsaus_get_sexp_type", (DL_FUNC) &_dipsaus_get_sexp_type, 1},
     {"_dipsaus_set_dim", (DL_FUNC) &_dipsaus_set_dim, 2},
+    {"_dipsaus_is_namespace", (DL_FUNC) &_dipsaus_is_namespace, 1},
+    {"_dipsaus_is_env_from_package", (DL_FUNC) &_dipsaus_is_env_from_package, 2},
     {NULL, NULL, 0}
 };
 
