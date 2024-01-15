@@ -1000,18 +1000,17 @@ remove_source <- function(x, verbose = FALSE) {
 #'
 #' @param x function, environment, language (with environment attached)
 #' @param recursive whether to recursively search parent environments
-#' @returns logical true if \code{x} is \code{NULL} or its environment is
-#' defined in a namespace; returns false if the object is atomic (other than
-#' \code{NULL}), defined in or derived from global environment, or empty
-#' environment.
+#' @returns logical true if \code{x} or its environment is
+#' defined in a namespace; returns false if the object is atomic, or defined
+#' in/from global environment, or an empty environment.
 #' @examples
 #'
 #'
 #' is_from_namespace(baseenv())        # TRUE
 #' is_from_namespace(utils::read.csv)  # TRUE
-#' is_from_namespace(NULL)             # TRUE
 #'
 #' x <- function(){}
+#' is_from_namespace(NULL)             # FALSE
 #' is_from_namespace(x)                # FALSE
 #' is_from_namespace(emptyenv())       # FALSE
 #'
@@ -1023,6 +1022,7 @@ remove_source <- function(x, verbose = FALSE) {
 #'
 #' @export
 is_from_namespace <- function(x, recursive = TRUE) {
+  if(is.null(x)) { return(FALSE) }
   if( recursive ) {
     recursive <- TRUE
   } else {

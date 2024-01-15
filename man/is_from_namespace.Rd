@@ -12,10 +12,9 @@ is_from_namespace(x, recursive = TRUE)
 \item{recursive}{whether to recursively search parent environments}
 }
 \value{
-logical true if \code{x} is \code{NULL} or its environment is
-defined in a namespace; returns false if the object is atomic (other than
-\code{NULL}), defined in or derived from global environment, or empty
-environment.
+logical true if \code{x} or its environment is
+defined in a namespace; returns false if the object is atomic, or defined
+in/from global environment, or an empty environment.
 }
 \description{
 A coarse way to find if a function comes from a package.
@@ -25,9 +24,9 @@ A coarse way to find if a function comes from a package.
 
 is_from_namespace(baseenv())        # TRUE
 is_from_namespace(utils::read.csv)  # TRUE
-is_from_namespace(NULL)             # TRUE
 
 x <- function(){}
+is_from_namespace(NULL)             # FALSE
 is_from_namespace(x)                # FALSE
 is_from_namespace(emptyenv())       # FALSE
 
