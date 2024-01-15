@@ -168,7 +168,8 @@ SEXP remove_srcref(SEXP &obj, const bool &verbose = false) {
   };
 
   auto rm_src_env = [ ] (SEXP &x, auto && rm_src) {
-    SEXP env_names = PROTECT( R_lsInternal(x, TRUE) );
+    Rcpp::Environment x_(x);
+    SEXP env_names = PROTECT( x_.ls(true) );
     if( env_names != R_NilValue ) {
 
       R_xlen_t len = XLENGTH(env_names);
