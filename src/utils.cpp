@@ -289,10 +289,11 @@ bool is_namespace(SEXP &rho) {
   if (rho == R_BaseNamespace)
     return true;
   else if (TYPEOF(rho) == ENVSXP) {
-    SEXP info = Rf_findVarInFrame3(rho, Rf_install(".__NAMESPACE__."), TRUE);
+    Rboolean do_get = TRUE;
+    SEXP info = Rf_findVarInFrame3(rho, Rf_install(".__NAMESPACE__."), do_get);
     if (info != R_UnboundValue && TYPEOF(info) == ENVSXP) {
       PROTECT(info);
-      SEXP spec = Rf_findVarInFrame3(info, Rf_install("spec"), TRUE);
+      SEXP spec = Rf_findVarInFrame3(info, Rf_install("spec"), do_get);
       UNPROTECT(1);
       if (spec != R_UnboundValue &&
           TYPEOF(spec) == STRSXP && LENGTH(spec) > 0)
