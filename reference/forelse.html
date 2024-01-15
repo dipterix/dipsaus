@@ -16,7 +16,7 @@ statement, otherwise run "else" block.'><!-- mathjax --><script src="https://cdn
     
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,10 +165,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean    median        uq       max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.25668  20.26164  20.26413  20.26661  20.26785  20.26909     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  100.81997 100.95638 101.00722 101.09280 101.10084 101.10888     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  100.71891 100.90077 100.97134 101.08262 101.09756 101.11250     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min       lq      mean    median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   20.18281  20.2160  20.25182  20.24919  20.28632  20.32345     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  100.79325 100.9563 101.01383 101.11934 101.12412 101.12889     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  100.73054 100.8996 100.95809 101.06876 101.07186 101.07496     3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
