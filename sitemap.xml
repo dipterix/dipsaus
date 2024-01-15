@@ -106,6 +106,9 @@
     <loc>https://dipterix.org/dipsaus/reference/deparse_svec.html</loc>
   </url>
   <url>
+    <loc>https://dipterix.org/dipsaus/reference/digest2.html</loc>
+  </url>
+  <url>
     <loc>https://dipterix.org/dipsaus/reference/dipsaus-defunct.html</loc>
   </url>
   <url>
@@ -196,6 +199,9 @@
     <loc>https://dipterix.org/dipsaus/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://dipterix.org/dipsaus/reference/is_from_namespace.html</loc>
+  </url>
+  <url>
     <loc>https://dipterix.org/dipsaus/reference/lapply_async2.html</loc>
   </url>
   <url>
@@ -251,6 +257,9 @@
   </url>
   <url>
     <loc>https://dipterix.org/dipsaus/reference/registerInputBinding.html</loc>
+  </url>
+  <url>
+    <loc>https://dipterix.org/dipsaus/reference/remove_source.html</loc>
   </url>
   <url>
     <loc>https://dipterix.org/dipsaus/reference/restart_session.html</loc>
