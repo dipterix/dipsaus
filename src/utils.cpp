@@ -289,11 +289,10 @@ bool is_namespace(SEXP &rho) {
   if (rho == R_BaseNamespace)
     return true;
   else if (TYPEOF(rho) == ENVSXP) {
-    Rboolean do_get = TRUE;
-    SEXP info = Rf_findVarInFrame3(rho, Rf_install(".__NAMESPACE__."), do_get);
+    SEXP info = Rf_findVarInFrame(rho, Rf_install(".__NAMESPACE__."));
     if (info != R_UnboundValue && TYPEOF(info) == ENVSXP) {
       PROTECT(info);
-      SEXP spec = Rf_findVarInFrame3(info, Rf_install("spec"), do_get);
+      SEXP spec = Rf_findVarInFrame(info, Rf_install("spec"));
       UNPROTECT(1);
       if (spec != R_UnboundValue &&
           TYPEOF(spec) == STRSXP && LENGTH(spec) > 0)
@@ -337,7 +336,7 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
   if( env == R_EmptyEnv ) { return false; }
   if( env == R_BaseEnv ) { return true; }
 
-  if( is_namespace(x) ) { return true; }
+  if( is_namespace(env) ) { return true; }
 
   // recursively check
   if( recursive ) {
@@ -351,4 +350,12 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
 
 /*** R
 (function(...){ check_missing_dots(environment()) })()
+b <- local({function(){2}})
+get_sexpinfo_obj(b)
+PackFlags(3, 0, 0, 0, 1)
+b()
+get_sexpinfo_obj(b)
+# 263171
+PackFlags(3, 64, 0, 0, 1)
+a <- get_enclosing_env(b)
 */
