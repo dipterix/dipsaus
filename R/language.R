@@ -386,7 +386,7 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 
   nms <- sapply(seq_along(args), function(ii){
     nm <- names(args[ii])
-    if(is.null(nm) || stringr::str_trim(nm) == ''){
+    if(is.null(nm) || trimws(nm) == ''){
       nm <- args[[ii]]
       args[[ii]] <<- .missing_arg[[1]]
     }

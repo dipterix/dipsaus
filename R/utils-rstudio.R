@@ -296,7 +296,7 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
     # This function can track the rs_exec process
     if(file.exists(state_file)){
       s <- readLines(state_file)
-      s <- stringr::str_trim(s)
+      s <- trimws(s)
       st <- as.integer(s[[1]])
       if(is.na(st)){
         # unknown results

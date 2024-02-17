@@ -139,7 +139,7 @@ get_ram_linux <- function(){
     return(NA)
   }
   s <- stringr::str_match(s[[1]], "([0-9]+)([ kKmMgGtT]+)([bB])")
-  unit <- stringr::str_to_lower(stringr::str_trim(s[[3]]))
+  unit <- tolower(trimws(s[[3]]))
   units <- c('', 'k', 'm', 'g', 't')
   ram <- as.numeric(s[[2]]) * 1024^(which(units == unit) - 1)
   structure(

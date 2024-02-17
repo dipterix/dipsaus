@@ -15,7 +15,7 @@ NULL
 # Compatibility issue
 
 str2lang_alt <- function(s){
-  s <- sprintf('quote(%s)', stringr::str_trim(s))
+  s <- sprintf('quote(%s)', trimws(s))
   eval(parse(text = s))
 }
 

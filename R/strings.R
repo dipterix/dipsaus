@@ -150,13 +150,13 @@ deparse_svec <- function(nums, connect = '-', concatenate = TRUE, collapse = ','
   ind2 <- c(ind[-1], -1)
   re <- apply(cbind(nums[!ind %in% alag], nums[!ind2 %in% alag]), 1,function(x){
     if(x[1] == x[2]){
-      stringr::str_c(x[1])
+      as.character(x[1])
     }else{
-      stringr::str_c(x, collapse = connect)
+      paste(x, collapse = connect)
     }
   })
   if(concatenate){
-    re <- stringr::str_c(re, collapse = collapse)
+    re <- paste(re, collapse = collapse)
   }
   re
 }
@@ -352,7 +352,7 @@ ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE,
   } else {
     cat2(..., ' (Yes/no): ', end = end, level = level)
     answer <- readline()
-    answer <- stringr::str_trim(stringr::str_to_upper(answer))
+    answer <- trimws(toupper(answer))
     if( answer %in% c('Y', 'YES') ){ return(TRUE) }
     if( answer %in% c('N', 'NO') ){ return(FALSE) }
     if( answer %in% c('C') ){
@@ -400,7 +400,7 @@ ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
   } else {
     cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
          end = end, level = level)
-    answer <- stringr::str_trim(readline())
+    answer <- trimws(readline())
     if( answer == '' ){
       answer <- default
     }
