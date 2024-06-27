@@ -1,3 +1,13 @@
+dipsaus 0.2.9
+=======
+
+## Changes
+
+* Added `is_from_namespace` to check if a function is from a namespace
+* Reexported `jsonlite` functions
+* Fixed potential imbalance protection in `quantile2`
+* Fixed a documentation issue
+
 dipsaus 0.2.8
 =======
 

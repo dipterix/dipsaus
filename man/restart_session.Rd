@@ -8,5 +8,5 @@ restart_session()
 }
 \description{
 Utilize 'RStudio' functions to restart, if running without
-'RStudio', use \code{startup}{restart} instead.
+'RStudio', use package \code{startup} (not included in this library) instead.
 }

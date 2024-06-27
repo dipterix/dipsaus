@@ -12,6 +12,12 @@
 \alias{abort}
 \alias{error_cnd}
 \alias{trace_back}
+\alias{read_json}
+\alias{write_json}
+\alias{serializeJSON}
+\alias{unserializeJSON}
+\alias{fromJSON}
+\alias{toJSON}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -22,6 +28,8 @@ below to see their documentation.
   \item{cli}{\code{\link[cli]{ansi_strip}}, \code{\link[cli]{tree}}}
 
   \item{digest}{\code{\link[digest]{digest}}}
+
+  \item{jsonlite}{\code{\link[jsonlite]{fromJSON}}, \code{\link[jsonlite]{read_json}}, \code{\link[jsonlite]{serializeJSON}}, \code{\link[jsonlite:fromJSON]{toJSON}}, \code{\link[jsonlite:serializeJSON]{unserializeJSON}}, \code{\link[jsonlite:read_json]{write_json}}}
 
   \item{parallel}{\code{\link[parallel]{detectCores}}}
 

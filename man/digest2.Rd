@@ -16,5 +16,5 @@ default is false}
 Digest R object with source reference removed
 }
 \seealso{
-\code{\link{remove_source}}
+\code{\link[utils]{removeSource}}
 }
