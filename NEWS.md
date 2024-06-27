@@ -7,6 +7,7 @@ dipsaus 0.2.9
 * Reexported `jsonlite` functions
 * Fixed potential imbalance protection in `quantile2`
 * Fixed a documentation issue
+* Updated `JavaScript` dependency
 
 dipsaus 0.2.8
 =======
