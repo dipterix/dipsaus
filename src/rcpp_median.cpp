@@ -26,29 +26,30 @@ double quantile2(SEXP x, double q){
       first++;
     }
   }
+
+  double tmp = NA_REAL;
+
   if( n_y == 0 ){
-    return( NA_REAL );
-  }
+    tmp = NA_REAL;
+  } else {
+    first = REAL(y);
+    double* last = first + n_y;
 
-  first = REAL(y);
-  double* last = first + n_y;
+    // calculate index
+    double a = (n_y-1) * q;
+    R_xlen_t i1 = floor( a );
+    R_xlen_t i2 = ceil( a );
+    double* ptr_i1 = first + ( i1 );
 
-  // calculate index
-  double a = (n_y-1) * q;
-  R_xlen_t i1 = floor( a );
-  R_xlen_t i2 = ceil( a );
-  double* ptr_i1 = first + ( i1 );
-
-  // find quantile
-  double tmp;
-
-  std::nth_element(first, ptr_i1, last);
-  tmp = *ptr_i1;
-
-  if( i1 != i2 ){
-    ptr_i1 = first + ( i2 );
+    // find quantile
     std::nth_element(first, ptr_i1, last);
-    tmp = tmp * (i2 - a) + *ptr_i1 * (a - i1);
+    tmp = *ptr_i1;
+
+    if( i1 != i2 ){
+      ptr_i1 = first + ( i2 );
+      std::nth_element(first, ptr_i1, last);
+      tmp = tmp * (i2 - a) + *ptr_i1 * (a - i1);
+    }
   }
 
   UNPROTECT(1);

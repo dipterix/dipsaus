@@ -99,18 +99,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// remove_srcref
-SEXP remove_srcref(SEXP& obj, const bool& verbose);
-RcppExport SEXP _dipsaus_remove_srcref(SEXP objSEXP, SEXP verboseSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP& >::type obj(objSEXP);
-    Rcpp::traits::input_parameter< const bool& >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(remove_srcref(obj, verbose));
-    return rcpp_result_gen;
-END_RCPP
-}
 // check_missing_dots
 SEXP check_missing_dots(const SEXP env);
 RcppExport SEXP _dipsaus_check_missing_dots(SEXP envSEXP) {
@@ -198,7 +186,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dipsaus_collapser", (DL_FUNC) &_dipsaus_collapser, 3},
     {"_dipsaus_fastcov", (DL_FUNC) &_dipsaus_fastcov, 8},
     {"_dipsaus_quantile2", (DL_FUNC) &_dipsaus_quantile2, 2},
-    {"_dipsaus_remove_srcref", (DL_FUNC) &_dipsaus_remove_srcref, 2},
     {"_dipsaus_check_missing_dots", (DL_FUNC) &_dipsaus_check_missing_dots, 1},
     {"_dipsaus_object_address", (DL_FUNC) &_dipsaus_object_address, 1},
     {"_dipsaus_sumsquared", (DL_FUNC) &_dipsaus_sumsquared, 1},
