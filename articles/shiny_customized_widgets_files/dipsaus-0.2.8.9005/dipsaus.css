@@ -1,0 +1,99 @@
+.force-hidden {
+  display: none !important;
+}
+
+.dipsaus-compound-input-foot-ctrl button{
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+}
+
+.dipsaus-fancy-file-input {
+  margin-bottom: 15px;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container > .input-group {
+  width: 100%;
+  min-width: 200px;
+  max-width: 100%;
+  min-height: 170px;
+  position: relative;
+}
+
+.dipsaus-fancy-file-input-m .shiny-input-container > .input-group {
+  min-height: 300px;
+}
+
+.dipsaus-fancy-file-input-l .shiny-input-container > .input-group {
+  min-height: 450px;
+}
+
+.dipsaus-fancy-file-input-xl .shiny-input-container > .input-group {
+  min-height: 600px;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container > .input-group > label.input-group-btn {
+  position: absolute;
+  display: block;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  transform: translate(50%, calc(50% + 8px));
+  width: auto;
+  z-index: 4;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container > .input-group > label.input-group-btn > .btn-file {
+  margin: 0;
+  border-radius: 5px;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container > .input-group > input.form-control {
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+  word-wrap: break-word;
+  white-space: break-spaces;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px dashed;
+  padding: 6px 12px 26px 12px;
+}
+
+.dipsaus-fancy-file-input .shiny-input-container > .progress.shiny-file-input-progress
+{
+  position: absolute;
+  min-height: 2px;
+  width: 100%;
+  margin: 0;
+  transform: translate(0, calc(-100% - 1px));
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  z-index: 5;
+  width: 100%;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.dipsaus-fancy-file-input::after {
+  content: attr(dipsaus-after-content);
+  bottom: 5px;
+  left: 10px;
+  visibility: unset;
+  color: #999;
+  font-size: x-small;
+}
