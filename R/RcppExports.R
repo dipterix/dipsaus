@@ -25,10 +25,6 @@ quantile2 <- function(x, q) {
     .Call(`_dipsaus_quantile2`, x, q)
 }
 
-remove_srcref <- function(obj, verbose = FALSE) {
-    .Call(`_dipsaus_remove_srcref`, obj, verbose)
-}
-
 check_missing_dots <- function(env) {
     .Call(`_dipsaus_check_missing_dots`, env)
 }
