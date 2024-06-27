@@ -62,7 +62,7 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 
 #' Restart R Session
 #' @description Utilize 'RStudio' functions to restart, if running without
-#' 'RStudio', use \code{startup}{restart} instead.
+#' 'RStudio', use package \code{startup} (not included in this library) instead.
 #' @export
 restart_session <- function(){
   f <- get0('.rs.restartR')
