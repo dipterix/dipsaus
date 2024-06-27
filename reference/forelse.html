@@ -165,10 +165,10 @@ or the result of <code>ALT_FUN()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          {     forelse(1:10, FUN, "wow") }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  {     y &lt;- unlist(lapply(1:10, FUN))     if (length(y)) {         y &lt;- y[[1]]     }     else {         y &lt;- "wow"     } }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           {     y &lt;- NULL     for (x in 1:10) {         y &lt;- FUN(x)     }     if (is.null(y)) {         y &lt;- "wow"     } }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq      mean   median        uq       max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.18104  20.18992  20.21303  20.1988  20.22902  20.25924     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  100.78288 100.94378 100.99822 101.1047 101.10589 101.10710     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  100.73119 100.88651 100.95257 101.0418 101.06326 101.08470     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min        lq     mean    median        uq       max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   20.17828  20.18697  20.1975  20.19565  20.20711  20.21857     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  100.75283 100.88440 100.9597 101.01596 101.06308 101.11020     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  100.77415 100.92302 100.9750 101.07188 101.07536 101.07884     3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
