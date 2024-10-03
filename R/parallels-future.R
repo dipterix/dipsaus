@@ -206,6 +206,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         runtime <- new.env(parent = globalenv())
         list2env(...callback_globals, envir = runtime)
         environment(...callback2) <- runtime
+        body(...callback2) <- quote(.(body(callback)))
         if (length(formals(...callback2))){
           msg <- ...callback2(el)
         }else{
