@@ -280,14 +280,19 @@ handler_dipsaus_progress <- function (
         # make sure pb exists
         make_pb(title = title, max = config$max_steps)
         if( state$delta > 0 ){
-          # message|details
-          msg <- strsplit(state$message, '|', TRUE)[[1]]
-          if(length(msg) > 1){
-            message <- msg[[1]]
-            detail <- paste(msg[-1], collapse = '|')
-          }else{
+          if(length(state$message)) {
+            # message|details
+            msg <- strsplit(state$message, '|', TRUE)[[1]]
+            if(length(msg) > 1){
+              message <- msg[[1]]
+              detail <- paste(msg[-1], collapse = '|')
+            }else{
+              message <- NULL
+              detail <- state$message
+            }
+          } else {
             message <- NULL
-            detail <- state$message
+            detail <- ""
           }
           pb$inc(message = message, detail = detail,
                  amount = state$delta)

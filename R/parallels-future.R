@@ -126,36 +126,74 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
     progressr::with_progress({
       p <- progressr::progressor(steps = 2 * length(x) + 1)
 
-      f <- dipsaus::new_function2(alist(el = ), body = bquote({
-        ...msg... <- .(callback_call)
-        if(is.character(...msg...)) {
-          ...msg... <- paste(...msg..., collapse = "")
-        } else {
-          ...msg... <- deparse(el, width.cutoff = 30)
-          if(length(...msg...) > 1){
-            ...msg... <- ...msg...[[1]]
-          }
-          if(nchar(...msg...) >= 10){
-            ...msg... <- sprintf("%s...", substr(...msg..., stop = 7, start = 1))
+      f <- function(el, ...) {
+        msg <- ""
+        if( is.function(callback) ){
+          callback_formals <- formals(callback)
+          if (length(callback_formals)){
+            msg <- callback(el)
+          }else{
+            msg <- callback()
           }
         }
-        p(message = sprintf("%s (started)", ...msg...), )
+        if(is.character(msg)) {
+          msg <- paste(msg, collapse = "")
+        } else {
+          msg <- deparse(el, width.cutoff = 30)
+          if(length(msg) > 1){
+            msg <- msg[[1]]
+          }
+          if(nchar(msg) >= 10){
+            msg <- sprintf("%s...", substr(msg, stop = 7, start = 1))
+          }
+        }
+
+        p(message = sprintf("%s (started)", msg))
         on.exit({
-          p(message = sprintf("%s (end)", ...msg...))
+          p(message = sprintf("%s (end)", msg))
         }, add = TRUE, after = TRUE)
 
-        .(call)
-
-      }), quote_type = "quote", env = environment())
-      # f <- dipsaus::new_function2(alist(el = ), body = rlang::quo({
+        return(FUN(el, ...))
+      }
+      # f <- dipsaus::new_function2(alist(el = ), body = bquote({
+      #   ...msg... <- .(callback_call)
+      #   if(is.character(...msg...)) {
+      #     ...msg... <- paste(...msg..., collapse = "")
+      #   } else {
+      #     ...msg... <- deparse(el, width.cutoff = 30)
+      #     if(length(...msg...) > 1){
+      #       ...msg... <- ...msg...[[1]]
+      #     }
+      #     if(nchar(...msg...) >= 10){
+      #       ...msg... <- sprintf("%s...", substr(...msg..., stop = 7, start = 1))
+      #     }
+      #   }
       #   p(message = sprintf("%s (started)", ...msg...), )
-      #   eval(!!call)
-      #   p(message = sprintf("%s (end)", ...msg...))
-      # }), quote_type = 'quote', env = environment())
-      fs <- future.apply::future_lapply(x, f,
-                                        future.scheduling = TRUE,
-                                        future.chunk.size = future.chunk.size,
-                                        future.seed = future.seed)
+      #   on.exit({
+      #     p(message = sprintf("%s (end)", ...msg...))
+      #   }, add = TRUE, after = TRUE)
+      #
+      #   .(call)
+      #
+      # }), quote_type = "quote", env = environment())
+
+      fs <- do.call(
+        future.apply::future_lapply,
+        c(
+          list(
+            X = x,
+            FUN = f,
+            future.scheduling = TRUE,
+            future.chunk.size = future.chunk.size,
+            future.seed = future.seed
+          ),
+          as.list(FUN.args)
+        )
+      )
+      # fs <- future.apply::future_lapply(x, f,
+      #                                   future.scheduling = TRUE,
+      #                                   future.chunk.size = future.chunk.size,
+      #                                   future.seed = future.seed)
 
       p("Results collected\n")
 
