@@ -98,6 +98,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       callback_call <- quote(callback())
     }
   }else{
+    callback_formals <- list()
     callback_call <- NULL
   }
 
@@ -112,7 +113,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       x, f, future.seed = future.seed,
       future.scheduling = TRUE,
       future.chunk.size = future.chunk.size)
-  }else{
+  } else {
 
     old.handlers <- progressr::handlers(handler_dipsaus_progress())
     on.exit({
@@ -124,38 +125,122 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
     # if(is.null(shiny::getDefaultReactiveDomain())){
 
     progressr::with_progress({
-      p <- progressr::progressor(steps = 2 * length(x) + 1)
+      ...p <- progressr::progressor(steps = 2 * length(x) + 1)
+
+      # f <- function(el, ...) {
+      #   msg <- ""
+      #   if( is.function(callback) ){
+      #     callback_formals <- formals(callback)
+      #     if (length(callback_formals)){
+      #       msg <- callback(el)
+      #     }else{
+      #       msg <- callback()
+      #     }
+      #   }
+      #   if(is.character(msg)) {
+      #     msg <- paste(msg, collapse = "")
+      #   } else {
+      #     msg <- deparse(el, width.cutoff = 30)
+      #     if(length(msg) > 1){
+      #       msg <- msg[[1]]
+      #     }
+      #     if(nchar(msg) >= 10){
+      #       msg <- sprintf("%s...", substr(msg, stop = 7, start = 1))
+      #     }
+      #   }
+      #
+      #   p(message = sprintf("%s (started)", msg))
+      #   on.exit({
+      #     p(message = sprintf("%s (end)", msg))
+      #   }, add = TRUE, after = TRUE)
+      #
+      #   return(FUN(el, ...))
+      # }
+
+      # f <- dipsaus::new_function2(alist(el = ), body = bquote({
+      #   ...msg... <- .(callback_call)
+      #   if(is.character(...msg...)) {
+      #     ...msg... <- paste(...msg..., collapse = "")
+      #   } else {
+      #     ...msg... <- deparse(el, width.cutoff = 30)
+      #     if(length(...msg...) > 1){
+      #       ...msg... <- ...msg...[[1]]
+      #     }
+      #     if(nchar(...msg...) >= 10){
+      #       ...msg... <- sprintf("%s...", substr(...msg..., stop = 7, start = 1))
+      #     }
+      #   }
+      #   p(message = sprintf("%s (started)", ...msg...), )
+      #   on.exit({
+      #     p(message = sprintf("%s (end)", ...msg...))
+      #   }, add = TRUE, after = TRUE)
+      #
+      #   .(call)
+      #
+      # }), quote_type = "quote", env = environment())
+
+      # manually parse globals
+      ...FUN2 <- dipsaus::new_function2(args = formals(FUN), env = baseenv())
+      ...callback2 <- dipsaus::new_function2(args = formals(callback), env = baseenv())
+      ...FUN.args <- FUN.args
+      ...FUN_globals <- future::getGlobalsAndPackages(FUN, envir = environment(FUN))$globals
+      ...callback_globals <- future::getGlobalsAndPackages(callback, envir = environment(callback))$globals
+
+      # print(...FUN_globals)
+
+      ff <- function() {
+        ...p
+        ...FUN.args
+        ...FUN2
+        ...FUN_globals
+        ...callback_globals
+        ...callback2
+      }
+      globals_and_packages <- future::getGlobalsAndPackages(list(FUN, callback, ff))
+
+      # print(names(globals_and_packages$globals))
 
       f <- dipsaus::new_function2(alist(el = ), body = bquote({
-        ...msg... <- .(callback_call)
-        if(is.character(...msg...)) {
-          ...msg... <- paste(...msg..., collapse = "")
-        } else {
-          ...msg... <- deparse(el, width.cutoff = 30)
-          if(length(...msg...) > 1){
-            ...msg... <- ...msg...[[1]]
-          }
-          if(nchar(...msg...) >= 10){
-            ...msg... <- sprintf("%s...", substr(...msg..., stop = 7, start = 1))
-          }
+
+        # callback
+        runtime <- new.env(parent = globalenv())
+        list2env(...callback_globals, envir = runtime)
+        environment(...callback2) <- runtime
+        body(...callback2) <- quote(.(body(callback)))
+        if (length(formals(...callback2))){
+          msg <- ...callback2(el)
+        }else{
+          msg <- ...callback2()
         }
-        p(message = sprintf("%s (started)", ...msg...), )
+        ...p(message = sprintf("%s (started)", msg))
         on.exit({
-          p(message = sprintf("%s (end)", ...msg...))
+          ...p(message = sprintf("%s (end)", msg))
         }, add = TRUE, after = TRUE)
 
-        .(call)
+        # FUN
+        runtime <- new.env(parent = globalenv())
+        list2env(...FUN_globals, envir = runtime)
 
-      }), quote_type = "quote", env = environment())
-      # f <- dipsaus::new_function2(alist(el = ), body = rlang::quo({
-      #   p(message = sprintf("%s (started)", ...msg...), )
-      #   eval(!!call)
-      #   p(message = sprintf("%s (end)", ...msg...))
-      # }), quote_type = 'quote', env = environment())
-      fs <- future.apply::future_lapply(x, f,
-                                        future.scheduling = TRUE,
-                                        future.chunk.size = future.chunk.size,
-                                        future.seed = future.seed)
+        environment(...FUN2) <- runtime
+        body(...FUN2) <- quote(.(body(FUN)))
+
+        re <- do.call(...FUN2, c(list(el), ...FUN.args))
+        return(re)
+
+      }), quote_type = "quote", env = new.env(parent = globalenv()))
+
+      fs <- future.apply::future_lapply(
+        x, f,
+        future.scheduling = TRUE,
+        future.chunk.size = future.chunk.size,
+        future.seed = future.seed,
+        future.globals = globals_and_packages$globals,
+        future.packages = globals_and_packages$packages
+      )
+      # fs <- future.apply::future_lapply(x, f,
+      #                                   future.scheduling = TRUE,
+      #                                   future.chunk.size = future.chunk.size,
+      #                                   future.seed = future.seed)
 
       p("Results collected\n")
 
