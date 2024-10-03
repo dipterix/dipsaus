@@ -183,49 +183,48 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       ...FUN2 <- dipsaus::new_function2(args = formals(FUN), env = baseenv())
       ...callback2 <- dipsaus::new_function2(args = formals(callback), env = baseenv())
       ...FUN.args <- FUN.args
+      ...FUN_globals <- future::getGlobalsAndPackages(FUN, envir = environment(FUN))$globals
+      ...callback_globals <- future::getGlobalsAndPackages(callback, envir = environment(callback))$globals
+
+      # print(...FUN_globals)
 
       ff <- function() {
         ...p
         ...FUN.args
         ...FUN2
+        ...FUN_globals
+        ...callback_globals
         ...callback2
       }
-      globals_and_packages <- future::getGlobalsAndPackages(c(FUN, callback, ff))
+      globals_and_packages <- future::getGlobalsAndPackages(list(FUN, callback, ff))
+
+      # print(names(globals_and_packages$globals))
 
       f <- dipsaus::new_function2(alist(el = ), body = bquote({
 
-        ...dipsaus_msg <- local({
-          callback_formals <- formals(...callback2)
-          environment(...callback2) <- new.env(parent = globalenv())
-          body(...callback2) <- quote(.(body(callback)))
-          if (length(callback_formals)){
-            msg <- ...callback2(el)
-          }else{
-            msg <- ...callback2()
-          }
-          if(is.character(msg)) {
-            msg <- paste(msg, collapse = "")
-          } else {
-            msg <- deparse(el, width.cutoff = 30)
-            if(length(msg) > 1){
-              msg <- msg[[1]]
-            }
-            if(nchar(msg) >= 10){
-              msg <- sprintf("%s...", substr(msg, stop = 7, start = 1))
-            }
-          }
-          msg
-        })
-
-        ...p(message = sprintf("%s (started)", ...dipsaus_msg))
-
+        # callback
+        runtime <- new.env(parent = globalenv())
+        list2env(...callback_globals, envir = runtime)
+        environment(...callback2) <- runtime
+        if (length(formals(...callback2))){
+          msg <- ...callback2(el)
+        }else{
+          msg <- ...callback2()
+        }
+        ...p(message = sprintf("%s (started)", msg))
         on.exit({
-          ...p(message = sprintf("%s (end)", ...dipsaus_msg))
+          ...p(message = sprintf("%s (end)", msg))
         }, add = TRUE, after = TRUE)
 
-        environment(...FUN2) <- new.env(parent = globalenv())
+        # FUN
+        runtime <- new.env(parent = globalenv())
+        list2env(...FUN_globals, envir = runtime)
+
+        environment(...FUN2) <- runtime
         body(...FUN2) <- quote(.(body(FUN)))
-        return(do.call(...FUN2, c(list(el), ...FUN.args)))
+
+        re <- do.call(...FUN2, c(list(el), ...FUN.args))
+        return(re)
 
       }), quote_type = "quote", env = new.env(parent = globalenv()))
 
