@@ -288,11 +288,11 @@ handler_dipsaus_progress <- function (
               detail <- paste(msg[-1], collapse = '|')
             }else{
               message <- NULL
-              detail <- state$message
+              detail <- paste(state$message, collapse = "")
             }
           } else {
             message <- NULL
-            detail <- ""
+            detail <- "..."
           }
           pb$inc(message = message, detail = detail,
                  amount = state$delta)

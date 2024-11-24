@@ -1,4 +1,18 @@
+get_globals_size <- function(fun, args = list()) {
+  # function_globals <- future::getGlobalsAndPackages(list(fun), envir = environment(fun), maxSize = 1e12)$globals
 
+  # parse_env <- new.env(parent = baseenv())
+  # parse_env$function_globals <- function_globals
+  # fun_internal <- new_function2(body = quote({
+  #   force(function_globals)
+  # }), env = parse_env, quote_type = "quote")
+
+  call <- as_call(quote(fun), quote(el), .list = args)
+  fun_internal <- new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
+  globals_and_packages <- future::getGlobalsAndPackages(list(fun_internal), maxSize = 1e12)
+  re <- attr(globals_and_packages$globals, "total_size")
+  return(re)
+}
 
 #' Apply, but in parallel
 #' @param x vector, list
@@ -79,10 +93,11 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
   call <- as_call(quote(FUN), quote(el), .list = FUN.args)
   if(is.null(callback_call)){
-    f <- dipsaus::new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
+    f <- new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
     globals_and_packages <- future::getGlobalsAndPackages(list(f), maxSize = 1e12)
 
     parallel <- TRUE
+    globals_size <- NA
     tryCatch(
       {
         max_globals_size <- getOption("future.globals.maxSize", default = 524288000) # 524288000 = 500MB
@@ -138,7 +153,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         future.packages = globals_and_packages$packages
       )
     } else {
-      message("Using single thread due to large global objects")
+      message(sprintf("Using single thread due to large global objects (%s)", to_ram_size(globals_size)))
       fs <- lapply(x, f)
     }
   } else {
@@ -156,8 +171,8 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
       # manually parse globals
       ...p <- progressr::progressor(steps = 2 * length(x) + 2)
-      ...FUN2 <- dipsaus::new_function2(args = formals(FUN), env = baseenv())
-      ...callback2 <- dipsaus::new_function2(args = formals(callback), env = baseenv())
+      ...FUN2 <- new_function2(args = formals(FUN), env = baseenv())
+      ...callback2 <- new_function2(args = formals(callback), env = baseenv())
       ...FUN.args <- FUN.args
       ...FUN_globals <- future::getGlobalsAndPackages(FUN, envir = environment(FUN), maxSize = 1e12)$globals
       ...callback_globals <- future::getGlobalsAndPackages(callback, envir = environment(callback), maxSize = 1e12)$globals
@@ -181,7 +196,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
       globals_and_packages <- future::getGlobalsAndPackages(list(FUN, callback, ff), maxSize = 1e12)
 
-      f <- dipsaus::new_function2(alist(el = ), body = bquote({
+      f <- new_function2(alist(el = ), body = bquote({
 
         # callback
         runtime <- new.env(parent = globalenv())
@@ -211,10 +226,12 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       }), quote_type = "quote", env = new.env(parent = store_env))
 
       parallel <- TRUE
+      globals_size <- NA
       tryCatch(
         {
           max_globals_size <- getOption("future.globals.maxSize", default = 524288000) # 524288000 = 500MB
-          if( isTRUE(attr(globals_and_packages$globals, "total_size") >= max_globals_size) ) {
+          globals_size <- attr(globals_and_packages$globals, "total_size")
+          if( isTRUE(globals_size >= max_globals_size) ) {
             future::plan('sequential')
             parallel <- FALSE
           }
@@ -267,7 +284,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
           future.packages = globals_and_packages$packages
         )
       } else {
-        ...p(message = "Using single thread due to large global objects\n")
+        ...p(message = sprintf("Using single thread due to large global objects (%s)\n", to_ram_size(globals_size)))
         fs <- lapply(x, f)
       }
 
