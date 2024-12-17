@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,6 @@ then the function is called with argument <code>.x</code> and <code>...</code></
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## 1. Basic usage</span></span></span>
 <span class="r-in"><span></span></span>
@@ -107,19 +106,18 @@ then the function is called with argument <code>.x</code> and <code>...</code></
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># hist and plot share the same input `rnorm(100)`</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="co"># .expr is a function, all ... are passed as other arguments</span></span></span>
-<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span> <span class="va">hist</span>, nclass <span class="op">=</span> <span class="fl">10</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span> <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span> <span class="va">hist</span>, nclass <span class="op">=</span> <span class="fl">10</span> <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span> <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Repeat the previous two plots, but with different syntax</span></span></span>
-<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">.</span>, nclass <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">.</span>, nclass <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># The return statement is ignored</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> <span class="op">-&gt;</span></span></span>
-<span class="r-in"><span>  <span class="va">y</span></span></span>
+<span class="r-in"><span>  <span class="fu">no_op</span><span class="op">(</span><span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="no_op-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># x is returned at the end</span></span></span>
