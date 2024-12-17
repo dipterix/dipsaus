@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![CRAN-version](https://www.r-pkg.org/badges/version/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
 [![Develop](https://dipterix.r-universe.dev/badges/dipsaus)](https://dipterix.r-universe.dev/)
-[![CRAN-version](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
+[![CRAN-downloads](http://cranlogs.r-pkg.org/badges/grand-total/dipsaus)](https://CRAN.R-project.org/package=dipsaus)
 [![R-check](https://github.com/dipterix/dipsaus/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dipterix/dipsaus/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -12,7 +12,7 @@ Package `dipsaus` provides `add-ons` to various packages such as `shiny`, `rlang
 
 ```r
 # To install the development package
-# remotes::install_github('dipterix/dipsaus')
+# pak::pak('dipterix/dipsaus')
 
 # To install from CRAN
 install.packages("dipsaus")
