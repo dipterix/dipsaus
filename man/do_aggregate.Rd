@@ -20,10 +20,9 @@ when using formula as input.
 }
 \examples{
 
-library(magrittr)
 data(ToothGrowth)
 
-ToothGrowth \%>\%
+ToothGrowth |>
   do_aggregate(len ~ ., mean)
 
 }

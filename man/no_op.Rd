@@ -34,7 +34,6 @@ then the function is called with argument \code{.x} and \code{...}
 }
 \examples{
 
-library(magrittr)
 
 ## 1. Basic usage
 
@@ -55,19 +54,18 @@ x <- rnorm(100)
 
 # hist and plot share the same input `rnorm(100)`
 
-x \%>\%
+y <- x |>
   # .expr is a function, all ... are passed as other arguments
-  no_op( hist, nclass = 10 ) \%>\%
-  no_op( plot, x = seq(0,1,length.out = 100) ) \%>\%
+  no_op( hist, nclass = 10 ) |>
+  no_op( plot, x = seq(0,1,length.out = 100) ) |>
 
   # Repeat the previous two plots, but with different syntax
-  no_op({ hist(., nclass = 10) }) \%>\%
-  no_op({ plot(x = seq(0,1,length.out = 100), y = .) }) \%>\%
+  no_op({ hist(., nclass = 10) }) |>
+  no_op({ plot(x = seq(0,1,length.out = 100), y = .) }) |>
 
   # The return statement is ignored
 
-  no_op({ return(x + 1)}) ->
-  y
+  no_op({ return(x + 1)})
 
 # x is returned at the end
 

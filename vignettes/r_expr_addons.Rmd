@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 ```{r setup, echo=FALSE}
 library(shiny)
 library(dipsaus)
-gl <- glue::glue
-`%>%` <- magrittr::`%>%`
 data(ToothGrowth)
 ```
 
@@ -75,15 +73,12 @@ li.map((el, ii) => {
 });
 ```
 
-`dipsaus` provides functions `iapply`, and `%=>%`, together with `glue` package, we can apply elements like this:
+`dipsaus` provides functions `iapply`, and `%=>%`, for example:
 
 ```{r}
-# gl <- glue::glue
-# `%>%` <- magrittr::`%>%`
-
 li <- c('A', 'T', 'G', 'C')
-li %>% iapply(c(el, ii) %=>% {
-  gl('The index for {el} is {ii}')
+li |> iapply(alist(el, ii) %=>% {
+  sprintf('The index for %s is %s', el, ii)
 })
 
 ```
@@ -91,7 +86,7 @@ li %>% iapply(c(el, ii) %=>% {
 `%=>%` collect the left-hand side elements as arguments and right-hand side expression as body and create function:
 
 ```{r}
-c(a, b=a^2, ...) %=>% {
+alist(a, b=a^2, ...) %=>% {
   print(c(a , b,...))
 }
 ```
@@ -148,32 +143,29 @@ match_calls(call = tagList(
 
 ### 4. Pipe-friendly functions
 
-Pipe functions can simplify the workflow and make R code more readable. The most popular pipe `%>%` allows the left-hand elements to be the first input of the right-hand side functions. `dipsaus` provides several pipe-friendly functions.
+Pipe functions can simplify the workflow and make R code more readable. The popular pipe operator `%>%` (or `|>` after R 4.0) allows the left-hand elements to be the first input of the right-hand side functions. `dipsaus` provides several pipe-friendly functions.
 
 #### No-operations `no_op`
 
 `no_op` takes whatever input in, and returns the input, with side effects. For example, we want to plot the results from the pipe and continue the analysis, usually this is what happens:
 
 ```{r, eval=FALSE}
-x %>% 
-  do_something(...) ->
-  x_tmp
+x_tmp <- x |> 
+  do_something(...)
 
 plot(x_tmp)
 
-x_tmp %>% 
-  do_others(...) ->
-  final_results
+final_results <- x_tmp |> 
+  do_others(...) 
 ```
 
 With `no_op`, the pipe becomes:
 
 ```{r, eval=FALSE}
-x %>% 
-  do_something(...) %>% 
-  no_op(plot, ylim = c(0,100)) %>% 
-  do_others(...) ->
-  final_results
+final_results <- x |> 
+  do_something(...) |> 
+  no_op(plot, ylim = c(0,100)) |> 
+  do_others(...)
 ```
 
 Here's an example
@@ -182,25 +174,24 @@ Here's an example
 
 par(mfrow = c(1,2))
 
-(1:10) %>% 
-  iapply(c(el, ii) %=>% {
+result <- (1:10) |> 
+  iapply(alist(el, ii) %=>% {
     rnorm(20, el, ii)
-  }, simplify = FALSE) %>% 
-  unlist %>% 
+  }, simplify = FALSE) |> 
+  unlist() |> 
   
   # Begin no-ops, result will not change
   no_op({
     # Use expression and "." to refer the data
     print(summary(.))
-  }) %>% 
+  }) |> 
   no_op(
     # Use function and pass ... to function
     plot, x = seq(0,1,length.out = 200), 
     type = 'p', ylim = c(-20,20), pch = 16,
     xlab = 'Time', ylab = 'Value', las = 1
-  ) %>% 
-  no_op(hist, xlab = 'Values', main = 'Histogram') ->
-  result
+  ) |> 
+  no_op(hist, xlab = 'Values', main = 'Histogram') 
 
 str(result)
 ```
@@ -217,7 +208,7 @@ aggregate(formula, data, FUN, ..., subset, na.action = na.omit)
 `do_aggregate` allows the first element to be data frames while using formula:
 
 ```{r}
-ToothGrowth %>%
+ToothGrowth |> 
   do_aggregate(len ~ ., mean)
 ```
 

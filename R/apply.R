@@ -37,10 +37,9 @@ iapply <- function(X, FUN, ..., .method = c('sapply', 'lapply', 'vapply')) {
 #' @return Results from \code{\link[stats]{aggregate}}
 #' @examples
 #'
-#' library(magrittr)
 #' data(ToothGrowth)
 #'
-#' ToothGrowth %>%
+#' ToothGrowth |>
 #'   do_aggregate(len ~ ., mean)
 #'
 #' @export
