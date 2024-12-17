@@ -145,7 +145,7 @@ lapply_callr <- function(
 
       h <- rs_exec(bquote({
         if( dir.exists(.(getwd()))){
-          setwd(.(getwd()))
+          do.call("setwd", list(.(getwd())))
         }
 
         .env <- new.env(parent = globalenv())

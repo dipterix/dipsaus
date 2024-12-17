@@ -46,7 +46,7 @@ sync_shiny_inputs <- function(input, session, inputIds,
     val = NULL
   )
 
-  local_data <- reactiveValues(
+  local_data <- shiny::reactiveValues(
     last_changed = Sys.time(),
     last_updated = Sys.time()
   )

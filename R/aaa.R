@@ -1,4 +1,4 @@
-#' @import shiny
+#' @importFrom shiny actionButton
 #' @importFrom Rcpp sourceCpp
 #' @importFrom R6 R6Class
 #' @importFrom fastmap fastmap

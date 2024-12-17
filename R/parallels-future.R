@@ -288,7 +288,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         fs <- lapply(x, f)
       }
 
-      p("Results collected\n")
+      ...p("Results collected\n")
 
         # fs <- future.apply::future_lapply(x, function(el) {
         #   p(message = eval(callback_call))
