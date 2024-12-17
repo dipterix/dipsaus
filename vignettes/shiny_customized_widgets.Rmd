@@ -25,11 +25,11 @@ library(dipsaus)
 ```
 
 ```{r, results='asis', echo=FALSE}
-shiny::includeCSS(system.file('www/shared/bootstrap/css/bootstrap.min.css', 
+shiny::includeCSS(system.file('www/shared/bootstrap/css/bootstrap.min.css',
                               package = 'shiny'))
-shiny::includeCSS(system.file('rmarkdown/templates/html_vignette/resources/vignette.css', 
-                              package = 'rmarkdown'))
-shiny::includeCSS(system.file('shiny-addons/dipsaus/dipsaus-dipterix-lib.js', 
+# shiny::includeCSS(system.file('rmarkdown/templates/html_vignette/resources/vignette.css', 
+#                               package = 'rmarkdown'))
+shiny::includeCSS(system.file('shiny-addons/dipsaus/dipsaus-dipterix-lib.js',
                               package = 'dipsaus'))
 ```
 
