@@ -24,14 +24,6 @@ library(shiny)
 library(dipsaus)
 ```
 
-```{r, results='asis', echo=FALSE}
-shiny::includeCSS(system.file('www/shared/bootstrap/css/bootstrap.min.css',
-                              package = 'shiny'))
-# shiny::includeCSS(system.file('rmarkdown/templates/html_vignette/resources/vignette.css', 
-#                               package = 'rmarkdown'))
-shiny::includeCSS(system.file('shiny-addons/dipsaus/dipsaus-dipterix-lib.js',
-                              package = 'dipsaus'))
-```
 
 ### 1. Styled Action Button
 
@@ -46,6 +38,8 @@ full features defined by `HTML`. For example, the button class is always
 * when updating the button, `disabled` allows to disable/enable the button
 
 The usage is listed as follows:
+
+> Note the website must include `Bootstrap` library. If you are viewing this from default `CRAN` vignette, you might want to [check this link](https://dipterix.org/dipsaus/articles/shiny_customized_widgets.html) to view the demo.
 
 ```{r, eval=FALSE}
 
