@@ -105,7 +105,8 @@ use_shiny_dipsaus <- function(x){
     meta = NULL, script = "dipsaus-dipterix-lib.js", stylesheet = "dipsaus.css",
     head = NULL, attachment = NULL, package = NULL, all_files = TRUE), class = "html_dependency")
   if(missing(x)){
-    x <- shiny::tags$div(style = "display: none;")
+    return(deps)
+    # x <- shiny::tags$div(style = "display: none;")
   }
   attr(x, "html_dependencies") <- deps
   x

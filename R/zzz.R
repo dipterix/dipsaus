@@ -65,7 +65,7 @@ is_master <- function(){
 
 .onUnload <- function(libpath){
 
-  dipsaus_sessionfinalizer$finalize()
+  dipsaus_sessionfinalizer$do_finalize()
   if('dipsaus' %in% names(shiny::resourcePaths())){
     shiny::removeResourcePath('dipsaus')
   }

@@ -39,15 +39,16 @@ fancyFileInput <- function( inputId, label, width = NULL,
   htmltools <- asNamespace("htmltools")
   max_size <- dipsaus::to_ram_size(getOption("shiny.maxRequestSize", 5*1024^2), 1024)
 
-  use_shiny_dipsaus(shiny::div(
+  shiny::div(
     class = c("dipsaus-fancy-file-input", sprintf("dipsaus-fancy-file-input-%s", size)),
     `dipsaus-after-content` = sprintf('%s (max: %.1f %s)',
-                                       after_content,
-                                       max_size, attr(max_size, "unit")),
+                                      after_content,
+                                      max_size, attr(max_size, "unit")),
     style = htmltools$css(
       width = htmltools$validateCssUnit(width),
-
     ),
+    use_shiny_dipsaus(),
     shiny::fileInput(inputId = inputId, label = label, width = "100%", ...)
-  ))
+  )
+
 }

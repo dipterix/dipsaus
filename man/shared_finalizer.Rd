@@ -97,13 +97,15 @@ file_exists  # FALSE
 cls <- R6::R6Class(
   classname = '...demo...',
   cloneable = TRUE,
+  private = list(
+    finalize = function(){
+      cat('Finalize private resource\n')
+    }
+  ),
   public = list(
     file_path = character(0),
     shared_finalize = function(){
       cat('Finalize shared resource - ', self$file_path, '\n')
-    },
-    finalize = function(){
-      cat('Finalize private resource\n')
     },
     initialize = function(file_path){
       self$file_path = file_path

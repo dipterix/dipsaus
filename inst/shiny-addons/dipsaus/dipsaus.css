@@ -53,7 +53,7 @@
 
 .dipsaus-fancy-file-input .shiny-input-container > .input-group > label.input-group-btn > .btn-file {
   margin: 0;
-  border-radius: 5px;
+  border-radius: 5px !important;
 }
 
 .dipsaus-fancy-file-input .shiny-input-container > .input-group > input.form-control {

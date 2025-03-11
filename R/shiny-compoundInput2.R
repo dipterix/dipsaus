@@ -235,7 +235,11 @@ compoundInput2 <- function(
     env$compount_inputs$set(inputId, value)
   }
 
-  use_shiny_dipsaus(re)
+  shiny::tagList(
+    use_shiny_dipsaus(),
+    re
+  )
+  # use_shiny_dipsaus(re)
 }
 
 

@@ -10,7 +10,7 @@ test_that('Finalizer', {
   }
 
   e1 <- new.env()
-  dipsaus_sessionfinalizer$finalize()
+  dipsaus_sessionfinalizer$do_finalize()
 
   finalizer <- dipsaus_sessionfinalizer$register(key = digest::digest(fin), object = e1,
                                                  finalizer = fin, onexit = FALSE)
