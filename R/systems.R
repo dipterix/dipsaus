@@ -218,7 +218,10 @@ get_ip <- function(get_public = NA){
   # also use ipify
   if(isTRUE(get_public)){
     ip$public <- getOption("restbench.public_ip", try({
-      res <- readLines("https://api.ipify.org?format=json")
+      suppressWarnings({
+        # suppress incomplete final line warning
+        res <- readLines("https://api.ipify.org?format=json")
+      })
       res <- jsonlite::fromJSON(res)
       s <- res$ip
       s <- stringr::str_extract(s, "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
