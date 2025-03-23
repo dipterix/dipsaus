@@ -308,7 +308,7 @@ bool is_namespace(SEXP &rho) {
 // [[Rcpp::export]]
 bool is_env_from_package(SEXP &x, const bool& recursive) {
 
-  SEXP env;
+  Rcpp::Environment env;
 
   switch (TYPEOF(x))
   {
@@ -321,27 +321,39 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
     // case S4SXP:
       return true;
     case ENVSXP:
-      env = x;
+      env = Rcpp::Environment(x);
       break;
-    case CLOSXP:
-      env = CLOENV(x);
+    case CLOSXP: {
+      Rcpp::Function f(x);
+      // env = CLOENV(x);
+      env = f.environment();
       break;
-    default:
-      env = Rf_getAttrib(x, Rf_install(".Environment"));
+    }
+    default: {
+      // env = Rf_getAttrib(x, Rf_install(".Environment"));
+      SEXP attr = Rf_getAttrib(x, Rf_install(".Environment"));
+      if (TYPEOF(attr) != ENVSXP) return false;
+      env = Rcpp::Environment(attr);
+    }
   }
 
   if( TYPEOF(env) - ENVSXP != 0 ) { return false; }
 
-  if( env == R_GlobalEnv ) { return false; }
-  if( env == R_EmptyEnv ) { return false; }
-  if( env == R_BaseEnv ) { return true; }
+  if( env == Rcpp::Environment::global_env() ) { return false; }
+  if( env == Rcpp::Environment::empty_env() ) { return false; }
+  if( env == Rcpp::Environment::base_env() ) { return true; }
 
-  if( is_namespace(env) ) { return true; }
+  SEXP env_impl = Rcpp::wrap(env);
+  if( is_namespace(env_impl) ) { return true; }
 
   // recursively check
   if( recursive ) {
-    SEXP enclos = ENCLOS(env);
-    return is_env_from_package( enclos, recursive );
+    Rcpp::Environment parent_env = env.parent();
+    if (parent_env == Rcpp::Environment::empty_env()) return false;
+    SEXP penv = Rcpp::wrap(parent_env);
+    return is_env_from_package(penv, recursive);
+    // SEXP enclos = ENCLOS(env);
+    // return is_env_from_package( enclos, recursive );
   }
 
   return false;

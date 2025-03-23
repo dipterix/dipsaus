@@ -1,7 +1,7 @@
 Package: dipsaus
 Type: Package
 Title: A Dipping Sauce for Data Analysis and Visualizations
-Version: 0.3.0.9001
+Version: 0.3.0.9003
 Authors@R: c(
     person("Zhengjia", "Wang", email = "dipterix.wang@gmail.com", role = c("aut", "cre")),
     person("John", "Magnotti", email = "John.Magnotti@pennmedicine.upenn.edu", role = c("ctb"),
@@ -27,7 +27,7 @@ BugReports: https://github.com/dipterix/dipsaus/issues
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.1.0)
 Imports:
     utils,
     stats,

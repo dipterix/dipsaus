@@ -16,7 +16,7 @@ shiny_alert2(
   session = shiny::getDefaultReactiveDomain()
 )
 
-close_alert2()
+close_alert2(session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
 \item{title}{title of the alert}

@@ -242,7 +242,7 @@ run_shortcut <- function(which){
     return(invisible())
   }
   expr <- parse(file = fname)
-  eval(expr, envir = new.env(parent = .GlobalEnv))
+  eval(expr, envir = new.env(parent = globalenv()))
 }
 
 shortcut01 <- function(){
