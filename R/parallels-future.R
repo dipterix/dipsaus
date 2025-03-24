@@ -137,9 +137,9 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
             if (!requireNamespace("future.callr", quietly = TRUE)) {
               stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
             }
-            future::plan(future.callr::callr, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
+            future::plan(future.callr::callr, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
           }else{
-            future::plan(plan, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
+            future::plan(plan, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
           }
         }
       }
@@ -268,9 +268,9 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
               if (!requireNamespace("future.callr", quietly = TRUE)) {
                 stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
               }
-              future::plan(future.callr::callr, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
+              future::plan(future.callr::callr, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
             }else{
-              future::plan(plan, ..., .call = NULL, .cleanup = FALSE, .init = FALSE)
+              future::plan(plan, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
             }
           }
         }

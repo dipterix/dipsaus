@@ -231,7 +231,7 @@ make_forked_clusters <- function(
     parent_frame <- parent.frame()
     expr <- rlang::quo_squash({
       rlang::quo({
-        future::plan(!!oplan, substitute = FALSE, .call = NULL, .cleanup = FALSE, .init = FALSE)
+        future::plan(!!oplan, substitute = FALSE, .call = NULL, .cleanup = TRUE, .init = FALSE)
       })
     })
     do.call(
@@ -242,17 +242,17 @@ make_forked_clusters <- function(
   os <- get_os()
   if(os == 'windows' || getOption("dipsaus.debug", FALSE) || getOption("dipsaus.no.fork", FALSE)){
     suc <- tryCatch({
-      future::plan(on_failure, .call = NULL, .cleanup = !clean, .init = FALSE, workers = workers, ...)
+      future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, workers = workers, ...)
       TRUE
     },
     error = function(e){ FALSE },
     warning = function(e){ FALSE })
     if(!suc){
-      future::plan(on_failure, .call = NULL, .cleanup = !clean, .init = FALSE, ...)
+      future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, ...)
     }
   } else {
     options(future.fork.enable = TRUE)
-    future::plan(future::multicore, workers = workers, .cleanup = !clean, .init = FALSE, .call = NULL, ...)
+    future::plan(future::multicore, workers = workers, .cleanup = TRUE, .init = FALSE, .call = NULL, ...)
   }
   invisible(future::plan())
 }

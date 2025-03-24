@@ -1,3 +1,12 @@
+dipsaus 0.3.1
+=======
+
+* Using `importFrom` instead importing the whole `shiny` package
+* Fixed compatibility issue when using customized `shiny` components in `bslib`
+* `get_ip` no longer throw warnings
+* Added `session` as argument to `close_alert2` 
+* Using `Rcpp` instead of native interface to avoid the internal API calls to `ENCLOS` and `CLOSENV`
+
 dipsaus 0.3.0
 =======
 
