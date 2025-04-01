@@ -6,6 +6,7 @@ dipsaus 0.3.1
 * `get_ip` no longer throw warnings
 * Added `session` as argument to `close_alert2` 
 * Using `Rcpp` instead of native interface to avoid the internal API calls to `ENCLOS` and `CLOSENV`
+* `future::plan` calls is automatically cleaned by default
 
 dipsaus 0.3.0
 =======
