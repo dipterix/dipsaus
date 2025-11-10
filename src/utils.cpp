@@ -326,7 +326,10 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
     case CLOSXP: {
       Rcpp::Function f(x);
       // env = CLOENV(x);
-      env = f.environment();
+      // env = f.environment();
+      SEXP call = PROTECT(Rf_lang2(Rf_install("environment"), x));
+      env = PROTECT(Rf_eval(call, R_GlobalEnv)); // evaluate in global env
+      UNPROTECT(2);
       break;
     }
     default: {
@@ -348,12 +351,15 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
 
   // recursively check
   if( recursive ) {
-    Rcpp::Environment parent_env = env.parent();
-    if (parent_env == Rcpp::Environment::empty_env()) return false;
-    SEXP penv = Rcpp::wrap(parent_env);
-    return is_env_from_package(penv, recursive);
-    // SEXP enclos = ENCLOS(env);
-    // return is_env_from_package( enclos, recursive );
+    // Rcpp::Environment parent_env = env.parent();
+    // if (parent_env == Rcpp::Environment::empty_env()) return false;
+    // SEXP penv = Rcpp::wrap(parent_env);
+    // return is_env_from_package(penv, recursive);
+    SEXP call = PROTECT(Rf_lang2(Rf_install("parent.env"), env_impl));
+    SEXP res = PROTECT(Rf_eval(call, R_GlobalEnv)); // evaluate in global env
+    UNPROTECT(2);
+    if (res == R_EmptyEnv) return false;
+    return is_env_from_package(res, recursive);
   }
 
   return false;
