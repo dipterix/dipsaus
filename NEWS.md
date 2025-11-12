@@ -1,3 +1,8 @@
+dipsaus 0.3.2
+=======
+
+* Further removed the internal API calls to `ENCLOS` and `CLOSENV`
+
 dipsaus 0.3.1
 =======
 
