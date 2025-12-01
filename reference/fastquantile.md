@@ -35,7 +35,7 @@ x[sample(10000, 10)] <- NA
 # compute median
 res <- fastquantile(x, 0.5)
 res
-#> [1] -0.001371636
+#> [1] -0.001544295
 
 # base method
 res == quantile(x, 0.5, na.rm = TRUE)
@@ -56,11 +56,11 @@ microbenchmark::microbenchmark(
 )
 #> Unit: microseconds
 #>                                    expr     min       lq     mean   median
-#>            {     fastquantile(x, 0.5) }  53.760 120.7850 134.7495 137.6515
-#>  {     quantile(x, 0.5, na.rm = TRUE) } 200.124 223.7920 276.0054 239.1760
-#>         {     median(x, na.rm = TRUE) } 122.277 145.8565 192.1249 161.0750
+#>            {     fastquantile(x, 0.5) }  93.374 149.2130 157.6559 154.3780
+#>  {     quantile(x, 0.5, na.rm = TRUE) } 247.311 268.3750 311.3586 277.0120
+#>         {     median(x, na.rm = TRUE) } 167.662 187.8505 232.5637 200.5395
 #>        uq     max neval
-#>  159.6475 196.486   100
-#>  364.4390 472.340   100
-#>  278.7795 353.699   100
+#>  173.9350 240.930   100
+#>  367.4805 469.887   100
+#>  316.6460 351.677   100
 ```

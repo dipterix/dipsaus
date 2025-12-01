@@ -10,7 +10,7 @@ to see their documentation.
 
 - digest:
 
-  [`digest`](https://rdrr.io/pkg/digest/man/digest.html)
+  [`digest`](https://eddelbuettel.github.io/digest/man/digest.html)
 
 - jsonlite:
 

@@ -11,7 +11,7 @@ prior to calculation."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,15 +98,15 @@ resulting covariance matrices.</p>
 <span class="r-in"><span><span class="co"># Call `cov(x)` to compare</span></span></span>
 <span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]        [,3]       [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.18978269 -0.20988622  0.08160001 0.04268662</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.20988622  1.01999925 -0.09347488 0.03700865</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.08160001 -0.09347488  0.91967892 0.06524996</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.04268662  0.03700865  0.06524996 0.86823349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.19327738 -0.21555903  0.05763812 0.04147075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.21555903  1.02903958 -0.06026528 0.03834091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.05763812 -0.06026528  0.89162207 0.05189107</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.04147075  0.03834091  0.05189107 0.86620947</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate covariance of subsets</span></span></span>
 <span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span>, col2 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.189783 -0.2098862</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.193277 -0.215559</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Speed comparison</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100000</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
@@ -121,8 +121,8 @@ resulting covariance matrices.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      expr      min       lq     mean   median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.415498 1.454831 1.600557 1.607385 1.677726 1.891214    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 5.369615 5.382488 5.576789 5.419753 5.455164 7.025910    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.413848 1.437162 1.691792 1.475553 1.610638 3.327950    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 5.372786 5.382835 5.428897 5.404896 5.449339 5.619427    10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

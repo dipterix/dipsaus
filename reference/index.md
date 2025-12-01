@@ -116,6 +116,9 @@
 - [`eval_dirty()`](https://dipterix.org/dipsaus/reference/eval_dirty.md)
   : Evaluate expressions
 
+- [`fancyDirectoryInput()`](https://dipterix.org/dipsaus/reference/fancyDirectoryInput.md)
+  : Shiny drag-and-drop directory input
+
 - [`fancyFileInput()`](https://dipterix.org/dipsaus/reference/fancyFileInput.md)
   : Shiny drag-and-drop file input
 

@@ -59,11 +59,11 @@ personal use since I am tired of storing the passwords on the cloud or
 having to buy the services.
 
 The encryption adopts `'sha256'` algorithm provided by
-[`digest`](https://rdrr.io/pkg/digest/man/digest.html) function. To
-restore a password, you will need twp components: `master_password`, a
-token book ( `tokenfile`). If any of them is missing, then the password
-is lost. Please store the token book properly (for example, in 'Dropbox'
-vault).
+[`digest`](https://eddelbuettel.github.io/digest/man/digest.html)
+function. To restore a password, you will need twp components:
+`master_password`, a token book ( `tokenfile`). If any of them is
+missing, then the password is lost. Please store the token book properly
+(for example, in 'Dropbox' vault).
 
 The token book could be shared. Anyone who do not have master password
 will be unlikely to restore the service password. Do not share the
@@ -76,7 +76,7 @@ and directly create a new one.
 
 ## See also
 
-[`digest`](https://rdrr.io/pkg/digest/man/digest.html)
+[`digest`](https://eddelbuettel.github.io/digest/man/digest.html)
 
 ## Examples
 

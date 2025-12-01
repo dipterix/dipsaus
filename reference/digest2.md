@@ -12,7 +12,8 @@ digest2(object, ..., keep_source = FALSE)
 
 - object, ...:
 
-  passed to [`digest`](https://rdrr.io/pkg/digest/man/digest.html)
+  passed to
+  [`digest`](https://eddelbuettel.github.io/digest/man/digest.html)
 
 - keep_source:
 
