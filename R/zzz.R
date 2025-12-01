@@ -59,6 +59,63 @@ is_master <- function(){
 
   register_shiny()
   options("dipsaus.shortcuts" = fastmap2())
+  
+  # Register input handler for directory inputs
+  shiny::registerInputHandler("dipsaus.directoryInput", function(data, shinysession, name) {
+    if(is.null(data)) {
+      return(NULL)
+    }
+    
+    # Process base64 data and create temp files
+    datapaths <- character(length(data$name))
+    
+    for(i in seq_along(data$name)) {
+      tryCatch({
+        if(!is.null(data$base64data[[i]]) && nchar(data$base64data[[i]]) > 0) {
+          # Decode base64 data and save to temp file
+          # Base64 data comes as "data:mime/type;base64,<data>"
+          base64_string <- data$base64data[[i]]
+          
+          # Extract the actual base64 part (after the comma)
+          if(grepl("^data:", base64_string)) {
+            base64_string <- sub("^data:[^,]*,", "", base64_string)
+          }
+          
+          # Create temp file with original filename
+          temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name[[i]])))
+          
+          # Decode and write binary data
+          binary_data <- base64enc::base64decode(base64_string)
+          writeBin(binary_data, temp_file)
+          
+          datapaths[i] <- temp_file
+        } else {
+          # No data available (file too large or error)
+          datapaths[i] <- NA_character_
+        }
+      }, error = function(e) {
+        warning("Failed to process file ", data$name[[i]], ": ", e$message)
+        datapaths[i] <<- NA_character_
+      })
+    }
+    
+    # Convert lists to data frame structure
+    df <- data.frame(
+      name = unlist(data$name),
+      size = unlist(data$size),
+      type = unlist(data$type),
+      datapath = datapaths,
+      relativePath = unlist(data$relativePath),
+      stringsAsFactors = FALSE
+    )
+    
+    # Attach directory structure as attribute
+    if(!is.null(data$directoryStructure)) {
+      attr(df, "directoryStructure") <- data$directoryStructure
+    }
+    
+    return(df)
+  }, force = TRUE)
 
 }
 
