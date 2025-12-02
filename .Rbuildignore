@@ -32,3 +32,4 @@ autom4te.cache
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^TEST_DATAPATHS\.md$

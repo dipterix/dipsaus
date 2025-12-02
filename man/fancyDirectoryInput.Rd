@@ -30,11 +30,27 @@ fancyDirectoryInput(
 \item{...}{additional arguments (currently unused)}
 }
 \value{
-A data frame with components: \code{name} (file name),
-\code{size} (file size in bytes), \code{type} (MIME type), \code{datapath}
-(temporary file path on server), and \code{relativePath} (full relative path
-including subdirectories). The data frame also has an attribute \code{directoryStructure}
-containing a nested list representing the directory tree.
+A reactive data frame with components: \code{fileId} (unique file identifier),
+\code{name} (file name), \code{size} (file size in bytes), \code{type} (MIME type), 
+\code{datapath} (temporary file path on server), and \code{relativePath} 
+(full relative path including subdirectories). The data frame also has attributes:
+\code{directoryStructure} (nested list representing the directory tree),
+\code{ready} (logical indicating if all files are processed),
+\code{totalFiles} (total number of files), and \code{upload_status} (one of 
+"initialized", "completed", or "errored").
+
+\strong{Important:} The \code{datapath} column is \code{NA} initially when 
+\code{upload_status = "initialized"}. The input automatically updates when all files 
+complete (\code{upload_status = "completed"}), and \code{datapath} values are 
+populated with server file paths. Check \code{attr(input$<inputId>, "upload_status")} 
+to determine when files are ready.
+
+Optional real-time tracking: Individual file data is available via 
+\code{input$<inputId>__file} as files upload. File processing status can be 
+tracked via \code{input$<inputId>__status}, which returns a data frame with columns: 
+\code{fileId}, \code{name}, \code{relativePath}, \code{status} 
+(pending/processing/complete/error/skipped), \code{progress} (0-100), and 
+\code{error} (error message if any).
 }
 \description{
 Fancy drag and drop directory upload for \code{shiny} apps. This function
@@ -72,16 +88,59 @@ if(interactive()) {
   shinyApp(
     ui,
     server = function(input, output, session){
+      # Observe directory upload - updates automatically when complete
       observeEvent(input$dir_input, {
         files <- input$dir_input
         if(!is.null(files)) {
-          cat("Uploaded files:\n")
-          print(files[, c("name", "size", "relativePath")])
-
-          # Access directory structure
-          dir_struct <- attr(files, "directoryStructure")
-          cat("\nDirectory structure:\n")
-          print(str(dir_struct))
+          upload_status <- attr(files, "upload_status")
+          
+          cat("Directory upload event:\n")
+          cat("  Status:", upload_status, "\n")
+          cat("  Total files:", attr(files, "totalFiles"), "\n")
+          cat("  Ready:", attr(files, "ready"), "\n")
+          
+          if(upload_status == "completed") {
+            # All files uploaded - datapaths are now populated!
+            cat("\nAll files uploaded successfully!\n")
+            cat("Files with datapaths:\n")
+            print(files[!is.na(files$datapath), 
+                        c("name", "relativePath", "datapath")])
+            
+            # Now you can process all files
+            for(i in seq_len(nrow(files))) {
+              if(!is.na(files$datapath[i])) {
+                cat("\nProcessing:", files$name[i], "\n")
+                cat("  Server path:", files$datapath[i], "\n")
+                cat("  File size:", file.size(files$datapath[i]), "bytes\n")
+              }
+            }
+          } else if(upload_status == "initialized") {
+            # Initial metadata - datapaths are NA at this point
+            cat("Upload started, processing files...\n")
+            
+            # Access directory structure
+            dir_struct <- attr(files, "directoryStructure")
+            cat("\nDirectory structure:\n")
+            print(str(dir_struct, max.level = 2))
+          }
+        }
+      })
+      
+      # Optional: Track individual files as they upload (real-time)
+      observeEvent(input$dir_input__file, {
+        file_data <- input$dir_input__file
+        if(!is.null(file_data) && !is.na(file_data$datapath)) {
+          cat("File uploaded:", file_data$name, "->", file_data$datapath, "\n")
+        }
+      })
+      
+      # Optional: Monitor upload progress
+      observeEvent(input$dir_input__status, {
+        status <- input$dir_input__status
+        if(!is.null(status) && is.data.frame(status)) {
+          completed <- sum(status$status == "complete")
+          total <- nrow(status)
+          cat("Progress:", completed, "/", total, "files\n")
         }
       })
     },

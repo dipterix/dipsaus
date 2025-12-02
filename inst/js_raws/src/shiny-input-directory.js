@@ -115,6 +115,11 @@ export function register_directoryInput(Shiny, debug = false) {
       
       return uploadInfo;
     },
+    
+    getFileStatus: function(el) {
+      const $el = $(el);
+      return $el.data('fileStatus') || null;
+    },
 
     setValue: function(el, value) {
       // File inputs cannot be programmatically set for security reasons
@@ -159,20 +164,6 @@ export function register_directoryInput(Shiny, debug = false) {
           callback(false);
           return;
         }
-        
-        // Check total size to prevent memory issues
-        const maxFileSizeAttr = $el.attr('data-max-file-size');
-        const MAX_BASE64_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024);
-        const maxTotalSize = MAX_BASE64_SIZE * filteredFiles.length;
-        
-        if(totalSize > maxTotalSize) {
-          const totalSizeMB = (totalSize / 1024 / 1024).toFixed(2);
-          const maxTotalSizeMB = (maxTotalSize / 1024 / 1024).toFixed(2);
-          alert(`Total directory size (${totalSizeMB} MB) exceeds the maximum allowed (${maxTotalSizeMB} MB). Please select a smaller directory or increase the file size limit.`);
-          $el.data('uploadInfo', null);
-          callback(false);
-          return;
-        }
 
         // Show progress bar
         $progress.show();
@@ -186,19 +177,8 @@ export function register_directoryInput(Shiny, debug = false) {
         }
 
         try {
-          // Upload files and get the result
-          const result = await binding._uploadFiles(el, filteredFiles, $progressBar, $progress);
-          
-          // Store the result
-          $el.data('uploadInfo', result);
-          
-          // Hide progress bar after a delay to show 100% completion
-          setTimeout(() => {
-            $progress.hide();
-          }, 1000);
-          
-          // Trigger callback
-          callback(true);
+          // Process files incrementally
+          await binding._processFilesIncremental(el, filteredFiles, $progressBar, $progress, callback);
           
         } catch(error) {
           console.error("Error uploading directory:", error);
@@ -206,6 +186,292 @@ export function register_directoryInput(Shiny, debug = false) {
           alert("Error uploading directory: " + error.message);
         }
       });
+    },
+
+    _processFilesIncremental: async function(el, files, $progressBar, $progress, callback) {
+      const $el = $(el);
+      const inputId = $el.attr('id');
+      
+      // Build directory structure and file metadata
+      const directoryStructure = {};
+      const fileMetadata = [];
+      
+      for(let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const relativePath = file.webkitRelativePath || file.name;
+        
+        const fileId = `file_${i}`;
+        
+        fileMetadata.push({
+          fileId: fileId,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          relativePath: relativePath,
+          lastModified: file.lastModified
+        });
+        
+        this._addToDirectoryTree(directoryStructure, relativePath, {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          lastModified: file.lastModified,
+          fileId: fileId
+        });
+      }
+      
+      // Initialize file status tracking
+      const fileStatus = {};
+      fileMetadata.forEach(fm => {
+        fileStatus[fm.fileId] = {
+          name: fm.name,
+          relativePath: fm.relativePath,
+          status: 'pending',
+          progress: 0,
+          error: null
+        };
+      });
+      
+      // Store initial metadata and status
+      const initialData = {
+        fileMetadata: fileMetadata,
+        directoryStructure: directoryStructure,
+        totalFiles: files.length,
+        ready: false,
+        upload_status: 'initialized'
+      };
+      
+      $el.data('uploadInfo', initialData);
+      $el.data('fileStatus', fileStatus);
+      
+      // Trigger initial callback to send metadata
+      callback(true);
+      
+      // Now process files one by one
+      const maxFileSizeAttr = $el.attr('data-max-file-size');
+      const MAX_TOTAL_FILE_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024);
+      const CHUNK_SIZE = 5 * 1024 * 1024;
+      
+      if(debug) {
+        console.log('Processing files with settings:');
+        console.log('  data-max-file-size attribute:', maxFileSizeAttr);
+        console.log('  MAX_TOTAL_FILE_SIZE:', MAX_TOTAL_FILE_SIZE, 'bytes (', (MAX_TOTAL_FILE_SIZE / 1024 / 1024).toFixed(2), 'MB )');
+        console.log('  CHUNK_SIZE:', CHUNK_SIZE, 'bytes');
+      }
+      
+      for(let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileId = `file_${i}`;
+        const relativePath = file.webkitRelativePath || file.name;
+        
+        // Update progress bar
+        $progressBar.text(`Processing ${i + 1} / ${files.length} files`);
+        
+        // Update status to processing
+        fileStatus[fileId].status = 'processing';
+        this._updateFileStatus(el, fileId, fileStatus[fileId]);
+        
+        try {
+          let fileData = null;
+          
+          if(debug) {
+            console.log(`File ${i + 1}: ${file.name}, size: ${file.size} bytes (${(file.size / 1024 / 1024).toFixed(2)} MB), max allowed: ${MAX_TOTAL_FILE_SIZE}`);
+          }
+          
+          if(file.size <= MAX_TOTAL_FILE_SIZE) {
+            // Check if file needs chunking (> 5MB)
+            if(file.size > CHUNK_SIZE) {
+              // Read file in chunks
+              const chunks = [];
+              const numChunks = Math.ceil(file.size / CHUNK_SIZE);
+              
+              for(let chunkIndex = 0; chunkIndex < numChunks; chunkIndex++) {
+                const start = chunkIndex * CHUNK_SIZE;
+                const end = Math.min(start + CHUNK_SIZE, file.size);
+                const chunk = file.slice(start, end);
+                
+                const chunkData = await new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    resolve(e.target.result);
+                  };
+                  reader.onerror = function(err) {
+                    reject(new Error('Failed to read file chunk: ' + file.name));
+                  };
+                  const timeout = setTimeout(() => {
+                    reader.abort();
+                    reject(new Error('Timeout reading file chunk: ' + file.name));
+                  }, 30000);
+                  
+                  reader.readAsDataURL(chunk);
+                  reader.onloadend = function() {
+                    clearTimeout(timeout);
+                  };
+                });
+                
+                chunks.push(chunkData);
+                
+                // Update progress
+                fileStatus[fileId].progress = ((chunkIndex + 1) / numChunks) * 100;
+                this._updateFileStatus(el, fileId, fileStatus[fileId]);
+              }
+              
+              fileData = {
+                fileId: fileId,
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                relativePath: relativePath,
+                base64data: chunks,
+                chunked: true,
+                numChunks: numChunks
+              };
+            } else {
+              // Read small file as single base64 string
+              const base64String = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  resolve(e.target.result);
+                };
+                reader.onerror = function(err) {
+                  reject(new Error('Failed to read file: ' + file.name));
+                };
+                const timeout = setTimeout(() => {
+                  reader.abort();
+                  reject(new Error('Timeout reading file: ' + file.name));
+                }, 30000);
+                
+                reader.readAsDataURL(file);
+                reader.onloadend = function() {
+                  clearTimeout(timeout);
+                };
+              });
+              
+              fileData = {
+                fileId: fileId,
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                relativePath: relativePath,
+                base64data: base64String,
+                chunked: false
+              };
+              
+              fileStatus[fileId].progress = 100;
+            }
+            
+            // Update status to complete
+            fileStatus[fileId].status = 'complete';
+            fileStatus[fileId].progress = 100;
+            
+          } else {
+            // File too large
+            fileStatus[fileId].status = 'skipped';
+            fileStatus[fileId].error = 'File exceeds maximum size';
+            
+            fileData = {
+              fileId: fileId,
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              relativePath: relativePath,
+              base64data: null,
+              _tooLarge: true
+            };
+          }
+          
+          // Send individual file data to Shiny
+          this._sendFileToShiny(el, fileData);
+          
+          // Update file status
+          this._updateFileStatus(el, fileId, fileStatus[fileId]);
+          
+        } catch(err) {
+          console.error('Error processing file:', file.name, err);
+          fileStatus[fileId].status = 'error';
+          fileStatus[fileId].error = err.message;
+          
+          // Send error info to Shiny
+          this._sendFileToShiny(el, {
+            fileId: fileId,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            relativePath: relativePath,
+            base64data: null,
+            _error: err.message
+          });
+          
+          this._updateFileStatus(el, fileId, fileStatus[fileId]);
+        }
+      }
+      
+      // All files processed
+      $progress.hide();
+      initialData.ready = true;
+      
+      // Determine upload status based on file processing results
+      const hasErrors = Object.values(fileStatus).some(status => status.status === 'error');
+      initialData.upload_status = hasErrors ? 'errored' : 'completed';
+      
+      $el.data('uploadInfo', initialData);
+      
+      // Trigger a final update to the main input with completed status
+      // This allows R to know all files are done
+      if(debug) {
+        console.log('All files processed, updating main input with completed status');
+      }
+      Shiny.setInputValue(inputId + ':dipsaus.directoryInput', initialData, {priority: 'event'});
+      
+      callback(true);
+    },
+    
+    _sendFileToShiny: function(el, fileData) {
+      const $el = $(el);
+      const inputId = $el.attr('id');
+      const fileInputId = `${inputId}__file`;
+      
+      if(debug) {
+        console.log('Sending file to Shiny:', fileData.name);
+        console.log('  Has base64data:', fileData.base64data !== null && fileData.base64data !== undefined);
+        console.log('  Chunked:', fileData.chunked || false);
+        console.log('  _tooLarge:', fileData._tooLarge || false);
+        console.log('  _error:', fileData._error || 'none');
+      }
+      
+      if(window.Shiny && Shiny.setInputValue) {
+        // Send with type suffix to trigger custom input handler
+        Shiny.setInputValue(fileInputId + ':dipsaus.directoryInput.file', fileData, {
+          priority: 'event'
+        });
+      }
+    },
+    
+    _updateFileStatus: function(el, fileId, statusData) {
+      const $el = $(el);
+      const inputId = $el.attr('id');
+      const statusInputId = `${inputId}__status`;
+      const fileStatus = $el.data('fileStatus');
+      
+      if(window.Shiny && Shiny.setInputValue) {
+        // Send updated status table as array
+        const statusTable = Object.keys(fileStatus).map(fid => {
+          const status = fileStatus[fid];
+          return {
+            fileId: fid,
+            name: status.name,
+            relativePath: status.relativePath,
+            status: status.status,
+            progress: status.progress,
+            error: status.error !== null && status.error !== undefined ? String(status.error) : ""
+          };
+        });
+        
+        // Send with type suffix to trigger custom input handler
+        Shiny.setInputValue(statusInputId + ':dipsaus.directoryInput.status', statusTable, {
+          priority: 'event'
+        });
+      }
     },
 
     _uploadFiles: async function(el, files, $progressBar, $progress) {
@@ -251,7 +517,10 @@ export function register_directoryInput(Shiny, debug = false) {
       // Get max file size from data attribute (in bytes)
       // This is set by R based on maxSize parameter or shiny.maxRequestSize option
       const maxFileSizeAttr = $el.attr('data-max-file-size');
-      const MAX_BASE64_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024); // Default 5MB to match Shiny default
+      const MAX_TOTAL_FILE_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024); // Default 5MB to match Shiny default
+      
+      // Chunk size for large files (5MB)
+      const CHUNK_SIZE = 5 * 1024 * 1024;
       
       for(let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -260,37 +529,84 @@ export function register_directoryInput(Shiny, debug = false) {
         // Update progress with file count
         $progressBar.text((i + 1) + ' / ' + files.length + ' files');
         
-        if(file.size <= MAX_BASE64_SIZE) {
-          // Read file as base64 for small files
+        if(file.size <= MAX_TOTAL_FILE_SIZE) {
           try {
-            const fileData = await new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                resolve(e.target.result); // This is the base64 data URL
-              };
-              reader.onerror = function(err) {
-                reject(new Error('Failed to read file: ' + file.name));
-              };
-              // Add timeout to prevent hanging
-              const timeout = setTimeout(() => {
-                reader.abort();
-                reject(new Error('Timeout reading file: ' + file.name));
-              }, 30000); // 30 second timeout per file
+            // Check if file needs chunking (> 5MB)
+            if(file.size > CHUNK_SIZE) {
+              // Read file in chunks to avoid string length limitations
+              const chunks = [];
+              const numChunks = Math.ceil(file.size / CHUNK_SIZE);
               
-              reader.readAsDataURL(file);
-              reader.onloadend = function() {
-                clearTimeout(timeout);
-              };
-            });
-            
-            uploadedFiles.push({
-              name: file.name,
-              size: file.size,
-              type: file.type,
-              datapath: null, // Will be created server-side
-              relativePath: relativePath,
-              base64data: fileData
-            });
+              for(let chunkIndex = 0; chunkIndex < numChunks; chunkIndex++) {
+                const start = chunkIndex * CHUNK_SIZE;
+                const end = Math.min(start + CHUNK_SIZE, file.size);
+                const chunk = file.slice(start, end);
+                
+                const chunkData = await new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    resolve(e.target.result); // This is the base64 data URL
+                  };
+                  reader.onerror = function(err) {
+                    reject(new Error('Failed to read file chunk: ' + file.name));
+                  };
+                  // Add timeout to prevent hanging
+                  const timeout = setTimeout(() => {
+                    reader.abort();
+                    reject(new Error('Timeout reading file chunk: ' + file.name));
+                  }, 30000); // 30 second timeout per chunk
+                  
+                  reader.readAsDataURL(chunk);
+                  reader.onloadend = function() {
+                    clearTimeout(timeout);
+                  };
+                });
+                
+                chunks.push(chunkData);
+              }
+              
+              uploadedFiles.push({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                datapath: null, // Will be created server-side
+                relativePath: relativePath,
+                base64data: chunks, // Array of base64 chunks
+                chunked: true,
+                numChunks: numChunks
+              });
+            } else {
+              // Read file as single base64 string for small files
+              const fileData = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  resolve(e.target.result); // This is the base64 data URL
+                };
+                reader.onerror = function(err) {
+                  reject(new Error('Failed to read file: ' + file.name));
+                };
+                // Add timeout to prevent hanging
+                const timeout = setTimeout(() => {
+                  reader.abort();
+                  reject(new Error('Timeout reading file: ' + file.name));
+                }, 30000); // 30 second timeout per file
+                
+                reader.readAsDataURL(file);
+                reader.onloadend = function() {
+                  clearTimeout(timeout);
+                };
+              });
+              
+              uploadedFiles.push({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                datapath: null, // Will be created server-side
+                relativePath: relativePath,
+                base64data: fileData,
+                chunked: false
+              });
+            }
           } catch(err) {
             console.error('Error reading file:', file.name, err);
             uploadedFiles.push({
@@ -304,8 +620,8 @@ export function register_directoryInput(Shiny, debug = false) {
             });
           }
         } else {
-          // For large files, skip them with a warning
-          console.warn('Skipping large file (>' + (MAX_BASE64_SIZE / 1024 / 1024) + 'MB):', file.name, '(' + (file.size / 1024 / 1024).toFixed(2) + 'MB)');
+          // For files exceeding the total size limit, skip them with a warning
+          console.warn('Skipping large file (>' + (MAX_TOTAL_FILE_SIZE / 1024 / 1024) + 'MB):', file.name, '(' + (file.size / 1024 / 1024).toFixed(2) + 'MB)');
           
           uploadedFiles.push({
             name: file.name,

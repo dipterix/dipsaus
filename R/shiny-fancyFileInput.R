@@ -67,11 +67,27 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #' @param size height of the widget, choices are \code{'s'}, \code{'m'}, \code{'l'}, and \code{'xl'}
 #' @param maxSize maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)
 #' @param ... additional arguments (currently unused)
-#' @returns A data frame with components: \code{name} (file name),
-#' \code{size} (file size in bytes), \code{type} (MIME type), \code{datapath}
-#' (temporary file path on server), and \code{relativePath} (full relative path
-#' including subdirectories). The data frame also has an attribute \code{directoryStructure}
-#' containing a nested list representing the directory tree.
+#' @returns A reactive data frame with components: \code{fileId} (unique file identifier),
+#' \code{name} (file name), \code{size} (file size in bytes), \code{type} (MIME type), 
+#' \code{datapath} (temporary file path on server), and \code{relativePath} 
+#' (full relative path including subdirectories). The data frame also has attributes:
+#' \code{directoryStructure} (nested list representing the directory tree),
+#' \code{ready} (logical indicating if all files are processed),
+#' \code{totalFiles} (total number of files), and \code{upload_status} (one of 
+#' "initialized", "completed", or "errored").
+#' 
+#' \strong{Important:} The \code{datapath} column is \code{NA} initially when 
+#' \code{upload_status = "initialized"}. The input automatically updates when all files 
+#' complete (\code{upload_status = "completed"}), and \code{datapath} values are 
+#' populated with server file paths. Check \code{attr(input$<inputId>, "upload_status")} 
+#' to determine when files are ready.
+#' 
+#' Optional real-time tracking: Individual file data is available via 
+#' \code{input$<inputId>__file} as files upload. File processing status can be 
+#' tracked via \code{input$<inputId>__status}, which returns a data frame with columns: 
+#' \code{fileId}, \code{name}, \code{relativePath}, \code{status} 
+#' (pending/processing/complete/error/skipped), \code{progress} (0-100), and 
+#' \code{error} (error message if any).
 #' @details
 #' The directory input uses the \code{webkitdirectory} HTML attribute which is
 #' not part of the HTML5 standard but is widely supported. Browser compatibility:
@@ -102,16 +118,59 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #'   shinyApp(
 #'     ui,
 #'     server = function(input, output, session){
+#'       # Observe directory upload - updates automatically when complete
 #'       observeEvent(input$dir_input, {
 #'         files <- input$dir_input
 #'         if(!is.null(files)) {
-#'           cat("Uploaded files:\n")
-#'           print(files[, c("name", "size", "relativePath")])
-#'
-#'           # Access directory structure
-#'           dir_struct <- attr(files, "directoryStructure")
-#'           cat("\nDirectory structure:\n")
-#'           print(str(dir_struct))
+#'           upload_status <- attr(files, "upload_status")
+#'           
+#'           cat("Directory upload event:\n")
+#'           cat("  Status:", upload_status, "\n")
+#'           cat("  Total files:", attr(files, "totalFiles"), "\n")
+#'           cat("  Ready:", attr(files, "ready"), "\n")
+#'           
+#'           if(upload_status == "completed") {
+#'             # All files uploaded - datapaths are now populated!
+#'             cat("\nAll files uploaded successfully!\n")
+#'             cat("Files with datapaths:\n")
+#'             print(files[!is.na(files$datapath), 
+#'                         c("name", "relativePath", "datapath")])
+#'             
+#'             # Now you can process all files
+#'             for(i in seq_len(nrow(files))) {
+#'               if(!is.na(files$datapath[i])) {
+#'                 cat("\nProcessing:", files$name[i], "\n")
+#'                 cat("  Server path:", files$datapath[i], "\n")
+#'                 cat("  File size:", file.size(files$datapath[i]), "bytes\n")
+#'               }
+#'             }
+#'           } else if(upload_status == "initialized") {
+#'             # Initial metadata - datapaths are NA at this point
+#'             cat("Upload started, processing files...\n")
+#'             
+#'             # Access directory structure
+#'             dir_struct <- attr(files, "directoryStructure")
+#'             cat("\nDirectory structure:\n")
+#'             print(str(dir_struct, max.level = 2))
+#'           }
+#'         }
+#'       })
+#'       
+#'       # Optional: Track individual files as they upload (real-time)
+#'       observeEvent(input$dir_input__file, {
+#'         file_data <- input$dir_input__file
+#'         if(!is.null(file_data) && !is.na(file_data$datapath)) {
+#'           cat("File uploaded:", file_data$name, "->", file_data$datapath, "\n")
+#'         }
+#'       })
+#'       
+#'       # Optional: Monitor upload progress
+#'       observeEvent(input$dir_input__status, {
+#'         status <- input$dir_input__status
+#'         if(!is.null(status) && is.data.frame(status)) {
+#'           completed <- sum(status$status == "complete")
+#'           total <- nrow(status)
+#'           cat("Progress:", completed, "/", total, "files\n")
 #'         }
 #'       })
 #'     },
@@ -201,7 +260,348 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
         style = "display: none;",
         shiny::div(class = "progress-bar")
       )
+    ),
+    
+    # Hidden inputs for file data and status tracking
+    shiny::tags$input(
+      id = paste0(inputId, "__file"),
+      class = "dipsaus-directory-file-data",
+      type = "hidden",
+      `data-input-binding` = "dipsaus.directoryInput.file"
+    ),
+    shiny::tags$input(
+      id = paste0(inputId, "__status"),
+      class = "dipsaus-directory-file-status",
+      type = "hidden",
+      `data-input-binding` = "dipsaus.directoryInput.status"
     )
   )
 
+}
+
+
+# Internal function to register directory input handlers
+# Called from .onLoad in zzz.R
+registerDirectoryInputHandlers <- function() {
+  
+  # Internal operator for default values
+  `%||%` <- function(x, y) {
+    if(is.null(x)) y else x
+  }
+  
+  # Register input handler for directory inputs (initial metadata)
+  shiny::registerInputHandler("dipsaus.directoryInput", function(data, shinysession, name) {
+    if(is.null(data)) {
+      return(NULL)
+    }
+    
+    # Get or create session-specific storage
+    session_token <- shinysession$token
+    state_key <- paste0(session_token, "_", name)
+    
+    # cat("[Main Handler] Called for input:", name, "\n")
+    # cat("  Has 'value' property:", !is.null(data$value), "\n")
+    # cat("  Has 'fileMetadata' property:", !is.null(data$fileMetadata), "\n")
+    # cat("  upload_status:", data$upload_status %||% "not set", "\n")
+    
+    # Check if this is a state retrieval call (value property present)
+    if(!is.null(data$value) && is.data.frame(data$value)) {
+      # cat("[Main Handler] Returning updated state from storage\n")
+      # Return the current state from storage
+      if(exists(state_key, envir = .directory_upload_state)) {
+        state <- .directory_upload_state[[state_key]]
+        # cat("  Datapaths in state:", sum(!is.na(state$df$datapath)), "/", nrow(state$df), "\n")
+        return(state$df)
+      }
+      # cat("  State not found, returning data$value\n")
+      return(data$value)
+    }
+    
+    if(!is.null(data$fileMetadata) && length(data$fileMetadata) > 0) {
+      # Check if this is a completion update (upload_status = completed)
+      if((data$upload_status %||% "initialized") %in% c("completed", "errored")) {
+        # cat("[Main Handler] Upload complete! Returning state with datapaths\n")
+        # Return the updated state with datapaths
+        if(exists(state_key, envir = .directory_upload_state)) {
+          state <- .directory_upload_state[[state_key]]
+          # cat("  Datapaths in state:", sum(!is.na(state$df$datapath)), "/", nrow(state$df), "\n")
+          
+          # Copy attributes from new data
+          attr(state$df, "directoryStructure") <- data$directoryStructure
+          attr(state$df, "ready") <- data$ready
+          attr(state$df, "totalFiles") <- data$totalFiles
+          attr(state$df, "upload_status") <- data$upload_status
+          
+          return(state$df)
+        }
+      }
+      
+      # cat("[Main Handler] Initializing new directory upload\n")
+      # New incremental format - initialize metadata
+      df <- data.frame(
+        fileId = sapply(data$fileMetadata, function(x) x$fileId),
+        name = sapply(data$fileMetadata, function(x) x$name),
+        size = sapply(data$fileMetadata, function(x) x$size),
+        type = sapply(data$fileMetadata, function(x) x$type),
+        relativePath = sapply(data$fileMetadata, function(x) x$relativePath),
+        datapath = NA_character_,  # Will be filled as files arrive
+        stringsAsFactors = FALSE
+      )
+      
+      # Attach directory structure and metadata
+      attr(df, "directoryStructure") <- data$directoryStructure
+      attr(df, "ready") <- data$ready
+      attr(df, "totalFiles") <- data$totalFiles
+      attr(df, "upload_status") <- data$upload_status %||% "initialized"
+      
+      # Store initial state
+      .directory_upload_state[[state_key]] <- list(
+        df = df,
+        total_files = data$totalFiles,
+        completed_files = 0
+      )
+      
+      # cat("  State key:", state_key, "\n")
+      # cat("  Total files:", data$totalFiles, "\n")
+      
+      return(df)
+    } else {
+      # Legacy format for backward compatibility
+      datapaths <- character(length(data$name))
+      
+      for(i in seq_along(data$name)) {
+        tryCatch({
+          if(!is.null(data$base64data[[i]]) && length(data$base64data[[i]]) > 0) {
+            # Handle both chunked and non-chunked data
+            base64_data <- data$base64data[[i]]
+            
+            if(is.list(base64_data) || length(base64_data) > 1) {
+              # Chunked data - reconstruct from chunks
+              binary_data <- raw(0)
+              for(chunk in base64_data) {
+                chunk_string <- chunk
+                if(grepl("^data:", chunk_string)) {
+                  chunk_string <- sub("^data:[^,]*,", "", chunk_string)
+                }
+                binary_data <- c(binary_data, base64enc::base64decode(chunk_string))
+              }
+            } else {
+              # Single base64 string
+              base64_string <- base64_data
+              if(grepl("^data:", base64_string)) {
+                base64_string <- sub("^data:[^,]*,", "", base64_string)
+              }
+              binary_data <- base64enc::base64decode(base64_string)
+            }
+            
+            # Create temp file with original filename
+            temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name[[i]])))
+            writeBin(binary_data, temp_file)
+            datapaths[i] <- temp_file
+          } else {
+            datapaths[i] <- NA_character_
+          }
+        }, error = function(e) {
+          warning("Failed to process file ", data$name[[i]], ": ", e$message)
+          datapaths[i] <<- NA_character_
+        })
+      }
+      
+      df <- data.frame(
+        name = unlist(data$name),
+        size = unlist(data$size),
+        type = unlist(data$type),
+        datapath = datapaths,
+        relativePath = unlist(data$relativePath),
+        stringsAsFactors = FALSE
+      )
+      
+      if(!is.null(data$directoryStructure)) {
+        attr(df, "directoryStructure") <- data$directoryStructure
+      }
+      
+      return(df)
+    }
+  }, force = TRUE)
+  
+  # Register input handler for individual file data (__file)
+  shiny::registerInputHandler("dipsaus.directoryInput.file", function(data, shinysession, name) {
+    if(is.null(data)) {
+      return(NULL)
+    }
+    
+    # Extract the base input name (remove __file suffix)
+    base_name <- sub("__file$", "", name)
+    session_token <- shinysession$token
+    state_key <- paste0(session_token, "_", base_name)
+    
+    tryCatch({
+      # Process individual file data
+      datapath <- NA_character_
+      error_msg <- NULL
+      
+      if(!is.null(data$base64data) && length(data$base64data) > 0) {
+        base64_data <- data$base64data
+        
+        if(data$chunked %||% FALSE) {
+          # Chunked data - reconstruct from chunks
+          binary_data <- raw(0)
+          for(chunk in base64_data) {
+            chunk_string <- chunk
+            if(grepl("^data:", chunk_string)) {
+              chunk_string <- sub("^data:[^,]*,", "", chunk_string)
+            }
+            binary_data <- c(binary_data, base64enc::base64decode(chunk_string))
+          }
+        } else {
+          # Single base64 string
+          base64_string <- base64_data
+          if(grepl("^data:", base64_string)) {
+            base64_string <- sub("^data:[^,]*,", "", base64_string)
+          }
+          binary_data <- base64enc::base64decode(base64_string)
+        }
+        
+        # Create temp file with original filename
+        temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name)))
+        writeBin(binary_data, temp_file)
+        datapath <- temp_file
+      } else {
+        # File was skipped or had error
+        error_msg <- data$`_error` %||% if(data$`_tooLarge` %||% FALSE) "File too large" else "Unknown error"
+      }
+      
+      # Update the stored state with this file's datapath
+      if(exists(state_key, envir = .directory_upload_state)) {
+        state <- .directory_upload_state[[state_key]]
+        file_idx <- which(state$df$fileId == data$fileId)
+        
+        if(length(file_idx) > 0) {
+          state$df$datapath[file_idx] <- datapath
+          state$completed_files <- state$completed_files + 1
+          
+          # cat("[File Handler] Processed file", state$completed_files, "/", state$total_files, "\n")
+          # cat("  File:", data$name, "\n")
+          # cat("  Datapath:", datapath, "\n")
+          
+          # Update the state
+          .directory_upload_state[[state_key]] <- state
+          
+          # If all files are complete, trigger an update to the main input
+          if(state$completed_files >= state$total_files) {
+            # cat("[File Handler] All files complete!\n")
+            # cat("  Total datapaths populated:", sum(!is.na(state$df$datapath)), "/", nrow(state$df), "\n")
+            # cat("  JavaScript will resend the data to trigger main handler\n")
+          }
+        } else {
+          # cat("[File Handler] WARNING: fileId", data$fileId, "not found in state\n")
+        }
+      } else {
+        # cat("[File Handler] WARNING: state_key", state_key, "not found\n")
+      }
+      
+      return(list(
+        fileId = data$fileId,
+        name = data$name,
+        size = data$size,
+        type = data$type,
+        relativePath = data$relativePath,
+        datapath = datapath,
+        error = error_msg
+      ))
+    }, error = function(e) {
+      warning("Failed to process file ", data$name, ": ", e$message)
+      return(list(
+        fileId = data$fileId,
+        name = data$name,
+        size = data$size,
+        type = data$type,
+        relativePath = data$relativePath,
+        datapath = NA_character_,
+        error = e$message
+      ))
+    })
+  }, force = TRUE)
+  
+  # Register input handler for file status table (__status)
+  shiny::registerInputHandler("dipsaus.directoryInput.status", function(data, shinysession, name) {
+    if(is.null(data) || length(data) == 0) {
+      return(NULL)
+    }
+    
+    # Check if data is already a data frame
+    if(is.data.frame(data)) {
+      return(data)
+    }
+    
+    # Check if it's a list of lists (expected format)
+    if(is.list(data) && length(data) > 0 && is.list(data[[1]])) {
+      # Convert list to data frame
+      df <- data.frame(
+        fileId = sapply(data, function(x) x$fileId %||% NA_character_),
+        name = sapply(data, function(x) x$name %||% NA_character_),
+        relativePath = sapply(data, function(x) x$relativePath %||% NA_character_),
+        status = sapply(data, function(x) x$status %||% NA_character_),
+        progress = sapply(data, function(x) x$progress %||% 0),
+        error = sapply(data, function(x) x$error %||% NA_character_),
+        stringsAsFactors = FALSE
+      )
+      return(df)
+    }
+    
+    # If it's a flat named vector (which seems to be happening), try to reconstruct
+    if(is.vector(data) && !is.null(names(data))) {
+      # Data came as a flattened structure - need to reconstruct
+      # Get unique field names to determine pattern
+      field_names <- unique(names(data))
+      n_fields <- length(field_names)
+      n_records <- length(data) / n_fields
+      
+      # Removed cat() calls for CRAN compliance
+      # cat("Reconstructing from flat vector:\n")
+      # cat("  Unique fields:", paste(field_names, collapse=", "), "\n")
+      # cat("  Fields per record:", n_fields, "\n")
+      # cat("  Number of records:", n_records, "\n")
+      
+      if(length(data) %% n_fields == 0 && n_records == floor(n_records)) {
+        # Create a matrix and then data frame
+        data_names <- names(data)
+        
+        # Initialize lists for each field
+        field_lists <- list()
+        for(field in field_names) {
+          field_lists[[field]] <- data[data_names == field]
+        }
+        
+        # Create data frame
+        df <- as.data.frame(field_lists, stringsAsFactors = FALSE)
+        
+        # Convert progress to numeric if it exists
+        if("progress" %in% names(df)) {
+          df$progress <- as.numeric(df$progress)
+        }
+        
+        # Handle error field - add if missing
+        if(!"error" %in% names(df)) {
+          df$error <- NA_character_
+        } else {
+          # Replace "null" strings with NA
+          df$error[df$error == "null" | df$error == ""] <- NA_character_
+        }
+        
+        # Removed cat() call for CRAN compliance
+        # cat("  Successfully reconstructed data frame with", nrow(df), "rows\n\n")
+        return(df)
+      } else {
+        # Removed cat() call for CRAN compliance
+        # cat("  ERROR: Length mismatch -", length(data), "elements cannot be divided into", n_fields, "fields\n\n")
+      }
+    }
+    
+    # Fallback: return NULL if we can't parse it
+    warning("Unable to parse status data structure")
+    return(NULL)
+  }, force = TRUE)
+  
+  invisible(TRUE)
 }
