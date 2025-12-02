@@ -8020,6 +8020,32 @@ function register_directoryInput(Shiny, debug = false) {
       // Trigger initial callback to send metadata
       callback(true);
       
+      // Initialize progress2 if enabled
+      const progressEnabled = $el.attr('data-progress-enabled') === 'true';
+      const progressTitle = $el.attr('data-progress-title') || 'Uploading directory';
+      let progressId = null;
+      
+      if(debug) {
+        console.log('Progress settings:');
+        console.log('  data-progress-enabled:', $el.attr('data-progress-enabled'));
+        console.log('  progressEnabled:', progressEnabled);
+        console.log('  progressTitle:', progressTitle);
+        console.log('  window.Shiny available:', !!window.Shiny);
+      }
+      
+      if(progressEnabled && window.Shiny) {
+        progressId = `${inputId}_upload_progress`;
+        if(debug) {
+          console.log('Initializing progress2 with ID:', progressId);
+        }
+        Shiny.setInputValue(progressId + '_start', {
+          title: progressTitle,
+          max: files.length,
+          shiny: true,
+          quiet: false
+        }, {priority: 'event'});
+      }
+      
       // Now process files one by one
       const maxFileSizeAttr = $el.attr('data-max-file-size');
       const MAX_TOTAL_FILE_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024);
@@ -8159,6 +8185,19 @@ function register_directoryInput(Shiny, debug = false) {
           // Update file status
           this._updateFileStatus(el, fileId, fileStatus[fileId]);
           
+          // Update progress2 if enabled
+          if(progressEnabled && progressId && window.Shiny) {
+            if(debug) {
+              console.log('Sending progress update:', (i + 1), '/', files.length, '-', file.name);
+            }
+            Shiny.setInputValue(progressId + '_update', {
+              inc: 1,
+              current: i + 1,
+              total: files.length,
+              filename: file.name
+            }, {priority: 'event'});
+          }
+          
         } catch(err) {
           console.error('Error processing file:', file.name, err);
           fileStatus[fileId].status = 'error';
@@ -8188,6 +8227,14 @@ function register_directoryInput(Shiny, debug = false) {
       initialData.upload_status = hasErrors ? 'errored' : 'completed';
       
       $el.data('uploadInfo', initialData);
+      
+      // Close progress2 if enabled
+      if(progressEnabled && progressId && window.Shiny) {
+        if(debug) {
+          console.log('Closing progress2:', progressId);
+        }
+        Shiny.setInputValue(progressId + '_close', true, {priority: 'event'});
+      }
       
       // Trigger a final update to the main input with completed status
       // This allows R to know all files are done

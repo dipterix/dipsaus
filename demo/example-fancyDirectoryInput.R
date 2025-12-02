@@ -31,7 +31,8 @@ ui <- fluidPage(
       fancyDirectoryInput(
         'directory_upload',
         "Select Directory",
-        size = "l"
+        size = "l",
+        progress = "Loading files"
       ),
 
       hr(),
@@ -115,6 +116,10 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+
+  # Enable progress tracking
+  cat("[DEBUG demo] Setting up progress observers for: directory_upload\n")
+  observeDirectoryProgress("directory_upload")
 
   # Reactive values for status tracking (optional for advanced view)
   file_status <- reactiveVal(NULL)
