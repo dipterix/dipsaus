@@ -7784,6 +7784,21 @@ function register_directoryInput(Shiny, debug = false) {
     return;
   }
 
+  // Run feature detection
+  let supportsFileSystemAccessAPI = false;
+  let supportsWebkitGetAsEntry = false;
+  try {
+    supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
+    supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
+  } catch (e) {
+    // Feature detection failed, both will remain false
+  }
+
+  if(debug) {
+    console.log('File System Access API support:', supportsFileSystemAccessAPI);
+    console.log('Webkit GetAsEntry support:', supportsWebkitGetAsEntry);
+  }
+
   // Create a new input binding for directory inputs with higher priority
   const directoryInputBinding = new Shiny.InputBinding();
 
@@ -7844,22 +7859,16 @@ function register_directoryInput(Shiny, debug = false) {
         
         const items = e.originalEvent.dataTransfer.items;
         if(items && items.length > 0) {
-          // Check if we can access directory structure
-          const item = items[0];
-          if(item.webkitGetAsEntry) {
-            const entry = item.webkitGetAsEntry();
-            if(entry && entry.isDirectory) {
-              // Collect all files from the dropped directory
-              const files = await binding._collectFilesFromEntry(entry);
-              if(files.length > 0) {
-                // Create a new FileList-like object
-                const dataTransfer = new DataTransfer();
-                files.forEach(f => dataTransfer.items.add(f));
-                $fileInput[0].files = dataTransfer.files;
-                $fileInput.trigger('change');
-              }
-              return;
-            }
+          // Try to collect files from the dropped item using modern API first
+          const dataItems = [...items];
+          const files = await binding._extractFilesFromDataItems(dataItems);
+          
+          if(files.length > 0) {
+            // Create a new FileList-like object
+            const dataTransfer = new DataTransfer();
+            files.forEach(f => dataTransfer.items.add(f));
+            $fileInput[0].files = dataTransfer.files;
+            $fileInput.trigger('change');
           }
         }
       });
@@ -7907,16 +7916,32 @@ function register_directoryInput(Shiny, debug = false) {
 
         // Filter out hidden files
         const filteredFiles = [];
+        let totalSize = 0;
         for(let i = 0; i < files.length; i++) {
           const file = files[i];
           const pathParts = (file.webkitRelativePath || file.name).split('/');
           const isHidden = pathParts.some(part => part.startsWith('.'));
           if(!isHidden) {
             filteredFiles.push(file);
+            totalSize += file.size;
           }
         }
 
         if(filteredFiles.length === 0) {
+          $el.data('uploadInfo', null);
+          callback(false);
+          return;
+        }
+        
+        // Check total size to prevent memory issues
+        const maxFileSizeAttr = $el.attr('data-max-file-size');
+        const MAX_BASE64_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024);
+        const maxTotalSize = MAX_BASE64_SIZE * filteredFiles.length;
+        
+        if(totalSize > maxTotalSize) {
+          const totalSizeMB = (totalSize / 1024 / 1024).toFixed(2);
+          const maxTotalSizeMB = (maxTotalSize / 1024 / 1024).toFixed(2);
+          alert(`Total directory size (${totalSizeMB} MB) exceeds the maximum allowed (${maxTotalSizeMB} MB). Please select a smaller directory or increase the file size limit.`);
           $el.data('uploadInfo', null);
           callback(false);
           return;
@@ -8010,27 +8035,49 @@ function register_directoryInput(Shiny, debug = false) {
         
         if(file.size <= MAX_BASE64_SIZE) {
           // Read file as base64 for small files
-          const fileData = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              resolve(e.target.result); // This is the base64 data URL
-            };
-            reader.onerror = function() {
-              reject(new Error('Failed to read file: ' + file.name));
-            };
-            reader.readAsDataURL(file);
-          });
-          
-          uploadedFiles.push({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            datapath: null, // Will be created server-side
-            relativePath: relativePath,
-            base64data: fileData
-          });
+          try {
+            const fileData = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                resolve(e.target.result); // This is the base64 data URL
+              };
+              reader.onerror = function(err) {
+                reject(new Error('Failed to read file: ' + file.name));
+              };
+              // Add timeout to prevent hanging
+              const timeout = setTimeout(() => {
+                reader.abort();
+                reject(new Error('Timeout reading file: ' + file.name));
+              }, 30000); // 30 second timeout per file
+              
+              reader.readAsDataURL(file);
+              reader.onloadend = function() {
+                clearTimeout(timeout);
+              };
+            });
+            
+            uploadedFiles.push({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              datapath: null, // Will be created server-side
+              relativePath: relativePath,
+              base64data: fileData
+            });
+          } catch(err) {
+            console.error('Error reading file:', file.name, err);
+            uploadedFiles.push({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              datapath: null,
+              relativePath: relativePath,
+              base64data: null,
+              _error: err.message
+            });
+          }
         } else {
-          // For large files (>50MB), skip them with a warning
+          // For large files, skip them with a warning
           console.warn('Skipping large file (>' + (MAX_BASE64_SIZE / 1024 / 1024) + 'MB):', file.name, '(' + (file.size / 1024 / 1024).toFixed(2) + 'MB)');
           
           uploadedFiles.push({
@@ -8059,59 +8106,165 @@ function register_directoryInput(Shiny, debug = false) {
       };
     },
 
-    _collectFilesFromEntry: async function(entry, path = '') {
+    // Extract files from data transfer items using modern API with fallbacks
+    _extractFilesFromDataItems: async function(dataItems) {
       const files = [];
-      
-      if(entry.isFile) {
-        // Get the file
-        const file = await new Promise((resolve, reject) => {
-          entry.file(resolve, reject);
-        });
-        
-        // Add relative path to the file object
-        const fullPath = path ? path + '/' + file.name : file.name;
-        Object.defineProperty(file, 'webkitRelativePath', {
-          value: fullPath,
-          writable: false
-        });
-        
-        // Skip hidden files
-        if(!file.name.startsWith('.')) {
-          files.push(file);
-        }
-        
-      } else if(entry.isDirectory) {
-        const dirReader = entry.createReader();
-        
-        // Read all entries in this directory
-        const entries = await new Promise((resolve, reject) => {
-          const allEntries = [];
-          
-          function readEntries() {
-            dirReader.readEntries(function(results) {
-              if(results.length === 0) {
-                resolve(allEntries);
-              } else {
-                allEntries.push(...results);
-                readEntries();
-              }
-            }, reject);
+
+      // Collect entries immediately
+      const items = dataItems
+        .filter(item => item.kind === 'file')
+        .map(item => {
+          if (supportsFileSystemAccessAPI && typeof item.getAsFileSystemHandle === 'function') {
+            return {
+              'type': 'FileSystemHandle',
+              'entry': item.getAsFileSystemHandle() // Promise
+            };
           }
-          
-          readEntries();
+          if (supportsWebkitGetAsEntry && typeof item.webkitGetAsEntry === 'function') {
+            return {
+              'type': 'WebkitEntry',
+              'entry': item.webkitGetAsEntry()
+            };
+          }
+          return {
+            'type': 'Naive',
+            'entry': item
+          };
         });
-        
-        // Recursively collect files from subdirectories
-        const newPath = path ? path + '/' + entry.name : entry.name;
-        for(const subEntry of entries) {
-          // Skip hidden directories
-          if(!subEntry.name.startsWith('.')) {
-            const subFiles = await this._collectFilesFromEntry(subEntry, newPath);
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        if(!item || !item.entry) { continue; }
+
+        switch (item.type) {
+          case 'FileSystemHandle':
+          {
+            const entry = await item.entry;
+            if(debug) {
+              console.debug(`Using FileSystemAccessAPI to open [${ entry.name }]`);
+            }
+            const subFiles = await this._collectFilesFromFileSystemHandle(entry);
             files.push(...subFiles);
+            break;
+          }
+
+          case 'WebkitEntry':
+          {
+            if(debug) {
+              console.debug(`Using WebkitGetAsEntry to open [${ item.entry.name }]`);
+            }
+            const subFiles = await this._collectFilesFromWebkitEntry(item.entry);
+            files.push(...subFiles);
+            break;
+          }
+
+          default:
+          {
+            const file = item.entry.getAsFile();
+            if(debug) {
+              console.debug(`Using Naive method to open the file ${ file ? file.name : 'unknown' }`);
+            }
+            if(file && !file.name.startsWith('.')) {
+              files.push(file);
+            }
           }
         }
       }
+
+      return files;
+    },
+
+    // Collect files from File System Access API handle
+    _collectFilesFromFileSystemHandle: async function(entry, path = '') {
+      const files = [];
+
+      const handleEntry = async (e, currentPath) => {
+        // Skip hidden files and directories
+        if(e.name.startsWith('.')) {
+          return;
+        }
+
+        if(e.kind === 'file') {
+          const file = await e.getFile();
+          
+          // Add relative path to the file object
+          const fullPath = currentPath ? currentPath + '/' + file.name : file.name;
+          Object.defineProperty(file, 'webkitRelativePath', {
+            value: fullPath,
+            writable: false
+          });
+          
+          files.push(file);
+        } else if (e.kind === 'directory') {
+          const newPath = currentPath ? currentPath + '/' + e.name : e.name;
+          for await (const [name, child] of e.entries()) {
+            await handleEntry(child, newPath);
+          }
+        }
+      };
+
+      await handleEntry(entry, path);
+      return files;
+    },
+
+    // Collect files from webkit entry (legacy API)
+    _collectFilesFromWebkitEntry: async function(entry, path = '') {
+      const files = [];
       
+      const handleEntry = async (e, currentPath) => {
+        // Skip hidden files and directories
+        if(e.name.startsWith('.')) {
+          return;
+        }
+
+        if (e.isFile) {
+          const file = await new Promise((resolve, reject) => {
+            e.file((file) => {
+              if(file) {
+                // Add relative path to the file object
+                const fullPath = currentPath ? currentPath + '/' + file.name : file.name;
+                Object.defineProperty(file, 'webkitRelativePath', {
+                  value: fullPath,
+                  writable: false
+                });
+                resolve(file);
+              } else {
+                resolve(null);
+              }
+            }, resolve);
+          });
+          
+          if(file) {
+            files.push(file);
+          }
+        } else if (e.isDirectory) {
+          const reader = e.createReader();
+          const entries = await new Promise((resolve, reject) => {
+            const allEntries = [];
+            
+            function readEntries() {
+              reader.readEntries(async (results) => {
+                if(results.length === 0) {
+                  resolve(allEntries);
+                } else {
+                  allEntries.push(...results);
+                  readEntries();
+                }
+              }, resolve);
+            }
+            
+            readEntries();
+          });
+          
+          const newPath = currentPath ? currentPath + '/' + e.name : e.name;
+          for (const subEntry of entries) {
+            await handleEntry(subEntry, newPath);
+          }
+        }
+      };
+
+      await handleEntry(entry, path);
       return files;
     },
 
