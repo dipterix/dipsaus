@@ -44,7 +44,7 @@ A numerical number that is the standard error of the mean
 x <- rnorm(100)
 
 ste_mean(x)
-#> [1] 0.08731551
+#> [1] 0.08364016
 
 # internal implementation
 identical(ste_mean(x), sd(x) / sqrt(100))

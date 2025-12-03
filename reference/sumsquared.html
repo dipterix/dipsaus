@@ -9,7 +9,7 @@ elements exceeds 1000."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@ elements exceeds 1000.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sumsquared</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10007.41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9894.404</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare speed</span></span></span>
 <span class="r-in"><span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span></span>
@@ -73,9 +73,9 @@ elements exceeds 1000.</p>
 <span class="r-in"><span>  r <span class="op">=</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min     lq     mean  median     uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 37.881 38.076 39.45033 38.2065 38.497 125.845   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     r 26.790 27.717 28.80169 28.2830 28.804  41.558   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min     lq     mean median      uq    max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 37.830 37.981 38.63049 38.076 38.2865 51.697   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r 25.247 25.713 26.63691 25.999 26.9055 36.728   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

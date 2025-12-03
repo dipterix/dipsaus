@@ -40,5 +40,5 @@ and standard error of mean
 # standard error of mean should be near 0.01
 mean_se(rnorm(10000))
 #>         mean           se 
-#> -0.022124931  0.009902568 
+#> 0.0001562168 0.0100043383 
 ```

@@ -51,6 +51,7 @@
 <url><loc>https://dipterix.org/dipsaus/reference/forelse.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/getInputBinding.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/get_credential.html</loc></url>
+<url><loc>https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/get_dots.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/get_ip.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/get_os.html</loc></url>
@@ -80,6 +81,7 @@
 <url><loc>https://dipterix.org/dipsaus/reference/mem_limit2.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/new_function2.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/no_op.html</loc></url>
+<url><loc>https://dipterix.org/dipsaus/reference/observeDirectoryProgress.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/package_installed.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/parse_svec.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/print_directory_tree.html</loc></url>

@@ -261,6 +261,9 @@ install.packages("dipsaus")
 - [`get_credential()`](https://dipterix.org/dipsaus/reference/get_credential.md)
   : Generate a random password
 
+- [`get_dipsaus_upload_dir()`](https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.md)
+  : Get upload directory for fancyDirectoryInput
+
 - [`get_dots()`](https://dipterix.org/dipsaus/reference/get_dots.md)
   [`missing_dots()`](https://dipterix.org/dipsaus/reference/get_dots.md)
   :
@@ -368,6 +371,9 @@ install.packages("dipsaus")
 
 - [`no_op()`](https://dipterix.org/dipsaus/reference/no_op.md) :
   Pipe-friendly no-operation function
+
+- [`observeDirectoryProgress()`](https://dipterix.org/dipsaus/reference/observeDirectoryProgress.md)
+  : Enable progress tracking for directory uploads
 
 - [`package_installed()`](https://dipterix.org/dipsaus/reference/package_installed.md)
   : Check if a package is installed
