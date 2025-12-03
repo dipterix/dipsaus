@@ -68,6 +68,10 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #' @param maxSize maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)
 #' @param progress logical or character; if \code{TRUE}, displays upload progress using \code{\link{progress2}};
 #'   if a character string, uses it as the progress title; if \code{FALSE} (default), no progress is shown
+#' @param autoCleanup logical; if \code{TRUE}, removes all files from the upload directory 
+#'   before each new upload. Default is \code{FALSE}. This is useful to prevent stale files 
+#'   from previous uploads. Can be changed dynamically by updating the \code{data-auto-cleanup} 
+#'   HTML attribute on the input element.
 #' @param ... additional arguments (currently unused)
 #' @returns A reactive data frame with components: \code{fileId} (unique file identifier),
 #' \code{name} (file name), \code{size} (file size in bytes), \code{type} (MIME type), 
@@ -75,8 +79,9 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #' (full relative path including subdirectories). The data frame also has attributes:
 #' \code{directoryStructure} (nested list representing the directory tree),
 #' \code{ready} (logical indicating if all files are processed),
-#' \code{totalFiles} (total number of files), and \code{upload_status} (one of 
-#' "initialized", "completed", or "errored").
+#' \code{totalFiles} (total number of files), \code{upload_status} (one of 
+#' "initialized", "completed", or "errored"), and \code{upload_dir} (character string 
+#' with the upload directory path where files are stored, preserving their relative directory structure).
 #' 
 #' \strong{Important:} The \code{datapath} column is \code{NA} initially when 
 #' \code{upload_status = "initialized"}. The input automatically updates when all files 
@@ -105,6 +110,28 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #' Files are transferred as base64-encoded data, so they use approximately 33\% more
 #' bandwidth than their actual size. Files exceeding \code{maxSize} will be skipped
 #' with a warning in the browser console.
+#' 
+#' \strong{Upload Directory Management:}
+#' 
+#' Uploaded files are stored in a session-specific directory with a deterministic path:
+#' \code{tempdir()/dipsaus_uploads/{6-char-hash}/} where the hash is computed as
+#' \code{substr(digest(session_token + full_inputId), 1, 6)}. This ensures:
+#' \itemize{
+#'   \item The same directory is used for all uploads to the same input within a session
+#'   \item Files preserve their original relative directory structure within this directory
+#'   \item Different sessions and inputs get isolated directories
+#' }
+#' 
+#' For example, uploading a directory with structure \code{project/src/utils/helper.R} 
+#' will create \code{tempdir()/dipsaus_uploads/a3f5c2/project/src/utils/helper.R}.
+#' 
+#' The \code{autoCleanup} parameter controls whether the upload directory is cleaned 
+#' before each new upload. When \code{FALSE} (default), files accumulate across uploads. 
+#' When \code{TRUE}, the directory is removed and recreated before each upload, preventing 
+#' stale files from previous uploads. A checkbox is displayed below the input widget 
+#' allowing users to toggle the auto-cleanup behavior dynamically. Use 
+#' \code{\link{get_dipsaus_upload_dir}} to retrieve the upload directory path for 
+#' manual cleanup: \code{unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)}
 #'
 #' @examples
 #'
@@ -202,6 +229,38 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #'     },
 #'     options = list(launch.browser = TRUE)
 #'   )
+#'   
+#'   # Example with autoCleanup and manual directory cleanup
+#'   ui3 <- basicPage(
+#'     fancyDirectoryInput('dir_input3', "Upload directory", autoCleanup = TRUE),
+#'     actionButton('cleanup', 'Clean Up Files')
+#'   )
+#'   
+#'   shinyApp(
+#'     ui3,
+#'     server = function(input, output, session){
+#'       observeEvent(input$dir_input3, {
+#'         files <- input$dir_input3
+#'         if(!is.null(files) && attr(files, "upload_status") == "completed") {
+#'           # Get upload directory with preserved structure
+#'           upload_dir <- attr(files, "upload_dir")
+#'           cat("Files stored in:", upload_dir, "\\n")
+#'           cat("Example file path:", files$datapath[1], "\\n")
+#'           # Process files with their directory structure...
+#'         }
+#'       })
+#'       
+#'       # Manual cleanup option
+#'       observeEvent(input$cleanup, {
+#'         upload_dir <- get_dipsaus_upload_dir('dir_input3')
+#'         if(!is.null(upload_dir) && dir.exists(upload_dir)) {
+#'           unlink(upload_dir, recursive = TRUE, force = TRUE)
+#'           cat("Cleaned up:", upload_dir, "\\n")
+#'         }
+#'       })
+#'     },
+#'     options = list(launch.browser = TRUE)
+#'   )
 #' }
 #'
 #' @export
@@ -210,6 +269,7 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
                                  size = c("s", "m", "l", "xl"),
                                  maxSize = NULL,
                                  progress = FALSE,
+                                 autoCleanup = FALSE,
                                  ... ) {
 
   if(missing(label)) {
@@ -244,6 +304,7 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
     `data-max-file-size` = maxSize,  # Pass max size to JavaScript in bytes
     `data-progress-enabled` = tolower(as.character(progress_enabled)),
     `data-progress-title` = progress_title,
+    `data-auto-cleanup` = tolower(as.character(autoCleanup)),
     `dipsaus-after-content` = sprintf('%s (max per file: %.1f %s)',
                                       after_content,
                                       max_size, attr(max_size, "unit")),
@@ -298,6 +359,23 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
         class = "progress progress-striped active shiny-file-input-progress",
         style = "display: none;",
         shiny::div(class = "progress-bar")
+      ),
+      
+      # Auto-cleanup checkbox option
+      shiny::div(
+        class = "dipsaus-directory-options",
+        shiny::tags$label(
+          style = "font-weight: normal; cursor: pointer; margin-bottom: 0;",
+          shiny::tags$input(
+            type = "checkbox",
+            class = "dipsaus-auto-cleanup-checkbox",
+            checked = if(autoCleanup) NA else NULL
+          ),
+          shiny::tags$span(
+            style = "margin-left: 5px;",
+            "Auto-cleanup upload directory"
+          )
+        )
       )
     ),
     
@@ -328,6 +406,21 @@ registerDirectoryInputHandlers <- function() {
     if(is.null(x)) y else x
   }
   
+  # Helper function to create deterministic upload directory
+  get_session_upload_dir <- function(shinysession, inputId) {
+    session_token <- shinysession$token
+    # Create deterministic hash based on session token and input ID (no timestamp)
+    dir_hash <- substr(digest::digest(paste0(session_token, inputId)), 1, 6)
+    upload_dir <- file.path(tempdir(), "dipsaus_uploads", dir_hash)
+    
+    # Create directory if it doesn't exist
+    if(!dir.exists(upload_dir)) {
+      dir.create(upload_dir, recursive = TRUE, showWarnings = FALSE)
+    }
+    
+    return(upload_dir)
+  }
+  
   # Register input handler for directory inputs (initial metadata)
   shiny::registerInputHandler("dipsaus.directoryInput", function(data, shinysession, name) {
     if(is.null(data)) {
@@ -350,7 +443,9 @@ registerDirectoryInputHandlers <- function() {
       if(exists(state_key, envir = .directory_upload_state)) {
         state <- .directory_upload_state[[state_key]]
         # cat("  Datapaths in state:", sum(!is.na(state$df$datapath)), "/", nrow(state$df), "\n")
-        return(state$df)
+        df <- state$df
+        attr(df, "upload_dir") <- state$upload_dir
+        return(df)
       }
       # cat("  State not found, returning data$value\n")
       return(data$value)
@@ -370,12 +465,25 @@ registerDirectoryInputHandlers <- function() {
           attr(state$df, "ready") <- data$ready
           attr(state$df, "totalFiles") <- data$totalFiles
           attr(state$df, "upload_status") <- data$upload_status
+          attr(state$df, "upload_dir") <- state$upload_dir
           
           return(state$df)
         }
       }
       
       # cat("[Main Handler] Initializing new directory upload\n")
+      
+      # Get or create upload directory
+      upload_dir <- get_session_upload_dir(shinysession, name)
+      
+      # Handle autoCleanup: remove and recreate directory if requested
+      if(isTRUE(data$autoCleanup)) {
+        if(dir.exists(upload_dir)) {
+          unlink(upload_dir, recursive = TRUE, force = TRUE)
+        }
+        dir.create(upload_dir, recursive = TRUE, showWarnings = FALSE)
+      }
+      
       # New incremental format - initialize metadata
       df <- data.frame(
         fileId = sapply(data$fileMetadata, function(x) x$fileId),
@@ -392,9 +500,11 @@ registerDirectoryInputHandlers <- function() {
       attr(df, "ready") <- data$ready
       attr(df, "totalFiles") <- data$totalFiles
       attr(df, "upload_status") <- data$upload_status %||% "initialized"
+      attr(df, "upload_dir") <- upload_dir
       
-      # Store initial state
+      # Store simplified state (only tracking upload_dir and file processing)
       .directory_upload_state[[state_key]] <- list(
+        upload_dir = upload_dir,
         df = df,
         total_files = data$totalFiles,
         completed_files = 0
@@ -402,10 +512,23 @@ registerDirectoryInputHandlers <- function() {
       
       # cat("  State key:", state_key, "\n")
       # cat("  Total files:", data$totalFiles, "\n")
+      # cat("  Upload dir:", upload_dir, "\n")
       
       return(df)
     } else {
       # Legacy format for backward compatibility
+      
+      # Get or create upload directory
+      upload_dir <- get_session_upload_dir(shinysession, name)
+      
+      # Handle autoCleanup: remove and recreate directory if requested
+      if(isTRUE(data$autoCleanup)) {
+        if(dir.exists(upload_dir)) {
+          unlink(upload_dir, recursive = TRUE, force = TRUE)
+        }
+        dir.create(upload_dir, recursive = TRUE, showWarnings = FALSE)
+      }
+      
       datapaths <- character(length(data$name))
       
       for(i in seq_along(data$name)) {
@@ -433,10 +556,17 @@ registerDirectoryInputHandlers <- function() {
               binary_data <- base64enc::base64decode(base64_string)
             }
             
-            # Create temp file with original filename
-            temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name[[i]])))
-            writeBin(binary_data, temp_file)
-            datapaths[i] <- temp_file
+            # Save file preserving directory structure
+            file_path <- file.path(upload_dir, data$relativePath[[i]])
+            
+            # Create parent directory if needed
+            parent_dir <- dirname(file_path)
+            if(!dir.exists(parent_dir)) {
+              dir.create(parent_dir, recursive = TRUE, showWarnings = FALSE)
+            }
+            
+            writeBin(binary_data, file_path)
+            datapaths[i] <- file_path
           } else {
             datapaths[i] <- NA_character_
           }
@@ -458,6 +588,7 @@ registerDirectoryInputHandlers <- function() {
       if(!is.null(data$directoryStructure)) {
         attr(df, "directoryStructure") <- data$directoryStructure
       }
+      attr(df, "upload_dir") <- upload_dir
       
       return(df)
     }
@@ -501,10 +632,28 @@ registerDirectoryInputHandlers <- function() {
           binary_data <- base64enc::base64decode(base64_string)
         }
         
-        # Create temp file with original filename
-        temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name)))
-        writeBin(binary_data, temp_file)
-        datapath <- temp_file
+        # Get upload directory from state and save file preserving directory structure
+        if(exists(state_key, envir = .directory_upload_state)) {
+          state <- .directory_upload_state[[state_key]]
+          upload_dir <- state$upload_dir
+          
+          # Create full file path preserving relative path
+          file_path <- file.path(upload_dir, data$relativePath)
+          
+          # Create parent directory if needed
+          parent_dir <- dirname(file_path)
+          if(!dir.exists(parent_dir)) {
+            dir.create(parent_dir, recursive = TRUE, showWarnings = FALSE)
+          }
+          
+          writeBin(binary_data, file_path)
+          datapath <- file_path
+        } else {
+          # Fallback to tempfile if state not found
+          temp_file <- tempfile(pattern = "upload_", fileext = paste0("_", basename(data$name)))
+          writeBin(binary_data, temp_file)
+          datapath <- temp_file
+        }
       } else {
         # File was skipped or had error
         error_msg <- data$`_error` %||% if(data$`_tooLarge` %||% FALSE) "File too large" else "Unknown error"
@@ -760,4 +909,71 @@ observeDirectoryProgress <- function(inputId, session = shiny::getDefaultReactiv
   )
   
   invisible(NULL)
+}
+
+
+#' @title Get upload directory for fancyDirectoryInput
+#' @description
+#' Retrieve the upload directory path for a \code{\link{fancyDirectoryInput}}. 
+#' The upload directory is deterministically generated based on the session token 
+#' and input ID, and files uploaded to the input preserve their relative directory structure within this directory.
+#' @param inputId the input ID (relative to the session, will be automatically 
+#' namespaced via \code{session$ns(inputId)})
+#' @param session the Shiny session object (default: \code{shiny::getDefaultReactiveDomain()})
+#' @return Character string with the upload directory path, or \code{NULL} if 
+#' the input has no uploaded files yet. The directory path follows the pattern 
+#' \code{tempdir()/dipsaus_uploads/{6-char-hash}/} where the hash is derived 
+#' from \code{digest(session_token + full_inputId)}.
+#' @details
+#' This function is useful for:
+#' \itemize{
+#'   \item Manually cleaning up uploaded files via \code{unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)}
+#'   \item Processing files with their preserved directory structure
+#'   \item Accessing the upload directory for custom file operations
+#' }
+#' 
+#' The upload directory is deterministic for a given session and input ID, meaning 
+#' multiple uploads to the same input will use the same directory (unless 
+#' \code{autoCleanup = TRUE} is set, which clears the directory before each new upload).
+#' 
+#' In Shiny modules, use the relative \code{inputId} (e.g., \code{"dir_input"}) 
+#' rather than the full namespaced ID. The function will automatically handle 
+#' namespace conversion via \code{session$ns(inputId)}.
+#' @examples
+#' \dontrun{
+#' server <- function(input, output, session) {
+#'   observeEvent(input$dir_input, {
+#'     files <- input$dir_input
+#'     
+#'     if(!is.null(files) && attr(files, "upload_status") == "completed") {
+#'       # Get the upload directory
+#'       upload_dir <- get_dipsaus_upload_dir("dir_input")
+#'       cat("Files are stored in:", upload_dir, "\n")
+#'       
+#'       # Process files...
+#'       
+#'       # Clean up when done
+#'       unlink(upload_dir, recursive = TRUE, force = TRUE)
+#'     }
+#'   })
+#' }
+#' }
+#' @export
+get_dipsaus_upload_dir <- function(inputId, session = shiny::getDefaultReactiveDomain()) {
+  if(is.null(session)) {
+    stop("get_dipsaus_upload_dir must be called from within a Shiny server function")
+  }
+  
+  # Convert relative inputId to full namespaced ID
+  full_id <- session$ns(inputId)
+  
+  # Get the input value
+  input_value <- session$input[[full_id]]
+  
+  if(is.null(input_value)) {
+    return(NULL)
+  }
+  
+  # Return the upload_dir attribute
+  return(attr(input_value, "upload_dir"))
 }

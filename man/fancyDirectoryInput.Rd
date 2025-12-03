@@ -12,6 +12,7 @@ fancyDirectoryInput(
   size = c("s", "m", "l", "xl"),
   maxSize = NULL,
   progress = FALSE,
+  autoCleanup = FALSE,
   ...
 )
 }
@@ -31,6 +32,11 @@ fancyDirectoryInput(
 \item{progress}{logical or character; if \code{TRUE}, displays upload progress using \code{\link{progress2}};
 if a character string, uses it as the progress title; if \code{FALSE} (default), no progress is shown}
 
+\item{autoCleanup}{logical; if \code{TRUE}, removes all files from the upload directory 
+before each new upload. Default is \code{FALSE}. This is useful to prevent stale files 
+from previous uploads. Can be changed dynamically by updating the \code{data-auto-cleanup} 
+HTML attribute on the input element.}
+
 \item{...}{additional arguments (currently unused)}
 }
 \value{
@@ -40,8 +46,9 @@ A reactive data frame with components: \code{fileId} (unique file identifier),
 (full relative path including subdirectories). The data frame also has attributes:
 \code{directoryStructure} (nested list representing the directory tree),
 \code{ready} (logical indicating if all files are processed),
-\code{totalFiles} (total number of files), and \code{upload_status} (one of 
-"initialized", "completed", or "errored").
+\code{totalFiles} (total number of files), \code{upload_status} (one of 
+"initialized", "completed", or "errored"), and \code{upload_dir} (character string 
+with the upload directory path where files are stored, preserving their relative directory structure).
 
 \strong{Important:} The \code{datapath} column is \code{NA} initially when 
 \code{upload_status = "initialized"}. The input automatically updates when all files 
@@ -77,6 +84,28 @@ Hidden files (starting with '.') are filtered out by default on the client side.
 Files are transferred as base64-encoded data, so they use approximately 33\% more
 bandwidth than their actual size. Files exceeding \code{maxSize} will be skipped
 with a warning in the browser console.
+
+\strong{Upload Directory Management:}
+
+Uploaded files are stored in a session-specific directory with a deterministic path:
+\code{tempdir()/dipsaus_uploads/{6-char-hash}/} where the hash is computed as
+\code{substr(digest(session_token + full_inputId), 1, 6)}. This ensures:
+\itemize{
+  \item The same directory is used for all uploads to the same input within a session
+  \item Files preserve their original relative directory structure within this directory
+  \item Different sessions and inputs get isolated directories
+}
+
+For example, uploading a directory with structure \code{project/src/utils/helper.R} 
+will create \code{tempdir()/dipsaus_uploads/a3f5c2/project/src/utils/helper.R}.
+
+The \code{autoCleanup} parameter controls whether the upload directory is cleaned 
+before each new upload. When \code{FALSE} (default), files accumulate across uploads. 
+When \code{TRUE}, the directory is removed and recreated before each upload, preventing 
+stale files from previous uploads. A checkbox is displayed below the input widget 
+allowing users to toggle the auto-cleanup behavior dynamically. Use 
+\code{\link{get_dipsaus_upload_dir}} to retrieve the upload directory path for 
+manual cleanup: \code{unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)}
 }
 \examples{
 
@@ -169,6 +198,38 @@ if(interactive()) {
         files <- input$dir_input2
         if(!is.null(files) && attr(files, "upload_status") == "completed") {
           cat("Received", nrow(files), "files\n")
+        }
+      })
+    },
+    options = list(launch.browser = TRUE)
+  )
+  
+  # Example with autoCleanup and manual directory cleanup
+  ui3 <- basicPage(
+    fancyDirectoryInput('dir_input3', "Upload directory", autoCleanup = TRUE),
+    actionButton('cleanup', 'Clean Up Files')
+  )
+  
+  shinyApp(
+    ui3,
+    server = function(input, output, session){
+      observeEvent(input$dir_input3, {
+        files <- input$dir_input3
+        if(!is.null(files) && attr(files, "upload_status") == "completed") {
+          # Get upload directory with preserved structure
+          upload_dir <- attr(files, "upload_dir")
+          cat("Files stored in:", upload_dir, "\\\\n")
+          cat("Example file path:", files$datapath[1], "\\\\n")
+          # Process files with their directory structure...
+        }
+      })
+      
+      # Manual cleanup option
+      observeEvent(input$cleanup, {
+        upload_dir <- get_dipsaus_upload_dir('dir_input3')
+        if(!is.null(upload_dir) && dir.exists(upload_dir)) {
+          unlink(upload_dir, recursive = TRUE, force = TRUE)
+          cat("Cleaned up:", upload_dir, "\\\\n")
         }
       })
     },

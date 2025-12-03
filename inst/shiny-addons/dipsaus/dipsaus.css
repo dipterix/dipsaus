@@ -216,6 +216,26 @@
   font-size: 64px;
 }
 
+/* Auto-cleanup checkbox options */
+.dipsaus-directory-options {
+  margin-top: 8px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+.dipsaus-directory-options label {
+  font-weight: normal;
+  cursor: pointer;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.dipsaus-auto-cleanup-checkbox {
+  cursor: pointer;
+  margin: 0;
+}
+
 /* Progress bar text */
 .dipsaus-fancy-directory-input .progress-bar {
   line-height: 24px;

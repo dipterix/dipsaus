@@ -66,6 +66,16 @@ export function register_directoryInput(Shiny, debug = false) {
         }
       });
       
+      // Add auto-cleanup checkbox handler
+      const $autoCleanupCheckbox = $el.find('.dipsaus-auto-cleanup-checkbox');
+      $autoCleanupCheckbox.on('change', function() {
+        const isChecked = $(this).prop('checked');
+        $el.attr('data-auto-cleanup', isChecked ? 'true' : 'false');
+        if(debug) {
+          console.log('Auto-cleanup toggled:', isChecked);
+        }
+      });
+      
       // Add drag and drop functionality
       $inputGroup.on('dragover', function(e) {
         e.preventDefault();
@@ -232,13 +242,18 @@ export function register_directoryInput(Shiny, debug = false) {
         };
       });
       
+      // Read autoCleanup attribute
+      const autoCleanupAttr = $el.attr('data-auto-cleanup');
+      const autoCleanup = autoCleanupAttr === 'true';
+      
       // Store initial metadata and status
       const initialData = {
         fileMetadata: fileMetadata,
         directoryStructure: directoryStructure,
         totalFiles: files.length,
         ready: false,
-        upload_status: 'initialized'
+        upload_status: 'initialized',
+        autoCleanup: autoCleanup
       };
       
       $el.data('uploadInfo', initialData);
@@ -685,6 +700,10 @@ export function register_directoryInput(Shiny, debug = false) {
       // Set final progress
       $progressBar.text(uploadedFiles.length + ' / ' + files.length + ' files');
 
+      // Read autoCleanup attribute
+      const autoCleanupAttr = $el.attr('data-auto-cleanup');
+      const autoCleanup = autoCleanupAttr === 'true';
+
       // Return the structured data with base64 content
       return {
         name: uploadedFiles.map(f => f.name),
@@ -692,7 +711,8 @@ export function register_directoryInput(Shiny, debug = false) {
         type: uploadedFiles.map(f => f.type),
         relativePath: uploadedFiles.map(f => f.relativePath),
         base64data: uploadedFiles.map(f => f.base64data),
-        directoryStructure: directoryStructure
+        directoryStructure: directoryStructure,
+        autoCleanup: autoCleanup
       };
     },
 
