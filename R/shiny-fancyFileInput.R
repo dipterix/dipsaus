@@ -679,56 +679,85 @@ observeDirectoryProgress <- function(inputId, session = shiny::getDefaultReactiv
   progress_obj <- NULL
   
   # Start progress
-  shiny::observeEvent(session$input[[paste0(progress_id, "_start")]], {
-    config <- session$input[[paste0(progress_id, "_start")]]
-    cat("[DEBUG observeDirectoryProgress] Start triggered for:", progress_id, "_start\n")
-    cat("[DEBUG observeDirectoryProgress] Config:", paste(names(config), collapse = ", "), "\n")
-    if(!is.null(config)) {
-      progress_obj <<- progress2(
-        title = config$title %||% "Uploading directory",
-        max = config$max %||% 100,
-        quiet = config$quiet %||% FALSE,
-        session = session
-      )
-      cat("[DEBUG observeDirectoryProgress] Progress object created with title:", config$title %||% "Uploading directory", "\n")
-    }
-  }, ignoreInit = TRUE)
+  shiny::bindEvent(
+    shiny::observe({
+      tryCatch({
+        config <- session$input[[paste0(progress_id, "_start")]]
+        # cat("[DEBUG observeDirectoryProgress] Start triggered for:", progress_id, "_start\n")
+        # cat("[DEBUG observeDirectoryProgress] Config:", paste(names(config), collapse = ", "), "\n")
+        if(!is.null(config)) {
+          progress_obj <<- progress2(
+            title = config$title %||% "Uploading directory",
+            max = config$max %||% 100,
+            quiet = config$quiet %||% FALSE,
+            session = session
+          )
+          # cat("[DEBUG observeDirectoryProgress] Progress object created with title:", config$title %||% "Uploading directory", "\n")
+        }
+      }, error = function(e) {
+        warning("Error starting directory upload progress: ", e$message)
+      })
+    }),
+    session$input[[paste0(progress_id, "_start")]],
+    ignoreNULL = TRUE,
+    ignoreInit = TRUE
+  )
   
   # Update progress
-  shiny::observeEvent(session$input[[paste0(progress_id, "_update")]], {
-    update_data <- session$input[[paste0(progress_id, "_update")]]
-    cat("[DEBUG observeDirectoryProgress] Update triggered\n")
-    if(!is.null(progress_obj) && !is.null(update_data)) {
-      # Format filename - truncate if too long
-      filename <- update_data$filename %||% ""
-      if(nchar(filename) > 40) {
-        filename <- paste0(substr(filename, 1, 37), "...")
-      }
-      
-      # Format detail message
-      detail_msg <- sprintf("Loaded %d files", update_data$current %||% 0)
-      
-      cat("[DEBUG observeDirectoryProgress] Incrementing progress:", detail_msg, "\n")
-      progress_obj$inc(
-        detail = detail_msg,
-        amount = update_data$inc %||% 1
-      )
-    } else {
-      cat("[DEBUG observeDirectoryProgress] Skipped - progress_obj is NULL:", is.null(progress_obj), "\n")
-    }
-  }, ignoreInit = TRUE)
+  shiny::bindEvent(
+    shiny::observe({
+      tryCatch({
+        update_data <- session$input[[paste0(progress_id, "_update")]]
+        # cat("[DEBUG observeDirectoryProgress] Update triggered\n")
+        if(!is.null(progress_obj) && !is.null(update_data)) {
+          # Format filename - truncate if too long
+          filename <- update_data$filename %||% ""
+          if(nchar(filename) > 40) {
+            filename <- paste0(substr(filename, 1, 37), "...")
+          }
+          
+          # Format detail message
+          detail_msg <- sprintf("Loaded %d files", update_data$current %||% 0)
+          
+          # cat("[DEBUG observeDirectoryProgress] Incrementing progress:", detail_msg, "\n")
+          progress_obj$inc(
+            detail = detail_msg,
+            amount = update_data$inc %||% 1
+          )
+        } else {
+          # cat("[DEBUG observeDirectoryProgress] Skipped - progress_obj is NULL:", is.null(progress_obj), "\n")
+        }
+      }, error = function(e) {
+        warning("Error updating directory upload progress: ", e$message)
+      })
+    }),
+    session$input[[paste0(progress_id, "_update")]],
+    ignoreNULL = TRUE,
+    ignoreInit = TRUE
+  )
   
   # Close progress
-  shiny::observeEvent(session$input[[paste0(progress_id, "_close")]], {
-    cat("[DEBUG observeDirectoryProgress] Close triggered\n")
-    if(!is.null(progress_obj)) {
-      cat("[DEBUG observeDirectoryProgress] Closing progress object\n")
-      progress_obj$close()
-      progress_obj <<- NULL
-    } else {
-      cat("[DEBUG observeDirectoryProgress] No progress object to close\n")
-    }
-  }, ignoreInit = TRUE)
+  shiny::bindEvent(
+    shiny::observe({
+      tryCatch({
+        # cat("[DEBUG observeDirectoryProgress] Close triggered\n")
+        if(!is.null(progress_obj)) {
+          # cat("[DEBUG observeDirectoryProgress] Closing progress object\n")
+          progress_obj$close()
+          progress_obj <<- NULL
+        } else {
+          # cat("[DEBUG observeDirectoryProgress] No progress object to close\n")
+        }
+      }, error = function(e) {
+        warning("Error closing directory upload progress: ", e$message)
+        # Ensure progress_obj is nullified even on error
+        progress_obj <<- NULL
+      })
+    }),
+    session$input[[paste0(progress_id, "_close")]],
+    ignoreNULL = TRUE,
+    ignoreInit = TRUE
+  )
   
   invisible(NULL)
 }

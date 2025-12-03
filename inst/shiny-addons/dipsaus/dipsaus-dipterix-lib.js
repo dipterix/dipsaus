@@ -8689,7 +8689,7 @@ function register_directoryInput(Shiny, debug = false) {
 
 
 const Shiny = window.Shiny;
-const src_DEBUG = true;
+const src_DEBUG = false;
 
 register_actionButtonStyled( Shiny, src_DEBUG );
 register_compoundInput2( Shiny, src_DEBUG );

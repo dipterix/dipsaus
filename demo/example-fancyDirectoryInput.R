@@ -118,7 +118,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
   # Enable progress tracking
-  cat("[DEBUG demo] Setting up progress observers for: directory_upload\n")
+  # cat("[DEBUG demo] Setting up progress observers for: directory_upload\n")
   observeDirectoryProgress("directory_upload")
 
   # Reactive values for status tracking (optional for advanced view)

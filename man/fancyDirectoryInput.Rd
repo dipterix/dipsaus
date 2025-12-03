@@ -11,6 +11,7 @@ fancyDirectoryInput(
   after_content = "Drag & drop directory, or button",
   size = c("s", "m", "l", "xl"),
   maxSize = NULL,
+  progress = FALSE,
   ...
 )
 }
@@ -26,6 +27,9 @@ fancyDirectoryInput(
 \item{size}{height of the widget, choices are \code{'s'}, \code{'m'}, \code{'l'}, and \code{'xl'}}
 
 \item{maxSize}{maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)}
+
+\item{progress}{logical or character; if \code{TRUE}, displays upload progress using \code{\link{progress2}};
+if a character string, uses it as the progress title; if \code{FALSE} (default), no progress is shown}
 
 \item{...}{additional arguments (currently unused)}
 }
@@ -84,7 +88,13 @@ ui <- basicPage(
   fancyDirectoryInput('dir_input', "Please upload a directory")
 )
 
+# Example with progress tracking
+ui2 <- basicPage(
+  fancyDirectoryInput('dir_input2', "Upload with progress", progress = TRUE)
+)
+
 if(interactive()) {
+  # Basic example
   shinyApp(
     ui,
     server = function(input, output, session){
@@ -141,6 +151,24 @@ if(interactive()) {
           completed <- sum(status$status == "complete")
           total <- nrow(status)
           cat("Progress:", completed, "/", total, "files\n")
+        }
+      })
+    },
+    options = list(launch.browser = TRUE)
+  )
+  
+  # Example with progress tracking
+  shinyApp(
+    ui2,
+    server = function(input, output, session){
+      # Enable progress tracking
+      observeDirectoryProgress("dir_input2")
+      
+      # Process files when complete
+      observeEvent(input$dir_input2, {
+        files <- input$dir_input2
+        if(!is.null(files) && attr(files, "upload_status") == "completed") {
+          cat("Received", nrow(files), "files\n")
         }
       })
     },
