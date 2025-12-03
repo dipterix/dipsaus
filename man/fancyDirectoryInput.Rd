@@ -13,6 +13,7 @@ fancyDirectoryInput(
   maxSize = NULL,
   progress = FALSE,
   autoCleanup = FALSE,
+  autoCleanupLocked = FALSE,
   ...
 )
 }
@@ -36,6 +37,10 @@ if a character string, uses it as the progress title; if \code{FALSE} (default),
 before each new upload. Default is \code{FALSE}. This is useful to prevent stale files 
 from previous uploads. Can be changed dynamically by updating the \code{data-auto-cleanup} 
 HTML attribute on the input element.}
+
+\item{autoCleanupLocked}{logical; if \code{TRUE}, hides the auto-cleanup checkbox, 
+preventing users from changing the setting. Default is \code{FALSE}, which shows 
+the checkbox allowing users to toggle auto-cleanup behavior.}
 
 \item{...}{additional arguments (currently unused)}
 }

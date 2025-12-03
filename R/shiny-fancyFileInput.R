@@ -72,6 +72,9 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #'   before each new upload. Default is \code{FALSE}. This is useful to prevent stale files 
 #'   from previous uploads. Can be changed dynamically by updating the \code{data-auto-cleanup} 
 #'   HTML attribute on the input element.
+#' @param autoCleanupLocked logical; if \code{TRUE}, hides the auto-cleanup checkbox, 
+#'   preventing users from changing the setting. Default is \code{FALSE}, which shows 
+#'   the checkbox allowing users to toggle auto-cleanup behavior.
 #' @param ... additional arguments (currently unused)
 #' @returns A reactive data frame with components: \code{fileId} (unique file identifier),
 #' \code{name} (file name), \code{size} (file size in bytes), \code{type} (MIME type), 
@@ -270,6 +273,7 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
                                  maxSize = NULL,
                                  progress = FALSE,
                                  autoCleanup = FALSE,
+                                 autoCleanupLocked = FALSE,
                                  ... ) {
 
   if(missing(label)) {
@@ -305,9 +309,7 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
     `data-progress-enabled` = tolower(as.character(progress_enabled)),
     `data-progress-title` = progress_title,
     `data-auto-cleanup` = tolower(as.character(autoCleanup)),
-    `dipsaus-after-content` = sprintf('%s (max per file: %.1f %s)',
-                                      after_content,
-                                      max_size, attr(max_size, "unit")),
+    `data-auto-cleanup-locked` = tolower(as.character(autoCleanupLocked)),
     style = htmltools$css(
       width = htmltools$validateCssUnit(width),
     ),
@@ -352,31 +354,41 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
           class = "form-control",
           placeholder = "No directory selected",
           readonly = "readonly"
+        ),
+        
+        shiny::div(
+          class = "progress progress-striped active shiny-file-input-progress",
+          style = "display: none;",
+          shiny::div(class = "progress-bar")
         )
-      ),
-
-      shiny::div(
-        class = "progress progress-striped active shiny-file-input-progress",
-        style = "display: none;",
-        shiny::div(class = "progress-bar")
       ),
       
-      # Auto-cleanup checkbox option
+      # After-content text
       shiny::div(
-        class = "dipsaus-directory-options",
-        shiny::tags$label(
-          style = "font-weight: normal; cursor: pointer; margin-bottom: 0;",
-          shiny::tags$input(
-            type = "checkbox",
-            class = "dipsaus-auto-cleanup-checkbox",
-            checked = if(autoCleanup) NA else NULL
-          ),
-          shiny::tags$span(
-            style = "margin-left: 5px;",
-            "Auto-cleanup upload directory"
+        class = "dipsaus-directory-after-content",
+        sprintf('%s (max per file: %.1f %s)',
+                after_content,
+                max_size, attr(max_size, "unit"))
+      ),
+      
+      # Auto-cleanup checkbox option (only show if not locked)
+      if(!autoCleanupLocked) {
+        shiny::div(
+          class = "dipsaus-directory-options",
+          shiny::tags$label(
+            style = "font-weight: normal; cursor: pointer; margin-bottom: 0;",
+            shiny::tags$input(
+              type = "checkbox",
+              class = "dipsaus-auto-cleanup-checkbox",
+              checked = if(autoCleanup) NA else NULL
+            ),
+            shiny::tags$span(
+              style = "margin-left: 5px;",
+              "Auto-cleanup upload directory"
+            )
           )
         )
-      )
+      }
     ),
     
     # Hidden inputs for file data and status tracking
