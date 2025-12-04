@@ -2,31 +2,31 @@
 
 #' Detect the type of operating system
 #' @return The type of current operating system: \code{'windows'},
-#' \code{'darwin'}, \code{'linux'}, \code{'solaris'}, or otherwise
-#' \code{'unknown'}.
+#' \code{'darwin'}, \code{'linux'}, \code{'solaris'}, \code{'emscripten'},
+#' or otherwise \code{'unknown'}.
 #' @examples
 #'
 #' get_os()
 #'
 #' @export
-get_os <- function(){
-  if("windows" %in% tolower(.Platform$OS.type)){
+get_os <- function () {
+  os <- R.version$os
+  if (grepl("^darwin", os, ignore.case = TRUE)) {
+    return("darwin")
+  }
+  if (grepl("^linux", os, ignore.case = TRUE)) {
+    return("linux")
+  }
+  if (grepl("^solaris", os, ignore.case = TRUE)) {
+    return("solaris")
+  }
+  if (grepl("^win", os, ignore.case = TRUE)) {
     return("windows")
   }
-  os <- tolower(R.version$os)
-  if(startsWith(os, "darwin")){
-    return('darwin')
+  if (grepl("^(emscr|wasm)", os, ignore.case = TRUE)) {
+    return("emscripten")
   }
-  if(startsWith(os, "linux")){
-    return('linux')
-  }
-  if(startsWith(os, "solaris")){
-    return('solaris')
-  }
-  if(startsWith(os, "win")){
-    return('windows')
-  }
-  return('unknown')
+  return("unknown")
 }
 
 safe_system <- function(cmd, ..., intern = TRUE, ignore.stderr = TRUE,

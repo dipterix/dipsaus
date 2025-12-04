@@ -8,8 +8,8 @@ get_os()
 }
 \value{
 The type of current operating system: \code{'windows'},
-\code{'darwin'}, \code{'linux'}, \code{'solaris'}, or otherwise
-\code{'unknown'}.
+\code{'darwin'}, \code{'linux'}, \code{'solaris'}, \code{'emscripten'},
+or otherwise \code{'unknown'}.
 }
 \description{
 Detect the type of operating system
