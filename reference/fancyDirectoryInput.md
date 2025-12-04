@@ -17,6 +17,7 @@ fancyDirectoryInput(
   maxSize = NULL,
   progress = FALSE,
   autoCleanup = FALSE,
+  autoCleanupLocked = FALSE,
   ...
 )
 ```
@@ -61,6 +62,12 @@ fancyDirectoryInput(
   each new upload. Default is `FALSE`. This is useful to prevent stale
   files from previous uploads. Can be changed dynamically by updating
   the `data-auto-cleanup` HTML attribute on the input element.
+
+- autoCleanupLocked:
+
+  logical; if `TRUE`, hides the auto-cleanup checkbox, preventing users
+  from changing the setting. Default is `FALSE`, which shows the
+  checkbox allowing users to toggle auto-cleanup behavior.
 
 - ...:
 
@@ -142,6 +149,29 @@ the auto-cleanup behavior dynamically. Use
 [`get_dipsaus_upload_dir`](https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.md)
 to retrieve the upload directory path for manual cleanup:
 `unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)`
+
+**Related Functions:**
+
+- [`observeDirectoryProgress`](https://dipterix.org/dipsaus/reference/observeDirectoryProgress.md):
+  Enable progress tracking with
+  [`progress2`](https://dipterix.org/dipsaus/reference/progress2.md) for
+  directory uploads. Call this in your server function to display upload
+  progress automatically.
+
+- [`get_dipsaus_upload_dir`](https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.md):
+  Retrieve the upload directory path for a given input ID. Useful for
+  manual file cleanup or custom processing.
+
+## See also
+
+[`observeDirectoryProgress`](https://dipterix.org/dipsaus/reference/observeDirectoryProgress.md)
+for progress tracking,
+[`get_dipsaus_upload_dir`](https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.md)
+for directory path retrieval,
+[`fancyFileInput`](https://dipterix.org/dipsaus/reference/fancyFileInput.md)
+for single file uploads,
+[`progress2`](https://dipterix.org/dipsaus/reference/progress2.md) for
+custom progress bars
 
 ## Examples
 

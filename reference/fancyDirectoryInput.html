@@ -13,7 +13,7 @@ Firefox has limited support."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,6 +63,7 @@ Firefox has limited support.</p>
 <span>  maxSize <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  autoCleanup <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  autoCleanupLocked <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -105,6 +106,12 @@ if a character string, uses it as the progress title; if <code>FALSE</code> (def
 before each new upload. Default is <code>FALSE</code>. This is useful to prevent stale files
 from previous uploads. Can be changed dynamically by updating the <code>data-auto-cleanup</code>
 HTML attribute on the input element.</p></dd>
+
+
+<dt id="arg-autocleanuplocked">autoCleanupLocked<a class="anchor" aria-label="anchor" href="#arg-autocleanuplocked"></a></dt>
+<dd><p>logical; if <code>TRUE</code>, hides the auto-cleanup checkbox,
+preventing users from changing the setting. Default is <code>FALSE</code>, which shows
+the checkbox allowing users to toggle auto-cleanup behavior.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -160,6 +167,18 @@ stale files from previous uploads. A checkbox is displayed below the input widge
 allowing users to toggle the auto-cleanup behavior dynamically. Use
 <code><a href="get_dipsaus_upload_dir.html">get_dipsaus_upload_dir</a></code> to retrieve the upload directory path for
 manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)</code></p>
+<p><strong>Related Functions:</strong></p><ul><li><p><code><a href="observeDirectoryProgress.html">observeDirectoryProgress</a></code>: Enable progress tracking with
+        <code><a href="progress2.html">progress2</a></code> for directory uploads. Call this in your server
+        function to display upload progress automatically.</p></li>
+<li><p><code><a href="get_dipsaus_upload_dir.html">get_dipsaus_upload_dir</a></code>: Retrieve the upload directory path
+        for a given input ID. Useful for manual file cleanup or custom processing.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="observeDirectoryProgress.html">observeDirectoryProgress</a></code> for progress tracking,
+  <code><a href="get_dipsaus_upload_dir.html">get_dipsaus_upload_dir</a></code> for directory path retrieval,
+  <code><a href="fancyFileInput.html">fancyFileInput</a></code> for single file uploads,
+  <code><a href="progress2.html">progress2</a></code> for custom progress bars</p></div>
     </div>
 
     <div class="section level2">
