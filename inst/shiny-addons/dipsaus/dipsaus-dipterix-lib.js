@@ -8061,29 +8061,29 @@ function register_directoryInput(Shiny, debug = false) {
         }, {priority: 'event'});
       }
       
-      // Now process files one by one
+      // Now process files in parallel with concurrency control
       const maxFileSizeAttr = $el.attr('data-max-file-size');
       const MAX_TOTAL_FILE_SIZE = maxFileSizeAttr ? parseInt(maxFileSizeAttr, 10) : (5 * 1024 * 1024);
       const CHUNK_SIZE = 5 * 1024 * 1024;
+      const CONCURRENCY_LIMIT = 10; // Process up to 5 files simultaneously
+      const BATCH_SIZE = 10; // Send files to server in batches of 10
       
       if(debug) {
         console.log('Processing files with settings:');
         console.log('  data-max-file-size attribute:', maxFileSizeAttr);
         console.log('  MAX_TOTAL_FILE_SIZE:', MAX_TOTAL_FILE_SIZE, 'bytes (', (MAX_TOTAL_FILE_SIZE / 1024 / 1024).toFixed(2), 'MB )');
         console.log('  CHUNK_SIZE:', CHUNK_SIZE, 'bytes');
+        console.log('  CONCURRENCY_LIMIT:', CONCURRENCY_LIMIT, 'files');
+        console.log('  BATCH_SIZE:', BATCH_SIZE, 'files per network request');
       }
       
-      for(let i = 0; i < files.length; i++) {
-        const file = files[i];
+      // Process single file (extracted to enable parallel processing)
+      const processFile = async (file, i) => {
         const fileId = `file_${i}`;
         const relativePath = file.webkitRelativePath || file.name;
         
-        // Update progress bar
-        $progressBar.text(`Processing ${i + 1} / ${files.length} files`);
-        
         // Update status to processing
         fileStatus[fileId].status = 'processing';
-        this._updateFileStatus(el, fileId, fileStatus[fileId]);
         
         try {
           let fileData = null;
@@ -8127,7 +8127,6 @@ function register_directoryInput(Shiny, debug = false) {
                 
                 // Update progress
                 fileStatus[fileId].progress = ((chunkIndex + 1) / numChunks) * 100;
-                this._updateFileStatus(el, fileId, fileStatus[fileId]);
               }
               
               fileData = {
@@ -8194,44 +8193,100 @@ function register_directoryInput(Shiny, debug = false) {
             };
           }
           
-          // Send individual file data to Shiny
-          this._sendFileToShiny(el, fileData);
-          
-          // Update file status
-          this._updateFileStatus(el, fileId, fileStatus[fileId]);
-          
-          // Update progress2 if enabled
-          if(progressEnabled && progressId && window.Shiny) {
-            if(debug) {
-              console.log('Sending progress update:', (i + 1), '/', files.length, '-', file.name);
-            }
-            Shiny.setInputValue(progressId + '_update', {
-              inc: 1,
-              current: i + 1,
-              total: files.length,
-              filename: file.name
-            }, {priority: 'event'});
-          }
+          return { fileData, fileId, fileName: file.name };
           
         } catch(err) {
           console.error('Error processing file:', file.name, err);
           fileStatus[fileId].status = 'error';
           fileStatus[fileId].error = err.message;
           
-          // Send error info to Shiny
-          this._sendFileToShiny(el, {
+          return {
+            fileData: {
+              fileId: fileId,
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              relativePath: relativePath,
+              base64data: null,
+              _error: err.message
+            },
             fileId: fileId,
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            relativePath: relativePath,
-            base64data: null,
-            _error: err.message
-          });
-          
-          this._updateFileStatus(el, fileId, fileStatus[fileId]);
+            fileName: file.name,
+            error: err.message
+          };
         }
-      }
+      };
+      
+      // Process files with concurrency limit using worker pool pattern
+      let completedCount = 0;
+      let batchBuffer = [];
+      const statusUpdateBuffer = [];
+      let lastStatusUpdate = Date.now();
+      const STATUS_UPDATE_INTERVAL = 500; // ms - throttle status updates
+      
+      const processQueue = async () => {
+        const results = [];
+        
+        for(let i = 0; i < files.length; i += CONCURRENCY_LIMIT) {
+          const batch = files.slice(i, Math.min(i + CONCURRENCY_LIMIT, files.length));
+          const batchPromises = batch.map((file, offset) => processFile(file, i + offset));
+          
+          const batchResults = await Promise.all(batchPromises);
+          results.push(...batchResults);
+          
+          // Update progress bar
+          completedCount += batch.length;
+          $progressBar.text(`Processing ${completedCount} / ${files.length} files`);
+          
+          // Buffer files and send in batches
+          for(const result of batchResults) {
+            batchBuffer.push(result);
+            statusUpdateBuffer.push(result.fileId);
+            
+            // Send batch when buffer is full
+            if(batchBuffer.length >= BATCH_SIZE) {
+              const toSend = batchBuffer.splice(0, BATCH_SIZE);
+              toSend.forEach(item => this._sendFileToShiny(el, item.fileData));
+              
+              // Throttle status updates
+              const now = Date.now();
+              if(now - lastStatusUpdate > STATUS_UPDATE_INTERVAL) {
+                this._updateFileStatusBatch(el, statusUpdateBuffer.splice(0));
+                lastStatusUpdate = now;
+              }
+            }
+            
+            // Update progress2 if enabled
+            if(progressEnabled && progressId && window.Shiny) {
+              if(debug) {
+                console.log('Sending progress update:', completedCount, '/', files.length, '-', result.fileName);
+              }
+              Shiny.setInputValue(progressId + '_update', {
+                inc: 1,
+                current: completedCount,
+                total: files.length,
+                filename: result.fileName
+              }, {priority: 'event'});
+            }
+          }
+        }
+        
+        // Send remaining files in buffer
+        if(batchBuffer.length > 0) {
+          batchBuffer.forEach(item => this._sendFileToShiny(el, item.fileData));
+          batchBuffer = [];
+        }
+        
+        // Send final status update
+        if(statusUpdateBuffer.length > 0) {
+          this._updateFileStatusBatch(el, statusUpdateBuffer);
+        }
+        
+        return results;
+      };
+      
+      // Execute parallel processing
+      await processQueue();
       
       // All files processed
       $progress.hide();
@@ -8291,6 +8346,34 @@ function register_directoryInput(Shiny, debug = false) {
       if(window.Shiny && Shiny.setInputValue) {
         // Send updated status table as array
         const statusTable = Object.keys(fileStatus).map(fid => {
+          const status = fileStatus[fid];
+          return {
+            fileId: fid,
+            name: status.name,
+            relativePath: status.relativePath,
+            status: status.status,
+            progress: status.progress,
+            error: status.error !== null && status.error !== undefined ? String(status.error) : ""
+          };
+        });
+        
+        // Send with type suffix to trigger custom input handler
+        Shiny.setInputValue(statusInputId + ':dipsaus.directoryInput.status', statusTable, {
+          priority: 'event'
+        });
+      }
+    },
+    
+    _updateFileStatusBatch: function(el, fileIds) {
+      // Optimized batch status update - only send status for updated files
+      const $el = $(el);
+      const inputId = $el.attr('id');
+      const statusInputId = `${inputId}__status`;
+      const fileStatus = $el.data('fileStatus');
+      
+      if(window.Shiny && Shiny.setInputValue && fileIds.length > 0) {
+        // Only send status for the files that were updated
+        const statusTable = fileIds.map(fid => {
           const status = fileStatus[fid];
           return {
             fileId: fid,
