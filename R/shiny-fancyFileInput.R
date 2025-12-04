@@ -135,6 +135,20 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #' allowing users to toggle the auto-cleanup behavior dynamically. Use 
 #' \code{\link{get_dipsaus_upload_dir}} to retrieve the upload directory path for 
 #' manual cleanup: \code{unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)}
+#' 
+#' \strong{Related Functions:}
+#' \itemize{
+#'   \item \code{\link{observeDirectoryProgress}}: Enable progress tracking with 
+#'         \code{\link{progress2}} for directory uploads. Call this in your server 
+#'         function to display upload progress automatically.
+#'   \item \code{\link{get_dipsaus_upload_dir}}: Retrieve the upload directory path 
+#'         for a given input ID. Useful for manual file cleanup or custom processing.
+#' }
+#'
+#' @seealso \code{\link{observeDirectoryProgress}} for progress tracking, 
+#'   \code{\link{get_dipsaus_upload_dir}} for directory path retrieval, 
+#'   \code{\link{fancyFileInput}} for single file uploads, 
+#'   \code{\link{progress2}} for custom progress bars
 #'
 #' @examples
 #'
@@ -294,7 +308,7 @@ fancyDirectoryInput <- function( inputId, label, width = NULL,
 
   # Handle progress parameter
   progress_enabled <- FALSE
-  progress_title <- "Uploading directory"
+  progress_title <- "Loading files"
   if(is.logical(progress) && isTRUE(progress)) {
     progress_enabled <- TRUE
   } else if(is.character(progress) && length(progress) == 1) {
@@ -848,12 +862,12 @@ observeDirectoryProgress <- function(inputId, session = shiny::getDefaultReactiv
         # cat("[DEBUG observeDirectoryProgress] Config:", paste(names(config), collapse = ", "), "\n")
         if(!is.null(config)) {
           progress_obj <<- progress2(
-            title = config$title %||% "Uploading directory",
+            title = config$title %||% "Loading files",
             max = config$max %||% 100,
             quiet = config$quiet %||% FALSE,
             session = session
           )
-          # cat("[DEBUG observeDirectoryProgress] Progress object created with title:", config$title %||% "Uploading directory", "\n")
+          # cat("[DEBUG observeDirectoryProgress] Progress object created with title:", config$title %||% "Loading files", "\n")
         }
       }, error = function(e) {
         warning("Error starting directory upload progress: ", e$message)
@@ -979,13 +993,24 @@ get_dipsaus_upload_dir <- function(inputId, session = shiny::getDefaultReactiveD
   # Convert relative inputId to full namespaced ID
   full_id <- session$ns(inputId)
   
-  # Get the input value
-  input_value <- session$input[[full_id]]
+  # Get the input value (isolate to avoid creating reactive dependencies)
+  input_value <- shiny::isolate(session$input[[full_id]])
   
-  if(is.null(input_value)) {
-    return(NULL)
+  if(!is.null(input_value)) {
+    upload_dir <- attr(input_value, "upload_dir")
+    if(!is.null(upload_dir)) {
+      return(upload_dir)
+    }
   }
   
-  # Return the upload_dir attribute
-  return(attr(input_value, "upload_dir"))
+  # Fallback: compute from state storage (for module contexts or when input is not yet populated)
+  session_token <- session$token
+  state_key <- paste0(session_token, "_", full_id)
+  
+  if(exists(state_key, envir = .directory_upload_state)) {
+    state <- .directory_upload_state[[state_key]]
+    return(state$upload_dir)
+  }
+  
+  return(NULL)
 }

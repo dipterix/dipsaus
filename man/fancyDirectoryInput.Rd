@@ -111,6 +111,15 @@ stale files from previous uploads. A checkbox is displayed below the input widge
 allowing users to toggle the auto-cleanup behavior dynamically. Use 
 \code{\link{get_dipsaus_upload_dir}} to retrieve the upload directory path for 
 manual cleanup: \code{unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)}
+
+\strong{Related Functions:}
+\itemize{
+  \item \code{\link{observeDirectoryProgress}}: Enable progress tracking with 
+        \code{\link{progress2}} for directory uploads. Call this in your server 
+        function to display upload progress automatically.
+  \item \code{\link{get_dipsaus_upload_dir}}: Retrieve the upload directory path 
+        for a given input ID. Useful for manual file cleanup or custom processing.
+}
 }
 \examples{
 
@@ -242,4 +251,10 @@ if(interactive()) {
   )
 }
 
+}
+\seealso{
+\code{\link{observeDirectoryProgress}} for progress tracking, 
+  \code{\link{get_dipsaus_upload_dir}} for directory path retrieval, 
+  \code{\link{fancyFileInput}} for single file uploads, 
+  \code{\link{progress2}} for custom progress bars
 }
