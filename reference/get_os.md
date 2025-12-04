@@ -11,7 +11,7 @@ get_os()
 ## Value
 
 The type of current operating system: `'windows'`, `'darwin'`,
-`'linux'`, `'solaris'`, or otherwise `'unknown'`.
+`'linux'`, `'solaris'`, `'emscripten'`, or otherwise `'unknown'`.
 
 ## Examples
 

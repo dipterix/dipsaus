@@ -77,7 +77,7 @@ mem_limit2()
 #> $total
 #> 16772579328.0 B
 #> $free
-#> 16707391880.0 B
+#> 16707389416.0 B
 ```
 
 #### 4. Interactive Questions
