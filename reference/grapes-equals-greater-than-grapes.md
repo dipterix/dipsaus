@@ -36,7 +36,7 @@ c(a) %=>% {
 #> {
 #>     print(a)
 #> }
-#> <environment: 0x55b0ddf687e0>
+#> <environment: 0x561248f7a6a0>
 
 # Informal arguments
 list(a=) %=>% {
@@ -46,7 +46,7 @@ list(a=) %=>% {
 #> {
 #>     print(a)
 #> }
-#> <environment: 0x55b0ddf687e0>
+#> <environment: 0x561248f7a6a0>
 
 # Multiple inputs
 c(a, b = 2, ...) %=>% {
@@ -56,7 +56,7 @@ c(a, b = 2, ...) %=>% {
 #> {
 #>     print(c(a, b, ...))
 #> }
-#> <environment: 0x55b0ddf687e0>
+#> <environment: 0x561248f7a6a0>
 
 # ----- JavaScript style of forEach -----
 # ### Equivalent JavaScript Code:
