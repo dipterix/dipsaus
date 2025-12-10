@@ -4,6 +4,7 @@ import { register_set_input } from './shiny-input-arbitrary.js';
 import { register_swal } from './shiny-input-swal.js';
 import { register_screenshot } from './screenshot.js';
 import { register_directoryInput } from './shiny-input-directory.js';
+import { register_streamDownload } from './shiny-download-stream.js';
 import html2canvas from 'html2canvas';
 
 const Shiny = window.Shiny;
@@ -15,4 +16,5 @@ register_screenshot( Shiny, DEBUG );
 register_set_input( Shiny, DEBUG );
 register_swal( Shiny, DEBUG );
 register_directoryInput( Shiny, DEBUG );
+register_streamDownload( Shiny, DEBUG );
 

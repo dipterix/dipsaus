@@ -2,25 +2,25 @@
 % Please edit documentation in R/shiny-fancyFileInput.R
 \name{get_dipsaus_upload_dir}
 \alias{get_dipsaus_upload_dir}
-\title{Get upload directory for fancyDirectoryInput}
+\title{Get upload directory for \code{\link{fancyDirectoryInput}}}
 \usage{
 get_dipsaus_upload_dir(inputId, session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
-\item{inputId}{the input ID (relative to the session, will be automatically 
-namespaced via \code{session$ns(inputId)})}
+\item{inputId}{the input ID (relative to the session, whose namespace
+will be automatically applied via \code{session$ns(inputId)})}
 
 \item{session}{the Shiny session object (default: \code{shiny::getDefaultReactiveDomain()})}
 }
 \value{
-Character string with the upload directory path, or \code{NULL} if 
-the input has no uploaded files yet. The directory path follows the pattern 
-\code{tempdir()/dipsaus_uploads/{6-char-hash}/} where the hash is derived 
+Character string with the upload directory path, or \code{NULL} if
+the input has no uploaded files yet. The directory path follows the pattern
+\code{tempdir()/dipsaus_uploads/{6-char-hash}/} where the hash is derived
 from \code{digest(session_token + full_inputId)}.
 }
 \description{
-Retrieve the upload directory path for a \code{\link{fancyDirectoryInput}}. 
-The upload directory is deterministically generated based on the session token 
+Retrieve the upload directory path for a \code{\link{fancyDirectoryInput}}.
+The upload directory is generated based on the session token
 and input ID, and files uploaded to the input preserve their relative directory structure within this directory.
 }
 \details{
@@ -31,12 +31,12 @@ This function is useful for:
   \item Accessing the upload directory for custom file operations
 }
 
-The upload directory is deterministic for a given session and input ID, meaning 
-multiple uploads to the same input will use the same directory (unless 
+The upload directory is deterministic for a given session and input ID, meaning
+multiple uploads to the same input will use the same directory (unless
 \code{autoCleanup = TRUE} is set, which clears the directory before each new upload).
 
-In Shiny modules, use the relative \code{inputId} (e.g., \code{"dir_input"}) 
-rather than the full namespaced ID. The function will automatically handle 
+In Shiny modules, use the relative \code{inputId} (e.g., \code{"dir_input"})
+rather than the full ID (with namespace applied). The function will automatically handle
 namespace conversion via \code{session$ns(inputId)}.
 }
 \examples{
@@ -44,14 +44,14 @@ namespace conversion via \code{session$ns(inputId)}.
 server <- function(input, output, session) {
   observeEvent(input$dir_input, {
     files <- input$dir_input
-    
+
     if(!is.null(files) && attr(files, "upload_status") == "completed") {
       # Get the upload directory
       upload_dir <- get_dipsaus_upload_dir("dir_input")
       cat("Files are stored in:", upload_dir, "\n")
-      
+
       # Process files...
-      
+
       # Clean up when done
       unlink(upload_dir, recursive = TRUE, force = TRUE)
     }

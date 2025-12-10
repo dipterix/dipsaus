@@ -15,8 +15,8 @@ observeDirectoryProgress(inputId, session = shiny::getDefaultReactiveDomain())
 invisible NULL; sets up reactive observers for progress tracking
 }
 \description{
-Helper function to set up progress tracking using \code{\link{progress2}} 
-for \code{\link{fancyDirectoryInput}}. Call this in your server function 
+Helper function to set up progress tracking using \code{\link{progress2}}
+for \code{\link{fancyDirectoryInput}}. Call this in your server function
 to enable automatic progress updates.
 }
 \examples{
@@ -24,7 +24,7 @@ to enable automatic progress updates.
 server <- function(input, output, session) {
   # Enable progress tracking
   observeDirectoryProgress("dir_input")
-  
+
   # Your other server logic...
 }
 }
