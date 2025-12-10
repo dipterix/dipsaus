@@ -67,7 +67,7 @@ fancyDirectoryInput(
 
   logical; if `TRUE`, hides the auto-cleanup checkbox, preventing users
   from changing the setting. Default is `FALSE`, which shows the
-  checkbox allowing users to toggle auto-cleanup behavior.
+  check-box allowing users to toggle auto-cleanup behavior.
 
 - ...:
 
@@ -78,12 +78,12 @@ fancyDirectoryInput(
 A reactive data frame with components: `fileId` (unique file
 identifier), `name` (file name), `size` (file size in bytes), `type`
 (MIME type), `datapath` (temporary file path on server), and
-`relativePath` (full relative path including subdirectories). The data
+`relativePath` (full relative path including sub-directories). The data
 frame also has attributes: `directoryStructure` (nested list
 representing the directory tree), `ready` (logical indicating if all
 files are processed), `totalFiles` (total number of files),
-`upload_status` (one of "initialized", "completed", or "errored"), and
-`upload_dir` (character string with the upload directory path where
+`upload_status` (one of `"initialized"`, `"completed"`, or `"errored"`),
+and `upload_dir` (character string with the upload directory path where
 files are stored, preserving their relative directory structure).
 
 **Important:** The `datapath` column is `NA` initially when
@@ -199,19 +199,19 @@ if(interactive()) {
         files <- input$dir_input
         if(!is.null(files)) {
           upload_status <- attr(files, "upload_status")
-          
+
           cat("Directory upload event:\n")
           cat("  Status:", upload_status, "\n")
           cat("  Total files:", attr(files, "totalFiles"), "\n")
           cat("  Ready:", attr(files, "ready"), "\n")
-          
+
           if(upload_status == "completed") {
             # All files uploaded - datapaths are now populated!
             cat("\nAll files uploaded successfully!\n")
             cat("Files with datapaths:\n")
-            print(files[!is.na(files$datapath), 
+            print(files[!is.na(files$datapath),
                         c("name", "relativePath", "datapath")])
-            
+
             # Now you can process all files
             for(i in seq_len(nrow(files))) {
               if(!is.na(files$datapath[i])) {
@@ -223,7 +223,7 @@ if(interactive()) {
           } else if(upload_status == "initialized") {
             # Initial metadata - datapaths are NA at this point
             cat("Upload started, processing files...\n")
-            
+
             # Access directory structure
             dir_struct <- attr(files, "directoryStructure")
             cat("\nDirectory structure:\n")
@@ -231,7 +231,7 @@ if(interactive()) {
           }
         }
       })
-      
+
       # Optional: Track individual files as they upload (real-time)
       observeEvent(input$dir_input__file, {
         file_data <- input$dir_input__file
@@ -239,7 +239,7 @@ if(interactive()) {
           cat("File uploaded:", file_data$name, "->", file_data$datapath, "\n")
         }
       })
-      
+
       # Optional: Monitor upload progress
       observeEvent(input$dir_input__status, {
         status <- input$dir_input__status
@@ -252,14 +252,14 @@ if(interactive()) {
     },
     options = list(launch.browser = TRUE)
   )
-  
+
   # Example with progress tracking
   shinyApp(
     ui2,
     server = function(input, output, session){
       # Enable progress tracking
       observeDirectoryProgress("dir_input2")
-      
+
       # Process files when complete
       observeEvent(input$dir_input2, {
         files <- input$dir_input2
@@ -270,13 +270,13 @@ if(interactive()) {
     },
     options = list(launch.browser = TRUE)
   )
-  
+
   # Example with autoCleanup and manual directory cleanup
   ui3 <- basicPage(
     fancyDirectoryInput('dir_input3', "Upload directory", autoCleanup = TRUE),
     actionButton('cleanup', 'Clean Up Files')
   )
-  
+
   shinyApp(
     ui3,
     server = function(input, output, session){
@@ -290,7 +290,7 @@ if(interactive()) {
           # Process files with their directory structure...
         }
       })
-      
+
       # Manual cleanup option
       observeEvent(input$cleanup, {
         upload_dir <- get_dipsaus_upload_dir('dir_input3')

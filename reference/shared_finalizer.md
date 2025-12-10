@@ -200,25 +200,25 @@ reg.finalizer(e1, clear_files)
 reg.finalizer(e2, clear_files)
 #> NULL
 gc()
-#>           used (Mb) gc trigger (Mb) max used  (Mb)
-#> Ncells 1428209 76.3    2227682  119  2227682 119.0
-#> Vcells 2651965 20.3   12316962   94 24056449 183.6
+#>           used (Mb) gc trigger  (Mb) max used  (Mb)
+#> Ncells 1428982 76.4    2248520 120.1  2248520 120.1
+#> Vcells 2653253 20.3   12317911  94.0 24058341 183.6
 file_exists
 #> [1] TRUE
 
 # removing e1 will invalidate e2
 rm(e1); gc()
 #> [1] "Clean some shared files"
-#>           used (Mb) gc trigger (Mb) max used  (Mb)
-#> Ncells 1428227 76.3    2227682  119  2227682 119.0
-#> Vcells 2652031 20.3   12316962   94 24056449 183.6
+#>           used (Mb) gc trigger  (Mb) max used  (Mb)
+#> Ncells 1429000 76.4    2248520 120.1  2248520 120.1
+#> Vcells 2653319 20.3   12317911  94.0 24058341 183.6
 e2$valid()    # FALSE
 #> [1] FALSE
 
 # Clean-ups
 rm(e2); gc()
 #> [1] "Clean some shared files"
-#>           used (Mb) gc trigger (Mb) max used  (Mb)
-#> Ncells 1428241 76.3    2227682  119  2227682 119.0
-#> Vcells 2652035 20.3   12316962   94 24056449 183.6
+#>           used (Mb) gc trigger  (Mb) max used  (Mb)
+#> Ncells 1429014 76.4    2248520 120.1  2248520 120.1
+#> Vcells 2653323 20.3   12317911  94.0 24058341 183.6
 ```

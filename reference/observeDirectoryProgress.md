@@ -33,7 +33,7 @@ if (FALSE) { # \dontrun{
 server <- function(input, output, session) {
   # Enable progress tracking
   observeDirectoryProgress("dir_input")
-  
+
   # Your other server logic...
 }
 } # }

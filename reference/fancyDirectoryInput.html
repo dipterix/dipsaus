@@ -13,7 +13,7 @@ Firefox has limited support."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +111,7 @@ HTML attribute on the input element.</p></dd>
 <dt id="arg-autocleanuplocked">autoCleanupLocked<a class="anchor" aria-label="anchor" href="#arg-autocleanuplocked"></a></dt>
 <dd><p>logical; if <code>TRUE</code>, hides the auto-cleanup checkbox,
 preventing users from changing the setting. Default is <code>FALSE</code>, which shows
-the checkbox allowing users to toggle auto-cleanup behavior.</p></dd>
+the check-box allowing users to toggle auto-cleanup behavior.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -123,11 +123,11 @@ the checkbox allowing users to toggle auto-cleanup behavior.</p></dd>
     <p>A reactive data frame with components: <code>fileId</code> (unique file identifier),
 <code>name</code> (file name), <code>size</code> (file size in bytes), <code>type</code> (MIME type),
 <code>datapath</code> (temporary file path on server), and <code>relativePath</code>
-(full relative path including subdirectories). The data frame also has attributes:
+(full relative path including sub-directories). The data frame also has attributes:
 <code>directoryStructure</code> (nested list representing the directory tree),
 <code>ready</code> (logical indicating if all files are processed),
 <code>totalFiles</code> (total number of files), <code>upload_status</code> (one of
-"initialized", "completed", or "errored"), and <code>upload_dir</code> (character string
+<code>"initialized"</code>, <code>"completed"</code>, or <code>"errored"</code>), and <code>upload_dir</code> (character string
 with the upload directory path where files are stored, preserving their relative directory structure).</p>
 <p><strong>Important:</strong> The <code>datapath</code> column is <code>NA</code> initially when
 <code>upload_status = "initialized"</code>. The input automatically updates when all files
@@ -207,19 +207,19 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>        <span class="va">files</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">dir_input</span></span></span>
 <span class="r-in"><span>        <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>          <span class="va">upload_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"upload_status"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>          </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Directory upload event:\n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"  Status:"</span>, <span class="va">upload_status</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"  Total files:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"totalFiles"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"  Ready:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"ready"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>          </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>          <span class="kw">if</span><span class="op">(</span><span class="va">upload_status</span> <span class="op">==</span> <span class="st">"completed"</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>            <span class="co"># All files uploaded - datapaths are now populated!</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\nAll files uploaded successfully!\n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Files with datapaths:\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">files</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">files</span><span class="op">$</span><span class="va">datapath</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">files</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">files</span><span class="op">$</span><span class="va">datapath</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"relativePath"</span>, <span class="st">"datapath"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span>            </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>            <span class="co"># Now you can process all files</span></span></span>
 <span class="r-in"><span>            <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>              <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">files</span><span class="op">$</span><span class="va">datapath</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -231,7 +231,7 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>          <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span><span class="op">(</span><span class="va">upload_status</span> <span class="op">==</span> <span class="st">"initialized"</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>            <span class="co"># Initial metadata - datapaths are NA at this point</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Upload started, processing files...\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>            </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>            <span class="co"># Access directory structure</span></span></span>
 <span class="r-in"><span>            <span class="va">dir_struct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"directoryStructure"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\nDirectory structure:\n"</span><span class="op">)</span></span></span>
@@ -239,7 +239,7 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>          <span class="op">}</span></span></span>
 <span class="r-in"><span>        <span class="op">}</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>      <span class="co"># Optional: Track individual files as they upload (real-time)</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dir_input__file</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="va">file_data</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">dir_input__file</span></span></span>
@@ -247,7 +247,7 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"File uploaded:"</span>, <span class="va">file_data</span><span class="op">$</span><span class="va">name</span>, <span class="st">"-&gt;"</span>, <span class="va">file_data</span><span class="op">$</span><span class="va">datapath</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>        <span class="op">}</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>      <span class="co"># Optional: Monitor upload progress</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dir_input__status</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="va">status</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">dir_input__status</span></span></span>
@@ -260,14 +260,14 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>    <span class="op">}</span>,</span></span>
 <span class="r-in"><span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Example with progress tracking</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">ui2</span>,</span></span>
 <span class="r-in"><span>    server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>      <span class="co"># Enable progress tracking</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="observeDirectoryProgress.html">observeDirectoryProgress</a></span><span class="op">(</span><span class="st">"dir_input2"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>      <span class="co"># Process files when complete</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dir_input2</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="va">files</span> <span class="op">&lt;-</span> <span class="va">input</span><span class="op">$</span><span class="va">dir_input2</span></span></span>
@@ -278,13 +278,13 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>    <span class="op">}</span>,</span></span>
 <span class="r-in"><span>    options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>launch.browser <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Example with autoCleanup and manual directory cleanup</span></span></span>
 <span class="r-in"><span>  <span class="va">ui3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/bootstrapPage.html" class="external-link">basicPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu">fancyDirectoryInput</span><span class="op">(</span><span class="st">'dir_input3'</span>, <span class="st">"Upload directory"</span>, autoCleanup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">'cleanup'</span>, <span class="st">'Clean Up Files'</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">ui3</span>,</span></span>
 <span class="r-in"><span>    server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span></span></span>
@@ -298,7 +298,7 @@ manual cleanup: <code>unlink(get_dipsaus_upload_dir(inputId), recursive = TRUE)<
 <span class="r-in"><span>          <span class="co"># Process files with their directory structure...</span></span></span>
 <span class="r-in"><span>        <span class="op">}</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>      <span class="co"># Manual cleanup option</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">cleanup</span>, <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="va">upload_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_dipsaus_upload_dir.html">get_dipsaus_upload_dir</a></span><span class="op">(</span><span class="st">'dir_input3'</span><span class="op">)</span></span></span>

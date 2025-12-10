@@ -169,7 +169,9 @@
   : Generate a random password
 
 - [`get_dipsaus_upload_dir()`](https://dipterix.org/dipsaus/reference/get_dipsaus_upload_dir.md)
-  : Get upload directory for fancyDirectoryInput
+  :
+
+  Get upload directory for `fancyDirectoryInput`
 
 - [`get_dots()`](https://dipterix.org/dipsaus/reference/get_dots.md)
   [`missing_dots()`](https://dipterix.org/dipsaus/reference/get_dots.md)
@@ -356,6 +358,9 @@
 
 - [`ste_mean()`](https://dipterix.org/dipsaus/reference/ste_mean.md) :
   Standard error of mean
+
+- [`stream_download()`](https://dipterix.org/dipsaus/reference/stream_download.md)
+  : Stream Download Files to Browser
 
 - [`sumsquared`](https://dipterix.org/dipsaus/reference/sumsquared.md) :
   Fast Calculation of Sum-squared for Large Matrices/Vectors

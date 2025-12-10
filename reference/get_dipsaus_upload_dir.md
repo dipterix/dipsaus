@@ -1,10 +1,10 @@
-# Get upload directory for fancyDirectoryInput
+# Get upload directory for [`fancyDirectoryInput`](https://dipterix.org/dipsaus/reference/fancyDirectoryInput.md)
 
 Retrieve the upload directory path for a
 [`fancyDirectoryInput`](https://dipterix.org/dipsaus/reference/fancyDirectoryInput.md).
-The upload directory is deterministically generated based on the session
-token and input ID, and files uploaded to the input preserve their
-relative directory structure within this directory.
+The upload directory is generated based on the session token and input
+ID, and files uploaded to the input preserve their relative directory
+structure within this directory.
 
 ## Usage
 
@@ -16,8 +16,8 @@ get_dipsaus_upload_dir(inputId, session = shiny::getDefaultReactiveDomain())
 
 - inputId:
 
-  the input ID (relative to the session, will be automatically
-  namespaced via `session$ns(inputId)`)
+  the input ID (relative to the session, whose namespace will be
+  automatically applied via `session$ns(inputId)`)
 
 - session:
 
@@ -48,8 +48,8 @@ meaning multiple uploads to the same input will use the same directory
 each new upload).
 
 In Shiny modules, use the relative `inputId` (e.g., `"dir_input"`)
-rather than the full namespaced ID. The function will automatically
-handle namespace conversion via `session$ns(inputId)`.
+rather than the full ID (with namespace applied). The function will
+automatically handle namespace conversion via `session$ns(inputId)`.
 
 ## Examples
 
@@ -58,14 +58,14 @@ if (FALSE) { # \dontrun{
 server <- function(input, output, session) {
   observeEvent(input$dir_input, {
     files <- input$dir_input
-    
+
     if(!is.null(files) && attr(files, "upload_status") == "completed") {
       # Get the upload directory
       upload_dir <- get_dipsaus_upload_dir("dir_input")
       cat("Files are stored in:", upload_dir, "\n")
-      
+
       # Process files...
-      
+
       # Clean up when done
       unlink(upload_dir, recursive = TRUE, force = TRUE)
     }

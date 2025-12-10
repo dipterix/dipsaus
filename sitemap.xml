@@ -4,6 +4,7 @@
 <url><loc>https://dipterix.org/dipsaus/articles/index.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/r_expr_addons.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/shiny_customized_widgets.html</loc></url>
+<url><loc>https://dipterix.org/dipsaus/articles/shiny_customized_widgets_files/dipsaus-0.3.2.8/streamsaver/mitm.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/utility_functions.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/authors.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/index.html</loc></url>
@@ -107,6 +108,7 @@
 <url><loc>https://dipterix.org/dipsaus/reference/shiny_alert2.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/shiny_is_running.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/ste_mean.html</loc></url>
+<url><loc>https://dipterix.org/dipsaus/reference/stream_download.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/sumsquared.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/sync_shiny_inputs.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/test_farg.html</loc></url>
