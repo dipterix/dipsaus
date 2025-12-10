@@ -55,25 +55,53 @@ locker_key <- function(name, set_default = FALSE, unset = FALSE) {
 }
 
 validate_lock <- function(lock_path) {
-  suppressWarnings({
-    try({
-      lkey <- readLines(lock_path)
-      lkey <- strsplit(lkey, "-")[[1]]
-      if(length(lkey) == 2 && identical(digest(lkey[[1]]), lkey[[2]])) {
-        return(TRUE)
-      }
-    }, silent = TRUE)
+  if(!file.exists(lock_path)) { return(FALSE) }
+  # cat(Sys.getpid(), ": Validating lock...\n")
+
+  # Read the lock_path: this file may still be deleted by other processes
+  lkey <- tryCatch({
+    readLines(lock_path)
+  }, error = function(e) {
+    FALSE
+  }, warning = function(e) {
+    FALSE
   })
+  if(isFALSE(lkey)) { return(FALSE) }
+  tryCatch({
+    lkey <- strsplit(lkey, "-")[[1]]
+    if(length(lkey) == 2 && identical(digest(lkey[[1]]), lkey[[2]])) {
+      # cat(Sys.getpid(), ": Lock is valid.\n")
+      return(TRUE)
+    }
+  }, error = function(e) {
+    # Do nothing and eventually return FALSE
+  })
+  # cat(Sys.getpid(), ": Lock is invalid!\n")
   return(FALSE)
 }
 
 validate_key <- function(lock_path, key) {
-  suppressWarnings({
-    try({
-      lkey <- readLines(lock_path)
-      if(identical(lkey, key)) { return(TRUE) }
-    }, silent = TRUE)
+  if(!file.exists(lock_path)) {
+    # cat(Sys.getpid(), ": Lock is missing.\n")
+    return(FALSE)
+  }
+  # cat(Sys.getpid(), ": Validating key - ", key, "\n")
+  # Read the lock_path: this file may still be deleted by other processes
+  lkey <- tryCatch({
+    readLines(lock_path)
+  }, error = function(e) {
+    FALSE
+  }, warning = function(e) {
+    FALSE
   })
+  if(isFALSE(lkey)) { return(FALSE) }
+
+  if(identical(lkey, key)) {
+    # cat(Sys.getpid(), ": Key is valid.\n")
+    return(TRUE)
+  }
+
+  # cat(Sys.getpid(), ": Key is invalid.\n")
   return(FALSE)
 }
 
@@ -91,8 +119,23 @@ dipsaus_lock <- function(name, timeout = 10, exclusive = TRUE){
   lock_path <- file.path(root_path, name)
 
   if(!dir.exists(root_path)) {
-    dir.create(root_path, showWarnings = FALSE, recursive = TRUE)
+    success <- tryCatch({
+      dir.create(root_path, showWarnings = FALSE, recursive = TRUE)
+      TRUE
+    }, error = function(e) {
+      FALSE
+    })
+
+    # Retry if directory creation fails
+    if (!success && !dir.exists(root_path)) {
+      Sys.sleep(0.01)
+      if (!dir.exists(root_path)) {
+        stop("Failed to create the file_locks directory.")
+      }
+    }
   }
+
+  # cat(Sys.getpid(), ": Locking key...\n")
 
   lock_valid <- validate_lock(lock_path)
   if(!lock_valid){
@@ -111,11 +154,11 @@ dipsaus_lock <- function(name, timeout = 10, exclusive = TRUE){
       return(TRUE)
     }
   } else {
-    try({
+    # try({
       if(validate_key(lock_path, lkey)) {
         return(TRUE)
       }
-    }, silent = TRUE)
+    # }, silent = TRUE)
   }
 
   if(timeout <= 0) {
@@ -138,11 +181,11 @@ dipsaus_lock <- function(name, timeout = 10, exclusive = TRUE){
         return(TRUE)
       }
     } else {
-      try({
+      # try({
         if(validate_key(lock_path, lkey)) {
           return(TRUE)
         }
-      }, silent = TRUE)
+      # }, silent = TRUE)
     }
 
   }
@@ -179,7 +222,7 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
   try({
     if(validate_key(lock_path, lkey)) {
       unlink(lock_path)
-      remove_empty_dir(cache_dir, recursive = TRUE)
+      # remove_empty_dir(cache_dir, recursive = FALSE)
       return(unlocked())
     }
   }, silent = TRUE)
@@ -195,7 +238,7 @@ dipsaus_unlock <- function(name, timeout = 10, exclusive = TRUE) {
     try({
       if(validate_key(lock_path, lkey)) {
         unlink(lock_path)
-        remove_empty_dir(cache_dir, recursive = TRUE)
+        # remove_empty_dir(cache_dir, recursive = FALSE)
         return(unlocked())
       }
     }, silent = TRUE)
@@ -221,7 +264,7 @@ dipsaus_resetlocks <- function(name) {
       unlink(lock_path, force = TRUE)
     }
   }
-  remove_empty_dir(cache_dir, recursive = TRUE)
+  # remove_empty_dir(cache_dir, recursive = FALSE)
 }
 
 # .locks <- local({
@@ -322,9 +365,6 @@ dipsaus_resetlocks <- function(name) {
 #   ))
 #
 # })
-
-
-
 
 
 

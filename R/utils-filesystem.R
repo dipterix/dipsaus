@@ -59,7 +59,14 @@ microtime <- function() {
 
 remove_empty_dir <- function(path, all.files = TRUE, recursive = FALSE, verbose = FALSE) {
   if(!dir.exists(path)) { return() }
-  sub_files <- list.files(path = path, recursive = FALSE, all.files = all.files, include.dirs = TRUE, no.. = TRUE, full.names = TRUE)
+  sub_files <- list.files(
+    path = path,
+    recursive = FALSE,
+    all.files = all.files,
+    include.dirs = TRUE,
+    no.. = TRUE,
+    full.names = TRUE
+  )
   if( recursive ) {
     if(length(sub_files) > 0L) {
       sub_dirs <- sub_files[dir.exists(sub_files)]

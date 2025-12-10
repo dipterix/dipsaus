@@ -113,16 +113,16 @@ PersistContainer <- R6::R6Class(
     },
 
     reset = function(all = FALSE){
-      try({ private$local_map$reset() })
+      try({ private$local_map$reset() }, silent = TRUE)
       if(all){
-        try({ private$map$reset() })
+        try({ private$map$reset() }, silent = TRUE)
       }
       invisible()
     },
     destroy = function(all = FALSE){
-      try({ private$local_map$destroy() })
+      try({ private$local_map$destroy() }, silent = TRUE)
       if(all){
-        try({ private$map$destroy() })
+        try({ private$map$destroy() }, silent = TRUE)
       }
       invisible()
     },
@@ -145,9 +145,9 @@ PersistContainer <- R6::R6Class(
     },
 
     remove = function(keys, all = TRUE){
-      try({ private$local_map$remove(keys) })
+      try({ private$local_map$remove(keys) }, silent = TRUE)
       if( all ){
-        try({ private$map$remove(keys) })
+        try({ private$map$remove(keys) }, silent = TRUE)
       }
       invisible()
     },
@@ -159,9 +159,7 @@ PersistContainer <- R6::R6Class(
       has_sig <- !missing(signature)
 
       save_item <- function(force_value = TRUE){
-        try({
-
-          self$remove(key, all = FALSE)
+        # tryCatch({
 
           if(force_value) force(value)
 
@@ -181,14 +179,18 @@ PersistContainer <- R6::R6Class(
             mp <- local_map
           }
 
+          # cat("Saving key: ", key, " with value ", value, "\n")
           if(has_sig){
             mp$set(key, value, signature = signature)
           }else{
             mp$set(key, value, signature = .missing_arg[[1]])
           }
 
-        })
-
+        # }, error = function(e) {
+        #   # FIXME: should we remove the key if missing?
+        #   # self$remove(key, all = FALSE)
+        #   # traceback(e)
+        # })
 
         return(value)
 
@@ -198,29 +200,32 @@ PersistContainer <- R6::R6Class(
       }
 
       # In case the map is corrupted
-      try({
+      # try({
         # Search for local_map
-        if(has_sig){
-          if( local_map$has(keys = key, signature = signature, sig_encoded = FALSE) ){
-            return(local_map$get(key = key))
-          }else if( map$has(keys = key, signature = signature, sig_encoded = FALSE) ){
-            return(map$get(key = key))
-          }else{
-            return(save_item())
-          }
-        }else{
-
-          if( local_map$has(keys = key) ){
-            return(local_map$get(key = key))
-          }else if( map$has(keys = key) ){
-            return(map$get(key = key))
-          }else{
-            return(save_item())
-          }
-
+      if(has_sig) {
+        if (local_map$has(keys = key,
+                          signature = signature,
+                          sig_encoded = FALSE)) {
+          return(local_map$get(key = key))
+        } else if (map$has(keys = key,
+                           signature = signature,
+                           sig_encoded = FALSE)) {
+          return(map$get(key = key))
+        } else{
+          return(save_item())
+        }
+      } else{
+        if (local_map$has(keys = key)) {
+          return(local_map$get(key = key))
+        } else if (map$has(keys = key)) {
+          return(map$get(key = key))
+        } else{
+          return(save_item())
         }
 
-      })
+      }
+
+      # })
 
 
       return(value)

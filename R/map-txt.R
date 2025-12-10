@@ -8,7 +8,7 @@ TextMap <- R6::R6Class(
 
     `@set` = function(key, value, signature){
       # If new key, then no-harm as there is no writing
-      self$`@remove`(key)
+      # self$`@remove`(key)
 
       # Generate filename from key
       encoded_key <- safe_urlencode(key)
@@ -16,13 +16,35 @@ TextMap <- R6::R6Class(
 
       # save value
       fpath <- file.path(private$db_dir, encoded_key)
-      yaml::write_yaml(value, file = fpath)
 
-      write.table(data.frame(
-        Key = encoded_key,
-        Hash = signature
-      ), file = private$header_file, sep = '|', append = TRUE, quote = FALSE,
-      row.names = FALSE, col.names = FALSE)
+      tf <- tempfile()
+      on.exit({ unlink(tf) })
+
+      yaml::write_yaml(value, file = tf)
+      file.copy(from = tf, to = fpath, overwrite = TRUE)
+
+      file.copy(from = private$header_file, to = tf, overwrite = TRUE)
+
+      write.table(
+        data.frame(Key = encoded_key, Hash = signature),
+        file = tf,
+        sep = '|',
+        append = TRUE,
+        quote = FALSE,
+        row.names = FALSE,
+        col.names = FALSE
+      )
+      file.copy(from = tf, to = private$header_file, overwrite = TRUE)
+
+      # write.table(
+      #   data.frame(Key = encoded_key, Hash = signature),
+      #   file = private$header_file,
+      #   sep = '|',
+      #   append = TRUE,
+      #   quote = FALSE,
+      #   row.names = FALSE,
+      #   col.names = FALSE
+      # )
 
       return( signature )
     },

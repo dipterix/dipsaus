@@ -12,8 +12,17 @@ FileMap <- R6::R6Class(
   public = list(
 
     `@remove` = function(keys){
-      tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
-                     stringsAsFactors = FALSE, na.strings = 'NA', colClasses = 'character')
+      tf <- tempfile()
+      on.exit({ unlink(tf) })
+      file.copy(from = private$header_file, to = tf, overwrite = TRUE)
+      tbl <- read.csv(
+        tf,
+        header = TRUE,
+        sep = '|',
+        stringsAsFactors = FALSE,
+        na.strings = 'NA',
+        colClasses = 'character'
+      )
       if(!length(tbl$Key)){ return(invisible()) }
 
       enkeys <- sapply(keys, safe_urlencode)
@@ -21,15 +30,19 @@ FileMap <- R6::R6Class(
       if( any(sel) ){
         fs <- tbl$Key[sel]
         tbl <- tbl[!sel, ]
-        write.table(tbl, private$header_file, sep = '|', quote = FALSE,
+        write.table(tbl, tf, sep = '|', quote = FALSE,
                     row.names = FALSE, col.names = TRUE, append = FALSE)
+        file.copy(from = tf, to = private$header_file, overwrite = TRUE)
         # Unlink files
         lapply(file.path(private$db_dir, fs), unlink)
       }
       invisible()
     },
     reset = function(...){
-      writeLines('Key|Hash', private$header_file)
+      tf <- tempfile()
+      on.exit({ unlink(tf) })
+      writeLines('Key|Hash', tf)
+      file.copy(from = tf, to = private$header_file, overwrite = TRUE)
       unlink(private$db_dir, recursive = TRUE)
       dir_create(private$db_dir)
     },
@@ -48,8 +61,8 @@ FileMap <- R6::R6Class(
     },
 
     `@set` = function(key, value, signature){
-      # If new key, then no-harm as there is no writing
-      self$`@remove`(key)
+
+      # self$`@remove`(key)
 
       # Generate filename from key
       encoded_key <- safe_urlencode(key)
@@ -57,13 +70,27 @@ FileMap <- R6::R6Class(
 
       # save value
       fpath <- file.path(private$db_dir, encoded_key)
-      saveRDS(value, file = fpath)
 
-      write.table(data.frame(
-        Key = encoded_key,
-        Hash = signature
-        ), file = private$header_file, sep = '|', append = TRUE, quote = FALSE,
-        row.names = FALSE, col.names = FALSE)
+      # save value file
+      tf <- tempfile()
+      on.exit({ unlink(tf) })
+
+
+      saveRDS(value, file = tf)
+      file.copy(from = tf, to = fpath, overwrite = TRUE)
+
+      file.copy(from = private$header_file, to = tf, overwrite = TRUE)
+
+      write.table(
+        data.frame(Key = encoded_key, Hash = signature),
+        file = tf,
+        sep = '|',
+        append = TRUE,
+        quote = FALSE,
+        row.names = FALSE,
+        col.names = FALSE
+      )
+      file.copy(from = tf, to = private$header_file, overwrite = TRUE)
 
       return( signature )
     },

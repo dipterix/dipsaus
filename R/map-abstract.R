@@ -136,7 +136,7 @@ AbstractMap <- R6::R6Class(
       }
 
       vapply(keys, function(k){
-        sel <- all_keys[,1] == k
+        sel <- all_keys[, 1] == k
         has_key <- any(sel)
         if( has_sig && has_key ){ has_key <- all_keys[sel, 2] == signature }
         has_key
