@@ -92,13 +92,13 @@ container$cache(key = 'a', value = {
   print(123)
   return(2)
 }, signature = 111, replace = FALSE)
-#> [1] 3
+#> [1] 1
 
 # When no signature is present
 # If the key exists (no signature provided), return stored value
 # returns 3
 container$cache(key = 'a', value = 4)
-#> [1] 3
+#> [1] 1
 
 # replace is TRUE (no signature provided), signature will be some default value
 container$cache(key = 'a', value = 2, replace = TRUE)

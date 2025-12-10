@@ -37,7 +37,6 @@ Logical, whether the operation succeed.
 ``` r
 # Clear existing locks
 dipsaus::dipsaus_resetlocks()
-#> NULL
 
 # unlock to prepare for the example
 dipsaus_unlock('testlocker', timeout = 0.01)
@@ -62,6 +61,5 @@ dipsaus_unlock('testlocker', timeout = 0.01)
 
 # clean up
 dipsaus::dipsaus_resetlocks()
-#> NULL
 
 ```
