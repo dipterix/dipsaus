@@ -14,8 +14,7 @@ calc_401kloan(
   market_loan_apr,
   down_payment_pct = 0,
   n_months = 60,
-  tax_rate = 0.22,
-  early_withdrawal_penalty = 0.1
+  max_401k_loan_limit = 50000
 )
 }
 \arguments{
@@ -37,9 +36,7 @@ calc_401kloan(
 
 \item{n_months}{integer; number of months for the loan (default 60)}
 
-\item{tax_rate}{numeric; tax rate for early withdrawal (as decimal, default 0.22)}
-
-\item{early_withdrawal_penalty}{numeric; early withdrawal penalty (as decimal, default 0.10)}
+\item{max_401k_loan_limit}{numeric; IRS maximum 401k loan limit (default 50000)}
 }
 \value{
 A list containing:
@@ -81,9 +78,9 @@ The function calculates and compares multiple scenarios:
   \item Remaining cash grows at cash_yield rate
 }
 
-The function considers tax implications and early withdrawal penalties when
-comparing strategies. It recommends the strategy that maximizes total final
-balance (401k + cash) after the loan period.
+The function compares different loan strategies to determine which approach
+maximizes total final balance (401k + cash) after the loan period. It considers
+IRS limits on 401k loans (50% of balance or $50,000, whichever is less).
 }
 \examples{
 # Basic example: $50,000 loan with typical parameters

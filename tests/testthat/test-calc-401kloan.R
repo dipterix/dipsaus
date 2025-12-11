@@ -231,7 +231,7 @@ test_that("calc_401kloan returns all expected details", {
   
 })
 
-test_that("calc_401kloan with custom tax and penalty rates", {
+test_that("calc_401kloan with custom 401k loan limit", {
   
   result <- calc_401kloan(
     loan_amount = 20000,
@@ -241,13 +241,11 @@ test_that("calc_401kloan with custom tax and penalty rates", {
     cash_yield = 0.025,
     k401_loan_apr = 0.05,
     market_loan_apr = 0.09,
-    tax_rate = 0.25,
-    early_withdrawal_penalty = 0.10,
+    max_401k_loan_limit = 40000,
     n_months = 60
   )
   
-  expect_equal(result$inputs$tax_rate, 0.25)
-  expect_equal(result$inputs$early_withdrawal_penalty, 0.10)
+  expect_equal(result$inputs$max_401k_loan_limit, 40000)
   expect_true(inherits(result, "calc_401kloan_result"))
   
 })

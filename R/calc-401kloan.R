@@ -17,8 +17,7 @@
 #' @param market_loan_apr numeric; market loan annual percentage rate (as decimal)
 #' @param down_payment_pct numeric; down payment percentage for market loan (as decimal, default 0)
 #' @param n_months integer; number of months for the loan (default 60)
-#' @param tax_rate numeric; tax rate for early withdrawal (as decimal, default 0.22)
-#' @param early_withdrawal_penalty numeric; early withdrawal penalty (as decimal, default 0.10)
+#' @param max_401k_loan_limit numeric; IRS maximum 401k loan limit (default 50000)
 #'
 #' @return A list containing:
 #' \itemize{
@@ -51,9 +50,9 @@
 #'   \item Remaining cash grows at cash_yield rate
 #' }
 #'
-#' The function considers tax implications and early withdrawal penalties when
-#' comparing strategies. It recommends the strategy that maximizes total final
-#' balance (401k + cash) after the loan period.
+#' The function compares different loan strategies to determine which approach
+#' maximizes total final balance (401k + cash) after the loan period. It considers
+#' IRS limits on 401k loans (50% of balance or $50,000, whichever is less).
 #'
 #' @examples
 #' # Basic example: $50,000 loan with typical parameters
@@ -93,8 +92,7 @@ calc_401kloan <- function(
     market_loan_apr,
     down_payment_pct = 0,
     n_months = 60,
-    tax_rate = 0.22,
-    early_withdrawal_penalty = 0.10
+    max_401k_loan_limit = 50000
 ) {
   
   # Input validation
@@ -108,8 +106,7 @@ calc_401kloan <- function(
     "market_loan_apr must be non-negative" = market_loan_apr >= 0,
     "down_payment_pct must be between 0 and 1" = down_payment_pct >= 0 && down_payment_pct <= 1,
     "n_months must be positive integer" = n_months > 0,
-    "tax_rate must be between 0 and 1" = tax_rate >= 0 && tax_rate <= 1,
-    "early_withdrawal_penalty must be between 0 and 1" = early_withdrawal_penalty >= 0 && early_withdrawal_penalty <= 1
+    "max_401k_loan_limit must be positive" = max_401k_loan_limit > 0
   )
   
   # Convert annual rates to monthly rates
@@ -129,8 +126,7 @@ calc_401kloan <- function(
     market_loan_apr = market_loan_apr,
     down_payment_pct = down_payment_pct,
     n_months = n_months,
-    tax_rate = tax_rate,
-    early_withdrawal_penalty = early_withdrawal_penalty
+    max_401k_loan_limit = max_401k_loan_limit
   )
   
   # Helper function to calculate monthly payment
@@ -196,70 +192,88 @@ calc_401kloan <- function(
   if (cash_balance >= down_payment_amount) {
     monthly_payment_market <- calc_monthly_payment(financed_amount, monthly_market_apr, n_months)
     
-    # Check if cash flow is sufficient
+    # Validate cash flow sufficiency
     initial_cash_after_down <- cash_balance - down_payment_amount
     
-    result_market <- simulate_loan(
-      initial_401k = k401_balance,
-      initial_cash = initial_cash_after_down,
-      loan_from_401k = 0,
-      loan_from_market = financed_amount,
-      monthly_401k_payment = 0,
-      monthly_market_payment = monthly_payment_market,
-      monthly_401k_rate = monthly_401k_yield,
-      monthly_cash_rate = monthly_cash_yield,
-      n_periods = n_months
-    )
-    
-    strategy_market_only <- list(
-      k401_loan = 0,
-      market_loan = financed_amount,
-      down_payment = down_payment_amount,
-      final_401k = result_market$final_401k,
-      final_cash = result_market$final_cash,
-      total_final = result_market$final_401k + result_market$final_cash,
-      monthly_401k_payment = 0,
-      monthly_market_payment = monthly_payment_market
-    )
-  }
-  
-  # Strategy 3: Mixed strategy (use 401k up to limit, rest from market)
-  strategy_mixed <- NULL
-  max_401k_loan <- min(k401_balance * 0.5, 50000)  # IRS limit: 50% or $50k, whichever is less
-  
-  if (loan_amount > max_401k_loan && max_401k_loan > 0) {
-    remaining_needed <- loan_amount - max_401k_loan
-    down_payment_for_market <- remaining_needed * down_payment_pct
-    market_financed <- remaining_needed - down_payment_for_market
-    
-    if (cash_balance >= down_payment_for_market) {
-      monthly_payment_401k <- calc_monthly_payment(max_401k_loan, monthly_401k_apr, n_months)
-      monthly_payment_market <- calc_monthly_payment(market_financed, monthly_market_apr, n_months)
+    # Simple check: ensure minimum cash balance can cover at least a few months of payments
+    # More sophisticated would simulate month by month
+    min_months_buffer <- 3
+    if (initial_cash_after_down >= monthly_payment_market * min_months_buffer) {
       
-      initial_cash_after_down <- cash_balance - down_payment_for_market
-      
-      result_mixed <- simulate_loan(
+      result_market <- simulate_loan(
         initial_401k = k401_balance,
         initial_cash = initial_cash_after_down,
-        loan_from_401k = max_401k_loan,
-        loan_from_market = market_financed,
-        monthly_401k_payment = monthly_payment_401k,
+        loan_from_401k = 0,
+        loan_from_market = financed_amount,
+        monthly_401k_payment = 0,
         monthly_market_payment = monthly_payment_market,
         monthly_401k_rate = monthly_401k_yield,
         monthly_cash_rate = monthly_cash_yield,
         n_periods = n_months
       )
       
-      strategy_mixed <- list(
-        k401_loan = max_401k_loan,
-        market_loan = market_financed,
-        down_payment = down_payment_for_market,
-        final_401k = result_mixed$final_401k,
-        final_cash = result_mixed$final_cash,
-        total_final = result_mixed$final_401k + result_mixed$final_cash,
-        monthly_401k_payment = monthly_payment_401k,
-        monthly_market_payment = monthly_payment_market
-      )
+      # Only consider this strategy if final cash balance is non-negative
+      if (result_market$final_cash >= 0) {
+        strategy_market_only <- list(
+          k401_loan = 0,
+          market_loan = financed_amount,
+          down_payment = down_payment_amount,
+          final_401k = result_market$final_401k,
+          final_cash = result_market$final_cash,
+          total_final = result_market$final_401k + result_market$final_cash,
+          monthly_401k_payment = 0,
+          monthly_market_payment = monthly_payment_market
+        )
+      }
+    }
+  }
+  
+  # Strategy 3: Mixed strategy (use 401k up to limit, rest from market)
+  strategy_mixed <- NULL
+  # IRS limit: 50% of balance or max_401k_loan_limit, whichever is less
+  max_401k_from_balance <- min(k401_balance * 0.5, max_401k_loan_limit)
+  
+  if (loan_amount > max_401k_from_balance && max_401k_from_balance > 0) {
+    remaining_needed <- loan_amount - max_401k_from_balance
+    down_payment_for_market <- remaining_needed * down_payment_pct
+    market_financed <- remaining_needed - down_payment_for_market
+    
+    if (cash_balance >= down_payment_for_market) {
+      monthly_payment_401k <- calc_monthly_payment(max_401k_from_balance, monthly_401k_apr, n_months)
+      monthly_payment_market <- calc_monthly_payment(market_financed, monthly_market_apr, n_months)
+      
+      initial_cash_after_down <- cash_balance - down_payment_for_market
+      
+      # Validate cash flow sufficiency for mixed strategy
+      min_months_buffer <- 3
+      if (initial_cash_after_down >= monthly_payment_market * min_months_buffer) {
+        
+        result_mixed <- simulate_loan(
+          initial_401k = k401_balance,
+          initial_cash = initial_cash_after_down,
+          loan_from_401k = max_401k_from_balance,
+          loan_from_market = market_financed,
+          monthly_401k_payment = monthly_payment_401k,
+          monthly_market_payment = monthly_payment_market,
+          monthly_401k_rate = monthly_401k_yield,
+          monthly_cash_rate = monthly_cash_yield,
+          n_periods = n_months
+        )
+        
+        # Only consider this strategy if final cash balance is non-negative
+        if (result_mixed$final_cash >= 0) {
+          strategy_mixed <- list(
+            k401_loan = max_401k_from_balance,
+            market_loan = market_financed,
+            down_payment = down_payment_for_market,
+            final_401k = result_mixed$final_401k,
+            final_cash = result_mixed$final_cash,
+            total_final = result_mixed$final_401k + result_mixed$final_cash,
+            monthly_401k_payment = monthly_payment_401k,
+            monthly_market_payment = monthly_payment_market
+          )
+        }
+      }
     }
   }
   
@@ -276,7 +290,26 @@ calc_401kloan <- function(
   }
   
   if (length(strategies) == 0) {
-    stop("No viable loan strategy found with current balances and parameters")
+    # Build informative error message
+    error_parts <- character()
+    
+    if (k401_balance < loan_amount) {
+      error_parts <- c(error_parts, 
+        sprintf("401k balance ($%.2f) insufficient for full loan ($%.2f)", k401_balance, loan_amount))
+    }
+    
+    down_payment_needed <- loan_amount * down_payment_pct
+    if (cash_balance < down_payment_needed) {
+      error_parts <- c(error_parts,
+        sprintf("Cash balance ($%.2f) insufficient for down payment ($%.2f)", 
+                cash_balance, down_payment_needed))
+    }
+    
+    if (length(error_parts) == 0) {
+      error_parts <- "Insufficient cash flow to support monthly payments"
+    }
+    
+    stop("No viable loan strategy found. ", paste(error_parts, collapse = ". "))
   }
   
   # Find best strategy (highest total final balance)
