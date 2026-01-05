@@ -124,7 +124,7 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     print(a + 1:10)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557af6ea6a20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda463b778&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">f2</span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
@@ -142,26 +142,26 @@ function like <code>function(a){...}</code>. See examples for more details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = 123) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557af5e57310&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda3028908&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># default with values unevaluated</span></span></span>
 <span class="r-in"><span><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">default</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># function (a = default){}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = default) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557af577c428&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda2e85340&gt;</span>
 <span class="r-in"><span><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">default</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a = default) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557af55f4140&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda2b400f8&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># missing default</span></span></span>
 <span class="r-in"><span><span class="fu">new_function2</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span>a <span class="op">=</span> <span class="op">)</span><span class="op">)</span>    <span class="co"># function (a){}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (a) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x557af4dd11f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda24f0800&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
