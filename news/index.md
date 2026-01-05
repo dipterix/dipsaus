@@ -9,6 +9,7 @@
 - Added progress-bar when uploading directory
 - Added `maxSize` to both `fancyFileInput` and `fancyDirectoryInput` to
   allow overriding the default upload size options
+- Fixed a race condition (thanks `@HenrikBengtsson`)
 
 ## dipsaus 0.3.2
 

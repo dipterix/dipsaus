@@ -39,9 +39,9 @@ f2()   # a is masked with value 1, return 2
 #> [1] 2
 
 environment(f1)  # global env
-#> <environment: 0x5654cede1f30>
+#> <environment: 0x557af9b6b2c0>
 environment(f2)  # masked env
-#> <environment: 0x5654ced3f648>
+#> <environment: 0x557af868d228>
 
 env <- environment(f2)
 identical(parent.env(env), environment(f1))  # true

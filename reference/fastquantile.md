@@ -55,12 +55,12 @@ microbenchmark::microbenchmark(
   }
 )
 #> Unit: microseconds
-#>                                    expr     min       lq     mean  median
-#>            {     fastquantile(x, 0.5) }  85.780 149.2130 162.2334 158.977
-#>  {     quantile(x, 0.5, na.rm = TRUE) } 247.191 270.4400 328.7885 285.478
-#>         {     median(x, na.rm = TRUE) } 168.214 192.1585 254.0171 211.665
+#>                                    expr     min       lq     mean   median
+#>            {     fastquantile(x, 0.5) }  83.967 137.7825 158.5268 157.9750
+#>  {     quantile(x, 0.5, na.rm = TRUE) } 243.605 265.1650 327.6534 286.7455
+#>         {     median(x, na.rm = TRUE) } 168.274 187.0640 251.9916 206.1300
 #>        uq     max neval
-#>  182.0845 211.484   100
-#>  418.7520 476.590   100
-#>  331.0680 363.679   100
+#>  181.2435 267.579   100
+#>  412.1900 504.111   100
+#>  329.4300 373.287   100
 ```
