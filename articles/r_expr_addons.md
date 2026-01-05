@@ -49,7 +49,7 @@ system.time({
 #> $aa
 #> [1] 1
 #>    user  system elapsed 
-#>   0.001   0.001   0.000
+#>       0       0       0
 ```
 
 ### 2. JavaScript-style of creating functions

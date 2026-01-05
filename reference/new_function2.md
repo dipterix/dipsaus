@@ -84,7 +84,7 @@ print(f2)
 #> {
 #>     print(a + 1:10)
 #> }
-#> <environment: 0x555fe49db7d0>
+#> <environment: 0x559b09467cf8>
 
 f2(0)
 #>  [1]  1  2  3  4  5  6  7  8  9 10
@@ -102,25 +102,25 @@ new_function2(list(a = default))   # function (a = 123){}
 #> function (a = 123) 
 #> {
 #> }
-#> <environment: 0x555fe48814b0>
+#> <environment: 0x559b09165ee8>
 
 # default with values unevaluated
 new_function2(list(a = quote(default)))   # function (a = default){}
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x555fe483b580>
+#> <environment: 0x559b090f8508>
 new_function2(alist(a = default))
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x555fe47fe380>
+#> <environment: 0x559b090a5468>
 
 # missing default
 new_function2(alist(a = ))    # function (a){}
 #> function (a) 
 #> {
 #> }
-#> <environment: 0x555fe47b71a8>
+#> <environment: 0x559b0904ef88>
 
 ```

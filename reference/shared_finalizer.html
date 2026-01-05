@@ -240,27 +240,27 @@ instances, <code>fin</code> accepts no argument.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/reg.finalizer.html" class="external-link">reg.finalizer</a></span><span class="op">(</span><span class="va">e2</span>, <span class="va">clear_files</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1428838 76.4    2248360 120.1  2248360 120.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2653133 20.3   12317924  94.0 24058360 183.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger (Mb) max used  (Mb)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1432986 76.6    2245688  120  2245688 120.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2654928 20.3   12319134   94 24060754 183.6</span>
 <span class="r-in"><span><span class="va">file_exists</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># removing e1 will invalidate e2</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">e1</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clean some shared files"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1428856 76.4    2248360 120.1  2248360 120.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2653199 20.3   12317924  94.0 24058360 183.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger (Mb) max used  (Mb)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1433004 76.6    2245688  120  2245688 120.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2654994 20.3   12319134   94 24060754 183.6</span>
 <span class="r-in"><span><span class="va">e2</span><span class="op">$</span><span class="fu">valid</span><span class="op">(</span><span class="op">)</span>    <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Clean-ups</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">e2</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clean some shared files"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger  (Mb) max used  (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1428870 76.4    2248360 120.1  2248360 120.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2653203 20.3   12317924  94.0 24058360 183.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger (Mb) max used  (Mb)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells 1433018 76.6    2245688  120  2245688 120.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 2654998 20.3   12319134   94 24060754 183.6</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

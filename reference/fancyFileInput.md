@@ -11,6 +11,7 @@ fancyFileInput(
   width = NULL,
   after_content = "Drag & drop, or button",
   size = c("s", "m", "l", "xl"),
+  maxSize = NULL,
   ...
 )
 ```
@@ -36,6 +37,11 @@ fancyFileInput(
 - size:
 
   height of the widget, choices are `'s'`, `'m'`, `'l'`, and `'xl'`
+
+- maxSize:
+
+  maximum file size per file in bytes (default uses
+  `shiny.maxRequestSize` option, typically 5MB)
 
 - ...:
 

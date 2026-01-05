@@ -51,6 +51,7 @@
 <span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  after_content <span class="op">=</span> <span class="st">"Drag &amp; drop, or button"</span>,</span>
 <span>  size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s"</span>, <span class="st">"m"</span>, <span class="st">"l"</span>, <span class="st">"xl"</span><span class="op">)</span>,</span>
+<span>  maxSize <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -77,6 +78,10 @@
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
 <dd><p>height of the widget, choices are <code>'s'</code>, <code>'m'</code>, <code>'l'</code>, and <code>'xl'</code></p></dd>
+
+
+<dt id="arg-maxsize">maxSize<a class="anchor" aria-label="anchor" href="#arg-maxsize"></a></dt>
+<dd><p>maximum file size per file in bytes (default uses <code>shiny.maxRequestSize</code> option, typically 5MB)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
