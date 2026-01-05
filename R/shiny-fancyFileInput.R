@@ -6,6 +6,7 @@
 #' @param width the width of the input
 #' @param after_content tiny content that is to be displayed below the input box
 #' @param size height of the widget, choices are \code{'s'}, \code{'m'}, \code{'l'}, and \code{'xl'}
+#' @param maxSize maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)
 #' @param ... passed to \code{\link[shiny]{fileInput}}
 #' @returns See \code{\link[shiny]{fileInput}}
 #' @examples
@@ -29,6 +30,7 @@
 fancyFileInput <- function( inputId, label, width = NULL,
                             after_content = "Drag & drop, or button",
                             size = c("s", "m", "l", "xl"),
+                            maxSize = NULL,
                             ... ) {
 
   if(missing(label)) {
@@ -37,7 +39,12 @@ fancyFileInput <- function( inputId, label, width = NULL,
   size <- match.arg(size)
 
   htmltools <- asNamespace("htmltools")
-  max_size <- dipsaus::to_ram_size(getOption("shiny.maxRequestSize", 5*1024^2), 1024)
+
+  # Use provided maxSize or fall back to shiny option
+  if(is.null(maxSize)) {
+    maxSize <- getOption("shiny.maxRequestSize", 5*1024^2)
+  }
+  max_size <- dipsaus::to_ram_size(maxSize, 1024)
 
   shiny::div(
     class = c("dipsaus-fancy-file-input", sprintf("dipsaus-fancy-file-input-%s", size)),

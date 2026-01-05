@@ -10,6 +10,7 @@ fancyFileInput(
   width = NULL,
   after_content = "Drag & drop, or button",
   size = c("s", "m", "l", "xl"),
+  maxSize = NULL,
   ...
 )
 }
@@ -23,6 +24,8 @@ fancyFileInput(
 \item{after_content}{tiny content that is to be displayed below the input box}
 
 \item{size}{height of the widget, choices are \code{'s'}, \code{'m'}, \code{'l'}, and \code{'xl'}}
+
+\item{maxSize}{maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)}
 
 \item{...}{passed to \code{\link[shiny]{fileInput}}}
 }
