@@ -41,7 +41,7 @@ implementation when the length of input x is less than 1e7."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Calculate single quantile for numerical values</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/master/R/cpp-fastquantile.R" class="external-link"><code>R/cpp-fastquantile.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/v0.3.3/R/cpp-fastquantile.R" class="external-link"><code>R/cpp-fastquantile.R</code></a></small>
       <div class="d-none name"><code>fastquantile.Rd</code></div>
     </div>
 
@@ -105,13 +105,13 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    expr     min       lq     mean   median</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) }  91.892 148.4420 160.0530 158.7510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 243.734 263.1710 325.1633 281.7960</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 167.713 189.2735 256.6820 211.0435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) }  83.967 145.7415 157.2159 155.8210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 258.773 282.7030 333.0872 299.0085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 181.579 201.4360 251.6051 215.7425</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  180.4820 203.640   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  416.3920 479.434   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  334.0985 413.171   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  177.1010 224.630   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  401.2340 568.752   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  339.3735 376.994   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

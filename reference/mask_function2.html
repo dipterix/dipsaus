@@ -41,7 +41,7 @@ environment."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Mask a function with given variables</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/master/R/language.R" class="external-link"><code>R/language.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/v0.3.3/R/language.R" class="external-link"><code>R/language.R</code></a></small>
       <div class="d-none name"><code>mask_function2.Rd</code></div>
     </div>
 
@@ -89,9 +89,9 @@ environment.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span>  <span class="co"># global env</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda6c324f8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x560134af5e80&gt;</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span>  <span class="co"># masked env</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55fda6c8b428&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5601349119b0&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">env</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">f2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">parent.env</a></span><span class="op">(</span><span class="va">env</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">f1</span><span class="op">)</span><span class="op">)</span>  <span class="co"># true</span></span></span>

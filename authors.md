@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dipterix/dipsaus/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dipterix/dipsaus/blob/v0.3.3/DESCRIPTION)
 
 Wang Z (2026). *dipsaus: A Dipping Sauce for Data Analysis and
 Visualizations*. R package version 0.3.3,

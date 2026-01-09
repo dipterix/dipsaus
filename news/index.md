@@ -2,6 +2,8 @@
 
 ## dipsaus 0.3.3
 
+CRAN release: 2026-01-09
+
 - Added `fancyDirectoryInput` to allow uploading directory in shiny apps
   (browser support `getAsFileSystemHandle` or `webkitGetAsEntry` is
   needed)
