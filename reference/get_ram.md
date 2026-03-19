@@ -41,5 +41,5 @@ commands used to detect memory limits:
 
 ``` r
 get_ram()
-#> 16771563520.0 B
+#> 16767234048.0 B
 ```

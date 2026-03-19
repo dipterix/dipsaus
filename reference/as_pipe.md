@@ -66,7 +66,7 @@ vary_title
 #> {
 #>     plot(1:10, 1:10, ..., pch = pch, main = "[input:title]")
 #> }
-#> <environment: 0x55aaddae39f0>
+#> <environment: 0x562c4463e170>
 
 # vary_title is pipe-friendly with `pch` default 16
 vary_title(title = 'My Title')
@@ -91,7 +91,7 @@ f_pipable
 #> {
 #>     f(..., x = "[input:x]")
 #> }
-#> <environment: 0x55aadb9af1c8>
+#> <environment: 0x562c41d940a0>
 
 f_pipable(2)
 #> [1] 3
