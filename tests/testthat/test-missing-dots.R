@@ -99,3 +99,49 @@ test_that("missing_dots: check_missing_dots C-level accepts environment only", {
   expect_error(check_missing_dots("x"),   regexp = "environment")
   expect_error(check_missing_dots(NULL),  regexp = "environment")
 })
+
+# ---------------------------------------------------------------------------
+# Tests for is_namespace() / is_from_namespace()
+#
+# These lock down behaviour before and after replacing Rf_findVarInFrame with
+# R_getVarEx in the is_namespace() C++ implementation.
+# ---------------------------------------------------------------------------
+
+test_that("is_namespace: identifies namespace environments correctly", {
+  # Package namespaces → TRUE
+  expect_true(is_namespace(getNamespace("dipsaus")))
+  expect_true(is_namespace(getNamespace("base")))
+
+  # Ordinary environments → FALSE
+  expect_false(is_namespace(globalenv()))
+  expect_false(is_namespace(baseenv()))   # base *package* env ≠ base namespace
+  expect_false(is_namespace(emptyenv()))
+  expect_false(is_namespace(new.env()))
+})
+
+test_that("is_from_namespace: functions and environments from packages", {
+  # Base env itself is treated as from a package (it lives in the base namespace
+  # parent chain)
+  expect_true(is_from_namespace(baseenv()))
+
+  # A function exported from utils lives in the utils namespace
+  expect_true(is_from_namespace(utils::read.csv))
+
+  # NULL, plain values, empty env → FALSE
+  expect_false(is_from_namespace(NULL))
+  expect_false(is_from_namespace(emptyenv()))
+
+  # Anonymous function defined in the local (test) environment -> FALSE
+  anon <- function() {}
+  expect_false(is_from_namespace(anon))
+
+  # Function whose enclosing env is a plain new.env() → FALSE even recursively.
+  # Create f normally (so `function` is in scope), then move its enclosing env.
+  # Using local({}, envir = e) would fail when e's parent is emptyenv() because
+  # `{` and `function` cannot be found during evaluation.
+  e <- new.env(parent = emptyenv())
+  f <- function() {}
+  environment(f) <- e
+  expect_false(is_from_namespace(f, recursive = FALSE))
+  expect_false(is_from_namespace(f, recursive = TRUE))
+})

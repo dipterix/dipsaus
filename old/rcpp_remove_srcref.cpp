@@ -177,7 +177,14 @@ SEXP remove_srcref(SEXP &obj, const bool &verbose = false) {
       for( R_xlen_t i = 0; i < len; i++ ) {
         nm = PROTECT( STRING_ELT(env_names, i) );
         nm_sxp = PROTECT( Rf_installChar( nm ) );
-        el = PROTECT( Rf_findVar( nm_sxp , x ) );
+        // Names come from ls() on x, so they are all local bindings — no need
+        // to search parent frames.  Use R_getVarEx (R >= 4.5.0, public API)
+        // with inherits=FALSE; fall back to Rf_findVarInFrame for older R.
+#if R_VERSION >= R_Version(4, 5, 0)
+        el = PROTECT( R_getVarEx( nm_sxp, x, (Rboolean)FALSE, R_UnboundValue ) );
+#else
+        el = PROTECT( Rf_findVarInFrame( x, nm_sxp ) );
+#endif
         rm_src(el, rm_src);
         UNPROTECT(3);
       }

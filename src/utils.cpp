@@ -38,7 +38,7 @@
 // Body passed to R_tryCatchError: looks up `...` in env's direct frame.
 static SEXP dots_lookup(void *data) {
   SEXP env = *static_cast<SEXP *>(data);
-  return R_getVarEx(R_DotsSymbol, env, FALSE, R_UnboundValue);
+  return R_getVarEx(R_DotsSymbol, env, (Rboolean)FALSE, R_UnboundValue);
 }
 
 // Handler: missingArgError means `...` IS bound but to R_MissingArg.
@@ -346,18 +346,14 @@ bool is_namespace(SEXP &rho) {
   if (rho == R_BaseNamespace)
     return true;
   else if (TYPEOF(rho) == ENVSXP) {
-    SEXP info = Rf_findVarInFrame(rho, Rf_install(".__NAMESPACE__."));
-    if (info != R_UnboundValue && TYPEOF(info) == ENVSXP) {
-      PROTECT(info);
-      SEXP spec = Rf_findVarInFrame(info, Rf_install("spec"));
-      UNPROTECT(1);
-      if (spec != R_UnboundValue &&
-          TYPEOF(spec) == STRSXP && LENGTH(spec) > 0)
-        return true;
-      else
-        return false;
-    }
-    else return false;
+    // R_NamespaceEnvSpec(rho) is the public C API that mirrors the manual
+    // .__NAMESPACE__. → spec lookup the original code performed with
+    // Rf_findVarInFrame.  It returns the namespace spec (a non-empty STRSXP)
+    // when rho is a namespace environment, and R_NilValue otherwise.
+    // Available since R 2.x, declared in the public Rinternals.h header.
+    SEXP spec = R_NamespaceEnvSpec(rho);
+    return (spec != R_NilValue && spec != R_UnboundValue &&
+            TYPEOF(spec) == STRSXP && LENGTH(spec) > 0);
   }
   else return false;
 }
@@ -381,12 +377,16 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
       env = Rcpp::Environment(x);
       break;
     case CLOSXP: {
-      Rcpp::Function f(x);
-      // env = CLOENV(x);
-      // env = f.environment();
-      SEXP call = PROTECT(Rf_lang2(Rf_install("environment"), x));
-      env = PROTECT(Rf_eval(call, R_GlobalEnv)); // evaluate in global env
-      UNPROTECT(2);
+      // Use the public C API to retrieve the closure's enclosing environment
+      // without going through R's evaluator (which can fail in restricted
+      // execution contexts such as testthat 3.x evaluation frames).
+      // R_ClosureEnv is the documented public replacement for CLOENV added in
+      // R 4.5.0; fall back to CLOENV for older R.
+#if R_VERSION >= R_Version(4, 5, 0)
+      env = Rcpp::Environment(R_ClosureEnv(x));
+#else
+      env = Rcpp::Environment(CLOENV(x));
+#endif
       break;
     }
     default: {
@@ -408,13 +408,14 @@ bool is_env_from_package(SEXP &x, const bool& recursive) {
 
   // recursively check
   if( recursive ) {
-    // Rcpp::Environment parent_env = env.parent();
-    // if (parent_env == Rcpp::Environment::empty_env()) return false;
-    // SEXP penv = Rcpp::wrap(parent_env);
-    // return is_env_from_package(penv, recursive);
-    SEXP call = PROTECT(Rf_lang2(Rf_install("parent.env"), env_impl));
-    SEXP res = PROTECT(Rf_eval(call, R_GlobalEnv)); // evaluate in global env
-    UNPROTECT(2);
+    // Use the public C API to get the parent environment without going through
+    // R's evaluator.  R_ParentEnv is the documented replacement for ENCLOS
+    // added in R 4.5.0; fall back to ENCLOS for older R.
+#if R_VERSION >= R_Version(4, 5, 0)
+    SEXP res = R_ParentEnv(env_impl);
+#else
+    SEXP res = ENCLOS(env_impl);
+#endif
     if (res == R_EmptyEnv) return false;
     return is_env_from_package(res, recursive);
   }
