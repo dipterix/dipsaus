@@ -131,8 +131,14 @@ test_that("is_from_namespace: functions and environments from packages", {
   expect_false(is_from_namespace(NULL))
   expect_false(is_from_namespace(emptyenv()))
 
-  # Anonymous function defined in the local (test) environment -> FALSE
+  # Anonymous function intended to represent a "user-space" function -> FALSE.
+  # We must explicitly set its enclosing env to globalenv() because when tests
+  # run via devtools::load_all() the test body's parent chain is rooted in the
+  # dipsaus namespace, making any inline `function(){}` appear to come from the
+  # namespace.  Setting the environment to globalenv() is the context-
+  # independent way to represent a function that is not from any package.
   anon <- function() {}
+  environment(anon) <- globalenv()
   expect_false(is_from_namespace(anon))
 
   # Function whose enclosing env is a plain new.env() → FALSE even recursively.

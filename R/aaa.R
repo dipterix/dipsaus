@@ -6,8 +6,6 @@
 #' @importFrom parallel stopCluster
 #' @importFrom utils flush.console
 #' @importFrom graphics par
-#' @importFrom yaml write_yaml
-#' @importFrom yaml read_yaml
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 
