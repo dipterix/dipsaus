@@ -6,6 +6,7 @@ dipsaus 0.3.3
 * Added progress-bar when uploading directory
 * Added `maxSize` to both `fancyFileInput` and `fancyDirectoryInput` to allow overriding the default upload size options
 * Fixed a race condition (thanks `@HenrikBengtsson`)
+* C++ (`check_missing_dots`): replaced `Rf_findVarInFrame` with `R_getVarEx` + `R_tryCatchError` for R >= 4.5.0 to use the public C API; older builds continue to use `Rf_findVarInFrame` via an `#if R_VERSION` guard. Added `tests/testthat/test-missing-dots.R` to lock down the behaviour of `missing_dots()` across all call patterns.
 
 dipsaus 0.3.2
 =======

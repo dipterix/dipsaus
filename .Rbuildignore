@@ -33,3 +33,4 @@ autom4te.cache
 ^docs$
 ^pkgdown$
 ^TEST_DATAPATHS\.md$
+^knowledgebase$
