@@ -18,7 +18,7 @@ A numerical scalar
 ``` r
 x <- rnorm(10000)
 sumsquared(x)
-#> [1] 9893.091
+#> [1] 9876.546
 
 # Compare speed
 microbenchmark::microbenchmark(
@@ -26,7 +26,7 @@ microbenchmark::microbenchmark(
   r = {sum(x^2)}
 )
 #> Unit: microseconds
-#>  expr    min      lq     mean  median      uq    max neval
-#>   cpp 37.921 38.0910 38.92248 38.2265 38.3865 59.541   100
-#>     r 26.600 27.4315 28.35141 27.8970 28.4380 40.195   100
+#>  expr    min     lq     mean  median      uq    max neval
+#>   cpp 26.512 26.559 26.91876 26.6620 26.7210 34.317   100
+#>     r 15.418 16.864 17.90971 17.5245 18.3385 28.557   100
 ```

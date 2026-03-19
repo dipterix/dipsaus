@@ -39,6 +39,6 @@ and standard error of mean
 # Mean should be near 0 (mean of standard normal)
 # standard error of mean should be near 0.01
 mean_se(rnorm(10000))
-#>         mean           se 
-#> 0.0001562168 0.0100043383 
+#>          mean            se 
+#> -0.0008053411  0.0099975702 
 ```

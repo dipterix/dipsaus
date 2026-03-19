@@ -11,7 +11,7 @@ prior to calculation."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ prior to calculation."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Calculate Covariance Matrix in Parallel</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/v0.3.3/R/cpp-fastcov2.R" class="external-link"><code>R/cpp-fastcov2.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/master/R/cpp-fastcov2.R" class="external-link"><code>R/cpp-fastcov2.R</code></a></small>
       <div class="d-none name"><code>fastcov2.Rd</code></div>
     </div>
 
@@ -97,16 +97,16 @@ resulting covariance matrices.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Call `cov(x)` to compare</span></span></span>
 <span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]        [,3]       [,4]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.19327738 -0.21555903  0.05763812 0.04147075</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.21555903  1.02903958 -0.06026528 0.03834091</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.05763812 -0.06026528  0.89162207 0.05189107</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.04147075  0.03834091  0.05189107 0.86620947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]        [,3]       [,4]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.17251985 -0.1463312  0.08239227  0.1336536</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.14633119  1.1509356 -0.12009329 -0.0259273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.08239227 -0.1200933  0.91439945  0.0385713</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.13365361 -0.0259273  0.03857130  0.8697899</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate covariance of subsets</span></span></span>
 <span class="r-in"><span><span class="fu">fastcov2</span><span class="op">(</span><span class="va">x</span>, col1 <span class="op">=</span> <span class="fl">1</span>, col2 <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.193277 -0.215559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.17252 -0.1463312</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Speed comparison</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100000</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
@@ -121,8 +121,8 @@ resulting covariance matrices.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: milliseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      expr      min       lq     mean   median       uq      max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.561865 1.715844 2.005224 1.846732 2.101223 3.112361    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 5.447350 5.462900 5.524232 5.503024 5.515348 5.834964    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  fastcov2 1.448833 1.493139 1.559657 1.511407 1.625168 1.781064    10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cov 2.600174 2.614745 2.810604 2.632206 2.651033 4.337501    10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -9,7 +9,7 @@ elements exceeds 1000."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ elements exceeds 1000."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Fast Calculation of Sum-squared for Large Matrices/Vectors</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/v0.3.3/R/zzz.R" class="external-link"><code>R/zzz.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/master/R/zzz.R" class="external-link"><code>R/zzz.R</code></a></small>
       <div class="d-none name"><code>sumsquared.Rd</code></div>
     </div>
 
@@ -65,7 +65,7 @@ elements exceeds 1000.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sumsquared</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9893.091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9876.546</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare speed</span></span></span>
 <span class="r-in"><span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span></span>
@@ -73,9 +73,9 @@ elements exceeds 1000.</p>
 <span class="r-in"><span>  r <span class="op">=</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min      lq     mean  median      uq    max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 37.921 38.0910 38.92248 38.2265 38.3865 59.541   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     r 26.600 27.4315 28.35141 27.8970 28.4380 40.195   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  expr    min     lq     mean  median      uq    max neval</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   cpp 26.512 26.559 26.91876 26.6620 26.7210 34.317   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     r 15.418 16.864 17.90971 17.5245 18.3385 28.557   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

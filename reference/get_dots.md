@@ -88,6 +88,6 @@ ret_range <- function(which_range = 'y'){
 plot_ret_yrange <- plot %D% ret_range('y')
 plot_ret_yrange(x = 1:10, y = rnorm(10))
 
-#> [1] -1.154247  1.492278
+#> [1] -0.7859034  1.1909336
 
 ```

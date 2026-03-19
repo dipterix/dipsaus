@@ -91,7 +91,7 @@ pass1 <- get_credential(
   tokenfile = tokenfile
 )
 print(pass1)
-#> [1] "u&tpjmm%^@bp3@hhwuk%47604y^u2fmt"
+#> [1] "2jceh^q1iu3o^u@f2xqgbknqprhltqjk"
 
 # ---------- Query existing tokens ------
 token_params <- get_credential(
@@ -108,10 +108,10 @@ print(token_params)
 #> [1] "google.com:my_username"
 #> 
 #> $`google.com:my_username`$token
-#> [1] "vPg5bEhgHAmJaOUHb3hW6YXVIxVakm54raJcUw7uj2yVu0r2M0"
+#> [1] "up8XlXL9Qp6Kj4d3evPg5bEhgHAmJaOUHb3hW6YXVIxVakm54r"
 #> 
 #> $`google.com:my_username`$seed
-#> [1] 1922935892         13         19         15         13
+#> [1] 2051058623          4          3         15         10
 #> 
 #> $`google.com:my_username`$specials
 #> [1] "@#$%^&*"
@@ -146,7 +146,7 @@ pass4 <- get_credential(
   tokenfile = tokenfile
 )
 print(pass4)
-#> [1] "yqaryhhscrq7xd@oyk@krkygwqfkoo08"
+#> [1] "egq$eildpb0$2ydom^mc6x7kchxut^b2"
 identical(pass1, pass4)
 #> [1] FALSE
 ```

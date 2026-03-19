@@ -13,7 +13,7 @@ implementation when the length of input x is less than 1e7."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ implementation when the length of input x is less than 1e7."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Calculate single quantile for numerical values</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/v0.3.3/R/cpp-fastquantile.R" class="external-link"><code>R/cpp-fastquantile.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dipterix/dipsaus/blob/master/R/cpp-fastquantile.R" class="external-link"><code>R/cpp-fastquantile.R</code></a></small>
       <div class="d-none name"><code>fastquantile.Rd</code></div>
     </div>
 
@@ -84,7 +84,7 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 <span class="r-in"><span><span class="co"># compute median</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">fastquantile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.001544295</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01298609</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># base method</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">0.5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -105,13 +105,13 @@ implementation when the length of input <code>x</code> is less than <code>1e7</c
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Unit: microseconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    expr     min       lq     mean   median</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) }  83.967 145.7415 157.2159 155.8210</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 258.773 282.7030 333.0872 299.0085</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 181.579 201.4360 251.6051 215.7425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            {     fastquantile(x, 0.5) } 102.148 112.5405 122.5734 122.0575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  {     quantile(x, 0.5, na.rm = TRUE) } 270.258 293.1520 338.6435 314.8170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         {     median(x, na.rm = TRUE) } 196.984 212.2240 246.9005 221.3170</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        uq     max neval</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  177.1010 224.630   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  401.2340 568.752   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  339.3735 376.994   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  130.1825 147.200   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  394.7560 450.749   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  297.9210 389.744   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

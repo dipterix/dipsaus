@@ -110,7 +110,7 @@ mapB$keys()
 mapB$keys(include_signatures = TRUE)
 #>      keys                                   
 #> ==YQ "a"  "6717f2823d3202449301145073ab8719"
-#> ==Yg "b"  "bb49220626d60208fff8bb6e07cce44d"
+#> ==Yg "b"  "47603c6eb8fc74469c9f034d74fbe021"
 #> ==Yw "c"  "f3b07dfebb13e24c3b1a5e11ec21a15d"
 
 # Number of key-values pairs in the map.
