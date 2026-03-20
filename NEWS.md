@@ -1,4 +1,12 @@
 dipsaus 0.3.3
+
+=======
+
+* Removed internal `Rf_findVar` and `Rf_findVarInFrame` for `R >= 4.5.0` 
+* C++ (`check_missing_dots`): replaced `Rf_findVarInFrame` with `R_getVarEx` + `R_tryCatchError` for R >= 4.5.0 to use the public C API; older builds continue to use `Rf_findVarInFrame` via an `#if R_VERSION` guard. Added `tests/testthat/test-missing-dots.R` to lock down the behavior of `missing_dots()` across all call patterns.
+* Moved `yaml` to `Suggests` field
+
+dipsaus 0.3.3
 =======
 
 * Added `fancyDirectoryInput` to allow uploading directory in shiny apps (browser support `getAsFileSystemHandle` or `webkitGetAsEntry` is needed)
@@ -6,7 +14,6 @@ dipsaus 0.3.3
 * Added progress-bar when uploading directory
 * Added `maxSize` to both `fancyFileInput` and `fancyDirectoryInput` to allow overriding the default upload size options
 * Fixed a race condition (thanks `@HenrikBengtsson`)
-* C++ (`check_missing_dots`): replaced `Rf_findVarInFrame` with `R_getVarEx` + `R_tryCatchError` for R >= 4.5.0 to use the public C API; older builds continue to use `Rf_findVarInFrame` via an `#if R_VERSION` guard. Added `tests/testthat/test-missing-dots.R` to lock down the behaviour of `missing_dots()` across all call patterns.
 
 dipsaus 0.3.2
 =======

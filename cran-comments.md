@@ -1,5 +1,5 @@
 # Current submission:
 
-No error/warning/note under current R (`4.5.2`).
+No error/warning/note under R (`4.5.3` & `4.6.0`).
 
-Removed `CLOENV` and `ENCLOS` calls in the source code. 
+Removed internal `Rf_findVar` and `Rf_findVarInFrame` for `R >= 4.5.0` 
