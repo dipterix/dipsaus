@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,6 @@
 <li>Added progress-bar when uploading directory</li>
 <li>Added <code>maxSize</code> to both <code>fancyFileInput</code> and <code>fancyDirectoryInput</code> to allow overriding the default upload size options</li>
 <li>Fixed a race condition (thanks <code>@HenrikBengtsson</code>)</li>
-<li>C++ (<code>check_missing_dots</code>): replaced <code>Rf_findVarInFrame</code> with <code>R_getVarEx</code> + <code>R_tryCatchError</code> for R &gt;= 4.5.0 to use the public C API; older builds continue to use <code>Rf_findVarInFrame</code> via an <code>#if R_VERSION</code> guard. Added <code>tests/testthat/test-missing-dots.R</code> to lock down the behaviour of <code><a href="../reference/get_dots.html">missing_dots()</a></code> across all call patterns.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.2" id="dipsaus-032">dipsaus 0.3.2<a class="anchor" aria-label="anchor" href="#dipsaus-032"></a></h2><p class="text-muted">CRAN release: 2025-11-17</p>
