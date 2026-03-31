@@ -73,7 +73,7 @@ x[[2]]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x564e96ac9518>
+#> <environment: 0x5607c2ac3dc0>
 
 # first two items in a list
 x[c(1,2)]
@@ -85,7 +85,7 @@ x[c(1,2)]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x564e96ac9518>
+#> <environment: 0x5607c2ac3dc0>
 #> 
 
 print(x)
@@ -99,7 +99,7 @@ as.list(x)
 #> {
 #>     "c"
 #> }
-#> <environment: 0x564e96ac9518>
+#> <environment: 0x5607c2ac3dc0>
 #> 
 #> [[3]]
 #> [1] 4

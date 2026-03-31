@@ -79,21 +79,21 @@ devs$dev_which('line')  # 2, doesn't conflict with the new groups
 #> Error: object 'devs' not found
 
 dev.list()
-#> agg_record_1bd0d12028 
-#>                     2 
+#> agg_record_1bc56d334f04 
+#>                       2 
 # close one or more device
 dev_another$dev_off('line')
 #> Error: object 'dev_another' not found
 dev.list()
-#> agg_record_1bd0d12028 
-#>                     2 
+#> agg_record_1bc56d334f04 
+#>                       2 
 
 # close all devices
 devs$dev_off()
 #> Error: object 'devs' not found
 dev.list()
-#> agg_record_1bd0d12028 
-#>                     2 
+#> agg_record_1bc56d334f04 
+#>                       2 
 
  # \dontrun{}
 ```
