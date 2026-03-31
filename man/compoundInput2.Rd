@@ -101,17 +101,17 @@ server <- function(input, output, session) {
     updateCompoundInput2(
       session, 'compound',
       # Update values for each components
-      value = lapply(1:5, function(ii){
+      value = lapply(1:5, function(ii) {
         list(
           txt = sample(LETTERS, 1),
           sel = sample(1:10, 3),
-          sli = runif(1)
+          sli = runif (1)
         )
       }), ncomp = NULL, txt = list(label = as.character(Sys.time())))
   })
 }
 
-if( interactive() ){
+if ( interactive() ) {
   shinyApp(ui, server, options = list(launch.browser = TRUE))
 }
 
