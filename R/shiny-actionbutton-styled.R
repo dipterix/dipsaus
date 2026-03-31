@@ -45,7 +45,9 @@ actionButtonStyled <- function(
   btn_type = "button", class = "", ...
 ){
 
-  if(length(type) > 1){ type <- type[[1]] }
+  if (length(type) > 1) {
+    type <- type[[1]]
+  }
   stopifnot2(length(type) == 0 || type[[1]] %in% c(
     'default', 'primary', 'info', 'success', 'warning', 'danger'
   ), msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
@@ -61,6 +63,22 @@ actionButtonStyled <- function(
   args[["class"]] <- sprintf("btn btn-%s action-button %s", type, class)
   args[["data-val"]] <- value
   args[["id"]] <- inputId
+  args[[".noWS"]] <- "inside"
+
+  shiny_version <- as.character(utils::packageVersion("shiny"))
+  if (utils::compareVersion(shiny_version, "1.12.0") >= 0) {
+    # shiny >= 1.12.0 introduces new wrapping
+    if (!is.null(icon)) {
+      icon <- shiny::span(icon,
+                          class = "action-icon",
+                          .noWS = c("outside", "inside"))
+    }
+    if (!is.null(label)) {
+      label <- shiny::span(label,
+                           class = "action-label",
+                           .noWS = c("outside", "inside"))
+    }
+  }
 
   shiny::tagList(
     do.call(shiny::tags$button, c(list(list(icon, label)), args)),
@@ -80,7 +98,9 @@ actionButtonStyled <- function(
 #' @export
 updateActionButtonStyled <- function(
   session, inputId, label = NULL, icon = NULL, type = NULL, disabled = NULL, ...){
-  if(length(type) > 1){ type <- type[[1]] }
+  if (length(type) > 1) {
+    type <- type[[1]]
+  }
   stopifnot2(length(type) == 0 || type[[1]] %in% c(
     'default', 'primary', 'info', 'success', 'warning', 'danger'),
     msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
