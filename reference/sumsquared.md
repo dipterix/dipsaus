@@ -26,7 +26,7 @@ microbenchmark::microbenchmark(
   r = {sum(x^2)}
 )
 #> Unit: microseconds
-#>  expr    min      lq     mean  median     uq    max neval
-#>   cpp 37.850 37.9615 39.18353 38.1960 38.442 56.336   100
-#>     r 24.917 25.5080 26.40898 25.8135 26.675 47.038   100
+#>  expr    min     lq     mean  median     uq    max neval
+#>   cpp 37.901 38.001 39.09087 38.1410 38.507 62.998   100
+#>     r 24.316 24.946 25.92237 25.1825 25.753 40.916   100
 ```
