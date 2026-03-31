@@ -76,13 +76,13 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
   msg = '.globals must be a named list'
   )
 
-  if(.chunk_size < Inf && !.wait){
+  if (.chunk_size < Inf && !.wait) {
     stop('async_work .want=FALSE, then .chunk_size must be `Inf`')
   }
 
   n <- length(X)
 
-  if(!n){
+  if (!n) {
     return(list())
   }
 
@@ -93,7 +93,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
   mat <- c(seq_along(X), rep(NA, njobs * .chunk_size - n))
   dim(mat) <- c(njobs, .chunk_size)
 
-  if(missing(.log)){
+  if (missing(.log)) {
     log <- cat2
   } else {
     log <- .log
@@ -126,30 +126,29 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
   collect_res <- function(timeout = Inf, nw = 0){
     not_finished <- finished == 1
     start <- Sys.time()
-    while(sum(not_finished) && sum(not_finished) >= nw){
-
-      if(time_delta(start,Sys.time(), 'secs') > timeout){
+    while (sum(not_finished) && sum(not_finished) >= nw) {
+      if (time_delta(start, Sys.time(), 'secs') > timeout) {
         return(structure(res, resolved = FALSE))
       }
 
       Sys.sleep(0.1)
-      for(ii in which(not_finished)){
+      for (ii in which(not_finished)) {
         code <- fs[[ii]]()
-        if(code < 0){
+        if (code < 0) {
           finished[[ii]] <<- 2
           code <- paste(attr(code, 'rs_exec_error'), collapse = '\n')
           stop(code)
         }
-        if(code == 0){
+        if (code == 0) {
           finished[[ii]] <<- 2
-          if(.wait){
+          if (.wait) {
             progress$inc(sprintf('Finished [%s/%s]', sum(finished == 2), njobs))
           }
           code <- attr(code, 'rs_exec_result')
-          idx <- mat[ii,]
+          idx <- mat[ii, ]
           idx <- idx[!is.na(idx)]
-          if(is.list(code) && length(code) == length(idx)){
-            for(jj in seq_along(idx)){
+          if (is.list(code) && length(code) == length(idx)) {
+            for (jj in seq_along(idx)) {
               res[[idx[[jj]]]] <- code[[jj]]
             }
           }
@@ -165,40 +164,41 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
 
   attached_pkgs <- attached_packages(include_base = FALSE)
 
-  lapply(seq_len(njobs), function(ii){
-
-    if(sum(finished == 1) >= nworkers){
+  lapply(seq_len(njobs), function(ii) {
+    if (sum(finished == 1) >= nworkers) {
       collect_res(nworkers)
     }
     name <- sprintf('%s - part %d', .name, ii)
-    idx <- mat[ii,]
+    idx <- mat[ii, ]
     idx <- idx[!is.na(idx)]
     el <- X[idx]
     quo <- rlang::quo({
       with(readRDS(!!rds), {
-        if(!length(globals)){
+        if (!length(globals)) {
           globals <- list()
         }
-        return(do.call('lapply', c(
-          list(
-            !!el,
-            do.call(!!mask_function2, list(f = fun, .list = globals))
-          ),
-          args
-        )))
+        return(do.call('lapply', c(list(
+          !!el, do.call(!!mask_function2, list(f = fun, .list = globals))
+        ), args)))
       })
     })
     expr <- rlang::quo_squash(quo)
-    fs[[ii]] <- rs_exec(expr, name = name, quoted = TRUE, wait = FALSE,
-                        rs = .rs, packages = attached_pkgs)
+    fs[[ii]] <- rs_exec(
+      expr,
+      name = name,
+      quoted = TRUE,
+      wait = FALSE,
+      rs = .rs,
+      packages = attached_pkgs
+    )
     finished[[ii]] <<- 1
   })
 
 
-  if(.wait){
+  if (.wait) {
     return(collect_res(nw = 0))
   } else {
-    return(invisible(function(timeout = Inf){
+    return(invisible(function(timeout = Inf) {
       collect_res(nw = 0, timeout = timeout)
     }))
   }
