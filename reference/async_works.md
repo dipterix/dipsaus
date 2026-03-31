@@ -16,7 +16,7 @@ async_works(
   .rs = FALSE,
   .wait = TRUE,
   .chunk_size = Inf,
-  .nworkers = future::availableCores(),
+  .nworkers = parallelly::availableCores(),
   .simplify = FALSE,
   .quiet = FALSE,
   .log

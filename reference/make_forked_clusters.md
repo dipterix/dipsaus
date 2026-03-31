@@ -7,7 +7,7 @@ Creates forked clusters. If fails, then switch to alternative plan
 
 ``` r
 make_forked_clusters(
-  workers = future::availableCores(),
+  workers = parallelly::availableCores(),
   on_failure = getOption("dipsaus.cluster.backup", "sequential"),
   clean = FALSE,
   ...
