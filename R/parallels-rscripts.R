@@ -67,7 +67,7 @@
 #' @export
 async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
          .rs = FALSE, .wait = TRUE, .chunk_size = Inf,
-         .nworkers = future::availableCores(), .simplify = FALSE,
+         .nworkers = parallelly::availableCores(), .simplify = FALSE,
          .quiet = FALSE, .log){
   stopifnot2(!length(.globals) || (
     is.list(.globals) && length(names(.globals)) == length(.globals) &&

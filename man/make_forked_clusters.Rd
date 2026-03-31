@@ -5,7 +5,7 @@
 \title{Create forked clusters, but more than that}
 \usage{
 make_forked_clusters(
-  workers = future::availableCores(),
+  workers = parallelly::availableCores(),
   on_failure = getOption("dipsaus.cluster.backup", "sequential"),
   clean = FALSE,
   ...

@@ -59,24 +59,32 @@
 #' @export
 new_function2 <- function(args = alist(), body = {},
                           env = parent.frame(),
-                          quote_type = c('unquoted', 'quote', 'quo'),
-                          quasi_env = parent.frame()){
+                          quote_type = c("unquoted", "quote", "quo"),
+                          quasi_env = parent.frame()) {
   quote_type <- match.arg(quote_type)
-  switch (
+  switch(
     quote_type,
-    'unquoted' = {
-      quo <- eval(as.call(list(quote(rlang::quo), substitute(body))), envir = quasi_env)
+    "unquoted" = {
+      quo <- eval(
+        as.call(list(quote(rlang::quo), substitute(body))),
+        envir = quasi_env
+      )
       body <- rlang::quo_squash(quo)
     },
-    'quote' = {
+    "quote" = {
       quo <- eval(as.call(list(quote(rlang::quo), body)), envir = quasi_env)
       body <- rlang::quo_squash(quo)
     },
-    'quo' = {
+    "quo" = {
       body <- rlang::quo_squash(quo)
     }
   )
-  f <- local({function(){}}, envir = env)
+  f <- local(
+    {
+      function() {}
+    },
+    envir = env
+  )
   formals(f) <- args
   body(f) <- body
   f
@@ -111,9 +119,9 @@ new_function2 <- function(args = alist(), body = {},
 #' env$a  # masked variables: a=1
 #'
 #' @export
-mask_function2 <- function(f, ..., .list = list()){
+mask_function2 <- function(f, ..., .list = list()) {
   f_env <- environment(f)
-  if(!isTRUE(f_env$`@...masked`)){
+  if (!isTRUE(f_env$`@...masked`)) {
     f_env <- new.env(parent = environment(f))
     environment(f) <- f_env
     f_env$`@...masked` <- TRUE
@@ -148,30 +156,33 @@ mask_function2 <- function(f, ..., .list = list()){
 #'
 #' @export
 match_calls <- function(call, recursive = TRUE, replace_args = list(),
-                        quoted = FALSE, envir = parent.frame(), ...){
-  if(!quoted){ call <- substitute(call) }
+                        quoted = FALSE, envir = parent.frame(), ...) {
+  if (!quoted) {
+    call <- substitute(call)
+  }
   args <- as.list(match.call())[-1]
   args$recursive <- quote(recursive)
   args$replace_args <- quote(replace_args)
   args$envir <- envir
   args$quoted <- TRUE
-  if(is.call(call)){
-    if( recursive ){
-      call <- as.call(lapply(call, function(cp){
+  if (is.call(call)) {
+    if (recursive) {
+      call <- as.call(lapply(call, function(cp) {
         args$call <- quote(cp)
         do.call(match_calls, args)
       }))
     }
-    if( !is.primitive(eval(call[[1]], envir = envir)) ){
+    if (!is.primitive(eval(call[[1]], envir = envir))) {
       call <- eval(
         as.call(list(quote(match.call), call[[1]], enquote(call))),
-        envir = envir)
+        envir = envir
+      )
     }
 
     repl_name <- names(replace_args)
     repl_name <- repl_name[repl_name %in% names(call)]
-    if(length(repl_name)){
-      for(nm in repl_name){
+    if (length(repl_name)) {
+      for (nm in repl_name) {
         call[[nm]] <- replace_args[[nm]](call[[nm]], call)
       }
     }
@@ -212,18 +223,18 @@ match_calls <- function(call, recursive = TRUE, replace_args = list(),
 #' print(env$a)
 #'
 #' @export
-eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
+eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE) {
 
-  if( !quoted ){
-    expr <- substitute( expr )
+  if (!quoted) {
+    expr <- substitute(expr)
   }
-  if(rlang::is_quosure(expr)){
+  if (rlang::is_quosure(expr)) {
     expr <- rlang::quo_squash(expr)
   }
 
-  if(!is.null(data)){
+  if (!is.null(data)) {
     return(eval(expr, enclos = env, envir = data))
-  }else{
+  } else {
     return(eval(expr, envir = env))
   }
 }
@@ -258,25 +269,30 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' a$e %?<-% 2; print(a$e)
 #'
 #' @export
-`%?<-%` <- function(lhs, value){
+`%?<-%` <- function(lhs, value) {
   env <- parent.frame()
   lhs <- substitute(lhs)
 
-  isnull <- tryCatch({
-    is.null(eval(lhs, envir = env))
-  }, error = function(e){
-    return(TRUE)
-  })
+  isnull <- tryCatch(
+    {
+      is.null(eval(lhs, envir = env))
+    },
+    error = function(e) {
+      return(TRUE)
+    }
+  )
 
-  if(isnull){
-    eval(as.call(list( quote(`<-`), lhs, value )), envir = env)
+  if (isnull) {
+    eval(as.call(list(quote(`<-`), lhs, value)), envir = env)
   }
 }
 
 
 #' Right-hand side checked assignment
 #' Provides a way to avoid assignment to the left-hand side. If the statement
-#' `\code{value}` is invalid or \code{NULL}, this function will not assign values and nothing happens.
+#' `\code{value}` is invalid or \code{NULL}, this function will not assign 
+#' values and nothing happens.
+#' 
 #' @param lhs an object to be assigned to
 #' @param value value to be checked
 #'
@@ -302,17 +318,19 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' a$e %<-?% 2; print(a$e)
 #'
 #' @export
-`%<-?%` <- function(lhs, value){
+`%<-?%` <- function(lhs, value) {
   env <- parent.frame()
   lhs <- substitute(lhs)
   rhs <- substitute(value)
 
   tryCatch({
     eval(as.call(list( quote(`<-`), lhs, bquote({
-      if(is.null(.(rhs))){ stop() }
+      if (is.null(.(rhs))) {
+        stop()
+      }
       .(rhs)
     }))), envir = env)
-  }, error = function(e){
+  }, error = function(e) {
   })
   invisible()
 }
@@ -337,19 +355,28 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' c('9', "D", "V") %OF% LETTERS
 #'
 #' @export
-`%OF%` <- function(lhs, rhs){
-  if(length(rhs)){ de <- rhs[[1]] } else { de <- rhs }
+`%OF%` <- function(lhs, rhs) {
+  if (length(rhs)) {
+    de <- rhs[[1]]
+  } else {
+    de <- rhs
+  }
   lhs <- lhs[!is.na(lhs)]
-  if(!length(lhs)){ return(de) }
+  if (!length(lhs)) {
+    return(de)
+  }
   sel <- lhs %in% rhs
-  if(any(sel)){ return(lhs[sel][[1]]) }
+  if (any(sel)) {
+    return(lhs[sel][[1]])
+  }
   return(de)
 }
 
 
 #' A JavaScript style of creating functions
 #' @param args function arguments: see \code{\link[base]{formals}}
-#' @param expr R expression that forms the body of functions: see \code{\link[base]{body}}
+#' @param expr R expression that forms the body of functions: see
+#' \code{\link[base]{body}}
 #' @return A function that takes \code{args} as parameters and \code{expr} as
 #' the function body
 #'
@@ -379,14 +406,14 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #'   cat2('The index of letter ', el, ' in ', sQuote('x'), ' is: ', ii)
 #' }) -> results
 #' @export
-`%=>%` <- function(args, expr){
+`%=>%` <- function(args, expr) {
   expr <- substitute(expr)
   parent_env <- parent.frame()
   args <- as.list(substitute(args))[-1]
 
-  nms <- sapply(seq_along(args), function(ii){
+  nms <- sapply(seq_along(args), function(ii) {
     nm <- names(args[ii])
-    if(is.null(nm) || trimws(nm) == ''){
+    if (is.null(nm) || trimws(nm) == "") {
       nm <- args[[ii]]
       args[[ii]] <<- .missing_arg[[1]]
     }
@@ -394,10 +421,12 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
   })
   names(args) <- nms
   new_function2(
-    args = args, body = expr,
+    args = args,
+    body = expr,
     env = parent_env,
-    quote_type = 'quote',
-    quasi_env = parent_env)
+    quote_type = "quote",
+    quasi_env = parent_env
+  )
 }
 
 
@@ -462,12 +491,12 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' identical(x, y)   # TRUE
 #'
 #' @export
-no_op <- function(.x, .expr, ..., .check_fun = TRUE){
+no_op <- function(.x, .expr, ..., .check_fun = TRUE) {
   .expr <- substitute(.expr)
   ...parent_env <- parent.frame()
-  ...res <- eval(.expr, envir = list('.' = .x), enclos = ...parent_env)
-  if( .check_fun && is.function(...res) ){
-    ...res( .x, ... )
+  ...res <- eval(.expr, envir = list("." = .x), enclos = ...parent_env)
+  if (.check_fun && is.function(...res)) {
+    ...res(.x, ...)
   }
   invisible(.x)
 }
@@ -547,19 +576,19 @@ as_pipe <- function(x, ..., call, arg_name,
   }
   call <- as.list(call)
 
-  if( call[[1]] == 'function'){
+  if (call[[1]] == "function") {
     # call is a function
     call <- list(as.call(list(quote(`(`), as.call(call))))
   }
   call <- match_calls(call, quoted = TRUE, envir = .env, recursive = FALSE)
 
-  if(!'...' %in% call){
+  if (!"..." %in% call) {
     call[[length(call) + 1]] <- quote(...)
   }
   dot_args <- list(...)
-  dot_args <- dot_args[!names(dot_args) %in% '']
-  if(length(dot_args)){
-    for(nm in names(dot_args)){
+  dot_args <- dot_args[!names(dot_args) %in% ""]
+  if (length(dot_args)) {
+    for (nm in names(dot_args)) {
       call[[nm]] <- str2lang(nm)
     }
   }
@@ -581,7 +610,7 @@ as_pipe <- function(x, ..., call, arg_name,
     }
     call[[.(arg_name)]] <- quote(.(str2lang(.name)))
     eval(as.call(call))
-  }), quote_type = 'quote', env = .env)
+  }), quote_type = "quote", env = .env)
 
   call_ <- call
   call_[[arg_name]] <- sprintf("[input:%s]", .name)

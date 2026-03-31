@@ -6,6 +6,7 @@
 #' @importFrom parallel stopCluster
 #' @importFrom utils flush.console
 #' @importFrom graphics par
+#' @importFrom parallelly availableCores
 #' @useDynLib dipsaus, .registration = TRUE
 NULL
 

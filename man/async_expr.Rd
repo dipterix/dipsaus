@@ -10,7 +10,7 @@ async_expr(
   .varname = "x",
   envir = parent.frame(),
   .pre_run = NULL,
-  .ncore = future::availableCores(),
+  .ncore = parallelly::availableCores(),
   ...
 )
 }

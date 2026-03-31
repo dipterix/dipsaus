@@ -70,7 +70,7 @@ wrap_callback <- function(.callback){
 #' @export
 lapply_callr <- function(
   x, fun, ..., .callback = NULL,
-  .globals = list(), .ncores = future::availableCores(),
+  .globals = list(), .ncores = parallelly::availableCores(),
   .packages = attached_packages(),
   .focus_on_console = TRUE, .rs = FALSE, .quiet = FALSE,
   .name = "", .wait = TRUE){

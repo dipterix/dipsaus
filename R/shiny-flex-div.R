@@ -26,18 +26,20 @@
 #'                   server = function(input, output, session){})
 #' }
 #' @export
-flex_div <- function(..., ncols = 'auto'){
-  stopifnot2(isTRUE(ncols == 'auto') || all(ncols >=1) ,
-             msg = 'ncols must be either "auto" or integers greater than 0')
+flex_div <- function(..., ncols = "auto") {
+  stopifnot2(
+    isTRUE(ncols == "auto") || all(ncols >= 1),
+    msg = 'ncols must be either "auto" or integers greater than 0'
+  )
 
   call <- match.call()
-  if('ncols' %in% names(call)){
-    call[['ncols']] <- NULL
+  if ("ncols" %in% names(call)) {
+    call[["ncols"]] <- NULL
   }
   elements <- as.list(call)[-1]
   n <- length(elements)
-  if(isTRUE(ncols == 'auto')){
-    if(n <= 3){
+  if (isTRUE(ncols == "auto")) {
+    if (n <= 3) {
       d <- c(1, n)
     } else {
       d <- grDevices::n2mfrow(n)
@@ -46,9 +48,9 @@ flex_div <- function(..., ncols = 'auto'){
   } else {
     ncols <- sort(ceiling(ncols))
     resid <- n %% ncols
-    if(any(resid == 0)){
+    if (any(resid == 0)) {
       ncols <- ncols[resid == 0][[1]]
-      d <- c(n/ncols, ncols)
+      d <- c(n / ncols, ncols)
       flex_basis <- floor(10000 / d[[2]]) / 100
     } else {
       resid1 <- ncols - resid
@@ -57,10 +59,10 @@ flex_div <- function(..., ncols = 'auto'){
       d <- c(ceiling(n / ncol1), ncol1)
     }
   }
-  els <- lapply(seq_along(elements), function(ii){
-    style <- sprintf('flex-basis:%.2f%%;', flex_basis)
-    if( ii %% d[[2]] == 0 ){
-      bk <- quote(shiny::div(class="dipsaus-flexdiv-break"))
+  els <- lapply(seq_along(elements), function(ii) {
+    style <- sprintf("flex-basis:%.2f%%;", flex_basis)
+    if (ii %% d[[2]] == 0) {
+      bk <- quote(shiny::div(class = "dipsaus-flexdiv-break"))
     } else {
       bk <- NULL
     }
@@ -69,7 +71,7 @@ flex_div <- function(..., ncols = 'auto'){
       quote(shiny::tagList),
       as.call(list(
         quote(shiny::div),
-        class="dipsaus-flexdiv-item",
+        class = "dipsaus-flexdiv-item",
         style = style,
         elements[[ii]]
       )),
@@ -77,20 +79,22 @@ flex_div <- function(..., ncols = 'auto'){
     ))
   })
 
-  new_call <- as.call(c(list(
-    quote(shiny::div),
-    class = "dipsaus-flexdiv-container",
-    shiny::singleton(
-      shiny::tags$style(
-        '.dipsaus-flexdiv-container { display:flex; flex-wrap: wrap; }',
-        '.dipsaus-flexdiv-item { flex: 1; padding: 0 7px; }',
-        shiny::HTML('.dipsaus-flexdiv-item>.btn { margin-top: 25px; }'),
-        '.dipsaus-flexdiv-break { flex-basis: 100%; height: 0; }'
+  new_call <- as.call(c(
+    list(
+      quote(shiny::div),
+      class = "dipsaus-flexdiv-container",
+      shiny::singleton(
+        shiny::tags$style(
+          ".dipsaus-flexdiv-container { display:flex; flex-wrap: wrap; }",
+          ".dipsaus-flexdiv-item { flex: 1; padding: 0 7px; }",
+          shiny::HTML(".dipsaus-flexdiv-item>.btn { margin-top: 25px; }"),
+          ".dipsaus-flexdiv-break { flex-basis: 100%; height: 0; }"
+        )
       )
-    )
-  ), els))
+    ),
+    els
+  ))
   eval(new_call, parent.frame())
-
 }
 
 #' Escape HTML strings
@@ -116,8 +120,8 @@ flex_div <- function(..., ncols = 'auto'){
 #' }
 #'
 #' @export
-html_asis <- function(s, space = TRUE){
-  if(space){
+html_asis <- function(s, space = TRUE) {
+  if (space) {
     pattern <- "&|<|>| |\t" # or "&|<|>|'|\"|\r|\n"
     specials <- list(
       "&" = "&amp;",
@@ -169,21 +173,23 @@ html_asis <- function(s, space = TRUE){
 #' remove_html_class("a b   c  e", c("b", "c "))
 #'
 #' @export
-combine_html_class <- function(...){
+combine_html_class <- function(...) {
   s <- paste(c(...), collapse = " ", sep = " ")
   s <- unlist(strsplit(s, " "))
   s <- unique(s)
-  s <- s[!s %in% '']
+  s <- s[!s %in% ""]
   paste(s, collapse = " ")
 }
 
 #' @rdname html_class
 #' @export
-remove_html_class <- function(target, class){
-  if (!length(target)) { return("") }
+remove_html_class <- function(target, class) {
+  if (!length(target)) {
+    return("")
+  }
   s <- unlist(strsplit(target, " "))
   s <- unique(s)
   class <- unlist(strsplit(class, " "))
-  s <- s[!s %in% c('', class)]
+  s <- s[!s %in% c("", class)]
   paste(s, collapse = " ")
 }

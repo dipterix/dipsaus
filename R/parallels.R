@@ -34,7 +34,7 @@
 #' @export
 async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
                        .pre_run = NULL,
-                       .ncore = future::availableCores(), ...){
+                       .ncore = parallelly::availableCores(), ...){
   .envir <- new.env(parent = envir)
   .expr <- substitute(.expr)
   .pre_run <- substitute(.pre_run)
@@ -54,18 +54,18 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
     .envir$._futures[[length(.envir$._futures) + 1]] <- eval(call)
   }
 
-  .__check__ <- function( force_all = FALSE ){
-    if( force_all ){
+  .__check__ <- function(force_all = FALSE) {
+    if (force_all) {
       future::resolve(.envir$._futures)
       re <- future::value(.envir$._futures)
-      if( !is.null(re) ){
+      if (!is.null(re)) {
         ._values[._ii - 1 + seq_along(.envir$._futures)] <<- re
       }
       .envir$._futures <- NULL
-    }else{
-      if(length(.envir$._futures) >= .ncore){
+    } else{
+      if (length(.envir$._futures) >= .ncore) {
         re <- future::value(.envir$._futures[[1]])
-        if( !is.null(re) ){
+        if (!is.null(re)) {
           ._values[[._ii]] <<- re
         }
         .envir$._futures[[1]] <- NULL
@@ -78,19 +78,20 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 
   lapply(seq_along(.X), function(.jj){
     .__check__()
-    if(any( future::resolved(.envir$._futures)) ){
+    if (any(future::resolved(.envir$._futures))) {
       .envir$._values
     }
     assign(.varname, .X[[.jj]], envir = .envir)
     .re <- eval(.expr, envir = .envir)
-    if( ._ii <= .jj && !inherits(.re, 'Future') ){
+    if (._ii <= .jj &&
+        !inherits(.re, 'Future')) {
       ._values[[.jj]] <<- .re
     }
 
   })
   .__check__(TRUE)
   .envir$._futures <- NULL
-  if( length(._values) != ._length ){
+  if (length(._values) != ._length) {
     length(._values) <- ._length
   }
   ._values
@@ -219,13 +220,13 @@ async_flapply <- function(X, FUN, ...){
 #'
 #' @export
 make_forked_clusters <- function(
-  workers = future::availableCores(),
+  workers = parallelly::availableCores(),
   on_failure = getOption("dipsaus.cluster.backup", "sequential"),
   clean = FALSE,
-  ...){
+  ...) {
 
   # check whether current plan is multicore?
-  if( clean ){
+  if (clean) {
     # to clear the plan once the enclosing environment exit, not on exit the function
     oplan <- future::plan("list")
     parent_frame <- parent.frame()
@@ -240,18 +241,19 @@ make_forked_clusters <- function(
     )
   }
   os <- get_os()
-  if(os == 'windows' || getOption("dipsaus.debug", FALSE) || getOption("dipsaus.no.fork", FALSE)){
+  if (os == 'windows' || getOption("dipsaus.debug", FALSE) || getOption("dipsaus.no.fork", FALSE)) {
     suc <- tryCatch({
       future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, workers = workers, ...)
       TRUE
     },
     error = function(e){ FALSE },
     warning = function(e){ FALSE })
-    if(!suc){
+    if (!suc) {
       future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, ...)
     }
   } else {
     options(future.fork.enable = TRUE)
+    options(parallelly.fork.enable = TRUE)
     future::plan(future::multicore, workers = workers, .cleanup = TRUE, .init = FALSE, .call = NULL, ...)
   }
   invisible(future::plan())

@@ -93,7 +93,12 @@ updateActionButtonStyled <- function(
     )
   )
 
-  shiny::updateActionButton(session, inputId, label, icon)
+  shiny::updateActionButton(
+    session = session,
+    inputId = inputId,
+    label = label,
+    icon = icon
+  )
   invisible()
 }
 

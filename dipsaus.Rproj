@@ -13,6 +13,7 @@ Encoding: UTF-8
 RnwWeave: knitr
 LaTeX: pdfLaTeX
 
+AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
 BuildType: Package
@@ -20,3 +21,5 @@ PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageCheckArgs: --as-cran --run-donttest
 PackageRoxygenize: rd,collate,namespace,vignette
+
+UseNativePipeOperator: Yes

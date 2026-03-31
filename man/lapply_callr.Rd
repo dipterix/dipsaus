@@ -10,7 +10,7 @@ lapply_callr(
   ...,
   .callback = NULL,
   .globals = list(),
-  .ncores = future::availableCores(),
+  .ncores = parallelly::availableCores(),
   .packages = attached_packages(),
   .focus_on_console = TRUE,
   .rs = FALSE,
