@@ -201,8 +201,8 @@ reg.finalizer(e2, clear_files)
 #> NULL
 gc()
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425956 76.2    2237708 119.6  2237708 119.6
-#> Vcells 2642235 20.2   12307375  93.9 24037641 183.4
+#> Ncells 1425955 76.2    2237957 119.6  2237957 119.6
+#> Vcells 2642241 20.2   12307377  93.9 24037643 183.4
 file_exists
 #> [1] TRUE
 
@@ -210,8 +210,8 @@ file_exists
 rm(e1); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425974 76.2    2237708 119.6  2237708 119.6
-#> Vcells 2642301 20.2   12307375  93.9 24037641 183.4
+#> Ncells 1425973 76.2    2237957 119.6  2237957 119.6
+#> Vcells 2642307 20.2   12307377  93.9 24037643 183.4
 e2$valid()    # FALSE
 #> [1] FALSE
 
@@ -219,6 +219,6 @@ e2$valid()    # FALSE
 rm(e2); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425988 76.2    2237708 119.6  2237708 119.6
-#> Vcells 2642305 20.2   12307375  93.9 24037641 183.4
+#> Ncells 1425987 76.2    2237957 119.6  2237957 119.6
+#> Vcells 2642311 20.2   12307377  93.9 24037643 183.4
 ```

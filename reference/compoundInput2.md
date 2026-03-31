@@ -93,7 +93,7 @@ compoundInput2(
 #> Warning: In sliderInput(): `value` should be greater than or equal to `min` (value = 0, min = 1).
 #> <div id="input_id" class="dipsaus-compound-input">
 #>   <div class="dipsaus-compound-input-header force-hidden" style="display:none!important;">{"template":["&lt;div class=\"dipsaus-compound-input-item col-xs-12\" data-value=\"${{ind}}\"&gt;\n  &lt;fieldset style=\"border: 1px solid #efefef; padding:.35em .625em .75em; margin-bottom: 15px;\"&gt;\n    &lt;legend style=\"border:none; margin: 0; padding: 0 10px; font-size: 14px; color: ${{label_color}}\"&gt;Group - ${{ind}}&lt;\/legend&gt;\n    &lt;div&gt;\n      &lt;div class=\"form-group shiny-input-container\"&gt;\n        &lt;label class=\"control-label\" id=\"input_id_text_${{ind}}-label\" for=\"input_id_text_${{ind}}\"&gt;Text Label&lt;\/label&gt;\n        &lt;input id=\"input_id_text_${{ind}}\" type=\"text\" class=\"shiny-input-text form-control\" value=\"\" data-update-on=\"change\"/&gt;\n      &lt;\/div&gt;\n      &lt;div class=\"form-group shiny-input-container\"&gt;\n        &lt;label class=\"control-label\" id=\"input_id_sli_${{ind}}-label\" for=\"input_id_sli_${{ind}}\"&gt;Slider Selector&lt;\/label&gt;\n        &lt;input class=\"js-range-slider\" id=\"input_id_sli_${{ind}}\" data-skin=\"shiny\" data-min=\"1\" data-max=\"1\" data-from=\"0\" data-step=\"0.02\" data-grid=\"true\" data-grid-num=\"NaN\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/&gt;\n      &lt;\/div&gt;\n    &lt;\/div&gt;\n  &lt;\/fieldset&gt;\n&lt;\/div&gt;"],"initial_ncomp":[1],"min_ncomp":[0],"max_ncomp":[10],"bind_infos":{"text":{"binding":["shiny.textInput"],"update_function":["shiny::updateTextInput"],"call_function":["shiny::textInput"]},"sli":{"binding":["shiny.sliderInput"],"update_function":["shiny::updateSliderInput"],"call_function":["shiny::sliderInput"]}},"label_color":["#CD8500","#87CEFF","#CD8500","#87CEFF","#CD8500","#87CEFF","#CD8500","#87CEFF","#CD8500","#87CEFF"],"initial_value":[{"text":["1"]},[],{"sli":[0.2]}]}</div>
-#>   <div class="dipsaus-compound-input-body row"></div>
+#>   <div class="dipsaus-compound-input-body row m-0"></div>
 #>   <div class="dipsaus-compound-input-foot">
 #>     <div class="dipsaus-compound-input-foot-ctrl"></div>
 #>   </div>
@@ -157,17 +157,17 @@ server <- function(input, output, session) {
     updateCompoundInput2(
       session, 'compound',
       # Update values for each components
-      value = lapply(1:5, function(ii){
+      value = lapply(1:5, function(ii) {
         list(
           txt = sample(LETTERS, 1),
           sel = sample(1:10, 3),
-          sli = runif(1)
+          sli = runif (1)
         )
       }), ncomp = NULL, txt = list(label = as.character(Sys.time())))
   })
 }
 
-if( interactive() ){
+if ( interactive() ) {
   shinyApp(ui, server, options = list(launch.browser = TRUE))
 }
 ```

@@ -70,8 +70,8 @@ compoundInput2(
 ## server side:
 updateCompoundInput2(session, 'inputid',
                      # Change the first 3 groups
-                     value = lapply(1:3, function(ii){
-                       list(sli = runif(1))
+                     value = lapply(1:3, function(ii) {
+                       list(sli = runif (1))
                      }),
                      # Change text label for all groups
                      initialization = list(
