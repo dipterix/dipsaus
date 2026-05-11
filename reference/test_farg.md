@@ -25,6 +25,7 @@ test_farg(fun, arg, dots = TRUE)
 ## Examples
 
 ``` r
+
 a <- function(n = 1){}
 
 # Test whether `a` has argument called 'b'

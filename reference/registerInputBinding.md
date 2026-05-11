@@ -44,6 +44,7 @@ a list of binding functions, one is \`JavaScript\` object key in
 ## Examples
 
 ``` r
+
 # register shiny textInput
 registerInputBinding('textInput', 'shiny',
                      'shiny.textInput', 'shiny::updateTextInput')

@@ -35,6 +35,7 @@ Logical, whether the operation succeed.
 ## Examples
 
 ``` r
+
 # Clear existing locks
 dipsaus::dipsaus_resetlocks()
 

@@ -7,6 +7,7 @@ to check if a variable `aa` exists and not `NULL`, otherwise set a
 default value to be 1, the check looks like:
 
 ``` r
+
 if( exists('aa') && !is.null(aa) ){
   aa <- 1
 }
@@ -16,6 +17,7 @@ Most of time we are repeating ourselves. With `%?<-%` operator, we just
 need:
 
 ``` r
+
 aa %?<-% 1
 print(aa)
 #> [1] 1
@@ -25,6 +27,7 @@ The powerful part is the left-hand side can be any expression. For
 example,
 
 ``` r
+
 l %?<-% list()
 
 l$aa %?<-% 1
@@ -38,6 +41,7 @@ If the value exists, then `%?<-%` does nothing (not even evaluate the
 expressions on the right-hand side)
 
 ``` r
+
 # e already exists
 e <- list(aa = 1)
 
@@ -49,7 +53,7 @@ system.time({
 #> $aa
 #> [1] 1
 #>    user  system elapsed 
-#>   0.000   0.000   0.001
+#>       0       0       0
 ```
 
 ### 2. JavaScript-style of creating functions
@@ -67,6 +71,7 @@ li.map((el, ii) => {
 `dipsaus` provides functions `iapply`, and `%=>%`, for example:
 
 ``` r
+
 li <- c('A', 'T', 'G', 'C')
 li |> iapply(alist(el, ii) %=>% {
   sprintf('The index for %s is %s', el, ii)
@@ -79,6 +84,7 @@ li |> iapply(alist(el, ii) %=>% {
 side expression as body and create function:
 
 ``` r
+
 alist(a, b=a^2, ...) %=>% {
   print(c(a , b,...))
 }
@@ -94,6 +100,7 @@ The function `match.call` provided by base package let us format calls
 with formals matched.
 
 ``` r
+
 match.call(textInput, call = quote(textInput('inputId', 'label', 'aaa')))
 #> textInput(inputId = "inputId", label = "label", value = "aaa")
 ```
@@ -105,6 +112,7 @@ components, `match.call` does not work well. We can’t see the matched
 results inside of the nested functions.
 
 ``` r
+
 match.call(tagList, call = quote(tagList(
   div(
     tags$ul(
@@ -118,6 +126,7 @@ match.call(tagList, call = quote(tagList(
 `match_calls` solves this problem by recursively calling `match.call`:
 
 ``` r
+
 match_calls(call = tagList(
   div(
     tags$ul(
@@ -134,6 +143,7 @@ input ID in shiny modules, then the following `replave_args` changes
 `"inputId"` to `ns("inputId")`
 
 ``` r
+
 match_calls(call = tagList(
   div(
     tags$ul(
@@ -163,6 +173,7 @@ effects. For example, we want to plot the results from the pipe and
 continue the analysis, usually this is what happens:
 
 ``` r
+
 x_tmp <- x |> 
   do_something(...)
 
@@ -175,6 +186,7 @@ final_results <- x_tmp |>
 With `no_op`, the pipe becomes:
 
 ``` r
+
 final_results <- x |> 
   do_something(...) |> 
   no_op(plot, ylim = c(0,100)) |> 
@@ -184,6 +196,7 @@ final_results <- x |>
 Here’s an example
 
 ``` r
+
 
 par(mfrow = c(1,2))
 
@@ -213,6 +226,7 @@ result <- (1:10) |>
 
 ``` r
 
+
 str(result)
 #>  num [1:200] -0.4 1.255 -1.437 0.994 1.622 ...
 ```
@@ -231,6 +245,7 @@ inconvenient.
 formula:
 
 ``` r
+
 ToothGrowth |> 
   do_aggregate(len ~ ., mean)
 #>   supp dose   len

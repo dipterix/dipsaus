@@ -25,6 +25,7 @@ list or vector containing no invalid values
 ## Examples
 
 ``` r
+
 x <- list(NULL,NULL,1,2)
 drop_nulls(x)  # length of 2
 #> [[1]]

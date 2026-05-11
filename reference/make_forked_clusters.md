@@ -76,6 +76,7 @@ results before exiting the outer function.
 ``` r
 
 
+
 if(interactive()){
 
   # ------ Basic example

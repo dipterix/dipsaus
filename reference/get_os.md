@@ -16,6 +16,7 @@ The type of current operating system: `'windows'`, `'darwin'`,
 ## Examples
 
 ``` r
+
 get_os()
 #> [1] "linux"
 ```

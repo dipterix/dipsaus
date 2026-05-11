@@ -32,6 +32,7 @@ Results from [`aggregate`](https://rdrr.io/r/stats/aggregate.html)
 ## Examples
 
 ``` r
+
 data(ToothGrowth)
 
 ToothGrowth |>

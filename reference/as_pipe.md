@@ -55,6 +55,7 @@ run the function with given `x`
 ## Examples
 
 ``` r
+
 # modify a function call
 vary_title <- as_pipe(call = plot(1:10, 1:10),
                       pch = 16,
@@ -66,7 +67,7 @@ vary_title
 #> {
 #>     plot(1:10, 1:10, ..., pch = pch, main = "[input:title]")
 #> }
-#> <environment: 0x559e3b9e1ca0>
+#> <environment: 0x55f784f0b3d0>
 
 # vary_title is pipe-friendly with `pch` default 16
 vary_title(title = 'My Title')
@@ -91,7 +92,7 @@ f_pipable
 #> {
 #>     f(..., x = "[input:x]")
 #> }
-#> <environment: 0x559e382731f0>
+#> <environment: 0x55f78405a980>
 
 f_pipable(2)
 #> [1] 3

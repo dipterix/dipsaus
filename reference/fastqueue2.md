@@ -50,6 +50,7 @@ A list of `'fastqueue2'` instance
 ## Examples
 
 ``` r
+
 x <- fastqueue2()
 
 # add elements
@@ -73,7 +74,7 @@ x[[2]]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x559e3e66e440>
+#> <environment: 0x55f7878e8378>
 
 # first two items in a list
 x[c(1,2)]
@@ -85,7 +86,7 @@ x[c(1,2)]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x559e3e66e440>
+#> <environment: 0x55f7878e8378>
 #> 
 
 print(x)
@@ -99,7 +100,7 @@ as.list(x)
 #> {
 #>     "c"
 #> }
-#> <environment: 0x559e3e66e440>
+#> <environment: 0x55f7878e8378>
 #> 
 #> [[3]]
 #> [1] 4

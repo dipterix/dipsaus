@@ -76,6 +76,7 @@ A list of functions:
 ## Examples
 
 ``` r
+
 progress <- progress2('Task A', max = 2)
 #> [Task A]: initializing... 
 progress$inc('Detail 1')

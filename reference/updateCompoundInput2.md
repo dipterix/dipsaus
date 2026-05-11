@@ -50,6 +50,7 @@ for how to define components.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 library(shiny); library(dipsaus)
 

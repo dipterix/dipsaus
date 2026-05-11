@@ -25,6 +25,7 @@ Returns an element of length one that will be from `rhs`
 ## Examples
 
 ``` r
+
 # C is from LETTERS, therefore returns `C`
 "C" %OF% LETTERS
 #> [1] "C"

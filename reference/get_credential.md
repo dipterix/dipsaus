@@ -81,6 +81,7 @@ and directly create a new one.
 ## Examples
 
 ``` r
+
 tokenfile <- tempfile()
 
 # ---------- Create a password and store the tokens to token book ------

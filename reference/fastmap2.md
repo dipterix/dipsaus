@@ -87,6 +87,7 @@ A list of `'fastmap2'` instance
 ## Examples
 
 ``` r
+
 ## --------------------------- Basic Usage --------------------------
 map <- fastmap2()
 map$a = 1

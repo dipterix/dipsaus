@@ -66,6 +66,7 @@ details.
 ## Examples
 
 ``` r
+
 # ------------ standard usage ------------
 x <- 1:10
 f1 <- new_function2(alist(a=), { print(a + x) }, env = environment())
@@ -84,7 +85,7 @@ print(f2)
 #> {
 #>     print(a + 1:10)
 #> }
-#> <environment: 0x559e394a4b58>
+#> <environment: 0x55f7893818d0>
 
 f2(0)
 #>  [1]  1  2  3  4  5  6  7  8  9 10
@@ -102,25 +103,25 @@ new_function2(list(a = default))   # function (a = 123){}
 #> function (a = 123) 
 #> {
 #> }
-#> <environment: 0x559e382737a0>
+#> <environment: 0x55f788eea918>
 
 # default with values unevaluated
 new_function2(list(a = quote(default)))   # function (a = default){}
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x559e37e28920>
+#> <environment: 0x55f7898c6490>
 new_function2(alist(a = default))
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x559e37cabb38>
+#> <environment: 0x55f7898f4500>
 
 # missing default
 new_function2(alist(a = ))    # function (a){}
 #> function (a) 
 #> {
 #> }
-#> <environment: 0x559e37c09df0>
+#> <environment: 0x55f788b364f8>
 
 ```

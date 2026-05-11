@@ -23,6 +23,7 @@ clear_env(env, ...)
 ## Examples
 
 ``` r
+
 env = new.env()
 env$a = 1
 print(as.list(env))

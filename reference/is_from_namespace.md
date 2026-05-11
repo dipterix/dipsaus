@@ -28,6 +28,7 @@ environment, or an empty environment.
 
 ``` r
 
+
 is_from_namespace(baseenv())        # TRUE
 #> [1] TRUE
 is_from_namespace(utils::read.csv)  # TRUE

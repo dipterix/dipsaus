@@ -25,6 +25,7 @@ An R string
 ## Examples
 
 ``` r
+
 ui <- flex_div(
   shiny::textInput('id', ' ', width = '100%',
                    value = 'Height not aligned'),

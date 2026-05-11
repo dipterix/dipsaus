@@ -31,6 +31,7 @@ updating function name
 ## Examples
 
 ``` r
+
 library(dipsaus)
 
 # Most recommended usage

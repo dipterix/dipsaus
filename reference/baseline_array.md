@@ -94,6 +94,7 @@ these baseline methods are:
 
 ``` r
 
+
 library(dipsaus)
 set.seed(1)
 

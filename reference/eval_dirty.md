@@ -44,6 +44,7 @@ will be changed in this case.
 ## Examples
 
 ``` r
+
 env = new.env(); env$a = 1
 rlang::eval_tidy(quote({a <- 111}), env = env)
 print(env$a)  # Will be 1. This is because eval_tidy has no side effect

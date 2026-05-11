@@ -45,6 +45,7 @@ matrices.
 ## Examples
 
 ``` r
+
 x <- matrix(rnorm(400), nrow = 100)
 
 # Call `cov(x)` to compare
@@ -72,8 +73,8 @@ microbenchmark::microbenchmark(
   unit = 'ms', times = 10
 )
 #> Unit: milliseconds
-#>      expr      min       lq     mean   median      uq      max neval
-#>  fastcov2 1.571971 1.588796 1.614866 1.595290 1.62538 1.766179    10
-#>       cov 6.490864 6.529602 6.690959 6.569896 6.58310 7.890149    10
+#>      expr      min       lq     mean   median       uq      max neval
+#>  fastcov2 1.474085 1.482341 1.524786 1.497260 1.541581 1.716874    10
+#>       cov 2.616366 2.628103 2.705072 2.632419 2.635001 3.321333    10
 
 ```

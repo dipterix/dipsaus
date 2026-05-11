@@ -74,6 +74,7 @@ instances, `fin` accepts no argument.
 ## Examples
 
 ``` r
+
 # ------------ Environment example ------------
 file_exists <- TRUE
 clear_files <- function(e){
@@ -201,8 +202,8 @@ reg.finalizer(e2, clear_files)
 #> NULL
 gc()
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425955 76.2    2237957 119.6  2237957 119.6
-#> Vcells 2642241 20.2   12307377  93.9 24037643 183.4
+#> Ncells 1440596 77.0    2274810 121.5  2274810 121.5
+#> Vcells 2662512 20.4   12321951  94.1 24066156 183.7
 file_exists
 #> [1] TRUE
 
@@ -210,8 +211,8 @@ file_exists
 rm(e1); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425973 76.2    2237957 119.6  2237957 119.6
-#> Vcells 2642307 20.2   12307377  93.9 24037643 183.4
+#> Ncells 1440614 77.0    2274810 121.5  2274810 121.5
+#> Vcells 2662578 20.4   12321951  94.1 24066156 183.7
 e2$valid()    # FALSE
 #> [1] FALSE
 
@@ -219,6 +220,6 @@ e2$valid()    # FALSE
 rm(e2); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1425987 76.2    2237957 119.6  2237957 119.6
-#> Vcells 2642311 20.2   12307377  93.9 24037643 183.4
+#> Ncells 1440628 77.0    2274810 121.5  2274810 121.5
+#> Vcells 2662582 20.4   12321951  94.1 24066156 183.7
 ```

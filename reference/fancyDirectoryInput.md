@@ -177,6 +177,7 @@ custom progress bars
 
 ``` r
 
+
 library(shiny)
 library(dipsaus)
 

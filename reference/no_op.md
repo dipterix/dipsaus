@@ -44,6 +44,7 @@ function is called with argument `.x` and `...`
 
 ``` r
 
+
 ## 1. Basic usage
 
 # Will print('a') and return 'a'

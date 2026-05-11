@@ -23,6 +23,7 @@ cases will return an array with the last dimension equal to 2.
 ## Examples
 
 ``` r
+
 # scalar
 1 %+-% 2   # -1, 3
 #> [1]  3 -1

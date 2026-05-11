@@ -97,6 +97,7 @@ subject to change in the future.
 ## Examples
 
 ``` r
+
 if(interactive()){
   h <- rs_exec(
     {

@@ -5,6 +5,7 @@ Package `dipsaus` provides `add-ons` to various packages such as
 the package,
 
 ``` r
+
 # To install the development package
 # pak::pak('dipterix/dipsaus')
 

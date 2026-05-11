@@ -33,6 +33,7 @@ A character string of new 'HTML' class
 ## Examples
 
 ``` r
+
 # Combine classes "a b c d e"
 combine_html_class("a", "b  a", c("c", " d", "b"), list("e ", "a"))
 #> [1] "a b c d e"

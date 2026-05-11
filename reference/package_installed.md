@@ -26,6 +26,7 @@ logical value of whether all packages a re installed.
 ## Examples
 
 ``` r
+
 # Check if package base and dipsaus are installed
 package_installed(c('base', 'dipsaus'))
 #>    base dipsaus 

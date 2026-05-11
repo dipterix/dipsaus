@@ -37,6 +37,7 @@ lengths. `get_dots` returns value corresponding to the name.
 
 ``` r
 
+
 # ------------------------ Basic Usage ---------------------------
 
 # missing_dots(environment()) is a fixed usage

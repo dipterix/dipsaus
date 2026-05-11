@@ -26,6 +26,7 @@ The usage is listed as follows:
 
 ``` r
 
+
 # UI function
 actionButtonStyled(inputId, label, icon = NULL, width = NULL, 
                    btn_type = "button", type = "primary", class = "", ...)
@@ -45,6 +46,7 @@ Show-case:
 multiple shiny inputs. For examples
 
 ``` r
+
 compoundInput2(
   'compound', 'Group Label', label_color = 1:10,
   components = div(
@@ -90,6 +92,7 @@ update. What if you want A to be updated when B is changed? The
 following code might cause recursive updates:
 
 ``` r
+
 # Bad example
 observeEvent(input$A, {
   updateSliderInput(session, 'B', value = input$A)
@@ -102,6 +105,7 @@ observeEvent(input$B, {
 In this case, you can use `sync_shiny_inputs`:
 
 ``` r
+
 sync_shiny_inputs(input, session, inputIds = c('A', 'B'), uniform = list(
   function(a){as.numeric(a)},
   function(b){ b }

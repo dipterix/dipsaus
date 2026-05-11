@@ -1,12 +1,14 @@
 # Utility Functions
 
 ``` r
+
 library(dipsaus)
 ```
 
 #### 1. Cat strings with levels: `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `FATAL`
 
 ``` r
+
 cat2('Debug passed!', level = 'DEBUG')
 #> ✔ Debug passed!
 
@@ -32,6 +34,7 @@ cat2('Bi--Doop---', level = 'FATAL')
 `parse_svec` converts characters like `"7-10,14-15"` to numeric vectors
 
 ``` r
+
 parse_svec("7-10,14-15")
 #> [1]  7  8  9 10 14 15
 ```
@@ -39,6 +42,7 @@ parse_svec("7-10,14-15")
 `deparse_svec` reverse the process
 
 ``` r
+
 deparse_svec(c(2,5,3,1,7))
 #> [1] "1-3,5,7"
 ```
@@ -47,6 +51,7 @@ Parameter `max_lag` in `deparse_svec` changes the threshold of integers
 collapsed together:
 
 ``` r
+
 deparse_svec(c(1,2,4,7,11))
 #> [1] "1-2,4,7,11"
 
@@ -64,9 +69,10 @@ For example, R doesn’t provide functions to get memory limits, or CPU
 chip-set information on Linux or MacOS.
 
 ``` r
+
 # Total RAM in bytes
 get_ram()
-#> 16766443520.0 B
+#> 16765390848.0 B
 
 # Print-friendly
 to_ram_size(get_ram(), 1024)
@@ -75,9 +81,9 @@ to_ram_size(get_ram(), 1024)
 # WARNING: $free is the total RAM - R usage, is no the actual free RAM
 mem_limit2()
 #> $total
-#> 16766443520.0 B
+#> 16765390848.0 B
 #> $free
-#> 16699758744.0 B
+#> 16698036056.0 B
 ```
 
 #### 4. Interactive Questions

@@ -37,6 +37,7 @@ An integer of class `"sexp_type2"`
 ## Examples
 
 ``` r
+
 # 1 vs 1L
 
 # Integer case

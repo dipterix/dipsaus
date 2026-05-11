@@ -51,6 +51,7 @@ none.
 ## Examples
 
 ``` r
+
 library(shiny)
 
 ui <- fluidPage(

@@ -28,6 +28,7 @@ Identical to `quantile(x, q, na.rm=TRUE)`
 ## Examples
 
 ``` r
+
 # create input x with NAs
 x <- rnorm(10000)
 x[sample(10000, 10)] <- NA
@@ -56,11 +57,11 @@ microbenchmark::microbenchmark(
 )
 #> Unit: microseconds
 #>                                    expr     min       lq     mean   median
-#>            {     fastquantile(x, 0.5) }  53.729 110.3235 134.4818 139.5020
-#>  {     quantile(x, 0.5, na.rm = TRUE) } 186.607 209.9310 289.9533 225.0535
-#>         {     median(x, na.rm = TRUE) } 128.891 137.7345 203.2462 146.0120
+#>            {     fastquantile(x, 0.5) } 100.525 107.7845 117.7460 116.0105
+#>  {     quantile(x, 0.5, na.rm = TRUE) } 282.374 297.3975 337.7886 311.9105
+#>         {     median(x, na.rm = TRUE) } 210.214 221.7405 256.2556 231.2100
 #>        uq     max neval
-#>  158.6600 201.138   100
-#>  407.0085 568.944   100
-#>  303.1640 683.914   100
+#>  127.4215 142.314   100
+#>  395.9515 488.818   100
+#>  306.0455 391.172   100
 ```

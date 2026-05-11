@@ -40,6 +40,7 @@ commands used to detect memory limits:
 ## Examples
 
 ``` r
+
 get_ram()
-#> 16766443520.0 B
+#> 16765390848.0 B
 ```

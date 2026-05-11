@@ -68,6 +68,7 @@ then it equals to `plan='multicore'`. For characters, `plan` can be
 ## Examples
 
 ``` r
+
 library(future)
 plan(sequential)
 

@@ -68,6 +68,7 @@ a temporary input ID, currently not useful
 ## Examples
 
 ``` r
+
 library(shiny)
 library(dipsaus)
 ui <- fluidPage(

@@ -28,6 +28,7 @@ lhs %D% rhs
 
 ``` r
 
+
 # Example 1: basic usage
 # Decorator that prints summary of results and return results itself
 verbose_summary <- function(...){

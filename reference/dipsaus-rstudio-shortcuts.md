@@ -73,6 +73,7 @@ unset, this function will be executed.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 # Need to run in RStudio

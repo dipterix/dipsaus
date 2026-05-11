@@ -87,6 +87,7 @@ identical to [`lapply`](https://rdrr.io/r/base/lapply.html); when
 ## Examples
 
 ``` r
+
 if(interactive()){
 
   lapply_callr(1:3, function(x, a){

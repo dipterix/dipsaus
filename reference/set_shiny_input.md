@@ -52,6 +52,7 @@ set_shiny_input(
 ## Examples
 
 ``` r
+
 library(shiny)
 library(dipsaus)
 ui <- fluidPage(

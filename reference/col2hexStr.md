@@ -52,6 +52,7 @@ differences:
 ## Examples
 
 ``` r
+
 col2hexStr(1, prefix = '0x')      # "0x000000"
 #> [1] "0x000000"
 col2hexStr('blue')                # "#0000FF"

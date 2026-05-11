@@ -21,6 +21,7 @@ String
 ## Examples
 
 ``` r
+
 input <- "The quick brown fox jumps over the lazy dog"
 
 # Base64 encode

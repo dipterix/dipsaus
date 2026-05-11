@@ -26,6 +26,7 @@ character vector of the same length as `x`
 ## Examples
 
 ``` r
+
 x = "plain text"
 encoded = base64_urlencode(x)
 decoded = base64_urldecode(encoded)

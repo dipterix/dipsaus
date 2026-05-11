@@ -41,6 +41,7 @@ A numerical number that is the standard error of the mean
 ## Examples
 
 ``` r
+
 x <- rnorm(100)
 
 ste_mean(x)

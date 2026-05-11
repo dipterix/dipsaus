@@ -49,6 +49,7 @@ for how to update the button.
 ## Examples
 
 ``` r
+
 # demo('example-actionButtonStyled', package='dipsaus')
 
 library(shiny)

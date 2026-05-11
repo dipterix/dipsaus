@@ -55,6 +55,7 @@ across sessions. See `cache` method in 'details'.
 ## Examples
 
 ``` r
+
 container = PersistContainer$new(tempfile())
 
 # Reset the container so that values are cleared

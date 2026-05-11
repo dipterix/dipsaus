@@ -36,6 +36,7 @@ and standard error of mean
 ## Examples
 
 ``` r
+
 # Mean should be near 0 (mean of standard normal)
 # standard error of mean should be near 0.01
 mean_se(rnorm(10000))

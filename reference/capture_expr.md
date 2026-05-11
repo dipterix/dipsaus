@@ -32,6 +32,7 @@ Character of length 1: output captured by
 ## Examples
 
 ``` r
+
 x <- data.frame(a=1:10)
 x_str <- capture_expr({
   print(x)
