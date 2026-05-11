@@ -34,3 +34,5 @@ autom4te.cache
 ^pkgdown$
 ^TEST_DATAPATHS\.md$
 ^knowledgebase$
+^\.positai$
+^\.claude$
