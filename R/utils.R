@@ -82,6 +82,8 @@ drop_nulls <- function(x, .invalids = list("is.null")) {
 #' \code{\link{fastmap2}} instance
 #' @param ... ignored
 #'
+#' @return \code{env} with variables removed
+#'
 #' @examples
 #'
 #' env = new.env()

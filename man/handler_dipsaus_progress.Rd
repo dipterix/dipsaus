@@ -24,6 +24,9 @@ handler_dipsaus_progress(
 
 \item{...}{passed to \code{\link[progressr]{make_progression_handler}}}
 }
+\value{
+A \pkg{progressr} handler
+}
 \description{
 Handler for \code{\link{progress2}} to support
 \code{progressr::handlers}. See examples for detailed use case

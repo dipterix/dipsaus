@@ -9,6 +9,9 @@ use_shiny_dipsaus(x)
 \arguments{
 \item{x}{'HTML' tags}
 }
+\value{
+\code{x} with dependency attribute
+}
 \description{
 This function must be called from a Shiny app's UI in order for
 some widgets to work.

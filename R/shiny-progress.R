@@ -183,6 +183,9 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
 #' @param target where progression updates are rendered
 #' @param enable whether the progress should be reported
 #' @param ... passed to \code{\link[progressr]{make_progression_handler}}
+#'
+#' @return A \pkg{progressr} handler
+#'
 #' @examples
 #'
 #'

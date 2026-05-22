@@ -33,6 +33,9 @@ registered}
 
 \item{env}{environment to debug code; default is global environment}
 }
+\value{
+Nothing
+}
 \description{
 'RStudio' keyboard shortcuts is handy, however, it is non-trivial
 to set shortcuts that run customized code. The proposing functions

@@ -419,6 +419,7 @@ rs_select_path <- function(is_directory = TRUE) {
 #' @description Perform "safe" save-all action with backward
 #' compatibility: check whether 'RStudio' is running and whether
 #' \code{rstudioapi} has function \code{documentSaveAll}.
+#' @return Nothing
 #' @export
 rs_save_all <- function() {
   if (rs_avail(version_needed = "1.1.287")) {
@@ -470,7 +471,7 @@ rs_edit_file <- function(path, create = TRUE) {
 #' @param url the website address of the repository, starting with schemes
 #' such as \code{'https'}.
 #' @param add whether to add to existing repository; default is true
-#' @returns a list of settings.
+#' @return a list of settings.
 #' @details 'RStudio' allows to add secondary 'CRAN'-like repository to its
 #' preference, such that users can add on-going self-hosted developing
 #' repositories (such as package \code{'drat'}, or 'r-universe'). These

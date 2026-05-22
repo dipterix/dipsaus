@@ -9,6 +9,9 @@ async_flapply(X, FUN, ...)
 \arguments{
 \item{X, FUN, ...}{passing to \code{future.apply::future_lapply}}
 }
+\value{
+See \code{\link[future.apply]{future_lapply}}
+}
 \description{
 Wrapper for \code{future.apply::future_lapply}
 }

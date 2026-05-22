@@ -89,6 +89,8 @@ collapse <- function(x, keep, average = FALSE) {
 #' time points (column, the second dimension) for each signal. \code{shift_by=1}
 #' because the shift amount is depend on the signal number.
 #'
+#' @return Shifted array with the same dimension
+#'
 #' @examples
 #' x <- matrix(1:10, nrow = 2, byrow = TRUE)
 #' z <- shift_array(x, 2, 1, c(1,2))

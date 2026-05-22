@@ -19,7 +19,9 @@ will be removed}
 \item{class}{one or more characters, classes to be removed from \code{target}}
 }
 \value{
-A character string of new 'HTML' class
+\code{combine_html_class} returns a string with new 'HTML' class
+
+\code{remove_html_class} returns a string with class stripped
 }
 \description{
 Combine 'HTML' classes to produce nice, clean 'HTML' class

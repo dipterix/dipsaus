@@ -33,6 +33,9 @@ See \code{\link{reg.finalizer}}}
 
 \item{...}{passed to other methods}
 }
+\value{
+Nothing
+}
 \description{
 Generates a function to be passed to
 \code{\link{reg.finalizer}}

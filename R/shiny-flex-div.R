@@ -163,7 +163,9 @@ html_asis <- function(s, space = TRUE) {
 #' will be removed
 #' @param target characters, class list
 #' @param class one or more characters, classes to be removed from \code{target}
-#' @return A character string of new 'HTML' class
+#'
+#' @return \code{combine_html_class} returns a string with new 'HTML' class
+#'
 #' @examples
 #'
 #' # Combine classes "a b c d e"
@@ -182,6 +184,7 @@ combine_html_class <- function(...) {
 }
 
 #' @rdname html_class
+#' @return \code{remove_html_class} returns a string with class stripped
 #' @export
 remove_html_class <- function(target, class) {
   if (!length(target)) {

@@ -9,6 +9,9 @@ async(expr)
 \arguments{
 \item{expr}{R expression}
 }
+\value{
+Evaluated result
+}
 \description{
 Evaluate expression in \code{async_expr}
 }

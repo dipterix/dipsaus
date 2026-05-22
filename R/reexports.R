@@ -7,6 +7,9 @@ digest::digest
 #' @param keep_source whether to keep the code that generates the object;
 #' default is false
 #' @seealso \code{\link[utils]{removeSource}}
+#'
+#' @return Digest string
+#'
 #' @export
 digest2 <- function(object, ..., keep_source = FALSE) {
   if (!keep_source) {

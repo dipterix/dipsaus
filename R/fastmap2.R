@@ -86,10 +86,14 @@ list_to_fastmap2 <- function(li, map = NULL) {
 }
 
 #' @title Migrate a \code{fastmap2} object to a new one
+#'
 #' @param from,to \code{fastmap2} object
 #' @param override whether to override keys in \code{to} if they exist
+#'
 #' @return Map \code{to}
+#'
 #' @seealso \code{\link{fastmap2}}
+#' @noRd
 update_fastmap2 <- function(from, to, override = TRUE) {
   if (override) {
     new_list <- .subset2(from, "as_list")()

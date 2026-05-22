@@ -13,6 +13,9 @@ test_farg(fun, arg, dots = TRUE)
 
 \item{dots}{whether \code{fun}'s dots (\code{...}) counts}
 }
+\value{
+logical vector
+}
 \description{
 Test whether function has certain arguments
 }

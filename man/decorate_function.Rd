@@ -17,6 +17,9 @@ argument}
 
 \item{...}{passed to \code{decor}}
 }
+\value{
+A decorate function
+}
 \description{
 Python-style decorator
 }

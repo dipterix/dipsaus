@@ -12,6 +12,9 @@ clear_env(env, ...)
 
 \item{...}{ignored}
 }
+\value{
+\code{env} with variables removed
+}
 \description{
 Function to clear all elements within environment
 }

@@ -8,7 +8,7 @@
 #' @param size height of the widget, choices are \code{'s'}, \code{'m'}, \code{'l'}, and \code{'xl'}
 #' @param maxSize maximum file size per file in bytes (default uses \code{shiny.maxRequestSize} option, typically 5MB)
 #' @param ... passed to \code{\link[shiny]{fileInput}}
-#' @returns See \code{\link[shiny]{fileInput}}
+#' @return See \code{\link[shiny]{fileInput}}
 #' @examples
 #'
 #'
@@ -83,7 +83,7 @@ fancyFileInput <- function( inputId, label, width = NULL,
 #'   preventing users from changing the setting. Default is \code{FALSE}, which shows
 #'   the check-box allowing users to toggle auto-cleanup behavior.
 #' @param ... additional arguments (currently unused)
-#' @returns A reactive data frame with components: \code{fileId} (unique file identifier),
+#' @return A reactive data frame with components: \code{fileId} (unique file identifier),
 #' \code{name} (file name), \code{size} (file size in bytes), \code{type} (MIME type),
 #' \code{datapath} (temporary file path on server), and \code{relativePath}
 #' (full relative path including sub-directories). The data frame also has attributes:

@@ -30,6 +30,9 @@ changed}
 
 \item{quoted}{is value quoted? Only used when method is "expression"}
 }
+\value{
+Nothing
+}
 \description{
 Shiny `input' object is read-only reactive list. When try to
 assign values to input, errors usually occur. This method provides several

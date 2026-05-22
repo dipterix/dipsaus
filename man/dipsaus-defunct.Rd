@@ -8,6 +8,9 @@ The functions or variables listed here are no longer part of the package.}
 \usage{
 get_cpu()
 }
+\value{
+\code{get_cpu} returns a string
+}
 \description{
 Defunct Functions in Package \pkg{dipsaus}
 The functions or variables listed here are no longer part of the package.

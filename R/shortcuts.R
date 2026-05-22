@@ -12,6 +12,9 @@
 #' registered
 #' @param quoted whether \code{expr} is quoted, default is false
 #' @param env environment to debug code; default is global environment
+#'
+#' @return Nothing
+#'
 #' @details There are two steps to register an 'RStudio' keyboard shortcut.
 #'
 #' 1. Please enable the shortcuts by opening

@@ -1,6 +1,7 @@
 #' Get attached package names in current session (Internally used)
 #' @param include_base whether to include base packages
 #' @return characters, package names that are attached in current session
+#' @noRd
 attached_packages <- function(include_base = FALSE) {
   info <- utils::sessionInfo()
   bk <- rev(info$basePkgs)
@@ -63,6 +64,9 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' Restart R Session
 #' @description Utilize 'RStudio' functions to restart, if running without
 #' 'RStudio', use package \code{startup} (not included in this library) instead.
+#'
+#' @return Nothing
+#'
 #' @export
 restart_session <- function() {
   f <- get0(".rs.restartR")

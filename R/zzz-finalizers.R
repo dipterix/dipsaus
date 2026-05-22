@@ -125,6 +125,9 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #' object is still uncollected at the end of the R session?
 #' See \code{\link{reg.finalizer}}
 #' @param ... passed to other methods
+#'
+#' @return Nothing
+#'
 #' @details The main purpose of this function is to allow multiple
 #' objects that point to a same source (say a temporary file) to
 #' perform clean up when all the objects are garbage collected.

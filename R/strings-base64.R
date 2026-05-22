@@ -13,7 +13,8 @@ base64_urlinternal_decoder <- function(x) {
 #' This implementation is slower. If you have \code{'base64url'} installed,
 #' please use that version.
 #' @param x character vector to encode or decode
-#' @returns character vector of the same length as \code{x}
+#' @return Character vector of the same length as \code{x}.
+#' \code{base64_urlencode} returns encoded strings.
 #'
 #' @examples
 #'
@@ -34,6 +35,7 @@ base64_urlencode <- function(x) {
 }
 
 #' @rdname base64-url
+#' @return \code{base64_urldecode} returns decoded strings.
 #' @export
 base64_urldecode <- function(x) {
   x <- gsub("-", "+", x)

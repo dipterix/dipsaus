@@ -12,6 +12,9 @@ digest2(object, ..., keep_source = FALSE)
 \item{keep_source}{whether to keep the code that generates the object;
 default is false}
 }
+\value{
+Digest string
+}
 \description{
 Digest R object with source reference removed
 }

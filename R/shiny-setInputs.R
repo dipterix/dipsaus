@@ -14,6 +14,9 @@
 #' @param method characters, options are "proxy", "serialize", "value",
 #' "expression". "proxy" is recommended, other methods are experimental.
 #' @param quoted is value quoted? Only used when method is "expression"
+#'
+#' @return Nothing
+#'
 #' @examples
 #'
 #' library(shiny)
@@ -97,6 +100,8 @@ set_shiny_input <- function(
 #' @description This function must be called from a Shiny app's UI in order for
 #' some widgets to work.
 #' @param x 'HTML' tags
+#'
+#' @return \code{x} with dependency attribute
 #' @export
 use_shiny_dipsaus <- function(x) {
   version <- as.character(utils::packageVersion("dipsaus"))

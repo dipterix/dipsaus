@@ -237,6 +237,7 @@ get_ip <- function(get_public = NA) {
 
 
 #' @rdname dipsaus-defunct
+#' @return \code{get_cpu} returns a string
 #' @export
 get_cpu <- function() {
   os <- get_os()

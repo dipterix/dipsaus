@@ -14,7 +14,10 @@ base64_urldecode(x)
 \item{x}{character vector to encode or decode}
 }
 \value{
-character vector of the same length as \code{x}
+Character vector of the same length as \code{x}.
+\code{base64_urlencode} returns encoded strings.
+
+\code{base64_urldecode} returns decoded strings.
 }
 \description{
 Compatible with results from package \code{'base64url'},

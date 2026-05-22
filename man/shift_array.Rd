@@ -15,6 +15,9 @@ shift_array(x, shift_idx, shift_by, shift_amount)
 
 \item{shift_amount}{shift amount along \code{shift_idx}}
 }
+\value{
+Shifted array with the same dimension
+}
 \description{
 Re-arrange arrays in parallel
 }

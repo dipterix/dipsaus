@@ -683,6 +683,9 @@ as_call <- function(...,
 #' @param decor,rhs decorator function that takes \code{orig} as its first
 #' argument
 #' @param ... passed to \code{decor}
+#'
+#' @return A decorate function
+#'
 #' @examples
 #'
 #'
@@ -882,6 +885,9 @@ missing_dots <- function(envir = parent.frame()) {
 #' @param fun function
 #' @param arg characters of function arguments
 #' @param dots whether \code{fun}'s dots (\code{...}) counts
+#'
+#' @return logical vector
+#'
 #' @examples
 #'
 #' a <- function(n = 1) {}
@@ -924,7 +930,7 @@ test_farg <- function(fun, arg, dots = TRUE) {
 #'
 #' @param x function, environment, language (with environment attached)
 #' @param recursive whether to recursively search parent environments
-#' @returns logical true if \code{x} or its environment is
+#' @return logical true if \code{x} or its environment is
 #' defined in a namespace; returns false if the object is atomic, or defined
 #' in/from global environment, or an empty environment.
 #' @examples

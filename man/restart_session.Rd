@@ -6,6 +6,9 @@
 \usage{
 restart_session()
 }
+\value{
+Nothing
+}
 \description{
 Utilize 'RStudio' functions to restart, if running without
 'RStudio', use package \code{startup} (not included in this library) instead.

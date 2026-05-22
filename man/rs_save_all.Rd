@@ -6,6 +6,9 @@
 \usage{
 rs_save_all()
 }
+\value{
+Nothing
+}
 \description{
 Perform "safe" save-all action with backward
 compatibility: check whether 'RStudio' is running and whether

@@ -100,6 +100,9 @@ async_expr <- function(.X, .expr, .varname = "x", envir = parent.frame(),
 #' Evaluate expression in \code{async_expr}
 #' @param expr R expression
 #' @seealso \code{\link[dipsaus]{async_expr}}
+#'
+#' @return Evaluated result
+#'
 #' @export
 async <- function(expr) {
   cat2("async must be evaluated in function async_expr", level = "FATAL")
@@ -109,6 +112,9 @@ async <- function(expr) {
 #' Wrapper for \code{future.apply::future_lapply}
 #' @param X,FUN,... passing to \code{future.apply::future_lapply}
 #' @seealso \code{\link[future.apply]{future_lapply}}
+#'
+#' @return See \code{\link[future.apply]{future_lapply}}
+#'
 #' @export
 async_flapply <- function(X, FUN, ...) {
   future.apply::future_lapply(X = X, FUN = FUN, ...)

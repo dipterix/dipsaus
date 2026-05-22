@@ -47,7 +47,7 @@ wrap_callback <- function(.callback) {
 #' @param .name the name of progress and jobs
 #' @param .wait whether to wait for the results; default is true, which blocks
 #' the main session waiting for results.
-#' @returns When \code{.wait=TRUE}, returns a list that should be, in most of
+#' @return When \code{.wait=TRUE}, returns a list that should be, in most of
 #' the cases, identical to \code{\link{lapply}}; when \code{.wait=FALSE},
 #' returns a function that collects results.
 #' @examples
