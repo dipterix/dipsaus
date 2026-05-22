@@ -1,4 +1,16 @@
-dipsaus 0.3.3
+dipsaus 0.3.5
+
+=======
+
+* `updateCompoundInput2` now automatically sets the number of components to
+  the length of `value` when `ncomp` is not explicitly specified
+* Fixed `actionButtonStyled` label not updating correctly for `shiny >= 1.12.0`
+* Replaced `future::availableCores()` (deprecated) with
+  `parallelly::availableCores()` in `async_expr`, `async_flapply`, and
+  `make_forked_clusters`; added `parallelly` to `Imports`
+* Updated `JavaScript` dependencies
+
+dipsaus 0.3.4
 
 =======
 
