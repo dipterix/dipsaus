@@ -43,6 +43,10 @@ handler_dipsaus_progress(
   passed to
   [`make_progression_handler`](https://progressr.futureverse.org/reference/make_progression_handler.html)
 
+## Value
+
+A progressr handler
+
 ## Examples
 
 ``` r

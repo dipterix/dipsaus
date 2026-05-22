@@ -21,7 +21,10 @@ base64_urldecode(x)
 
 ## Value
 
-character vector of the same length as `x`
+Character vector of the same length as `x`. `base64_urlencode` returns
+encoded strings.
+
+`base64_urldecode` returns decoded strings.
 
 ## Examples
 

@@ -20,6 +20,10 @@ clear_env(env, ...)
 
   ignored
 
+## Value
+
+`env` with variables removed
+
 ## Examples
 
 ``` r

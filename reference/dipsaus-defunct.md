@@ -8,3 +8,7 @@ here are no longer part of the package.
 ``` r
 get_cpu()
 ```
+
+## Value
+
+`get_cpu` returns a string

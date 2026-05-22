@@ -4,7 +4,7 @@
 <url><loc>https://dipterix.org/dipsaus/articles/index.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/r_expr_addons.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/shiny_customized_widgets.html</loc></url>
-<url><loc>https://dipterix.org/dipsaus/articles/shiny_customized_widgets_files/dipsaus-0.3.4.5/streamsaver/mitm.html</loc></url>
+<url><loc>https://dipterix.org/dipsaus/articles/shiny_customized_widgets_files/dipsaus-0.3.5/streamsaver/mitm.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/articles/utility_functions.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/authors.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/index.html</loc></url>
@@ -21,7 +21,6 @@
 <url><loc>https://dipterix.org/dipsaus/reference/async_expr.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/async_flapply.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/async_works.html</loc></url>
-<url><loc>https://dipterix.org/dipsaus/reference/attached_packages.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/base64-url.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/base64_to_image.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/base64_to_string.html</loc></url>
@@ -117,7 +116,6 @@
 <url><loc>https://dipterix.org/dipsaus/reference/to_ram_size.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/updateActionButtonStyled.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/updateCompoundInput2.html</loc></url>
-<url><loc>https://dipterix.org/dipsaus/reference/update_fastmap2.html</loc></url>
 <url><loc>https://dipterix.org/dipsaus/reference/use_shiny_dipsaus.html</loc></url>
 </urlset>
 

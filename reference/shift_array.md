@@ -26,6 +26,10 @@ shift_array(x, shift_idx, shift_by, shift_amount)
 
   shift amount along `shift_idx`
 
+## Value
+
+Shifted array with the same dimension
+
 ## Details
 
 A simple use-case for this function is to think of a matrix where each

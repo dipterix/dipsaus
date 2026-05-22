@@ -8,3 +8,7 @@ use package `startup` (not included in this library) instead.
 ``` r
 restart_session()
 ```
+
+## Value
+
+Nothing

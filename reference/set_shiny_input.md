@@ -49,6 +49,10 @@ set_shiny_input(
 
   is value quoted? Only used when method is "expression"
 
+## Value
+
+Nothing
+
 ## Examples
 
 ``` r

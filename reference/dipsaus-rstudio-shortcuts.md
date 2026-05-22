@@ -45,6 +45,10 @@ rs_quick_debug(env = globalenv())
 
   environment to debug code; default is global environment
 
+## Value
+
+Nothing
+
 ## Details
 
 There are two steps to register an 'RStudio' keyboard shortcut.

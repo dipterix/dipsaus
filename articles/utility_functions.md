@@ -72,7 +72,7 @@ chip-set information on Linux or MacOS.
 
 # Total RAM in bytes
 get_ram()
-#> 16766423040.0 B
+#> 16766418944.0 B
 
 # Print-friendly
 to_ram_size(get_ram(), 1024)
@@ -81,9 +81,9 @@ to_ram_size(get_ram(), 1024)
 # WARNING: $free is the total RAM - R usage, is no the actual free RAM
 mem_limit2()
 #> $total
-#> 16766423040.0 B
+#> 16766418944.0 B
 #> $free
-#> 16699058232.0 B
+#> 16698937576.0 B
 ```
 
 #### 4. Interactive Questions

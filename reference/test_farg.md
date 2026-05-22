@@ -22,6 +22,10 @@ test_farg(fun, arg, dots = TRUE)
 
   whether `fun`'s dots (`...`) counts
 
+## Value
+
+logical vector
+
 ## Examples
 
 ``` r

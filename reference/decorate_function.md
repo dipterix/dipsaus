@@ -24,6 +24,10 @@ lhs %D% rhs
 
   passed to `decor`
 
+## Value
+
+A decorate function
+
 ## Examples
 
 ``` r

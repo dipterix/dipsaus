@@ -48,6 +48,10 @@ shared_finalizer(x, key, fin, onexit = FALSE, ...)
 
   passed to other methods
 
+## Value
+
+Nothing
+
 ## Details
 
 The main purpose of this function is to allow multiple objects that
@@ -202,8 +206,8 @@ reg.finalizer(e2, clear_files)
 #> NULL
 gc()
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1440783 77.0    2267060 121.1  2267060 121.1
-#> Vcells 2662720 20.4   12322108  94.1 24066598 183.7
+#> Ncells 1443208 77.1    2292095 122.5  2292095 122.5
+#> Vcells 2666711 20.4   12325050  94.1 24072170 183.7
 file_exists
 #> [1] TRUE
 
@@ -211,8 +215,8 @@ file_exists
 rm(e1); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1440801 77.0    2267060 121.1  2267060 121.1
-#> Vcells 2662786 20.4   12322108  94.1 24066598 183.7
+#> Ncells 1443226 77.1    2292095 122.5  2292095 122.5
+#> Vcells 2666777 20.4   12325050  94.1 24072170 183.7
 e2$valid()    # FALSE
 #> [1] FALSE
 
@@ -220,6 +224,6 @@ e2$valid()    # FALSE
 rm(e2); gc()
 #> [1] "Clean some shared files"
 #>           used (Mb) gc trigger  (Mb) max used  (Mb)
-#> Ncells 1440815 77.0    2267060 121.1  2267060 121.1
-#> Vcells 2662790 20.4   12322108  94.1 24066598 183.7
+#> Ncells 1443240 77.1    2292095 122.5  2292095 122.5
+#> Vcells 2666781 20.4   12325050  94.1 24072170 183.7
 ```

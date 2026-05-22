@@ -42,9 +42,6 @@
 - [`async_works()`](https://dipterix.org/dipsaus/reference/async_works.md)
   : Run jobs in other R sessions without waiting
 
-- [`attached_packages()`](https://dipterix.org/dipsaus/reference/attached_packages.md)
-  : Get attached package names in current session (Internally used)
-
 - [`base64_urlencode()`](https://dipterix.org/dipsaus/reference/base64-url.md)
   [`base64_urldecode()`](https://dipterix.org/dipsaus/reference/base64-url.md)
   : Encode or decode 'base64'
@@ -385,11 +382,6 @@
 
 - [`updateCompoundInput2()`](https://dipterix.org/dipsaus/reference/updateCompoundInput2.md)
   : Update compound inputs
-
-- [`update_fastmap2()`](https://dipterix.org/dipsaus/reference/update_fastmap2.md)
-  :
-
-  Migrate a `fastmap2` object to a new one
 
 - [`use_shiny_dipsaus()`](https://dipterix.org/dipsaus/reference/use_shiny_dipsaus.md)
   : Set up shiny plugins

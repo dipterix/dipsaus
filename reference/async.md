@@ -14,6 +14,10 @@ async(expr)
 
   R expression
 
+## Value
+
+Evaluated result
+
 ## See also
 
 [`async_expr`](https://dipterix.org/dipsaus/reference/async_expr.md)

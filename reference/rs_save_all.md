@@ -9,3 +9,7 @@ whether 'RStudio' is running and whether `rstudioapi` has function
 ``` r
 rs_save_all()
 ```
+
+## Value
+
+Nothing

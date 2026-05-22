@@ -19,6 +19,10 @@ digest2(object, ..., keep_source = FALSE)
 
   whether to keep the code that generates the object; default is false
 
+## Value
+
+Digest string
+
 ## See also
 
 [`removeSource`](https://rdrr.io/r/utils/removeSource.html)

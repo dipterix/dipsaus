@@ -14,3 +14,7 @@ use_shiny_dipsaus(x)
 - x:
 
   'HTML' tags
+
+## Value
+
+`x` with dependency attribute

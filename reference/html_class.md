@@ -28,7 +28,9 @@ remove_html_class(target, class)
 
 ## Value
 
-A character string of new 'HTML' class
+`combine_html_class` returns a string with new 'HTML' class
+
+`remove_html_class` returns a string with class stripped
 
 ## Examples
 
