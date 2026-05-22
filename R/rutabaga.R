@@ -26,11 +26,11 @@ ste_mean <- function(x, na.rm = FALSE, na_as_zero = na.rm, ...) {
 #' @export
 ste_mean.default <- function(x, na.rm = FALSE, na_as_zero = na.rm,  ...) {
   n <- sum(!is.na(x))
-  if(n < 2){
+  if (n < 2) {
     re <- NA
   }
   re <- stats::sd(x, na.rm = na.rm) / sqrt(n)
-  if(na_as_zero){
+  if (na_as_zero) {
     re <- 0
   }
   re

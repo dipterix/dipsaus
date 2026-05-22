@@ -93,18 +93,18 @@ NULL
 #' @rdname PersistContainer
 #' @export
 PersistContainer <- R6::R6Class(
-  classname = 'PersistContainer',
+  classname = "PersistContainer",
   private = list(
     map = NULL,
     local_map = NULL
   ),
   public = list(
 
-    initialize = function(..., backend = rds_map){
+    initialize = function(..., backend = rds_map) {
       args <- list(...)
       m <- tryCatch({
         do.call(backend, args)
-      }, error = function(e){
+      }, error = function(e) {
         do.call(rds_map, args)
       })
 
@@ -112,77 +112,77 @@ PersistContainer <- R6::R6Class(
       private$local_map <- session_map()
     },
 
-    reset = function(all = FALSE){
+    reset = function(all = FALSE) {
       try({ private$local_map$reset() }, silent = TRUE)
-      if(all){
+      if (all) {
         try({ private$map$reset() }, silent = TRUE)
       }
       invisible()
     },
-    destroy = function(all = FALSE){
+    destroy = function(all = FALSE) {
       try({ private$local_map$destroy() }, silent = TRUE)
-      if(all){
+      if (all) {
         try({ private$map$destroy() }, silent = TRUE)
       }
       invisible()
     },
 
-    has = function(key, signature, sig_encoded = FALSE){
-      if(!length(key)){ return(NULL) }
+    has = function(key, signature, sig_encoded = FALSE) {
+      if (!length(key)) { return(NULL) }
 
       mis_sig <- missing(signature)
 
       re <- tryCatch({
-        if( mis_sig ){
+        if ( mis_sig ) {
           private$local_map$has(key) | private$map$has(key)
-        }else{
+        } else {
           private$local_map$has(key, signature, sig_encoded) | private$map$has(key, signature, sig_encoded)
         }
-      }, error = function(e){
+      }, error = function(e) {
         rep(FALSE, length(key))
       })
       return( re )
     },
 
-    remove = function(keys, all = TRUE){
+    remove = function(keys, all = TRUE) {
       try({ private$local_map$remove(keys) }, silent = TRUE)
-      if( all ){
+      if ( all ) {
         try({ private$map$remove(keys) }, silent = TRUE)
       }
       invisible()
     },
 
-    cache = function(key, value, signature, replace = FALSE, persist = FALSE){
+    cache = function(key, value, signature, replace = FALSE, persist = FALSE) {
 
       map <- private$map
       local_map <- private$local_map
       has_sig <- !missing(signature)
 
-      save_item <- function(force_value = TRUE){
+      save_item <- function(force_value = TRUE) {
         # tryCatch({
 
-          if(force_value) force(value)
+          if (force_value) force(value)
 
-          if( persist ){
+          if ( persist ) {
             mp <- map
 
-            if( inherits(map, 'TextMap' ) ){
+            if ( inherits(map, "TextMap" ) ) {
               # check value is basic types
-              if(!(is.atomic( value ) || is.list( value ) || is.data.frame( value ))){
-                cat2('value must be atomic, list, or data.frame if you want to persist while using TextMap.\n  ',
-                     'Switch to non-persist mode', level = 'WARNING')
+              if (!(is.atomic( value ) || is.list( value ) || is.data.frame( value ))) {
+                cat2("value must be atomic, list, or data.frame if you want to persist while using TextMap.\n  ",
+                     "Switch to non-persist mode", level = "WARNING")
                 mp <- local_map
               }
             }
 
-          }else{
+          } else {
             mp <- local_map
           }
 
           # cat("Saving key: ", key, " with value ", value, "\n")
-          if(has_sig){
+          if (has_sig) {
             mp$set(key, value, signature = signature)
-          }else{
+          } else {
             mp$set(key, value, signature = .missing_arg[[1]])
           }
 
@@ -195,14 +195,14 @@ PersistContainer <- R6::R6Class(
         return(value)
 
       }
-      if( replace ){
+      if ( replace ) {
         return(save_item())
       }
 
       # In case the map is corrupted
       # try({
         # Search for local_map
-      if(has_sig) {
+      if (has_sig) {
         if (local_map$has(keys = key,
                           signature = signature,
                           sig_encoded = FALSE)) {
@@ -211,15 +211,15 @@ PersistContainer <- R6::R6Class(
                            signature = signature,
                            sig_encoded = FALSE)) {
           return(map$get(key = key))
-        } else{
+        } else {
           return(save_item())
         }
-      } else{
+      } else {
         if (local_map$has(keys = key)) {
           return(local_map$get(key = key))
         } else if (map$has(keys = key)) {
           return(map$get(key = key))
-        } else{
+        } else {
           return(save_item())
         }
 

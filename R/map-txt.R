@@ -1,12 +1,12 @@
 
 TextMap <- R6::R6Class(
-  classname = 'TextMap',
+  classname = "TextMap",
   inherit = FileMap,
   portable = TRUE,
   cloneable = TRUE,
   public = list(
 
-    `@set` = function(key, value, signature){
+    `@set` = function(key, value, signature) {
       # If new key, then no-harm as there is no writing
       # self$`@remove`(key)
 
@@ -28,7 +28,7 @@ TextMap <- R6::R6Class(
       write.table(
         data.frame(Key = encoded_key, Hash = signature),
         file = tf,
-        sep = '|',
+        sep = "|",
         append = TRUE,
         quote = FALSE,
         row.names = FALSE,
@@ -39,7 +39,7 @@ TextMap <- R6::R6Class(
       # write.table(
       #   data.frame(Key = encoded_key, Hash = signature),
       #   file = private$header_file,
-      #   sep = '|',
+      #   sep = "|",
       #   append = TRUE,
       #   quote = FALSE,
       #   row.names = FALSE,
@@ -49,28 +49,28 @@ TextMap <- R6::R6Class(
       return( signature )
     },
 
-    get = function(key, missing_default){
+    get = function(key, missing_default) {
       ekey <- safe_urlencode(key)
       fpath <- file.path(private$db_dir, ekey)
-      if( file.exists(fpath) ){
+      if ( file.exists(fpath) ) {
         yaml::read_yaml(fpath)
-      }else{
-        if(missing(missing_default)){ missing_default <- self$missing_default }
+      } else {
+        if (missing(missing_default)) { missing_default <- self$missing_default }
         missing_default
       }
     },
 
-    initialize = function(path){
+    initialize = function(path) {
       path <- dir_create(path)
       private$root_path <- path
-      private$db_dir <- dir_create(file.path(path, 'MAP-YAMLDB'))
-      header_file <- file.path(path, 'MAP-YAMLHEAD')
-      if( !file.exists(header_file) ){
+      private$db_dir <- dir_create(file.path(path, "MAP-YAMLDB"))
+      header_file <- file.path(path, "MAP-YAMLHEAD")
+      if ( !file.exists(header_file) ) {
         header_file <- file_create(header_file)
-        writeLines('Key|Hash', con = header_file)
+        writeLines("Key|Hash", con = header_file)
       }
       private$header_file <- header_file
-      self$lockfile <- file.path(path, 'MAP-YAMLLOCK')
+      self$lockfile <- file.path(path, "MAP-YAMLLOCK")
     }
   )
 )

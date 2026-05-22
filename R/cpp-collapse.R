@@ -28,7 +28,7 @@
 #' microbenchmark::microbenchmark(
 #'   result = collapse(x, keep = c(3,2)),
 #'   compare = apply(x, c(3,2), sum),
-#'   times = 1L, check = function(v){
+#'   times = 1L, check = function(v) {
 #'     max(abs(range(do.call('-', v)))) < 1e-10
 #'   }
 #' )
@@ -38,20 +38,20 @@
 #' microbenchmark::microbenchmark(
 #'   result = collapse(x, keep = c(3,2)),
 #'   compare = apply(x, c(3,2), sum),
-#'   times = 1L , check = function(v){
+#'   times = 1L , check = function(v) {
 #'     max(abs(range(do.call('-', v)))) < 1e-10
 #'   })
 #'
 #' @export
 collapse <- function(x, keep, average = FALSE) {
 
-  if(any(is.complex(x))){
+  if (any(is.complex(x))) {
     re <- collapse(Re(x), keep = keep, average = average)
     im <- collapse(Im(x), keep = keep, average = average)
     return(re + 1i * im)
   }
 
-  stopifnot2(is.numeric(x), msg = 'x must be numeric or complex')
+  stopifnot2(is.numeric(x), msg = "x must be numeric or complex")
 
   dims <- dim(x)
   keep_sorted <- sort(keep)
@@ -59,11 +59,11 @@ collapse <- function(x, keep, average = FALSE) {
   re <- .Call("_dipsaus_collapser", x, dims, keep_sorted)
   dim(re) <- dims[keep_sorted]
 
-  if(!isTRUE(all.equal(keep_sorted, keep))){
+  if (!isTRUE(all.equal(keep_sorted, keep))) {
     re <- aperm(re, perm = order(order(keep)))
   }
 
-  if(average){
+  if (average) {
     re <- re / prod(dims[-keep_sorted])
   }
 
@@ -108,10 +108,10 @@ collapse <- function(x, keep, average = FALSE) {
 #' shift_amount <- c(1,-1,0)
 #' z <- shift_array(x, 3, 1, shift_amount)
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'
 #' par(mfrow = c(3, 2))
-#' for( ii in 1:3 ){
+#' for( ii in 1:3 ) {
 #'   image(t(x[ii, ,]), ylab = 'Frequency', xlab = 'Time',
 #'         main = paste('Trial', ii))
 #'   image(t(z[ii, ,]), ylab = 'Frequency', xlab = 'Time',
@@ -123,7 +123,7 @@ collapse <- function(x, keep, average = FALSE) {
 #' @export
 shift_array <- function(x, shift_idx, shift_by, shift_amount) {
   dims <- dim(x)
-  if(is.null(dims)){
+  if (is.null(dims)) {
     dims <- c(length(x), 1)
   }
   ndims <- length(dims)
@@ -141,12 +141,12 @@ shift_array <- function(x, shift_idx, shift_by, shift_amount) {
 
   stopifnot2(is.numeric(x) || is.complex(x), msg = "x must be numeric")
 
-  if(is.complex(x)){
+  if (is.complex(x)) {
     y <- .Call("_dipsaus_arrayShift", Re(x), shift_idx, shift_by, shift_amount, dims)
     x <- .Call("_dipsaus_arrayShift", Im(x), shift_idx, shift_by, shift_amount, dims)
     y + 1i * x
 
-  }else{
+  } else {
     .Call("_dipsaus_arrayShift", x, shift_idx, shift_by, shift_amount, as.integer(dims))
   }
 

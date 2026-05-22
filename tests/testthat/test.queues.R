@@ -4,8 +4,8 @@
 #
 # testthat::skip('queue is deprecated')
 #
-# test_queue <- function(generator, ...){
-#   make_queue <- function(...){
+# test_queue <- function(generator, ...) {
+#   make_queue <- function(...) {
 #     generator$new(...)
 #   }
 #
@@ -46,7 +46,7 @@
 #
 #   expect_true(self$count == 0)
 #
-#   if( !identical(generator, dipsaus:::TextQueue) ){
+#   if ( !identical(generator, dipsaus:::TextQueue) ) {
 #     # save environment
 #     e <- new.env()
 #     e$a <- 123
@@ -91,7 +91,7 @@
 #   has_redis <- tryCatch({
 #     new( RcppRedis::Redis )
 #     TRUE
-#   }, error = function(e){
+#   }, error = function(e) {
 #     FALSE
 #   })
 #   skip_if(!has_redis, message = 'No Redis detected, skip :)')

@@ -20,24 +20,24 @@
 #'
 #' server <- function(input, output, session) {
 #'   sync_shiny_inputs(input, session, inputIds = c('a', 'b'), uniform = list(
-#'     function(a){as.numeric(a)},
+#'     function(a) {as.numeric(a)},
 #'     'I'
 #'   ), updates = list(
-#'     function(a){updateTextInput(session, 'a', value = a)},
-#'     function(b){updateSliderInput(session, 'b', value = b)}
+#'     function(a) {updateTextInput(session, 'a', value = a)},
+#'     function(b) {updateSliderInput(session, 'b', value = b)}
 #'   ))
 #'
 #' }
 #'
-#' if( interactive() ){
+#' if( interactive() ) {
 #'   shinyApp(ui, server)
 #' }
 #'
 #' @export
 sync_shiny_inputs <- function(input, session, inputIds,
-                              uniform = rep('I', length(inputIds)),
+                              uniform = rep("I", length(inputIds)),
                               updates, snap = 250,
-                              ignoreNULL = TRUE, ignoreInit = FALSE){
+                              ignoreNULL = TRUE, ignoreInit = FALSE) {
   env <- fastmap::fastmap()
 
   env$mset(
@@ -50,14 +50,14 @@ sync_shiny_inputs <- function(input, session, inputIds,
     last_changed = Sys.time(),
     last_updated = Sys.time()
   )
-  lapply(seq_along(inputIds), function(ii){
+  lapply(seq_along(inputIds), function(ii) {
     input_id <- inputIds[[ii]]
     shiny::bindEvent(
       shiny::observe({
-        if(!env$get("suppress_other", missing = FALSE)){
+        if (!env$get("suppress_other", missing = FALSE)) {
           env$set("which_changed", ii)
         }
-        if( env$get("which_changed", missing = 0) == ii ){
+        if ( env$get("which_changed", missing = 0) == ii ) {
           env$set(key = "val", do.call(uniform[[ii]], list(input[[input_id]])))
           local_data$last_changed <- Sys.time()
         }
@@ -70,12 +70,12 @@ sync_shiny_inputs <- function(input, session, inputIds,
 
   shiny::bindEvent(
     shiny::observe({
-      if( env$get("which_changed", missing = 0) == 0 ){ return() }
+      if ( env$get("which_changed", missing = 0) == 0 ) { return() }
       # suppress other inputs
       env$set("suppress_other", value = TRUE)
 
-      lapply(seq_along(inputIds), function(ii){
-        if(ii != env$get("which_changed", missing = 0)){
+      lapply(seq_along(inputIds), function(ii) {
+        if (ii != env$get("which_changed", missing = 0)) {
           updates[[ii]](env$get("val"))
           # updateTextInput(session, env[[paste0('inname', 3 - which_changed)]], value = val)
         }
@@ -91,7 +91,7 @@ sync_shiny_inputs <- function(input, session, inputIds,
   finished_updates <- shiny::debounce(
     shiny::bindEvent(
       shiny::reactive({
-        if(length(local_data$last_changed) && length(local_data$last_updated)) {
+        if (length(local_data$last_changed) && length(local_data$last_updated)) {
           return(Sys.time())
         } else {
           return()

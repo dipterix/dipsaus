@@ -6,7 +6,7 @@ testthat::test_that("dipsaus_lock", {
   library(parallel)
 
   # Define a function to simulate concurrent writes
-  test_concurrent_access <- function(){
+  test_concurrent_access <- function() {
     # Create a temporary directory for the rds_map
     temp_dir <- tempfile()
     dir.create(temp_dir)

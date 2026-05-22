@@ -1,7 +1,7 @@
 
 #' Abstract Map to store key-value pairs
 AbstractMap <- R6::R6Class(
-  classname = 'AbstractMap',
+  classname = "AbstractMap",
   portable = TRUE,
   cloneable = TRUE,
   private = list(
@@ -14,21 +14,21 @@ AbstractMap <- R6::R6Class(
 
     # Run expr making sure that locker is locked to be exclusive (for write-only)
     exclusive = function(expr, ...) {
-      stopifnot2(private$valid, msg = 'Map is not valid')
+      stopifnot2(private$valid, msg = "Map is not valid")
       custom_locker <- is.function(self$get_locker) && is.function(self$free_locker)
-      if(self$has_locker){
+      if (self$has_locker) {
 
-        if(custom_locker){
+        if (custom_locker) {
           self$get_locker(...)
-        }else{
+        } else {
           private$default_get_locker(...)
         }
 
 
         on.exit({
-          if(custom_locker){
+          if (custom_locker) {
             self$free_locker()
-          }else{
+          } else {
             private$default_free_locker()
           }
         }, add = FALSE, after = FALSE)
@@ -36,9 +36,9 @@ AbstractMap <- R6::R6Class(
 
         force(expr)
 
-        if(custom_locker){
+        if (custom_locker) {
           self$free_locker()
-        }else{
+        } else {
           private$default_free_locker()
         }
         on.exit({}, add = FALSE, after = FALSE)
@@ -49,17 +49,17 @@ AbstractMap <- R6::R6Class(
 
     },
 
-    default_get_locker = function(timeout = Inf){
+    default_get_locker = function(timeout = Inf) {
 
       timeout <- as.numeric(timeout)
-      if(is.na(timeout)) {
+      if (is.na(timeout)) {
         timeout <- Inf
       }
 
       dipsaus_lock(name = self$lockfile, timeout = timeout)
 
     },
-    default_free_locker = function(){
+    default_free_locker = function() {
       dipsaus_unlock(self$lockfile)
     },
 
@@ -81,30 +81,30 @@ AbstractMap <- R6::R6Class(
 
 
 
-    `@remove` = function(keys){
+    `@remove` = function(keys) {
       not_implemented()
       private$map$remove(keys)
     },
-    remove = function(keys){
+    remove = function(keys) {
       private$exclusive({
         self$`@remove`( keys )
       })
     },
-    reset = function(...){
+    reset = function(...) {
       keys <- self$keys(include_signatures = FALSE)
       self$remove( keys )
     },
 
 
 
-    keys = function(include_signatures = FALSE){
+    keys = function(include_signatures = FALSE) {
       not_implemented()
 
       keys <- private$map$keys()
-      if( include_signatures ){
+      if ( include_signatures ) {
         # Returns two columns: key digest
 
-        keys <- t(sapply(keys, function(k){
+        keys <- t(sapply(keys, function(k) {
           c(k, private$map$get(k)$signature)
         }))
       }
@@ -112,33 +112,33 @@ AbstractMap <- R6::R6Class(
       keys
     },
 
-    size = function(){
+    size = function() {
       length(self$keys( include_signatures = FALSE ))
     },
 
 
-    digest = function(signature){
+    digest = function(signature) {
       digest::digest(signature)
     },
 
 
 
-    has = function(keys, signature, sig_encoded = FALSE){
-      stopifnot2(is.character(keys) || is.null(keys), msg = '`keys` must be a character vector or NULL')
+    has = function(keys, signature, sig_encoded = FALSE) {
+      stopifnot2(is.character(keys) || is.null(keys), msg = "`keys` must be a character vector or NULL")
       all_keys <- self$keys(include_signatures = TRUE)
 
-      if(!length(all_keys)){ return(rep(FALSE, length(keys))) }
+      if (!length(all_keys)) { return(rep(FALSE, length(keys))) }
 
       has_sig <- !missing(signature)
 
-      if( !sig_encoded && has_sig ){
+      if ( !sig_encoded && has_sig ) {
         signature <- self$digest(signature)
       }
 
-      vapply(keys, function(k){
+      vapply(keys, function(k) {
         sel <- all_keys[, 1] == k
         has_key <- any(sel)
-        if( has_sig && has_key ){ has_key <- all_keys[sel, 2] == signature }
+        if ( has_sig && has_key ) { has_key <- all_keys[sel, 2] == signature }
         has_key
       }, FUN.VALUE = FALSE)
     },
@@ -146,7 +146,7 @@ AbstractMap <- R6::R6Class(
 
 
 
-    `@set` = function(key, value, signature){
+    `@set` = function(key, value, signature) {
       not_implemented()
       private$map$set(key = key, value = list(
         signature = signature,
@@ -154,11 +154,11 @@ AbstractMap <- R6::R6Class(
       ))
       return( signature )
     },
-    set = function(key, value, signature){
+    set = function(key, value, signature) {
       force(value)
-      if( missing(signature) ){
+      if ( missing(signature) ) {
         signature <- self$digest( value )
-      }else{
+      } else {
         signature <- self$digest( signature )
       }
       private$exclusive({
@@ -167,38 +167,38 @@ AbstractMap <- R6::R6Class(
       invisible(signature)
     },
 
-    mset = function(..., .list = NULL){
+    mset = function(..., .list = NULL) {
       .list <- c(list(...), .list)
       nms <- names(.list)
-      lapply(nms, function(nm){
+      lapply(nms, function(nm) {
         self$set(nm, .list[[nm]])
       })
     },
 
 
 
-    `@get` = function(key){
+    `@get` = function(key) {
       not_implemented()
       return( private$map$get(key)$value )
     },
-    get = function(key, missing_default){
-      if(missing(missing_default)){ missing_default <- self$missing_default }
-      if( self$has( key ) ){
+    get = function(key, missing_default) {
+      if (missing(missing_default)) { missing_default <- self$missing_default }
+      if ( self$has( key ) ) {
         self$`@get`(key)
-      }else{
+      } else {
         missing_default
       }
     },
 
-    mget = function(keys, missing_default){
-      if(missing(missing_default)){ missing_default <- self$missing_default }
+    mget = function(keys, missing_default) {
+      if (missing(missing_default)) { missing_default <- self$missing_default }
 
       has_keys <- self$has( keys )
 
-      re <- lapply(seq_along( keys ), function(ii){
-        if( has_keys[[ii]] ){
+      re <- lapply(seq_along( keys ), function(ii) {
+        if ( has_keys[[ii]] ) {
           self$`@get`(keys[[ ii ]])
-        }else{
+        } else {
           missing_default
         }
       })
@@ -208,23 +208,23 @@ AbstractMap <- R6::R6Class(
 
 
 
-    as_list = function(sort = FALSE){
+    as_list = function(sort = FALSE) {
       keys <- self$keys(include_signatures = FALSE)
-      if(!length(keys)){
+      if (!length(keys)) {
         return(list())
       }
-      if( sort ){
+      if ( sort ) {
         keys <- sort(keys)
       }
 
       self$mget(keys)
     },
 
-    `@validate` = function(...){
+    `@validate` = function(...) {
       not_implemented()
     },
-    validate = function(...){
-      stopifnot2(private$valid, msg = 'Map is invalid/destroyed!')
+    validate = function(...) {
+      stopifnot2(private$valid, msg = "Map is invalid/destroyed!")
       private$exclusive({
         self$`@validate`(...)
       })
@@ -234,7 +234,7 @@ AbstractMap <- R6::R6Class(
     # a database, a folder, or an existing queue
     # you should do checks whether the connection is new or it's an existing
     # queue
-    `@connect` = function(...){
+    `@connect` = function(...) {
       not_implemented()
       private$map <- fastmap::fastmap()
     },
@@ -242,7 +242,7 @@ AbstractMap <- R6::R6Class(
     # of `@connect`, because `private$exclusive` requires lockfile to be locked
     # If you don't have lockers ready, or need to set lockers during the
     # connection, override this one
-    connect = function(...){
+    connect = function(...) {
       private$exclusive({
         self$`@connect`(...)
       })
@@ -252,8 +252,8 @@ AbstractMap <- R6::R6Class(
     # 1. set `get_locker` `free_locker` if lock type is not a file
     # 2. set lockfile (if using default lockers)
     # 3. call self$connect
-    initialize = function(has_locker = TRUE, lockfile, ...){
-      if( has_locker ){
+    initialize = function(has_locker = TRUE, lockfile, ...) {
+      if ( has_locker ) {
         self$lockfile <- lockfile
       }
       self$connect(...)
@@ -262,36 +262,38 @@ AbstractMap <- R6::R6Class(
     # destroy a queue, free up space
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
-    destroy = function(){
+    destroy = function() {
       locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
       private$default_free_locker()
       private$valid <- FALSE
-      delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
+      delayedAssign(".lockfile", {
+        cat2("Map is destroyed", level = "FATAL")
+      }, assign.env = private)
     }
   ),
   active = list(
 
     # read-only version of self$id. It's safer than private$.id as the latter
     # one does not always exist
-    id = function(){
-      if(length(private$.id) != 1){
+    id = function() {
+      if (length(private$.id) != 1) {
         private$.id <- rand_string()
       }
       private$.id
     },
 
     # set/get lock file. Don't call private$.lockfile directly
-    lockfile = function(v){
-      if(!missing(v)){
+    lockfile = function(v) {
+      if (!missing(v)) {
         private$default_free_locker()
         private$.lockfile <- v
-      }else if(!length(private$.lockfile)){
+      } else if (!length(private$.lockfile)) {
         private$.lockfile <- rand_string()
       }
       private$.lockfile
     },
 
-    is_valid = function(){
+    is_valid = function() {
       private$valid
     }
 

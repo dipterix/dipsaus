@@ -61,7 +61,7 @@ instances, \code{fin} accepts no argument.
 
 # ------------ Environment example ------------
 file_exists <- TRUE
-clear_files <- function(e){
+clear_files <- function(e) {
   print('Clean some shared files')
   # do something to remove files
   file_exists <<- FALSE
@@ -69,9 +69,9 @@ clear_files <- function(e){
 
 # e1, e2 both require file existence
 e1 <- new.env()
-e1$valid <- function(){ file_exists }
+e1$valid <- function() { file_exists }
 e2 <- new.env()
-e2$valid <- function(){ file_exists }
+e2$valid <- function() { file_exists }
 
 e1$valid(); e2$valid()
 
@@ -98,16 +98,16 @@ cls <- R6::R6Class(
   classname = '...demo...',
   cloneable = TRUE,
   private = list(
-    finalize = function(){
+    finalize = function() {
       cat('Finalize private resource\n')
     }
   ),
   public = list(
     file_path = character(0),
-    shared_finalize = function(){
+    shared_finalize = function() {
       cat('Finalize shared resource - ', self$file_path, '\n')
     },
-    initialize = function(file_path){
+    initialize = function(file_path) {
       self$file_path = file_path
       shared_finalizer(self, key = self$file_path)
     }
@@ -132,7 +132,7 @@ rm(e2); invisible(gc(verbose = FALSE))
 # ------------ fastmap/fastmap2 example -----------
 
 # No formals needed for fastmap/fastmap2
-fin <- function(){
+fin <- function() {
   cat('Finalizer is called\n')
 }
 # single reference case
@@ -155,7 +155,7 @@ rm(e2); invisible(gc(verbose = FALSE)) # triggered
 # This example shows a failure case using base::reg.finalizer
 
 file_exists <- TRUE
-clear_files <- function(e){
+clear_files <- function(e) {
   print('Clean some shared files')
   # do something to remove files
   file_exists <<- FALSE
@@ -163,9 +163,9 @@ clear_files <- function(e){
 
 # e1, e2 both require file existence
 e1 <- new.env()
-e1$valid <- function(){ file_exists }
+e1$valid <- function() { file_exists }
 e2 <- new.env()
-e2$valid <- function(){ file_exists }
+e2$valid <- function() { file_exists }
 
 reg.finalizer(e1, clear_files)
 reg.finalizer(e2, clear_files)

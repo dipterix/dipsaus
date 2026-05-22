@@ -43,14 +43,14 @@
 #'
 #'
 #' @export
-fastcov2 <- function(x, y = NULL, col1, col2, df){
-  if(!is.matrix(x)){
+fastcov2 <- function(x, y = NULL, col1, col2, df) {
+  if (!is.matrix(x)) {
     x <- as.matrix(x)
   }
-  if(is.null(y)){
+  if (is.null(y)) {
     y <- x
   } else {
-    if(!is.matrix(x)){
+    if (!is.matrix(x)) {
       y <- as.matrix(y)
     }
   }
@@ -58,18 +58,18 @@ fastcov2 <- function(x, y = NULL, col1, col2, df){
   stopifnot(nrow(x) == nrow(y))
 
 
-  if(missing(col1)){
+  if (missing(col1)) {
     col1 <- seq_len(ncol(x))
   } else {
     stopifnot(all(col1 >= 1 & col1 <= ncol(x)))
   }
 
-  if(missing(col2)){
+  if (missing(col2)) {
     col2 <- seq_len(ncol(y))
   } else {
     stopifnot(all(col2 >= 1 & col2 <= ncol(y)))
   }
-  if(!length(col1) || !length(col2)){
+  if (!length(col1) || !length(col2)) {
     return(matrix(NA, nrow = length(col1), ncol = length(col2)))
   }
 
@@ -77,7 +77,7 @@ fastcov2 <- function(x, y = NULL, col1, col2, df){
   cm2 <- colMeans(y[, col2, drop = FALSE])
 
   nobs <- nrow(x)
-  if(missing(df)){
+  if (missing(df)) {
     df <- nobs - 1
   }
   fastcov(x, y, nobs, col1, col2, cm1, cm2, df)

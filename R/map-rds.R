@@ -1,6 +1,6 @@
 
 FileMap <- R6::R6Class(
-  classname = 'FileMap',
+  classname = "FileMap",
   inherit = AbstractMap,
   portable = TRUE,
   cloneable = TRUE,
@@ -11,26 +11,26 @@ FileMap <- R6::R6Class(
   ),
   public = list(
 
-    `@remove` = function(keys){
+    `@remove` = function(keys) {
       tf <- tempfile()
       on.exit({ unlink(tf) })
       file.copy(from = private$header_file, to = tf, overwrite = TRUE)
       tbl <- read.csv(
         tf,
         header = TRUE,
-        sep = '|',
+        sep = "|",
         stringsAsFactors = FALSE,
-        na.strings = 'NA',
-        colClasses = 'character'
+        na.strings = "NA",
+        colClasses = "character"
       )
-      if(!length(tbl$Key)){ return(invisible()) }
+      if (!length(tbl$Key)) { return(invisible()) }
 
       enkeys <- sapply(keys, safe_urlencode)
       sel <- tbl$Key %in% enkeys
-      if( any(sel) ){
+      if ( any(sel) ) {
         fs <- tbl$Key[sel]
         tbl <- tbl[!sel, ]
-        write.table(tbl, tf, sep = '|', quote = FALSE,
+        write.table(tbl, tf, sep = "|", quote = FALSE,
                     row.names = FALSE, col.names = TRUE, append = FALSE)
         file.copy(from = tf, to = private$header_file, overwrite = TRUE)
         # Unlink files
@@ -38,29 +38,29 @@ FileMap <- R6::R6Class(
       }
       invisible()
     },
-    reset = function(...){
+    reset = function(...) {
       tf <- tempfile()
       on.exit({ unlink(tf) })
-      writeLines('Key|Hash', tf)
+      writeLines("Key|Hash", tf)
       file.copy(from = tf, to = private$header_file, overwrite = TRUE)
       unlink(private$db_dir, recursive = TRUE)
       dir_create(private$db_dir)
     },
 
-    keys = function(include_signatures = FALSE){
-      tbl <- read.csv(private$header_file, header = TRUE, sep = '|',
-                     stringsAsFactors = FALSE, na.strings = 'NA', colClasses = 'character')
-      if(!length(tbl$Key)){ return(NULL) }
+    keys = function(include_signatures = FALSE) {
+      tbl <- read.csv(private$header_file, header = TRUE, sep = "|",
+                     stringsAsFactors = FALSE, na.strings = "NA", colClasses = "character")
+      if (!length(tbl$Key)) { return(NULL) }
 
       keys <- sapply(tbl$Key, safe_urldecode)
-      if(include_signatures){
+      if (include_signatures) {
         keys <- cbind(keys, tbl$Hash)
       }
 
       keys
     },
 
-    `@set` = function(key, value, signature){
+    `@set` = function(key, value, signature) {
 
       # self$`@remove`(key)
 
@@ -84,7 +84,7 @@ FileMap <- R6::R6Class(
       write.table(
         data.frame(Key = encoded_key, Hash = signature),
         file = tf,
-        sep = '|',
+        sep = "|",
         append = TRUE,
         quote = FALSE,
         row.names = FALSE,
@@ -95,77 +95,79 @@ FileMap <- R6::R6Class(
       return( signature )
     },
 
-    `@get` = function(key){
+    `@get` = function(key) {
       not_implemented()
     },
-    get = function(key, missing_default){
+    get = function(key, missing_default) {
       ekey <- safe_urlencode(key)
       fpath <- file.path(private$db_dir, ekey)
-      if( file.exists(fpath) ){
+      if ( file.exists(fpath) ) {
         readRDS(fpath)
-      }else{
-        if(missing(missing_default)){ missing_default <- self$missing_default }
+      } else {
+        if (missing(missing_default)) { missing_default <- self$missing_default }
         missing_default
       }
     },
 
-    mget = function(keys, missing_default){
-      if(missing(missing_default)){ missing_default <- self$missing_default }
+    mget = function(keys, missing_default) {
+      if (missing(missing_default)) { missing_default <- self$missing_default }
       force(missing_default)
 
-      re <- lapply(keys, function(key){
+      re <- lapply(keys, function(key) {
         self$get(key, missing_default)
       })
       names(re) <- keys
       re
     },
 
-    `@validate` = function(...){
-      stopifnot2(file.exists(private$header_file), msg = 'Header-file is missing')
-      stopifnot2(dir.exists(private$db_dir), msg = 'Database directory is missing')
+    `@validate` = function(...) {
+      stopifnot2(file.exists(private$header_file), msg = "Header-file is missing")
+      stopifnot2(dir.exists(private$db_dir), msg = "Database directory is missing")
       stopifnot2(isTRUE(readLines(private$header_file, n = 1) == "Key|Hash"),
-                 msg = 'Corruped header file')
+                 msg = "Corruped header file")
     },
 
     # will be called during Class$new(...), three tasks,
     # 1. set `get_locker` `free_locker` if lock type is not a file
     # 2. set lockfile (if using default lockers)
     # 3. call self$connect
-    initialize = function(path){
+    initialize = function(path) {
       path <- dir_create(path)
       private$root_path <- path
-      private$db_dir <- dir_create(file.path(path, 'MAP-RDSDB'))
-      header_file <- file.path(path, 'MAP-RDSHEAD')
-      if( !file.exists(header_file) ){
+      private$db_dir <- dir_create(file.path(path, "MAP-RDSDB"))
+      header_file <- file.path(path, "MAP-RDSHEAD")
+      if ( !file.exists(header_file) ) {
         header_file <- file_create(header_file)
-        writeLines('Key|Hash', con = header_file)
+        writeLines("Key|Hash", con = header_file)
       }
       private$header_file <- header_file
-      lockpath <- file.path(path, 'MAP-RDSLOCK')
-      if(!file.exists(lockpath)){
+      lockpath <- file.path(path, "MAP-RDSLOCK")
+      if (!file.exists(lockpath)) {
         writeLines(rand_string(), lockpath)
       }
       self$lockfile <- readLines(lockpath, n = 1)
     },
 
     # destroy a queue, free up space
-    # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
+    # and call `delayedAssign(".lockfile", {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
-    destroy = function(){
+    destroy = function() {
       locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
 
-      lockpath <- file.path(private$root_path, 'MAP-RDSLOCK')
+      lockpath <- file.path(private$root_path, "MAP-RDSLOCK")
       unlink(lockpath)
-      if(dir.exists(private$db_dir)){
+      if (dir.exists(private$db_dir)) {
         unlink(private$db_dir, recursive = TRUE)
       }
-      if(file.exists(private$header_file)){
+      if (file.exists(private$header_file)) {
         unlink(private$header_file)
       }
       unlink(private$root_path, recursive = TRUE, force = FALSE)
 
       private$valid <- FALSE
-      delayedAssign('.lockfile', { cat2("Map is destroyed", level = 'FATAL') }, assign.env=private)
+      delayedAssign(".lockfile", {
+        cat2("Map is destroyed", level = "FATAL")
+      }, assign.env = private)
     }
   )
 )

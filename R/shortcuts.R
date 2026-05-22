@@ -87,31 +87,31 @@ shortcut_settings_path <- function(
   which = c("01", "02", "03", "04", "05", "06",
             "07", "08", "09", "10"),
   check = FALSE
-){
+) {
   which <- match.arg(which)
-  dir <- file.path(R_user_dir(package = 'dipsaus', which = "config"), "shortcuts")
+  dir <- file.path(R_user_dir(package = "dipsaus", which = "config"), "shortcuts")
   fname <- file.path(dir, sprintf("%s.R", which))
-  if(!dir.exists(dir)) {
-    if(check){
+  if (!dir.exists(dir)) {
+    if (check) {
       dir_create(dir)
     }
   }
   fname
 }
 
-path_addins_json <- function (check = FALSE) {
-  if( get_os() == "windows" ){
+path_addins_json <- function(check = FALSE) {
+  if ( get_os() == "windows" ) {
     dir <- file.path("~", "AppData", "Roaming", "rstudio", "keybindings")
   } else {
     dir <- file.path("~", ".config", "rstudio", "keybindings")
   }
   re <- file.path(dir, "addins.json")
-  if( check ){
-    if(!dir.exists(dir)){
+  if ( check ) {
+    if (!dir.exists(dir)) {
       dir_create(dir)
     }
-    if(!file.exists(re)){
-      writeLines('{}', re)
+    if (!file.exists(re)) {
+      writeLines("{}", re)
     }
   }
   normalizePath(re, mustWork = check)
@@ -119,7 +119,7 @@ path_addins_json <- function (check = FALSE) {
 
 #' @rdname dipsaus-rstudio-shortcuts
 #' @export
-rs_add_insertion_shortcut <- function(which, txt, force = FALSE){
+rs_add_insertion_shortcut <- function(which, txt, force = FALSE) {
   expr <- bquote({
     cts <- rstudioapi::getActiveDocumentContext()
     rstudioapi::selectionSet(.(txt), cts$id)
@@ -130,14 +130,14 @@ rs_add_insertion_shortcut <- function(which, txt, force = FALSE){
 
 #' @rdname dipsaus-rstudio-shortcuts
 #' @export
-rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE){
-  if(!quoted){
+rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE) {
+  if (!quoted) {
     expr <- substitute(expr)
   }
   which <- as.integer(which)
   stopifnot2(isTRUE(which >= 1 && which <= 10),
              msg = "`which` must be an integer from 1 to 10")
-  if(which < 10){
+  if (which < 10) {
     key <- sprintf("Alt+%d", which)
     which <- sprintf("0%d", which)
   } else {
@@ -150,15 +150,15 @@ rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE){
 
   # register shortcut
   addin <- path_addins_json(check = TRUE)
-  file.copy(addin, sprintf('%s.bak', addin))
+  file.copy(addin, sprintf("%s.bak", addin))
   li <- jsonlite::read_json(addin)
   nm <- sprintf("dipsaus::shortcut%s", which)
 
   li[[nm]] <- NULL
   nms <- names(li)
-  for(ii in seq_along(li)){
-    if(isTRUE(li[[ii]] == key)){
-      if(force) {
+  for (ii in seq_along(li)) {
+    if (isTRUE(li[[ii]] == key)) {
+      if (force) {
         # remove this key
         li[[ii]] <- NULL
         break
@@ -171,7 +171,7 @@ rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE){
   li[[nm]] <- key
 
   jsonlite::write_json(li, addin, auto_unbox = TRUE, pretty = TRUE)
-  if( rs_avail() ){
+  if ( rs_avail() ) {
     try({
       rstudioapi::executeCommand("modifyKeyboardShortcuts", quiet = FALSE)
       rstudioapi::showDialog("Notification", sprintf("Code generated. Please filter and register <p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Dipsaus shortcut %s</strong></p>in the menu, apply changes, and restart RStudio", which))
@@ -183,30 +183,30 @@ rs_add_shortcut <- function(which, expr, force = FALSE, quoted = FALSE){
 
 #' @rdname dipsaus-rstudio-shortcuts
 #' @export
-rs_remove_shortcut <- function(which){
+rs_remove_shortcut <- function(which) {
   which <- as.integer(which)
-  if(is.na(which)){ return(FALSE) }
-  if(which < 1 || which > 10){ return(FALSE) }
-  if(which < 9) {
+  if (is.na(which)) { return(FALSE) }
+  if (which < 1 || which > 10) { return(FALSE) }
+  if (which < 9) {
     which <- sprintf("0%d", which)
   } else {
     which <- sprintf("%d", which)
   }
 
   fname <- shortcut_settings_path(which)
-  if(file.exists(fname)){
+  if (file.exists(fname)) {
     unlink(fname)
   }
 
   addin <- path_addins_json(check = FALSE)
-  if(!file.exists(addin)){ return(TRUE) }
-  file.copy(addin, sprintf('%s.bak', addin))
+  if (!file.exists(addin)) { return(TRUE) }
+  file.copy(addin, sprintf("%s.bak", addin))
 
   li <- jsonlite::read_json(addin)
   nm <- sprintf("dipsaus::shortcut%s", which)
-  if(!nm %in% names(li)){ return(TRUE) }
+  if (!nm %in% names(li)) { return(TRUE) }
   li[[nm]] <- NULL
-  if(!length(li)){
+  if (!length(li)) {
     writeLines("{}", addin)
   } else {
     jsonlite::write_json(li, addin, auto_unbox = TRUE, pretty = TRUE)
@@ -218,75 +218,85 @@ rs_remove_shortcut <- function(which){
 #' @rdname dipsaus-rstudio-shortcuts
 #' @export
 rs_show_shortcut <- function(which) {
-  if(!is.character(which)){
-    if(which < 10) {
+  if (!is.character(which)) {
+    if (which < 10) {
       which <- sprintf("0%s", which)
     } else {
       which <- as.character(which)
     }
   }
   fname <- shortcut_settings_path(which)
-  if(!file.exists(fname)){
-    warning("Shortcut ", which , " has not been set up yet. Please read ",
-            sQuote('help("rs_add_shortcut")'), " to set up shortcuts.")
+  if (!file.exists(fname)) {
+    warning(
+      "Shortcut ",
+      which,
+      " has not been set up yet. Please read ",
+      sQuote('help("rs_add_shortcut")'),
+      " to set up shortcuts."
+    )
     return(invisible())
   }
   cat(readLines(fname), "", sep = "\n")
 }
 
-run_shortcut <- function(which){
+run_shortcut <- function(which) {
   fname <- shortcut_settings_path(which)
-  if(!file.exists(fname)){
-    warning("Shortcut ", which , " has not been set up yet. Please read ",
-            sQuote('help("rs_add_shortcut")'), " to set up shortcuts.")
+  if (!file.exists(fname)) {
+    warning(
+      "Shortcut ",
+      which,
+      " has not been set up yet. Please read ",
+      sQuote('help("rs_add_shortcut")'),
+      " to set up shortcuts."
+    )
     return(invisible())
   }
   expr <- parse(file = fname)
   eval(expr, envir = new.env(parent = globalenv()))
 }
 
-shortcut01 <- function(){
+shortcut01 <- function() {
   fname <- shortcut_settings_path("01")
-  if(!file.exists(fname)){
+  if (!file.exists(fname)) {
     rs_quick_debug()
   } else {
     run_shortcut("01")
   }
 }
 
-shortcut02 <- function(){
+shortcut02 <- function() {
   run_shortcut("02")
 }
 
-shortcut03 <- function(){
+shortcut03 <- function() {
   run_shortcut("03")
 }
 
-shortcut04 <- function(){
+shortcut04 <- function() {
   run_shortcut("04")
 }
 
-shortcut05 <- function(){
+shortcut05 <- function() {
   run_shortcut("05")
 }
 
-shortcut06 <- function(){
+shortcut06 <- function() {
   run_shortcut("06")
 }
 
-shortcut07 <- function(){
+shortcut07 <- function() {
   run_shortcut("07")
 }
 
-shortcut08 <- function(){
+shortcut08 <- function() {
   run_shortcut("08")
 }
 
-shortcut09 <- function(){
+shortcut09 <- function() {
   run_shortcut("09")
 }
 
-shortcut10 <- function(){
+shortcut10 <- function() {
   run_shortcut("10")
 }
 
@@ -306,7 +316,7 @@ rs_quick_debug <- function(env = globalenv()) {
   sub <- trimws(sub)
   # Find latest debug start
   debug_start <- which(grepl("^#[ -]{0, }DIPSAUS[^a-zA-Z0-9]{0,}DEBUG START", sub))
-  if(!length(debug_start)) { return() }
+  if (!length(debug_start)) { return() }
   debug_start <- debug_start[[length(debug_start)]]
   # find the end of comment
   sub <- ctx$contents[seq(debug_start, length(ctx$contents))]
@@ -314,16 +324,16 @@ rs_quick_debug <- function(env = globalenv()) {
 
   # check format: is it an R script?
   script_type <- "r"
-  if( grepl("\\.(cpp|h|c)$", ctx$path, ignore.case = TRUE) ) {
+  if ( grepl("\\.(cpp|h|c)$", ctx$path, ignore.case = TRUE) ) {
     script_type <- "cpp"
   }
 
   remove_comments <- TRUE
-  if( script_type %in% c("cpp") ) {
+  if ( script_type %in% c("cpp") ) {
 
     # find */
     debug_end <- which(grepl("[*]{1,}/", sub))
-    if(length(debug_end)) {
+    if (length(debug_end)) {
       debug_end <- debug_end[[1]]
 
       idx <- deparse_svec(seq_len(debug_end - 1))
@@ -331,16 +341,16 @@ rs_quick_debug <- function(env = globalenv()) {
     }
 
   }
-  if(remove_comments) {
+  if (remove_comments) {
     idx <- deparse_svec(which(startsWith(sub, "#")), concatenate = FALSE)[[1]]
   }
 
   idx <- parse_svec(idx)
   sub <- sub[idx[-1]]
-  if(!length(sub)) { return() }
+  if (!length(sub)) { return() }
 
   # try to run without #
-  if( remove_comments ) {
+  if ( remove_comments ) {
     sub <- gsub("^#", "", sub)
   }
 

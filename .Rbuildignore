@@ -36,3 +36,4 @@ autom4te.cache
 ^knowledgebase$
 ^\.positai$
 ^\.claude$
+^\.lintr$

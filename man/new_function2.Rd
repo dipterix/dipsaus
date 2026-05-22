@@ -43,7 +43,7 @@ expression will not be substitute, but will be expanded if any
 \code{args} must be a \code{list} object, see \code{\link{formals}}.
 For arguments with no default values, or quoted defaults, use
 \code{\link{alist}}. An \code{arg=alist(a=)} will result in a
-function like \code{function(a){...}}. See examples for more details.
+function like \code{function(a) {...}}. See examples for more details.
 }
 \examples{
 
@@ -70,14 +70,14 @@ f2(0)  # result doesn't change as f2 doesn't depend on x anymore
 default <- 123
 
 # default with values pre-specified
-new_function2(list(a = default))   # function (a = 123){}
+new_function2(list(a = default))   # function (a = 123) {}
 
 # default with values unevaluated
-new_function2(list(a = quote(default)))   # function (a = default){}
+new_function2(list(a = quote(default)))   # function (a = default) {}
 new_function2(alist(a = default))
 
 # missing default
-new_function2(alist(a = ))    # function (a){}
+new_function2(alist(a = ))    # function (a) {}
 
 
 }

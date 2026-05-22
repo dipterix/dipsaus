@@ -18,7 +18,7 @@
 #' \code{args} must be a \code{list} object, see \code{\link{formals}}.
 #' For arguments with no default values, or quoted defaults, use
 #' \code{\link{alist}}. An \code{arg=alist(a=)} will result in a
-#' function like \code{function(a){...}}. See examples for more details.
+#' function like \code{function(a) {...}}. See examples for more details.
 #' @seealso \code{\link[rlang]{new_function}}
 #' @return a function
 #' @examples
@@ -46,37 +46,37 @@
 #' default <- 123
 #'
 #' # default with values pre-specified
-#' new_function2(list(a = default))   # function (a = 123){}
+#' new_function2(list(a = default))   # function (a = 123) {}
 #'
 #' # default with values unevaluated
-#' new_function2(list(a = quote(default)))   # function (a = default){}
+#' new_function2(list(a = quote(default)))   # function (a = default) {}
 #' new_function2(alist(a = default))
 #'
 #' # missing default
-#' new_function2(alist(a = ))    # function (a){}
+#' new_function2(alist(a = ))    # function (a) {}
 #'
 #'
 #' @export
 new_function2 <- function(args = alist(), body = {},
                           env = parent.frame(),
-                          quote_type = c('unquoted', 'quote', 'quo'),
-                          quasi_env = parent.frame()){
+                          quote_type = c("unquoted", "quote", "quo"),
+                          quasi_env = parent.frame()) {
   quote_type <- match.arg(quote_type)
-  switch (
+  switch(
     quote_type,
-    'unquoted' = {
+    "unquoted" = {
       quo <- eval(as.call(list(quote(rlang::quo), substitute(body))), envir = quasi_env)
       body <- rlang::quo_squash(quo)
     },
-    'quote' = {
+    "quote" = {
       quo <- eval(as.call(list(quote(rlang::quo), body)), envir = quasi_env)
       body <- rlang::quo_squash(quo)
     },
-    'quo' = {
+    "quo" = {
       body <- rlang::quo_squash(quo)
     }
   )
-  f <- local({function(){}}, envir = env)
+  f <- local({function() {}}, envir = env)
   formals(f) <- args
   body(f) <- body
   f
@@ -95,7 +95,7 @@ new_function2 <- function(args = alist(), body = {},
 #' @examples
 #'
 #' a <- 123
-#' f1 <- function(){
+#' f1 <- function() {
 #'   a + 1
 #' }
 #' f1()   # 124
@@ -111,9 +111,9 @@ new_function2 <- function(args = alist(), body = {},
 #' env$a  # masked variables: a=1
 #'
 #' @export
-mask_function2 <- function(f, ..., .list = list()){
+mask_function2 <- function(f, ..., .list = list()) {
   f_env <- environment(f)
-  if(!isTRUE(f_env$`@...masked`)){
+  if (!isTRUE(f_env$`@...masked`)) {
     f_env <- new.env(parent = environment(f))
     environment(f) <- f_env
     f_env$`@...masked` <- TRUE
@@ -140,29 +140,29 @@ mask_function2 <- function(f, ..., .list = list()){
 #'
 #' # In shiny modules, we might want to add ns() to inputIds
 #' # In this example, textInput(id) will become textInput(ns(id))
-#' match_calls(lapply(1:20, function(i){
+#' match_calls(lapply(1:20, function(i) {
 #'   textInput(paste('id_', i), paste('Label ', i))
 #' }), replace_args = list(
-#'   inputId = function(arg, call){ as.call(list(quote(ns), arg)) }
+#'   inputId = function(arg, call) { as.call(list(quote(ns), arg)) }
 #' ))
 #'
 #' @export
 match_calls <- function(call, recursive = TRUE, replace_args = list(),
-                       quoted = FALSE, envir = parent.frame(), ...){
-  if(!quoted){ call <- substitute(call) }
+                       quoted = FALSE, envir = parent.frame(), ...) {
+  if (!quoted) { call <- substitute(call) }
   args <- as.list(match.call())[-1]
   args$recursive <- quote(recursive)
   args$replace_args <- quote(replace_args)
   args$envir <- envir
   args$quoted <- TRUE
-  if(is.call(call)){
-    if( recursive ){
-      call <- as.call(lapply(call, function(cp){
+  if (is.call(call)) {
+    if ( recursive ) {
+      call <- as.call(lapply(call, function(cp) {
         args$call <- quote(cp)
         do.call(match_calls, args)
       }))
     }
-    if( !is.primitive(eval(call[[1]], envir = envir)) ){
+    if ( !is.primitive(eval(call[[1]], envir = envir)) ) {
       call <- eval(
         as.call(list(quote(match.call), call[[1]], enquote(call))),
         envir = envir)
@@ -170,8 +170,8 @@ match_calls <- function(call, recursive = TRUE, replace_args = list(),
 
     repl_name <- names(replace_args)
     repl_name <- repl_name[repl_name %in% names(call)]
-    if(length(repl_name)){
-      for(nm in repl_name){
+    if (length(repl_name)) {
+      for (nm in repl_name) {
         call[[nm]] <- replace_args[[nm]](call[[nm]], call)
       }
     }
@@ -212,18 +212,18 @@ match_calls <- function(call, recursive = TRUE, replace_args = list(),
 #' print(env$a)
 #'
 #' @export
-eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
+eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE) {
 
-  if( !quoted ){
+  if ( !quoted ) {
     expr <- substitute( expr )
   }
-  if(rlang::is_quosure(expr)){
+  if (rlang::is_quosure(expr)) {
     expr <- rlang::quo_squash(expr)
   }
 
-  if(!is.null(data)){
+  if (!is.null(data)) {
     return(eval(expr, enclos = env, envir = data))
-  }else{
+  } else {
     return(eval(expr, envir = env))
   }
 }
@@ -240,7 +240,7 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #'
 #' @examples
 #' # Prepare, remove aaa if exists
-#' if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+#' if(exists('aaa', envir = globalenv(), inherits = FALSE)) {
 #'   rm(aaa, envir = globalenv())
 #' }
 #'
@@ -258,17 +258,17 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' a$e %?<-% 2; print(a$e)
 #'
 #' @export
-`%?<-%` <- function(lhs, value){
+`%?<-%` <- function(lhs, value) {
   env <- parent.frame()
   lhs <- substitute(lhs)
 
   isnull <- tryCatch({
     is.null(eval(lhs, envir = env))
-  }, error = function(e){
+  }, error = function(e) {
     return(TRUE)
   })
 
-  if(isnull){
+  if (isnull) {
     eval(as.call(list( quote(`<-`), lhs, value )), envir = env)
   }
 }
@@ -285,7 +285,7 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #'
 #' @examples
 #' # Prepare, remove aaa if exists
-#' if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+#' if(exists('aaa', envir = globalenv(), inherits = FALSE)) {
 #'   rm(aaa, envir = globalenv())
 #' }
 #'
@@ -302,17 +302,17 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' a$e %<-?% 2; print(a$e)
 #'
 #' @export
-`%<-?%` <- function(lhs, value){
+`%<-?%` <- function(lhs, value) {
   env <- parent.frame()
   lhs <- substitute(lhs)
   rhs <- substitute(value)
 
   tryCatch({
     eval(as.call(list( quote(`<-`), lhs, bquote({
-      if(is.null(.(rhs))){ stop() }
+      if (is.null(.(rhs))) { stop() }
       .(rhs)
     }))), envir = env)
-  }, error = function(e){
+  }, error = function(e) {
   })
   invisible()
 }
@@ -337,12 +337,12 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' c('9', "D", "V") %OF% LETTERS
 #'
 #' @export
-`%OF%` <- function(lhs, rhs){
-  if(length(rhs)){ de <- rhs[[1]] } else { de <- rhs }
+`%OF%` <- function(lhs, rhs) {
+  if (length(rhs)) { de <- rhs[[1]] } else { de <- rhs }
   lhs <- lhs[!is.na(lhs)]
-  if(!length(lhs)){ return(de) }
+  if (!length(lhs)) { return(de) }
   sel <- lhs %in% rhs
-  if(any(sel)){ return(lhs[sel][[1]]) }
+  if (any(sel)) { return(lhs[sel][[1]]) }
   return(de)
 }
 
@@ -379,14 +379,14 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #'   cat2('The index of letter ', el, ' in ', sQuote('x'), ' is: ', ii)
 #' }) -> results
 #' @export
-`%=>%` <- function(args, expr){
+`%=>%` <- function(args, expr) {
   expr <- substitute(expr)
   parent_env <- parent.frame()
   args <- as.list(substitute(args))[-1]
 
-  nms <- sapply(seq_along(args), function(ii){
+  nms <- sapply(seq_along(args), function(ii) {
     nm <- names(args[ii])
-    if(is.null(nm) || trimws(nm) == ''){
+    if (is.null(nm) || trimws(nm) == "") {
       nm <- args[[ii]]
       args[[ii]] <<- .missing_arg[[1]]
     }
@@ -396,7 +396,7 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
   new_function2(
     args = args, body = expr,
     env = parent_env,
-    quote_type = 'quote',
+    quote_type = "quote",
     quasi_env = parent_env)
 }
 
@@ -460,11 +460,11 @@ eval_dirty <- function(expr, env = parent.frame(), data = NULL, quoted = TRUE){
 #' identical(x, y)   # TRUE
 #'
 #' @export
-no_op <- function(.x, .expr, ..., .check_fun = TRUE){
+no_op <- function(.x, .expr, ..., .check_fun = TRUE) {
   .expr <- substitute(.expr)
   ...parent_env <- parent.frame()
-  ...res <- eval(.expr, envir = list('.' = .x), enclos = ...parent_env)
-  if( .check_fun && is.function(...res) ){
+  ...res <- eval(.expr, envir = list("." = .x), enclos = ...parent_env)
+  if ( .check_fun && is.function(...res) ) {
     ...res( .x, ... )
   }
   invisible(.x)
@@ -503,7 +503,7 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
 #'
 #' # modify a function
 #'
-#' f <- function(b = 1, x){ b + x }
+#' f <- function(b = 1, x) { b + x }
 #' f_pipable <- as_pipe(call = f, arg_name = 'x')
 #' f_pipable
 #'
@@ -536,61 +536,61 @@ no_op <- function(.x, .expr, ..., .check_fun = TRUE){
 as_pipe <- function(x, ..., call, arg_name,
                     .name = arg_name,
                     .env = parent.frame(),
-                    .quoted = FALSE){
+                    .quoted = FALSE) {
 
 
   stopifnot(is.character(arg_name))
-  if(!.quoted){
+  if (!.quoted) {
     call <- substitute(call)
   }
   call <- as.list(call)
 
-  if( call[[1]] == 'function'){
+  if ( call[[1]] == "function") {
     # call is a function
     call <- list(as.call(list(quote(`(`), as.call(call))))
   }
   call <- match_calls(call, quoted = TRUE, envir = .env, recursive = FALSE)
 
-  if(!'...' %in% call){
+  if (!"..." %in% call) {
     call[[length(call) + 1]] <- quote(...)
   }
   dot_args <- list(...)
-  dot_args <- dot_args[!names(dot_args) %in% '']
-  if(length(dot_args)){
-    for(nm in names(dot_args)){
+  dot_args <- dot_args[!names(dot_args) %in% ""]
+  if (length(dot_args)) {
+    for (nm in names(dot_args)) {
       call[[nm]] <- str2lang(nm)
     }
   }
   call <- as.call(call)
 
   f <- new_function2(c(
-    structure(alist(x=, y=), names = c(.name, "...")),
+    structure(alist(x = , y = ), names = c(.name, "...")),
     dot_args
   ), bquote({
 
     # remove duplicated ...
     dots <- as.list(match.call(expand.dots = FALSE))[["..."]]
-    dots <- dots[!names(dots) %in% '']
+    dots <- dots[!names(dots) %in% ""]
     call <- as.list(bquote(.( call )))
-    if(length(dots)){
-      for(nm in names(dots)){
+    if (length(dots)) {
+      for (nm in names(dots)) {
         call[[nm]] <- NULL
       }
     }
     call[[.(arg_name)]] <- quote(.(str2lang(.name)))
     eval(as.call(call))
-  }), quote_type = 'quote', env = .env)
+  }), quote_type = "quote", env = .env)
 
   call_ <- call
   call_[[arg_name]] <- sprintf("[input:%s]", .name)
   attr(f, "call") <- call_
   class(f) <- c("f_pipe", "function")
 
-  if( !missing(x) ){
+  if ( !missing(x) ) {
     print(x)
     return(f(x))
   } else {
-    if(getOption("dipsaus.debug.as_pipe", FALSE)){
+    if (getOption("dipsaus.debug.as_pipe", FALSE)) {
       e <- local({
         tryCatch({
           call <- as.list(call)
@@ -599,12 +599,12 @@ as_pipe <- function(x, ..., call, arg_name,
           .input <- eval(call[[arg_name]], envir = list(), enclos = .env)
           f(.input)
           NULL
-        }, error = function(e){
+        }, error = function(e) {
           e
         })
       })
-      if(is.null(e)){
-        e <- 'options("dipsaus.debug.as_pipe") is set to TRUE. This should be used only in debug mode. Do not use for production!'
+      if (is.null(e)) {
+        e <- "options(\"dipsaus.debug.as_pipe\") is set to TRUE. This should be used only in debug mode. Do not use for production!"
         message(e)
       } else {
         warning(e, immediate. = TRUE, call. = FALSE)
@@ -620,7 +620,7 @@ as_pipe <- function(x, ..., call, arg_name,
 }
 
 #' @export
-print.f_pipe <- function(x, ...){
+print.f_pipe <- function(x, ...) {
   cat("<Pipe-compatible function>\n")
   print(dipsaus::new_function2(formals(x), bquote({
     .(attr(x, "call"))
@@ -645,15 +645,15 @@ print.f_pipe <- function(x, ...){
 #' matrix(1:9, 3) %+-% 2   # 3x3x2 array
 #'
 #' @export
-`%+-%` <- function(a, b){
+`%+-%` <- function(a, b) {
   re1 <- a + b
   la <- length( re1 )
 
-  if( la <= 1 ){
+  if ( la <= 1 ) {
     return( c( re1, a - b) )
-  }else{
+  } else {
     da <- dim( re1 )
-    if( !length(da) ){
+    if ( !length(da) ) {
       da <- la
     }
     return(array(c( re1, a - b), dim = c(da, 2)))
@@ -661,10 +661,13 @@ print.f_pipe <- function(x, ...){
 }
 
 
-as_call <- function(..., .list=list(), .drop_nulls = FALSE){
+as_call <- function(...,
+                    .list = list(),
+                    .drop_nulls = FALSE) {
+
   call <- c(list(...), .list)
-  if('...' %in% names(call)){
-    call[['...']] <- NULL
+  if ("..." %in% names(call)) {
+    call[["..."]] <- NULL
     call[[length(call) + 1]] <- quote(...)
   }
   if (.drop_nulls) {
@@ -685,10 +688,10 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #'
 #' # Example 1: basic usage
 #' # Decorator that prints summary of results and return results itself
-#' verbose_summary <- function(...){
+#' verbose_summary <- function(...) {
 #'   summary_args <- list(...)
-#'   function(f){
-#'     function(...){
+#'   function(f) {
+#'     function(...) {
 #'       results <- f(...)
 #'
 #'
@@ -715,9 +718,9 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' y <- x + rnorm(20)
 #'
 #' # decorator, add a line with slope 1 with given intercept
-#' abline_xy <- function(b){
-#'   function(f){
-#'     function(...){
+#' abline_xy <- function(b) {
+#'   function(f) {
+#'     function(...) {
 #'       f(...)
 #'       intercept <- get_dots('intercept', 0, ...)
 #'       abline(a = intercept, b = b)
@@ -726,7 +729,7 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' }
 #'
 #' # orig, plot whatever x vs jittered+intercept
-#' plot_xy <- function(x, intercept = rnorm(1)){
+#' plot_xy <- function(x, intercept = rnorm(1)) {
 #'   plot(x, jitter(x, amount = 3) + intercept)
 #' }
 #'
@@ -740,37 +743,37 @@ as_call <- function(..., .list=list(), .drop_nulls = FALSE){
 #' plot_xy2(x = 1:20)
 #'
 #' @export
-decorate_function <- function(orig, decor, ...){
+decorate_function <- function(orig, decor, ...) {
 
   stopifnot2(is.function(orig) && is.function(decor),
-             msg = 'Decoration orig and decor must be functions')
+             msg = "Decoration orig and decor must be functions")
   current_call <- match.call()
-  current_call[['orig']] <- NULL
-  current_call[['decor']] <- NULL
+  current_call[["orig"]] <- NULL
+  current_call[["decor"]] <- NULL
   decor_name <- match.call(decor, call = current_call)
   decor_name[[1]] <- substitute(decor)
   re <- decor(...)(orig)
 
-  stopifnot2(is.function(re), msg = 'Decoration must return a function')
+  stopifnot2(is.function(re), msg = "Decoration must return a function")
 
-  orig_name <- attr(orig, 'dipsaus_decorators')
-  if(is.null(orig_name)){
-    attr(re, 'dipsaus_origin')  <- orig
+  orig_name <- attr(orig, "dipsaus_decorators")
+  if (is.null(orig_name)) {
+    attr(re, "dipsaus_origin")  <- orig
   } else {
-    attr(re, 'dipsaus_origin') <- attr(orig, 'dipsaus_origin')
+    attr(re, "dipsaus_origin") <- attr(orig, "dipsaus_origin")
   }
-  attr(re, 'dipsaus_decorators') <- c(
+  attr(re, "dipsaus_decorators") <- c(
     decor_name,
     orig_name
   )
 
-  class(re) <- c('dipsaus_decorated', class(re))
+  class(re) <- c("dipsaus_decorated", class(re))
   re
 }
 
 #' @rdname decorate_function
 #' @export
-`%D%` <- function(lhs, rhs){
+`%D%` <- function(lhs, rhs) {
   rhs <- substitute(rhs)
   parent_env <- parent.frame()
   call <- as_call(decorate_function, orig = lhs, decor = rhs[[1]], .list = as.list(rhs)[-1])
@@ -779,20 +782,20 @@ decorate_function <- function(orig, decor, ...){
 }
 
 #' @export
-print.dipsaus_decorated <- function(x, ...){
+print.dipsaus_decorated <- function(x, ...) {
 
   call <- as_call(quote(list), .list = formals(x))
-  call[[1]] <- quote('Decorated function')
+  call[[1]] <- quote("Decorated function")
   print(call)
-  calls <- attr(x, 'dipsaus_decorators')
-  cat('- Decorators: \n')
-  for(d in rev(calls)){
-    cat('  ', end = '')
+  calls <- attr(x, "dipsaus_decorators")
+  cat("- Decorators: \n")
+  for (d in rev(calls)) {
+    cat("  ", end = "")
     print(d)
   }
-  cat('- Original function:\n')
-  fs <- utils::capture.output(print(attr(x, 'dipsaus_origin')))
-  cat(paste0('  ', fs, collapse = '\n'), end = '\n')
+  cat("- Original function:\n")
+  fs <- utils::capture.output(print(attr(x, "dipsaus_origin")))
+  cat(paste0("  ", fs, collapse = "\n"), end = "\n")
 }
 
 
@@ -814,13 +817,13 @@ print.dipsaus_decorated <- function(x, ...){
 #'
 #' # missing_dots(environment()) is a fixed usage
 #'
-#' my_function <- function(...){
+#' my_function <- function(...) {
 #'   missing_dots(environment())
 #' }
 #' my_function(,)
 #'
 #' # get_dots
-#' plot2 <- function(...){
+#' plot2 <- function(...) {
 #'   title = get_dots('main', 'There is no title', ...)
 #'   plot(...)
 #'   title
@@ -830,8 +833,8 @@ print.dipsaus_decorated <- function(x, ...){
 #' plot2(1:10, main = 'Scatter Plot of 1:10')
 #'
 #' # ------------------------ Comparisons ----------------------------
-#' f1 <- function(...){ get_dots('x', ...) }
-#' f2 <- function(...){ list(...)[['x']] }
+#' f1 <- function(...) { get_dots('x', ...) }
+#' f2 <- function(...) { list(...)[['x']] }
 #' delayedAssign('y', { cat('y is evaluated!') })
 #'
 #' # y will not evaluate
@@ -841,9 +844,9 @@ print.dipsaus_decorated <- function(x, ...){
 #' f2(x = 1, y = y)
 #'
 #' # -------------------- Decorator example --------------------------
-#' ret_range <- function(which_range = 'y'){
-#'   function(f){
-#'     function(...){
+#' ret_range <- function(which_range = 'y') {
+#'   function(f) {
+#'     function(...) {
 #'       f(...)
 #'       y_range <- range(get_dots(which_range, 0, ...))
 #'       y_range
@@ -855,21 +858,21 @@ print.dipsaus_decorated <- function(x, ...){
 #'
 #'
 #' @export
-get_dots <- function(..name, ..default = NULL, ...){
+get_dots <- function(..name, ..default = NULL, ...) {
   call <- as.list(match.call(expand.dots = TRUE))[-1]
-  call <- call[!names(call) %in% c('..name', '..default')]
-  if(..name %in% names(call)){
+  call <- call[!names(call) %in% c("..name", "..default")]
+  if (..name %in% names(call)) {
     idx <- which(names(call) == ..name)[1]
     return(...elt(idx))
-  }else{
+  } else {
     return(..default)
   }
 }
 
 #' @rdname get_dots
 #' @export
-missing_dots <- function(envir = parent.frame()){
-  if(!is.environment(envir)){
+missing_dots <- function(envir = parent.frame()) {
+  if (!is.environment(envir)) {
     stop("missing_dots: `envir` must be an environment")
   }
   check_missing_dots(envir)
@@ -881,7 +884,7 @@ missing_dots <- function(envir = parent.frame()){
 #' @param dots whether \code{fun}'s dots (\code{...}) counts
 #' @examples
 #'
-#' a <- function(n = 1){}
+#' a <- function(n = 1) {}
 #'
 #' # Test whether `a` has argument called 'b'
 #' test_farg(a, 'b')
@@ -890,7 +893,7 @@ missing_dots <- function(envir = parent.frame()){
 #' test_farg(a, c('b', 'n'))
 #'
 #' # `a` now has dots
-#' a <- function(n = 1, ...){}
+#' a <- function(n = 1, ...) {}
 #'
 #' # 'b' could goes to dots and a(b=...) is still valid
 #' test_farg(a, 'b')
@@ -899,15 +902,15 @@ missing_dots <- function(envir = parent.frame()){
 #' test_farg(a, 'b', dots = FALSE)
 #'
 #' @export
-test_farg <- function(fun, arg, dots = TRUE){
+test_farg <- function(fun, arg, dots = TRUE) {
   stopifnot2(is.character(arg) || is.numeric(arg),
-             msg = 'test_farg: arg must be either characters or integers')
+             msg = "test_farg: arg must be either characters or integers")
   fm <- names(formals(fun))
-  has_dots <- dots && ('...' %in% fm)
-  if(has_dots){
+  has_dots <- dots && ("..." %in% fm)
+  if (has_dots) {
     return(rep(TRUE, length(arg)))
   }
-  if(is.character(arg)){
+  if (is.character(arg)) {
     arg %in% fm
   } else {
     arg <= length(fm)
@@ -930,7 +933,7 @@ test_farg <- function(fun, arg, dots = TRUE){
 #' is_from_namespace(baseenv())        # TRUE
 #' is_from_namespace(utils::read.csv)  # TRUE
 #'
-#' x <- function(){}
+#' x <- function() {}
 #' is_from_namespace(NULL)             # FALSE
 #' is_from_namespace(x)                # FALSE
 #' is_from_namespace(emptyenv())       # FALSE
@@ -943,8 +946,8 @@ test_farg <- function(fun, arg, dots = TRUE){
 #'
 #' @export
 is_from_namespace <- function(x, recursive = TRUE) {
-  if(is.null(x)) { return(FALSE) }
-  if( recursive ) {
+  if (is.null(x)) { return(FALSE) }
+  if ( recursive ) {
     recursive <- TRUE
   } else {
     recursive <- FALSE

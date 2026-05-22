@@ -1,13 +1,13 @@
 #' Get attached package names in current session (Internally used)
 #' @param include_base whether to include base packages
 #' @return characters, package names that are attached in current session
-attached_packages <- function(include_base = FALSE){
+attached_packages <- function(include_base = FALSE) {
   info <- utils::sessionInfo()
   bk <- rev(info$basePkgs)
-  pk <- vapply(info$otherPkgs, '[[', 'Package', 'Package', USE.NAMES = FALSE)
+  pk <- vapply(info$otherPkgs, "[[", "Package", "Package", USE.NAMES = FALSE)
   pk <- rev(pk)
 
-  if(include_base){
+  if (include_base) {
     pk <- c(bk, pk)
   }
   pk
@@ -27,11 +27,11 @@ attached_packages <- function(include_base = FALSE){
 #' @return logical, if packages are installed or not. If \code{all=TRUE}, return
 #' a logical value of whether all packages a re installed.
 #' @export
-package_installed <- function(pkgs, all = FALSE){
-  re <- sapply(pkgs, function(p){
-    system.file('', package = p) != ''
+package_installed <- function(pkgs, all = FALSE) {
+  re <- sapply(pkgs, function(p) {
+    system.file("", package = p) != ""
   })
-  if(all){
+  if (all) {
     re <- all(re)
   }
   re
@@ -47,11 +47,11 @@ package_installed <- function(pkgs, all = FALSE){
 #' @return package names that are not installed
 #'
 #' @export
-check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_install = FALSE, ...){
+check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_install = FALSE, ...) {
   installed <- sapply(pkgs, package_installed)
   pkgs <- pkgs[!installed]
-  if(auto_install && length(pkgs)){
-    cat2('Installing packages:', paste0('[', pkgs, ']', collapse = ', '), level = 'INFO')
+  if (auto_install && length(pkgs)) {
+    cat2("Installing packages:", paste0("[", pkgs, "]", collapse = ", "), level = "INFO")
     do.call(utils::install.packages, c(
       list(pkgs = pkgs),
       list(...)
@@ -64,15 +64,15 @@ check_installed_packages <- function(pkgs, libs = base::.libPaths(), auto_instal
 #' @description Utilize 'RStudio' functions to restart, if running without
 #' 'RStudio', use package \code{startup} (not included in this library) instead.
 #' @export
-restart_session <- function(){
-  f <- get0('.rs.restartR')
-  if(is.function(f)){
-    message('Restarting RStudio rsession. Might take a while. Please wait...')
+restart_session <- function() {
+  f <- get0(".rs.restartR")
+  if (is.function(f)) {
+    message("Restarting RStudio rsession. Might take a while. Please wait...")
     f()
     return(invisible())
   }
   # Not in rstudio session
-  warning('`restart_session` only works in RStudio. Please consider using startup::restart()')
+  warning("`restart_session` only works in RStudio. Please consider using startup::restart()")
   return(invisible())
 }
 

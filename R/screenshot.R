@@ -35,14 +35,14 @@
 #'   })
 #' }
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   shinyApp(ui, server)
 #' }
 #'
 #' @export
-screenshot <- function(inputId, session = shiny::getDefaultReactiveDomain()){
-  if(inherits(session, c('session_proxy', 'ShinySession'))){
-    session$sendCustomMessage('dipsaus-screeshot', list(
+screenshot <- function(inputId, session = shiny::getDefaultReactiveDomain()) {
+  if (inherits(session, c("session_proxy", "ShinySession"))) {
+    session$sendCustomMessage("dipsaus-screeshot", list(
       inputId = session$ns(inputId)
     ))
   }
@@ -54,14 +54,14 @@ screenshot <- function(inputId, session = shiny::getDefaultReactiveDomain()){
 #' @param path file path to save to
 #' @return Absolute path of the saved file
 #' @export
-base64_to_image <- function(data, path){
+base64_to_image <- function(data, path) {
 
-  con <- file(path, 'wb')
+  con <- file(path, "wb")
   on.exit({
     close(con)
   }, add = TRUE)
 
-  data <- str_replace(data, '^data:image.{0,10};base64,', '')
+  data <- str_replace(data, "^data:image.{0,10};base64,", "")
   base64enc::base64decode(data, output = con)
 
   invisible(normalizePath(path))
@@ -82,15 +82,15 @@ base64_to_image <- function(data, path){
 #' base64_to_string(what)
 #'
 #' @export
-base64_to_string <- function(what){
+base64_to_string <- function(what) {
   rawToChar(base64enc::base64decode(what))
 }
 
 #
-# shiny_bugreport_local <- function(title, body, footer = NULL, image = ''){
+# shiny_bugreport_local <- function(title, body, footer = NULL, image = '') {
 #   date_time <- blastula::add_readable_time()
 #
-#   if(length(image) > 1 || image != ''){
+#   if (length(image) > 1 || image != '') {
 #     body <- c(body, image)
 #   }
 #
@@ -105,7 +105,7 @@ base64_to_string <- function(what){
 #
 #   # create Zip file of log
 #   logfiles <- packup_logger()
-#   if(!is.null(logfiles)){
+#   if (!is.null(logfiles)) {
 #     email <- blastula::add_attachment(email, logfiles, content_type = "application/zip",
 #                              filename = 'logs.zip')
 #   }
@@ -128,34 +128,34 @@ base64_to_string <- function(what){
 #
 #
 # shiny_bugreport <- function(title, body, footer = NULL, image,
-#                             then = NULL){
+#                             then = NULL) {
 #
-#   if(missing(image)){
+#   if (missing(image)) {
 #     image <- ''
-#   }else{
+#   } else {
 #     image <- blastula::add_image(image)
 #   }
 #
 #   session <- shiny::getDefaultReactiveDomain()
-#   if(!inherits(session, c('session_proxy', 'ShinySession'))){
+#   if (!inherits(session, c('session_proxy', 'ShinySession'))) {
 #     email <- shiny_bugreport_local(title, body, footer, image)
-#     if(is.function(then)){
+#     if (is.function(then)) {
 #       email <- then(email)
 #     }
 #     return(email)
 #   }
 #   shiny::observeEvent(session$input[['..dipsaus_screenshot..']], {
 #     uri <- session$input[['..dipsaus_screenshot..']]
-#     if(!is.null(uri)){
+#     if (!is.null(uri)) {
 #       ff <- tempfile()
 #       ff <- base64_to_image(uri, ff)
 #       img <- blastula::add_image(ff)
-#     }else{
+#     } else {
 #       img <- NULL
 #     }
 #
 #     email <- shiny_bugreport_local(title, body, footer, image = c(image, img))
-#     if(is.function(then)){
+#     if (is.function(then)) {
 #       email <- then(email)
 #     }
 #     return(email)

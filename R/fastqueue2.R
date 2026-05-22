@@ -9,7 +9,7 @@
 #' x <- fastqueue2()
 #'
 #' # add elements
-#' x$madd(1, "b", function(){ "c" }, 4, "5")
+#' x$madd(1, "b", function() { "c" }, 4, "5")
 #'
 #' # print information
 #' print(x)
@@ -31,22 +31,22 @@
 #'
 #' @name fastqueue2
 #' @export
-fastqueue2 <- function(init = 20L, missing_default = NULL){
+fastqueue2 <- function(init = 20L, missing_default = NULL) {
   queue <- fastmap::fastqueue(init = init, missing_default = missing_default)
   head <- 0
   count <- 0
   i <- NA
-  ev <- new.env(parent = environment(.subset2(queue, 'as_list')))
-  queue$at <- dipsaus::new_function2(args = alist(i=), {
-    if(is.na(i) || i < 1L || i > count){
+  ev <- new.env(parent = environment(.subset2(queue, "as_list")))
+  queue$at <- dipsaus::new_function2(args = alist(i = ), {
+    if (is.na(i) || i < 1L || i > count) {
       stop("subscript out of bounds")
     }
     q[[head - count + i]]
   }, env = ev)
-  queue$mat <- dipsaus::new_function2(args = alist(i=), {
+  queue$mat <- dipsaus::new_function2(args = alist(i = ), {
     q[head - count + i]
   }, env = ev)
-  class(queue) <- c('fastqueue2', 'list')
+  class(queue) <- c("fastqueue2", "list")
   queue
 }
 
@@ -56,18 +56,18 @@ fastqueue2 <- function(init = 20L, missing_default = NULL){
 #' @return If \code{map} is not \code{NULL}, elements will be added
 #' to \code{map} and return \code{map}, otherwise create a new instance.
 #' @export
-list_to_fastqueue2 <- function(li, queue = NULL){
-  stopifnot2(is.null(queue) || inherits(queue, 'fastqueue2'), msg = 'queue must be either NULL or fastqueue2')
-  if(is.null(queue)){
+list_to_fastqueue2 <- function(li, queue = NULL) {
+  stopifnot2(is.null(queue) || inherits(queue, "fastqueue2"), msg = "queue must be either NULL or fastqueue2")
+  if (is.null(queue)) {
     queue <- fastqueue2()
   }
-  # for(ii in seq_along(li)){
+  # for(ii in seq_along(li)) {
   #   .subset2(queue, "add")(li[[ii]])
   # }
-  if(!is.list(li)){
+  if (!is.list(li)) {
     li <- as.list(li)
   }
-  if(length(li)){
+  if (length(li)) {
     .subset2(queue, "madd")(.list = li)
   }
   queue
@@ -76,12 +76,12 @@ list_to_fastqueue2 <- function(li, queue = NULL){
 
 #' @rdname fastqueue2
 #' @export
-`[[.fastqueue2` <- function(x, i){
+`[[.fastqueue2` <- function(x, i) {
   .subset2(x, "at")(i)
 }
 
 #' @export
-`[[<-.fastqueue2` <- function(x, i, value){
+`[[<-.fastqueue2` <- function(x, i, value) {
   stop("Cannot set index of a queue. Use `$add` or `$madd` method.")
   return(x)
 }
@@ -91,8 +91,8 @@ list_to_fastqueue2 <- function(li, queue = NULL){
 
 #' @rdname fastqueue2
 #' @export
-`[.fastqueue2` <- function(x, i, j = NULL, ...){
-  if(missing(i)) {
+`[.fastqueue2` <- function(x, i, j = NULL, ...) {
+  if (missing(i)) {
     return( .subset2(x, "as_list")(...) )
   } else {
     return( .subset2(x, "mat")(unlist(c(i, j, ...))) )
@@ -101,26 +101,26 @@ list_to_fastqueue2 <- function(li, queue = NULL){
 }
 
 #' @export
-`[<-.fastqueue2` <- function(x, i, j = NULL, ..., value){
+`[<-.fastqueue2` <- function(x, i, j = NULL, ..., value) {
   stop("Cannot subset-assign a queue. Use `$add` or `$madd` method.")
   x
 }
 
 #' @rdname fastqueue2
 #' @export
-`print.fastqueue2` <- function(x, ...){
-  cat('<Queue, size=', .subset2(x, 'size')(), '>\n', sep = '')
+`print.fastqueue2` <- function(x, ...) {
+  cat("<Queue, size=", .subset2(x, "size")(), ">\n", sep = "")
   invisible(x)
 }
 
 #' @rdname fastqueue2
 #' @export
-`length.fastqueue2` <- function(x){
-  .subset2(x, 'size')()
+`length.fastqueue2` <- function(x) {
+  .subset2(x, "size")()
 }
 
 #' @rdname fastqueue2
 #' @export
-as.list.fastqueue2 <- function(x, ...){
-  .subset2(x, 'as_list')()
+as.list.fastqueue2 <- function(x, ...) {
+  .subset2(x, "as_list")()
 }

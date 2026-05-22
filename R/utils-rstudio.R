@@ -10,12 +10,12 @@
 #' @return whether 'RStudio' is running and its version is above the
 #' required
 #' @export
-rs_avail <- function(version_needed = '1.3', child_ok = FALSE, shiny_ok = FALSE){
+rs_avail <- function(version_needed = "1.3", child_ok = FALSE, shiny_ok = FALSE) {
 
-  if(!shiny_ok && !is.null(shiny::getDefaultReactiveDomain())){
+  if (!shiny_ok && !is.null(shiny::getDefaultReactiveDomain())) {
     return(FALSE)
   }
-  if(!requireNamespace('rstudioapi')){
+  if (!requireNamespace("rstudioapi")) {
     return(FALSE)
   }
   rstudioapi::isAvailable(version_needed = version_needed, child_ok = child_ok)
@@ -27,9 +27,9 @@ rs_avail <- function(version_needed = '1.3', child_ok = FALSE, shiny_ok = FALSE)
 #' 'RStudio' might not be able to react.
 #' @return None
 #' @export
-rs_focus_console <- function(wait = 0.5){
-  if(rs_avail(version_needed = '1.4')){
-    if(wait > 0){
+rs_focus_console <- function(wait = 0.5) {
+  if (rs_avail(version_needed = "1.4")) {
+    if (wait > 0) {
       Sys.sleep(wait)
     }
     try({
@@ -39,39 +39,39 @@ rs_focus_console <- function(wait = 0.5){
   return(invisible())
 }
 
-rs_runjob <- function(script, name, focus_on_console = FALSE, ...){
+rs_runjob <- function(script, name, focus_on_console = FALSE, ...) {
   rstudioapi::jobRunScript(path = script, name = name,
                            workingDir = tempdir(),
                            importEnv = NULL, exportEnv = "")
-  if(focus_on_console){
+  if (focus_on_console) {
     rs_focus_console()
   }
   return()
 }
 
-future_is_sequential <- function(){
-  inherits(future::plan(), 'sequential')
+future_is_sequential <- function() {
+  inherits(future::plan(), "sequential")
 }
 
 rs_runjob_alt <- function(
     script, name, wait = TRUE, args = "--vanilla",
     ignore.stdout = FALSE, ignore.stderr = FALSE,
-    ...){
+    ...) {
   # use RScript
-  if(!file.exists(script)){
+  if (!file.exists(script)) {
     stop("script is missing")
   }
   script <- normalizePath(script, mustWork = TRUE, winslash = "\\")
-  rscript <- R.home('bin')
+  rscript <- R.home("bin")
 
-  rscript <- list.files(rscript, '^rscript', full.names = TRUE, ignore.case = TRUE)
+  rscript <- list.files(rscript, "^rscript", full.names = TRUE, ignore.case = TRUE)
   rscript <- normalizePath(rscript, mustWork = TRUE, winslash = "\\")[[1]]
 
   # inject to load base packages
   sinfo <- utils::sessionInfo()
   s <- readLines(script)
   s <- c(
-    paste0('library(', rev(sinfo$basePkgs), ')'),
+    paste0("library(", rev(sinfo$basePkgs), ")"),
     s
   )
 
@@ -82,13 +82,13 @@ rs_runjob_alt <- function(
     wait = wait,
     ...
   )
-  if( ignore.stdout ) {
+  if ( ignore.stdout ) {
     call_args$stdout <- nullfile()
   }
-  if( ignore.stderr ) {
+  if ( ignore.stderr ) {
     call_args$stderr <- nullfile()
   }
-  if(get_os() == "windows"){
+  if (get_os() == "windows") {
     call_args$minimized <- TRUE
     call_args$invisible <- TRUE
     # system(cmd, wait = wait, show.output.on.console = FALSE, invisible = TRUE, minimized = TRUE, intern = FALSE, ...)
@@ -142,7 +142,7 @@ rs_runjob_alt <- function(
 #'
 #' @examples
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   h <- rs_exec(
 #'     {
 #'       Sys.sleep(2)
@@ -161,13 +161,13 @@ rs_runjob_alt <- function(
 #' }
 #'
 #' @export
-rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
+rs_exec <- function(expr, name = "Untitled", quoted = FALSE, rs = TRUE,
                     as_promise = FALSE, wait = FALSE, packages = NULL,
                     focus_on_console = FALSE, ..., nested_ok = FALSE) {
-  if(as_promise && !package_installed("promises")) {
+  if (as_promise && !package_installed("promises")) {
     stop("Cannot run `rs_exec`: Please install `promises` & `later` package")
   }
-  if(!quoted){
+  if (!quoted) {
     expr <- substitute(expr)
   }
   check <- rs_exec_internal(
@@ -175,17 +175,17 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
     packages = packages, focus_on_console = focus_on_console,
     nested_ok = nested_ok, ...)
 
-  if(!as_promise) {
+  if (!as_promise) {
     return(check)
   }
   promises::promise(function(resolve, reject) {
     f <- function() {
       status <- check()
-      if(status == 0) {
+      if (status == 0) {
         resolve(attr(status, "rs_exec_result"))
         return()
       } else if (status < 0) {
-        reject(attr(status, 'rs_exec_error'))
+        reject(attr(status, "rs_exec_error"))
         return()
       } else {
         later::later(f, delay = 2)
@@ -195,22 +195,22 @@ rs_exec <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   })
 }
 
-rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
+rs_exec_internal <- function(expr, name = "Untitled", quoted = FALSE, rs = TRUE,
                     wait = FALSE, packages = NULL, focus_on_console = FALSE,
-                    ..., nested_ok = FALSE){
-  if(!nested_ok && !is_master()) {
+                    ..., nested_ok = FALSE) {
+  if (!nested_ok && !is_master()) {
     stop("Function `rs_exec`, `lapply_callr` should not be nested.")
   }
-  if(!quoted){
+  if (!quoted) {
     expr <- substitute(expr)
   }
   tempdir(check = TRUE)
   script <- tempfile()
-  state_file <- paste0(script, '.dstate')
-  res_file <- paste0(script, '.res')
+  state_file <- paste0(script, ".dstate")
+  res_file <- paste0(script, ".res")
 
   # 1: initializing
-  writeLines('1', state_file)
+  writeLines("1", state_file)
   state_file <- normalizePath(state_file)
 
   session_id <- .master_session_id()
@@ -221,38 +221,38 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
   expr <- rlang::quo({
     # 2: started
-    writeLines('2', !!state_file)
+    writeLines("2", !!state_file)
 
     local({
       ...msg... <- new.env(parent = emptyenv())
-      reg.finalizer(...msg..., function(e){
+      reg.finalizer(...msg..., function(e) {
         grDevices::graphics.off()
-        if(length(e$error)){
-          writeLines(c('-1', e$error), !!state_file)
+        if (length(e$error)) {
+          writeLines(c("-1", e$error), !!state_file)
         } else {
-          writeLines('0', !!state_file)
+          writeLines("0", !!state_file)
         }
       }, onexit = TRUE)
 
-      ...msg...$fun <- function(){
+      ...msg...$fun <- function() {
         !!expr
       }
 
       tryCatch({
         options("raveio.settings_readonly" = TRUE)
-        if(!!use_rs){
+        if (!!use_rs) {
           options("crayon.enabled" = TRUE)
           options("crayon.colors" = 256)
         }
 
-        lapply(!!packages, function(p){
+        lapply(!!packages, function(p) {
           suppressMessages({
-            do.call('require', list(package = p, character.only = TRUE))
+            do.call("require", list(package = p, character.only = TRUE))
           })
         })
 
         local({
-          ns <- asNamespace('dipsaus')
+          ns <- asNamespace("dipsaus")
           ns$.master_session_id(!!session_id)
           sys_env <- !!sys_env
           do.call(Sys.setenv, as.list(sys_env))
@@ -260,15 +260,15 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
         res <- ...msg...$fun()
 
-        if(!is.null(res)){
+        if (!is.null(res)) {
           saveRDS(res, file = !!res_file)
         }
 
-        writeLines('0', !!state_file)
+        writeLines("0", !!state_file)
 
-      }, error = function(e){
+      }, error = function(e) {
         ...msg...$error <- e$message
-        writeLines(c('-1', ...msg...$error), !!state_file)
+        writeLines(c("-1", ...msg...$error), !!state_file)
       }, finally = {
         rm(...msg...)
         gc()
@@ -276,10 +276,10 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 
     })
   })
-  writeLines(deparse(rlang::quo_squash(expr)), script, sep = '\n')
+  writeLines(deparse(rlang::quo_squash(expr)), script, sep = "\n")
 
-  if(use_rs){
-    if(wait){
+  if (use_rs) {
+    if (wait) {
       rs_runjob(script, name, focus_on_console = FALSE, ...)
     } else {
       rs_runjob(script, name, focus_on_console = focus_on_console, ...)
@@ -292,47 +292,47 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
   state <- 0
   res <- NULL
 
-  check_f <- function(){
+  check_f <- function() {
     # This function can track the rs_exec process
-    if(file.exists(state_file)){
+    if (file.exists(state_file)) {
       s <- readLines(state_file)
       s <- trimws(s)
       st <- as.integer(s[[1]])
-      if(is.na(st)){
+      if (is.na(st)) {
         # unknown results
         st <- -2
       } else {
         s <- s[-1]
       }
-      if(st < 0){
+      if (st < 0) {
         unlink(script)
         unlink(state_file)
-        attr(st, 'rs_exec_error') <- s
-        attr(st, 'rs_exec_state') <- 'Error'
-      } else if(st == 0){
+        attr(st, "rs_exec_error") <- s
+        attr(st, "rs_exec_state") <- "Error"
+      } else if (st == 0) {
         unlink(script)
         unlink(state_file)
-        if(file.exists(res_file)){
+        if (file.exists(res_file)) {
           res <<- readRDS(res_file)
         }
         unlink(res_file)
-        attr(st, 'rs_exec_state') <- 'Success'
-        attr(st, 'rs_exec_result') <- res
+        attr(st, "rs_exec_state") <- "Success"
+        attr(st, "rs_exec_result") <- res
         # return to console
-        if(focus_on_console){
+        if (focus_on_console) {
           rs_focus_console(wait = 0)
         }
-      } else if(st > 0){
-        attr(st, 'rs_exec_state') <- 'Running'
+      } else if (st > 0) {
+        attr(st, "rs_exec_state") <- "Running"
       }
       state <<- st
     }
-    return(structure(state, class = 'dipsaus_rs_exec_res'))
+    return(structure(state, class = "dipsaus_rs_exec_res"))
   }
 
-  if(wait){
+  if (wait) {
     check_f()
-    while(isTRUE(state > 0)){
+    while (isTRUE(state > 0)) {
       check_f()
       Sys.sleep(0.5)
     }
@@ -342,13 +342,13 @@ rs_exec_internal <- function(expr, name = 'Untitled', quoted = FALSE, rs = TRUE,
 }
 
 #' @export
-print.dipsaus_rs_exec_res <- function(x, ...){
-  cat('Code :', as.numeric(x), '\n')
-  cat('State:', attr(x, 'rs_exec_state'), '\n')
-  if(x < 0){
-    cat('Error:\n')
-    print(attr(x, 'rs_exec_error'))
-  } else if(x==0){
+print.dipsaus_rs_exec_res <- function(x, ...) {
+  cat("Code :", as.numeric(x), "\n")
+  cat("State:", attr(x, "rs_exec_state"), "\n")
+  if (x < 0) {
+    cat("Error:\n")
+    print(attr(x, "rs_exec_error"))
+  } else if (x == 0) {
     cat('Please use `attr(x, "rs_exec_result")` to get the results.')
   }
   invisible(x)
@@ -360,8 +360,8 @@ print.dipsaus_rs_exec_res <- function(x, ...){
 #' @return If 'RStudio' is running and current project is not none, return
 #' project name, otherwise return \code{NA}
 #' @export
-rs_active_project <- function(...){
-  if( rs_avail(...) ){
+rs_active_project <- function(...) {
+  if ( rs_avail(...) ) {
     return(rstudioapi::getActiveProject())
   }
   NA
@@ -379,15 +379,15 @@ rs_active_project <- function(...){
 #' \code{\link[utils]{browseURL}}, then call the function with given
 #' arguments. If \code{default} is not a function, return \code{default}
 #' @export
-rs_viewer <- function(..., default = TRUE, version_needed = '1.3',
-                      child_ok = FALSE, shiny_ok = FALSE){
-  if(rs_avail(version_needed = version_needed, child_ok = child_ok,
-              shiny_ok = shiny_ok)){
+rs_viewer <- function(..., default = TRUE, version_needed = "1.3",
+                      child_ok = FALSE, shiny_ok = FALSE) {
+  if (rs_avail(version_needed = version_needed, child_ok = child_ok,
+              shiny_ok = shiny_ok)) {
     rstudioapi::viewer(...)
-  }else{
-    if(is.function(default)){
+  } else {
+    if (is.function(default)) {
       default(...)
-    }else{
+    } else {
       return(default)
     }
   }
@@ -399,16 +399,16 @@ rs_viewer <- function(..., default = TRUE, version_needed = '1.3',
 #' @return Raise error if \code{\link{rs_avail}} fails,
 #' otherwise returns the selected path
 #' @export
-rs_select_path <- function(is_directory = TRUE){
-  if(dipsaus::rs_avail()){
-    if(is_directory){
+rs_select_path <- function(is_directory = TRUE) {
+  if (dipsaus::rs_avail()) {
+    if (is_directory) {
       path <- rstudioapi::selectDirectory()
-    }else{
+    } else {
       path <- rstudioapi::selectFile()
     }
     # warning("Please fix the path in your script!!!\n\t{path}")
     return(path)
-  }else{
+  } else {
     stop("Cannot find file path. Please contact package owner to fix it.")
   }
 }
@@ -420,14 +420,14 @@ rs_select_path <- function(is_directory = TRUE){
 #' compatibility: check whether 'RStudio' is running and whether
 #' \code{rstudioapi} has function \code{documentSaveAll}.
 #' @export
-rs_save_all <- function(){
-  if(rs_avail(version_needed = '1.1.287')){
+rs_save_all <- function() {
+  if (rs_avail(version_needed = "1.1.287")) {
     if (rstudioapi::hasFun("documentSaveAll")) {
       rstudioapi::documentSaveAll()
       return(invisible())
     }
   }
-  warning('RStudio version too low, please update RStudio')
+  warning("RStudio version too low, please update RStudio")
 }
 
 #' @title Use 'RStudio' to open and edit files
@@ -437,16 +437,16 @@ rs_save_all <- function(){
 #' path
 #' @export
 rs_edit_file <- function(path, create = TRUE) {
-  if(!interactive()) {
+  if (!interactive()) {
     warning("`rs_edit_file`: must run in interactive mode")
     return(path)
   }
-  if(!file.exists(path)) {
-    if(!create) {
+  if (!file.exists(path)) {
+    if (!create) {
       stop("`rs_edit_file`: File path not exists, cannot open: ", path)
     }
     root <- dirname(path)
-    if(!dir.exists(root)) {
+    if (!dir.exists(root)) {
       dir.create(root, showWarnings = FALSE, recursive = TRUE)
     }
     file.create(path)
@@ -454,7 +454,7 @@ rs_edit_file <- function(path, create = TRUE) {
 
   path <- normalizePath(path, mustWork = TRUE)
 
-  if(rs_avail() && rstudioapi::hasFun("navigateToFile")) {
+  if (rs_avail() && rstudioapi::hasFun("navigateToFile")) {
     rstudioapi::navigateToFile(path)
   } else {
     utils::file.edit(path)
@@ -481,17 +481,17 @@ rs_set_repos <- function(name, url, add = TRUE) {
 
   stopifnot2(rs_avail(),
              msg = "Please use the latest RStudio to call this function API.")
-  if(length(name) != 1 || !is.character(name) || !nzchar(name) || name == "CRAN") {
+  if (length(name) != 1 || !is.character(name) || !nzchar(name) || name == "CRAN") {
     stop("`rs_set_repos`: name must be non-empty string and cannot be 'CRAN'")
   }
-  if(length(url) != 1 || !is.character(url) || !(
+  if (length(url) != 1 || !is.character(url) || !(
     startsWith(tolower(url), "https://") ||
     startsWith(tolower(url), "http://")
   )) {
     stop("`rs_set_repos`: url must start with http:// or https://")
   }
   mirror <- rstudioapi::readRStudioPreference(name = "cran_mirror", default = NULL)
-  if(!is.list(mirror)) {
+  if (!is.list(mirror)) {
     mirror <- list(
       name = "0-Cloud",
       host = "cloud.r-project.org",
@@ -500,11 +500,11 @@ rs_set_repos <- function(name, url, add = TRUE) {
     )
   }
   repos <- list()
-  if(add) {
+  if (add) {
     sec_repo <- unlist(strsplit(as.character(mirror$secondary), "\\|"))
-    if(length(sec_repo)) {
+    if (length(sec_repo)) {
       sec_repo <- matrix(sec_repo, ncol = 2, byrow = TRUE)
-      for(ii in seq_len(nrow(sec_repo))) {
+      for (ii in seq_len(nrow(sec_repo))) {
         repos[[ sec_repo[ii, 1] ]] <- sec_repo[ii, 2]
       }
     } else {

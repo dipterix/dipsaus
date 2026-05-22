@@ -23,7 +23,7 @@ test_that("missing_dots: basic usage in a function with dots", {
   expect_identical(f(1, 2, 3), c(FALSE, FALSE, FALSE))
 
   # Single missing argument (bare comma)
-  expect_identical(f(,), c(TRUE, TRUE))
+  expect_identical(f(, ), c(TRUE, TRUE))
 
   # Mixed: first missing, second not
   expect_identical(f(, 1), c(TRUE, FALSE))
@@ -35,7 +35,7 @@ test_that("missing_dots: basic usage in a function with dots", {
   expect_identical(f(1, , 3), c(FALSE, TRUE, FALSE))
 
   # All missing (three bare commas → four missing slots)
-  expect_identical(f(, , ,), c(TRUE, TRUE, TRUE, TRUE))
+  expect_identical(f(, , , ), c(TRUE, TRUE, TRUE, TRUE))
 })
 
 test_that("missing_dots: named arguments behave the same as positional", {
@@ -134,7 +134,7 @@ test_that("is_from_namespace: functions and environments from packages", {
   # Anonymous function intended to represent a "user-space" function -> FALSE.
   # We must explicitly set its enclosing env to globalenv() because when tests
   # run via devtools::load_all() the test body's parent chain is rooted in the
-  # dipsaus namespace, making any inline `function(){}` appear to come from the
+  # dipsaus namespace, making any inline `function() {}` appear to come from the
   # namespace.  Setting the environment to globalenv() is the context-
   # independent way to represent a function that is not from any package.
   anon <- function() {}

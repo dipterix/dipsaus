@@ -26,7 +26,7 @@ Provides a way to assign default values to variables. If the statement
 }
 \examples{
 # Prepare, remove aaa if exists
-if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+if(exists('aaa', envir = globalenv(), inherits = FALSE)) {
   rm(aaa, envir = globalenv())
 }
 

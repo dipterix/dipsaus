@@ -40,13 +40,13 @@
 #'
 #' # Basic usage
 #' a <- 1
-#' async_works(1:10, function(ii){
+#' async_works(1:10, function(ii) {
 #'   ii + a # sub-process don't know a, hence must pass a as globals
 #' }, .globals = list(a = a))
 #'
 #' # non-blocking case
 #' system.time({
-#'   check <- async_works(1:10, function(ii){
+#'   check <- async_works(1:10, function(ii) {
 #'     # simulating process, run run run
 #'     Sys.sleep(ii)
 #'     Sys.getpid()
@@ -65,19 +65,19 @@
 #' }
 #'
 #' @export
-async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
+async_works <- function(X, FUN, ..., .globals = NULL, .name = "Untitled",
          .rs = FALSE, .wait = TRUE, .chunk_size = Inf,
          .nworkers = parallelly::availableCores(), .simplify = FALSE,
-         .quiet = FALSE, .log){
+         .quiet = FALSE, .log) {
   stopifnot2(!length(.globals) || (
     is.list(.globals) && length(names(.globals)) == length(.globals) &&
-      (!'' %in% names(.globals))
+      (!"" %in% names(.globals))
   ) ,
-  msg = '.globals must be a named list'
+  msg = ".globals must be a named list"
   )
 
   if (.chunk_size < Inf && !.wait) {
-    stop('async_work .want=FALSE, then .chunk_size must be `Inf`')
+    stop("async_work .want=FALSE, then .chunk_size must be `Inf`")
   }
 
   n <- length(X)
@@ -88,7 +88,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
 
   nworkers <- min(.nworkers, n)
   # partition X
-  .chunk_size <- max(min(.chunk_size, ceiling(n/nworkers)), 1)
+  .chunk_size <- max(min(.chunk_size, ceiling(n / nworkers)), 1)
   njobs <- ceiling(n / .chunk_size)
   mat <- c(seq_along(X), rep(NA, njobs * .chunk_size - n))
   dim(mat) <- c(njobs, .chunk_size)
@@ -108,7 +108,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
       log = log
     )
 
-  progress$inc('Process data...')
+  progress$inc("Process data...")
 
   tempdir(check = TRUE)
   rds <- tempfile()
@@ -118,16 +118,16 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
     fun = FUN
   ), file = rds)
 
-  progress$inc(sprintf('Finished [0/%s]', njobs))
+  progress$inc(sprintf("Finished [0/%s]", njobs))
 
   res <- fastmap2()
   fs <- fastmap2()
   finished <- rep(0, njobs)
-  collect_res <- function(timeout = Inf, nw = 0){
+  collect_res <- function(timeout = Inf, nw = 0) {
     not_finished <- finished == 1
     start <- Sys.time()
     while (sum(not_finished) && sum(not_finished) >= nw) {
-      if (time_delta(start, Sys.time(), 'secs') > timeout) {
+      if (time_delta(start, Sys.time(), "secs") > timeout) {
         return(structure(res, resolved = FALSE))
       }
 
@@ -136,15 +136,15 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
         code <- fs[[ii]]()
         if (code < 0) {
           finished[[ii]] <<- 2
-          code <- paste(attr(code, 'rs_exec_error'), collapse = '\n')
+          code <- paste(attr(code, "rs_exec_error"), collapse = "\n")
           stop(code)
         }
         if (code == 0) {
           finished[[ii]] <<- 2
           if (.wait) {
-            progress$inc(sprintf('Finished [%s/%s]', sum(finished == 2), njobs))
+            progress$inc(sprintf("Finished [%s/%s]", sum(finished == 2), njobs))
           }
-          code <- attr(code, 'rs_exec_result')
+          code <- attr(code, "rs_exec_result")
           idx <- mat[ii, ]
           idx <- idx[!is.na(idx)]
           if (is.list(code) && length(code) == length(idx)) {
@@ -157,7 +157,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
       not_finished <- finished == 1
     }
 
-    return(structure(sapply(seq_along(X), function(ii){
+    return(structure(sapply(seq_along(X), function(ii) {
       res[[ii]]
     }, simplify = .simplify, USE.NAMES = FALSE), resolved = TRUE))
   }
@@ -168,7 +168,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
     if (sum(finished == 1) >= nworkers) {
       collect_res(nworkers)
     }
-    name <- sprintf('%s - part %d', .name, ii)
+    name <- sprintf("%s - part %d", .name, ii)
     idx <- mat[ii, ]
     idx <- idx[!is.na(idx)]
     el <- X[idx]
@@ -177,7 +177,7 @@ async_works <- function(X, FUN, ..., .globals = NULL, .name = 'Untitled',
         if (!length(globals)) {
           globals <- list()
         }
-        return(do.call('lapply', c(list(
+        return(do.call("lapply", c(list(
           !!el, do.call(!!mask_function2, list(f = fun, .list = globals))
         ), args)))
       })

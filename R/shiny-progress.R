@@ -52,7 +52,7 @@
 #'   observeEvent(input$do, {
 #'     updateActionButtonStyled(session, 'do', disabled = TRUE)
 #'     progress <- progress2('Task A', max = 10, shiny_auto_close = TRUE)
-#'     lapply(1:10, function(ii){
+#'     lapply(1:10, function(ii) {
 #'       progress$inc(sprintf('Detail %d', ii))
 #'       Sys.sleep(0.2)
 #'     })
@@ -60,80 +60,86 @@
 #'   })
 #' }
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   shinyApp(ui, server)
 #' }
 #'
 #' @export
 progress2 <- function( title, max = 1, ..., quiet = FALSE,
                        session = shiny::getDefaultReactiveDomain(),
-                       shiny_auto_close = FALSE, log = NULL){
-  if(missing(title) || is.null(title)){ title <- '' }
-  if( length(title) > 1 ){ title <- paste(title, collapse = '')}
+                       shiny_auto_close = FALSE, log = NULL) {
+  if (missing(title) || is.null(title)) { title <- "" }
+  if ( length(title) > 1 ) { title <- paste(title, collapse = "")}
 
-  if( inherits(session, c('ShinySession', 'session_proxy', 'R6')) ){
+  if ( inherits(session, c("ShinySession", "session_proxy", "R6")) ) {
     within_shiny <- TRUE
-  }else{
+  } else {
     within_shiny <- FALSE
   }
 
   current <- 0
   closed <- FALSE
-  get_value <- function(){ current }
-  is_closed <- function(){ closed }
-  logger <- function(..., .quiet = quiet, level = 'DEFAULT', bullet = 'play'){
-    if(!.quiet){
-      if(is.function(log)){
+  get_value <- function() { current }
+  is_closed <- function() { closed }
+  logger <- function(..., .quiet = quiet, level = "DEFAULT", bullet = "play") {
+    if (!.quiet) {
+      if (is.function(log)) {
         log(...)
-      }else{
-        cat2(..., level=level, bullet=bullet, end = "\r", append = TRUE)
+      } else {
+        cat2(
+          ...,
+          level = level,
+          bullet = bullet,
+          end = "\r",
+          append = TRUE
+        )
       }
     }
   }
 
 
 
-  if( quiet || !within_shiny ){
+  if ( quiet || !within_shiny ) {
     progress <- NULL
-    logger(sprintf("[%s]: initializing...", title), level = 'DEFAULT', bullet = 'play')
+    logger(sprintf("[%s]: initializing...", title), level = "DEFAULT", bullet = "play")
 
-    inc <- function(detail, message = NULL, amount = 1, ...){
-      stopifnot2(!closed, msg = 'progress is closed')
-      quiet <- c(list(...)[['quiet']], quiet)[[1]]
+    inc <- function(detail, message = NULL, amount = 1, ...) {
+      stopifnot2(!closed, msg = "progress is closed")
+      quiet <- c(list(...)[["quiet"]], quiet)[[1]]
       # if message is updated
-      if(!is.null(message) && length(message) == 1){ title <<- message }
+      if (!is.null(message) && length(message) == 1) { title <<- message }
       current <<- amount + current
       logger(sprintf("[%s]: %s (%d out of %d)", title, detail, round(current), ceiling(max)),
-           level = 'DEFAULT', bullet = 'arrow_right', .quiet = quiet)
+           level = "DEFAULT", bullet = "arrow_right", .quiet = quiet)
     }
 
-    close <- function(message = 'Finished'){
+    close <- function(message = "Finished") {
       closed <<- TRUE
-      logger(message, level = 'DEFAULT', bullet = 'stop')
+      logger(message, level = "DEFAULT", bullet = "stop")
     }
-    reset <- function(detail = '', message = '', value = 0){
+    reset <- function(detail = "", message = "", value = 0) {
       title <<- message
       current <<- value
     }
 
-  }else{
+  } else {
     progress <- shiny::Progress$new(session = session, max = max, ...)
-    inc <- function(detail, message = NULL, amount = 1, ...){
-      if(!is.null(message) && length(message) == 1){ title <<- message }
+    inc <- function(detail, message = NULL, amount = 1, ...) {
+      if (!is.null(message) && length(message) == 1) { title <<- message }
       current <<- current + amount
       progress$inc(detail = detail, message = title, amount = amount)
-      if(is.function(log)){
+      if (is.function(log)) {
         logger(sprintf("[%s]: %s (%d out of %d)", title, detail, round(current), ceiling(max)),
-               level = 'DEFAULT', bullet = 'arrow_right', .quiet = quiet)
+               level = "DEFAULT", bullet = "arrow_right", .quiet = quiet)
       }
     }
-    close <- function(message = 'Finished'){
-      if(!closed){
+    close <- function(message = "Finished") {
+      if (!closed) {
         progress$close()
         closed <<- TRUE
       }
     }
-    reset <- function(detail = '', message = '', value = 0){
+    reset <- function(detail = "", message = "", value = 0) {
       title <<- message
       current <<- value
       progress$set(value = value, message = title, detail = detail)
@@ -141,20 +147,20 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
     # get_value <- function() {
     #   try({
     #     re <- progress$getValue()
-    #     if(!length(re) || !is.numeric(re)){
+    #     if (!length(re) || !is.numeric(re)) {
     #       re <- current
     #     }
     #     re
     #   }, silent = TRUE)
     # }
-    if(shiny_auto_close){
+    if (shiny_auto_close) {
       parent_frame <- parent.frame()
       do.call(
         on.exit, list(substitute(close()), add = TRUE),
         envir = parent_frame
       )
     }
-    inc(detail = 'Initializing...', amount = 0)
+    inc(detail = "Initializing...", amount = 0)
 
   }
 
@@ -235,14 +241,14 @@ progress2 <- function( title, max = 1, ..., quiet = FALSE,
 #'   })
 #' }
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   shinyApp(ui, server)
 #' }
 #'
 #'
 #'
 #' @export
-handler_dipsaus_progress <- function (
+handler_dipsaus_progress <- function(
   title = getOption("dipsaus.progressr.title", "Progress"),
   intrusiveness = getOption("progressr.intrusiveness.gui", 1),
   target = if (is.null(shiny::getDefaultReactiveDomain())) "terminal" else "gui",
@@ -254,19 +260,19 @@ handler_dipsaus_progress <- function (
     make_pb <- function(title, max, ...) {
       if (!is.null(pb) && !pb$is_closed())
         return(pb)
-      pb <<- progress2(title, max, ..., log = function(...){
-        msg <- paste(..., sep = '', collapse = ' ')
-        msg <- gsub(pattern = '[\n]+$', replacement = '', msg)
-        cw <- getOption('width', 80)
-        message('\r', paste(rep(' ', cw), collapse = ''), appendLF = FALSE)
-        message('\r', msg, appendLF = FALSE)
+      pb <<- progress2(title, max, ..., log = function(...) {
+        msg <- paste(..., sep = "", collapse = " ")
+        msg <- gsub(pattern = "[\n]+$", replacement = "", msg)
+        cw <- getOption("width", 80)
+        message("\r", paste(rep(" ", cw), collapse = ""), appendLF = FALSE)
+        message("\r", msg, appendLF = FALSE)
         flush.console()
       })
       pb
     }
     list(
       reset = function(...) {
-        if(!is.null(pb)){
+        if (!is.null(pb)) {
           pb$close()
         }
         pb <<- NULL
@@ -279,14 +285,14 @@ handler_dipsaus_progress <- function (
         if (!state$enabled || config$times <= 2L) return()
         # make sure pb exists
         make_pb(title = title, max = config$max_steps)
-        if( state$delta > 0 ){
-          if(length(state$message)) {
+        if ( state$delta > 0 ) {
+          if (length(state$message)) {
             # message|details
-            msg <- strsplit(state$message, '|', TRUE)[[1]]
-            if(length(msg) > 1){
+            msg <- strsplit(state$message, "|", TRUE)[[1]]
+            if (length(msg) > 1) {
               message <- msg[[1]]
-              detail <- paste(msg[-1], collapse = '|')
-            }else{
+              detail <- paste(msg[-1], collapse = "|")
+            } else {
               message <- NULL
               detail <- paste(state$message, collapse = "")
             }
@@ -299,17 +305,17 @@ handler_dipsaus_progress <- function (
         }
       },
       finish = function(config, state, progression, ...) {
-        if( is.null(pb) || pb$is_closed() ) return()
-        if( pb$get_value() < config$max_steps ){
+        if ( is.null(pb) || pb$is_closed() ) return()
+        if ( pb$get_value() < config$max_steps ) {
           state$step <- config$max_steps
           reporter$update(config = config, state = state,
                           progression = progression, ...)
         }
         if (config$clear ) {
-          # s <- sprintf('%s - Finished', title)
-          # ss <- paste(rep(' ', nchar(s)), collapse = '')
-          # cat(sprintf('%s\r%s\n', s, ss))
-          pb$close(sprintf('%s\r', cli::symbol$square_small_filled))
+          # s <- sprintf("%s - Finished", title)
+          # ss <- paste(rep(" ", nchar(s)), collapse = "")
+          # cat(sprintf("%s\r%s\n", s, ss))
+          pb$close(sprintf("%s\r", cli::symbol$square_small_filled))
 
         }
       }

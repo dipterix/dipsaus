@@ -42,28 +42,28 @@
 #'   })
 #' }
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   shinyApp(ui, server, options = list(launch.browser = TRUE))
 #' }
 #'
 #' @export
 shiny_alert2 <- function(
   title = "Alert",
-  text = '',
+  text = "",
   icon = c("info", "warning", "success", "error"),
   danger_mode = FALSE,
   auto_close = TRUE,
   buttons = NULL,
   on_close = NULL,
   session = shiny::getDefaultReactiveDomain()
-){
-  if( is.null(session) ){ return(invisible()) }
+) {
+  if ( is.null(session) ) { return(invisible()) }
   icon <- match.arg(icon)
 
   # randomly generate id
   inputId <- rand_string(7)
   inputId <- sprintf("swal_%s", inputId)
-  session$sendCustomMessage('dipsaus-swal-show', list(
+  session$sendCustomMessage("dipsaus-swal-show", list(
     inputId = inputId,
     title = title,
     text = text,
@@ -72,7 +72,7 @@ shiny_alert2 <- function(
     autoClose = auto_close,
     buttons = buttons
   ))
-  if(is.function(on_close)){
+  if (is.function(on_close)) {
     env <- ensure_shiny_proxy(session = session)
     env$alert_callbacks[[inputId]] <- on_close
   }
@@ -82,7 +82,7 @@ shiny_alert2 <- function(
 
 #' @rdname shiny_alert2
 #' @export
-close_alert2 <- function(session = shiny::getDefaultReactiveDomain()){
-  session$sendCustomMessage('dipsaus-swal-close', list(""))
+close_alert2 <- function(session = shiny::getDefaultReactiveDomain()) {
+  session$sendCustomMessage("dipsaus-swal-close", list(""))
   invisible()
 }

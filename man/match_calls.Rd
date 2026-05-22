@@ -37,10 +37,10 @@ library(dipsaus); library(shiny)
 
 # In shiny modules, we might want to add ns() to inputIds
 # In this example, textInput(id) will become textInput(ns(id))
-match_calls(lapply(1:20, function(i){
+match_calls(lapply(1:20, function(i) {
   textInput(paste('id_', i), paste('Label ', i))
 }), replace_args = list(
-  inputId = function(arg, call){ as.call(list(quote(ns), arg)) }
+  inputId = function(arg, call) { as.call(list(quote(ns), arg)) }
 ))
 
 }

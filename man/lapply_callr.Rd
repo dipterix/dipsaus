@@ -57,9 +57,9 @@ Apply function with \code{rs_exec}
 }
 \examples{
 
-if(interactive()){
+if(interactive()) {
 
-  lapply_callr(1:3, function(x, a){
+  lapply_callr(1:3, function(x, a) {
     c(Sys.getpid(), a, x)
   }, a = 1)
 

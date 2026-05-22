@@ -94,41 +94,41 @@ get_credential <- function(
   master_password, method = c("get_or_create", "replace", "query"),
   service = NULL, special_chr = "~`! @#$%^&*()_-+={[}]|:;'<,>.?/",
   tokenfile = NULL, verbose = FALSE
-){
+) {
 
   method <- match.arg(method)
 
   illegal_regexp <- "[^a-zA-Z0-9=_.,@:-]"
 
-  if(method %in% c("get_or_create", "replace")) {
+  if (method %in% c("get_or_create", "replace")) {
     # service must be valid
-    if(length(service) != 1 || is.na(service) || !is.character(service) ||
+    if (length(service) != 1 || is.na(service) || !is.character(service) ||
        trimws(service) == "" || grepl(illegal_regexp, service) ) {
       stop("In 'get_or_create' or 'replace' mode, `service` must be provided with a non-empty string. This string can only contain letters, digits, and/or the following characters: \"=_.,-\"")
     }
-    if(length(master_password) != 1 || is.na(master_password) ||
+    if (length(master_password) != 1 || is.na(master_password) ||
        nchar(master_password) < 8) {
       stop("`master_password` must be a character string of length >= 8")
     }
-    if(length(special_chr) != 1 || is.na(special_chr) || !is.character(special_chr)) {
+    if (length(special_chr) != 1 || is.na(special_chr) || !is.character(special_chr)) {
       stop("`special_chr` must be a character string")
     }
   }
 
   config_dir <- R_user_dir("dipsaus", "config")
   default_tokenfile <- file.path(config_dir, "credential_tokenfile")
-  if(is.null(tokenfile)) {
+  if (is.null(tokenfile)) {
     tokenfile <- getOption("dipsaus.file.credential", default_tokenfile)
     on.exit({
-      if(!file.exists(default_tokenfile)) {
+      if (!file.exists(default_tokenfile)) {
         remove_empty_dir(config_dir, recursive = TRUE)
       }
     })
   }
 
   ensure_tokenfile <- function() {
-    if(file.exists(tokenfile)) { return() }
-    if(!dir.exists(dirname(tokenfile))) {
+    if (file.exists(tokenfile)) { return() }
+    if (!dir.exists(dirname(tokenfile))) {
       dir.create(dirname(tokenfile), showWarnings = FALSE, recursive = TRUE)
     }
     file.create(tokenfile)
@@ -136,23 +136,23 @@ get_credential <- function(
 
   # no check, service token seed must contain no space, \t, or \n
   encode <- function(service, token, seed, special_chr0) {
-    if(missing(special_chr0)) {
+    if (missing(special_chr0)) {
       special_chr0 <- special_chr
     } else {
-      if(length(special_chr0) != 1 || is.na(special_chr0) || !is.character(special_chr0)) {
+      if (length(special_chr0) != 1 || is.na(special_chr0) || !is.character(special_chr0)) {
         stop("Internal error: Invalid `special_chr0`")
         special_chr0 <- special_chr
       }
     }
     special_enc <- base64_urlencode(special_chr0)
     service <- gsub(illegal_regexp, "", service)
-    if(length(service) != 1 || service == "") { stop("Invalid service") }
+    if (length(service) != 1 || service == "") { stop("Invalid service") }
     service <- base64_urlencode(service)
     token <- gsub(illegal_regexp, "", token)
-    if(length(token) != 1 || service == token) { stop("Invalid token") }
+    if (length(token) != 1 || service == token) { stop("Invalid token") }
     token <- base64_urlencode(token)
     seed <- as.integer(seed)
-    if(length(seed) != 5 || any(is.na(seed) | seed <= 0)) { stop("Invalid seed") }
+    if (length(seed) != 5 || any(is.na(seed) | seed <= 0)) { stop("Invalid seed") }
     seed <- base64_urlencode(paste(seed, collapse = " "))
     base64_urlencode(sprintf("%s\t%s\t%s\t%s", service, token, seed, special_enc))
   }
@@ -164,12 +164,12 @@ get_credential <- function(
     token <- base64_urldecode(s[[2]])
     seed <- as.integer(strsplit(base64_urldecode(s[[3]]), " ")[[1]])
     specials <- base64_urldecode(s[[4]])
-    if(length(service) != 1 || service == "" ||
+    if (length(service) != 1 || service == "" ||
        grepl(illegal_regexp, service)) { stop("Invalid service") }
-    if(length(token) != 1 || service == token ||
+    if (length(token) != 1 || service == token ||
        grepl(illegal_regexp, token)) { stop("Invalid token") }
-    if(length(seed) != 5 || any(is.na(seed) | seed <= 0)) { stop("Invalid seed") }
-    if(length(specials) != 1 || !is.character(specials)) {
+    if (length(seed) != 5 || any(is.na(seed) | seed <= 0)) { stop("Invalid seed") }
+    if (length(specials) != 1 || !is.character(specials)) {
       stop("invalid specials")
     }
 
@@ -182,22 +182,22 @@ get_credential <- function(
   }
 
   maps <- NULL
-  if(file.exists(tokenfile)) {
+  if (file.exists(tokenfile)) {
 
     maps <- lapply(readLines(tokenfile), function(s) {
       tryCatch({
         return(decode(s))
-      }, error = function(e){
+      }, error = function(e) {
         NULL
       })
     })
 
     maps <- drop_nulls(maps)
-    if(length(maps)) {
+    if (length(maps)) {
 
       map_names <- vapply(maps, "[[", FUN.VALUE = "", "service")
       dups <- duplicated(map_names)
-      if(any(dups)) {
+      if (any(dups)) {
         map_names <- map_names[!dups]
         maps <- maps[!dups]
       }
@@ -209,20 +209,20 @@ get_credential <- function(
   }
   maps <- as.list(maps)
 
-  if(verbose) {
+  if (verbose) {
     cat(names(maps), "", sep = "\n")
   }
 
-  if(method == "query") {
+  if (method == "query") {
     return(maps)
   }
 
-  if(service %in% names(maps)) {
-    if(method == "replace") {
+  if (service %in% names(maps)) {
+    if (method == "replace") {
       token <- list(
         service = service,
         token = rand_string(50),
-        seed = c(sample(2^31-1, 1), sample(20, 4, replace = TRUE)),
+        seed = c(sample(2^31 - 1, 1), sample(20, 4, replace = TRUE)),
         specials = special_chr
       )
       # re-generate map-file
@@ -244,7 +244,7 @@ get_credential <- function(
     token <- list(
       service = service,
       token = rand_string(50),
-      seed = c(sample(2^31-1, 1), sample(20, 4, replace = TRUE)),
+      seed = c(sample(2^31 - 1, 1), sample(20, 4, replace = TRUE)),
       specials = special_chr
     )
     enc <- encode(
@@ -265,7 +265,7 @@ get_credential <- function(
   pwd <- digest::digest(token_string, algo = "sha256", serialize = FALSE)
 
   # break pwd every 4 characters
-  pwd <- apply(matrix(strsplit(pwd, "")[[1]], nrow = 2), 2, function(x){
+  pwd <- apply(matrix(strsplit(pwd, "")[[1]], nrow = 2), 2, function(x) {
     strtoi(paste(x, collapse = ""), base = 16L)
   })
   pwd_order <- order(pwd)
@@ -281,7 +281,7 @@ get_credential <- function(
 
 
   dict_special <- strsplit(token$specials, "")[[1]]
-  dict_digit <- as.character(seq.int(0,9))
+  dict_digit <- as.character(seq.int(0, 9))
   dict_lower <- letters
   dict_upper <- letters
 
@@ -289,7 +289,7 @@ get_credential <- function(
     dict_special, dict_digit, dict_lower, dict_upper
   )
 
-  res <- apply(cbind(pwd, pwd_case), 1, function(x){
+  res <- apply(cbind(pwd, pwd_case), 1, function(x) {
     dict <- dict_list[[x[[2]]]]
     dict[(x[[1]] %% (length(dict) - 1)) + 1]
   })

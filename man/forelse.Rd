@@ -34,11 +34,11 @@ statement, otherwise run "else" block.
 # 1. ALT_FUN get executed because FUN returns NULL for all items in x
 forelse(
   1:10,
-  function(x){
+  function(x) {
     cat('The input is ', x, end = '\n')
-    if( x > 10) return(x) else return(NULL)
+    if ( x > 10) return(x) else return(NULL)
   },
-  function(){
+  function() {
     cat('ALT_FUN is executed!\n')
     'wow'
   }
@@ -47,32 +47,32 @@ forelse(
 # 2. FUN returns non-NULL object
 forelse(
   1:10,
-  function(x){
+  function(x) {
     cat('The input is ', x, end = '\n')
-    if( x \%\% 2 == 0 ) return(x) else return(NULL)
+    if ( x \%\% 2 == 0 ) return(x) else return(NULL)
   },
   'wow'
 )
 
 # --------------------------- Performance ------------------------------
-FUN <- function(x){
+FUN <- function(x) {
   Sys.sleep(0.01)
-  if( x \%\% 2 == 0 ) return(x) else return(NULL)
+  if ( x \%\% 2 == 0 ) return(x) else return(NULL)
 }
 
 microbenchmark::microbenchmark({
   forelse(1:10, FUN, 'wow')
 }, {
   y <- unlist(lapply(1:10, FUN))
-  if(length(y)){
+  if (length(y)) {
     y <- y[[1]]
-  }else{
+  } else {
     y <- 'wow'
   }
 }, {
   y <- NULL
-  for(x in 1:10){ y <- FUN(x) }
-  if(is.null(y)){ y <- 'wow' }
+  for (x in 1:10) { y <- FUN(x) }
+  if (is.null(y)) { y <- 'wow' }
 }, times = 3)
 
 

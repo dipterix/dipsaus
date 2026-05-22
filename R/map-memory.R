@@ -1,6 +1,6 @@
 
 SessionMap <- R6::R6Class(
-  classname = 'SessionMap',
+  classname = "SessionMap",
   inherit = AbstractMap,
   portable = TRUE,
   cloneable = TRUE,
@@ -8,26 +8,26 @@ SessionMap <- R6::R6Class(
 
     has_locker = FALSE,
 
-    `@remove` = function(keys){
+    `@remove` = function(keys) {
       private$map$remove(keys)
     },
-    reset = function(...){
+    reset = function(...) {
       private$map$reset()
     },
-    keys = function(include_signatures = FALSE){
+    keys = function(include_signatures = FALSE) {
       keys <- private$map$keys()
-      if( include_signatures ){
-        keys <- t(sapply(keys, function(k){
+      if ( include_signatures ) {
+        keys <- t(sapply(keys, function(k) {
           c(k, private$map$get(k)$signature)
         }))
       }
       keys
     },
-    size = function(){
+    size = function() {
       private$map$size()
     },
 
-    `@set` = function(key, value, signature){
+    `@set` = function(key, value, signature) {
       private$map$set(key = key, value = list(
         signature = signature,
         value = value
@@ -35,29 +35,29 @@ SessionMap <- R6::R6Class(
       return( signature )
     },
 
-    `@get` = function(key){
+    `@get` = function(key) {
       return( private$map$get(key)$value )
     },
-    as_list = function(sort = FALSE){
+    as_list = function(sort = FALSE) {
       keys <- self$keys(include_signatures = FALSE)
-      if(!length(keys)){
+      if (!length(keys)) {
         return(list())
       }
-      if( sort ){
+      if ( sort ) {
         keys <- sort(keys)
       }
 
       self$mget(keys)
     },
-    validate = function(...){
-      stopifnot2(private$valid, msg = 'Map is invalid/destroyed!')
+    validate = function(...) {
+      stopifnot2(private$valid, msg = "Map is invalid/destroyed!")
     },
 
-    initialize = function( map = fastmap::fastmap() ){
+    initialize = function(map = fastmap::fastmap()) {
       private$map <- map
     },
 
-    destroy = function(){
+    destroy = function() {
       private$valid <- FALSE
     }
   ),
@@ -65,19 +65,19 @@ SessionMap <- R6::R6Class(
 
     # read-only version of self$id. It's safer than private$.id as the latter
     # one does not always exist
-    id = function(){
-      if(length(private$.id) != 1){
+    id = function() {
+      if (length(private$.id) != 1) {
         private$.id <- rand_string()
       }
       private$.id
     },
 
     # set/get lock file. Don't call private$.lockfile directly
-    lockfile = function(v){
+    lockfile = function(v) {
       NULL
     },
 
-    is_valid = function(){
+    is_valid = function() {
       private$valid
     }
 

@@ -1,28 +1,28 @@
-wrap_callback <- function(.callback){
-  if(!is.function(.callback)){
+wrap_callback <- function(.callback) {
+  if (!is.function(.callback)) {
     return()
   }
   fmcb <- formals(.callback)
-  if(length(fmcb) >= 2 || "..." %in% names(fmcb)){
-    callback <- function(el, ii){
+  if (length(fmcb) >= 2 || "..." %in% names(fmcb)) {
+    callback <- function(el, ii) {
       .callback(el, ii)
     }
-  } else if (length(fmcb) == 1){
-    callback <- function(el, ii){
+  } else if (length(fmcb) == 1) {
+    callback <- function(el, ii) {
       .callback(el)
     }
   } else {
-    callback <- function(el, ii){
+    callback <- function(el, ii) {
       .callback()
     }
   }
-  function(el, ii){
+  function(el, ii) {
     re <- tryCatch({
       callback(el, ii)
-    }, error = function(e){
+    }, error = function(e) {
       ii
     })
-    if(!length(re)){
+    if (!length(re)) {
       return(ii)
     } else {
       return(re[[1]])
@@ -52,9 +52,9 @@ wrap_callback <- function(.callback){
 #' returns a function that collects results.
 #' @examples
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'
-#'   lapply_callr(1:3, function(x, a){
+#'   lapply_callr(1:3, function(x, a) {
 #'     c(Sys.getpid(), a, x)
 #'   }, a = 1)
 #'
@@ -73,19 +73,19 @@ lapply_callr <- function(
   .globals = list(), .ncores = parallelly::availableCores(),
   .packages = attached_packages(),
   .focus_on_console = TRUE, .rs = FALSE, .quiet = FALSE,
-  .name = "", .wait = TRUE){
+  .name = "", .wait = TRUE) {
 
   stopifnot(.ncores >= 1)
 
   nm <- names(formals(fun))[[1]]
   tempdir(check = TRUE)
-  f <- tempfile(fileext = '.rds')
+  f <- tempfile(fileext = ".rds")
   old.handlers <- progressr::handlers(handler_dipsaus_progress())
   on.exit({
     try({
       progressr::handlers(old.handlers)
     }, silent = TRUE)
-    if(.wait){
+    if (.wait) {
       unlink(f)
     }
   }, add = TRUE)
@@ -101,12 +101,12 @@ lapply_callr <- function(
 
   queue <- fastqueue2()
 
-  if( .quiet ){
+  if ( .quiet ) {
     callback <- NULL
   } else {
     callback <- wrap_callback(.callback)
   }
-  .packages <- unique('dipsaus', .packages)
+  .packages <- unique("dipsaus", .packages)
 
 
   p <- NULL
@@ -115,20 +115,20 @@ lapply_callr <- function(
   error_msg <- ""
 
   progressr::with_progress(expr = {
-    if(is.function(callback)){
+    if (is.function(callback)) {
       p <- progressr::progressor(along = x)
     }
 
 
-    lapply(seq_along(x), function(ii){
-      if(error){ return() }
-      while( .wait && queue$size() >= .ncores ){
+    lapply(seq_along(x), function(ii) {
+      if (error) { return() }
+      while ( .wait && queue$size() >= .ncores ) {
         item <- queue$remove()
-        if( (code <- item$check()) > 0 ){
+        if ( (code <- item$check()) > 0 ) {
           queue$add(item)
           Sys.sleep(0.2)
         } else {
-          if( code < 0 ){
+          if ( code < 0 ) {
             # stop(attr(code, "rs_exec_error"), call. = FALSE)
             error <<- TRUE
             error_msg <<- attr(code, "rs_exec_error")
@@ -136,7 +136,7 @@ lapply_callr <- function(
           }
           res[[item$index]] <- attr(code, "rs_exec_result")
 
-          if(is.function(callback)){
+          if (is.function(callback)) {
             p(message = callback(x[[item$index]], item$index))
           }
         }
@@ -144,12 +144,12 @@ lapply_callr <- function(
 
 
       h <- rs_exec(bquote({
-        if( dir.exists(.(getwd()))){
+        if ( dir.exists(.(getwd()))) {
           do.call("setwd", list(.(getwd())))
         }
 
         .env <- new.env(parent = globalenv())
-        if(!file.exists(.(f))){
+        if (!file.exists(.(f))) {
           stop("Job stopped")
         }
         .globals <- readRDS(.(f))
@@ -163,7 +163,7 @@ lapply_callr <- function(
             args = .globals$formal,
             body = .globals$body,
             env = .env,
-            quote_type = 'quote'
+            quote_type = "quote"
           ),
           .globals$args
         )
@@ -177,20 +177,20 @@ lapply_callr <- function(
       ))
     })
 
-    if( .rs && .focus_on_console ){
+    if ( .rs && .focus_on_console ) {
       rs_focus_console(wait = 0.5)
     }
-    if( error ){
+    if ( error ) {
       queue$reset()
     }
-    while( .wait && queue$size() > 0 ){
+    while ( .wait && queue$size() > 0 ) {
       item <- queue$remove()
 
-      if( (code <- item$check()) > 0 ){
+      if ( (code <- item$check()) > 0 ) {
         queue$add(item)
         Sys.sleep(0.2)
       } else {
-        if( code < 0 ){
+        if ( code < 0 ) {
           # stop(attr(code, "rs_exec_error"), call. = FALSE)
           error <- TRUE
           error_msg <- attr(code, "rs_exec_error")
@@ -198,29 +198,29 @@ lapply_callr <- function(
         }
         res[[item$index]] <- attr(code, "rs_exec_result")
 
-        if(is.function(callback)){
+        if (is.function(callback)) {
           p(message = callback(x[[item$index]], item$index))
         }
       }
     }
   }, enable = interactive() || shiny_is_running())
 
-  if( error ){
+  if ( error ) {
     stop(error_msg, call. = FALSE)
   }
 
-  if( .wait ){
+  if ( .wait ) {
     keys_idxs <- as.integer(names(res))
     structure(res[sort.int(keys_idxs)], names = names(x))
   } else {
-    return(function(){
-      while( queue$size() > 0 ){
+    return(function() {
+      while ( queue$size() > 0 ) {
         item <- queue$remove()
-        if( (code <- item$check()) > 0 ){
+        if ( (code <- item$check()) > 0 ) {
           queue$add(item)
           Sys.sleep(0.2)
         } else {
-          if( code < 0 ){
+          if ( code < 0 ) {
             # stop(attr(code, "rs_exec_error"), call. = FALSE)
             stop(attr(code, "rs_exec_error"))
           }

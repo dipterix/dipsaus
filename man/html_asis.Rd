@@ -29,9 +29,9 @@ ui <- flex_div(
   actionButtonStyled('ok2', 'Button2', width = '100\%',),
   ncols = 2
 )
-if(interactive()){
+if(interactive()) {
   shiny::shinyApp(ui = shiny::fluidPage(shiny::fluidRow(ui)),
-                  server = function(input, output, session){})
+                  server = function(input, output, session) {})
 }
 
 }

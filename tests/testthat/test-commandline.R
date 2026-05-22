@@ -6,7 +6,7 @@ test_that("System command", {
   get_ram()
 
   cmd <- rand_string()
-  if(Sys.which(cmd) == ""){
+  if (Sys.which(cmd) == "") {
     expect_true(is.na(safe_system2(cmd, character(0L))))
   }
 

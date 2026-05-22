@@ -1,4 +1,4 @@
-# add_js_script <- function(){
+# add_js_script <- function() {
 #   v <- utils::packageVersion('dipsaus')
 #   print(v)
 #   shiny::addResourcePath(
@@ -9,7 +9,7 @@
 
 # Internal operator for default values
 `%||%` <- function(x, y) {
-  if(is.null(x)) y else x
+  if (is.null(x)) y else x
 }
 
 #' @name sumsquared
@@ -32,7 +32,7 @@
 #' @export
 NULL
 
-register_shiny <- function(){
+register_shiny <- function() {
 
   # register CompoundInput2
   registerCompoundInput2()
@@ -46,15 +46,15 @@ register_shiny <- function(){
 
 .master_session_id <- local({
   master_id <- NULL
-  function(uuid){
-    if(!missing(uuid)){
+  function(uuid) {
+    if (!missing(uuid)) {
       master_id <<- uuid
     }
     master_id
   }
 })
 
-is_master <- function(){
+is_master <- function() {
   identical(.master_session_id(), session_uuid())
 }
 
@@ -62,7 +62,7 @@ dipsaus_init <- local({
   env <- NULL
 
   function() {
-    if(is.null(env)) {
+    if (is.null(env)) {
       env <<- new.env(parent = emptyenv())
       env$cache_path <- R_user_dir("dipsaus", which = "cache")
       env$remove_empty_dir <- remove_empty_dir
@@ -70,7 +70,7 @@ dipsaus_init <- local({
 
       reg.finalizer(env, function(e) {
         tryCatch({
-          if(file.exists(e$cache_path)) {
+          if (file.exists(e$cache_path)) {
             e$remove_empty_dir(e$cache_path, recursive = TRUE)
           }
         }, error = function(e) {})
@@ -84,7 +84,7 @@ dipsaus_init <- local({
 # Session-based storage for directory upload state
 .directory_upload_state <- new.env(parent = emptyenv())
 
-.onLoad <- function(libname, pkgname){
+.onLoad <- function(libname, pkgname) {
 
   ns <- asNamespace(pkgname)
   assign(".locker_keys", fastmap::fastmap(), envir = ns)
@@ -99,11 +99,11 @@ dipsaus_init <- local({
 }
 
 
-.onUnload <- function(libpath){
+.onUnload <- function(libpath) {
 
   dipsaus_sessionfinalizer$do_finalize()
-  if('dipsaus' %in% names(shiny::resourcePaths())){
-    shiny::removeResourcePath('dipsaus')
+  if ("dipsaus" %in% names(shiny::resourcePaths())) {
+    shiny::removeResourcePath("dipsaus")
   }
 }
 

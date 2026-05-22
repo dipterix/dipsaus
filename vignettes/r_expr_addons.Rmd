@@ -26,7 +26,7 @@ data(ToothGrowth)
 When coding in R, the data checking is actually a headache. For example, to check if a variable `aa` exists and not `NULL`, otherwise set a default value to be 1, the check looks like:
 
 ```{r, eval=FALSE}
-if( exists('aa') && !is.null(aa) ){
+if ( exists("aa") && !is.null(aa) ) {
   aa <- 1
 }
 ```
@@ -56,7 +56,10 @@ e <- list(aa = 1)
 
 # %?<-% will not evaluate rhs, nor assign values
 system.time({
-  e %?<-% { Sys.sleep(10); list(aa = 2) }
+  e %?<-% {
+    Sys.sleep(10)
+    list(aa = 2)
+  }
   print(e)
 })
 
@@ -67,7 +70,7 @@ system.time({
 In modern JavaScript, function can be created via `(arg) => { ... }`. For example,
 
 ```{js}
-const li = ['A', 'T', 'G', 'C'];
+const li = ["A", "T", "G", "C"];
 li.map((el, ii) => {
   return(`The index for ${el} is ${ii}`);
 });
@@ -76,9 +79,9 @@ li.map((el, ii) => {
 `dipsaus` provides functions `iapply`, and `%=>%`, for example:
 
 ```{r}
-li <- c('A', 'T', 'G', 'C')
+li <- c("A", "T", "G", "C")
 li |> iapply(alist(el, ii) %=>% {
-  sprintf('The index for %s is %s', el, ii)
+  sprintf("The index for %s is %s", el, ii)
 })
 
 ```
@@ -86,8 +89,8 @@ li |> iapply(alist(el, ii) %=>% {
 `%=>%` collect the left-hand side elements as arguments and right-hand side expression as body and create function:
 
 ```{r}
-alist(a, b=a^2, ...) %=>% {
-  print(c(a , b,...))
+alist(a, b = a^2, ...) %=>% {
+  print(c(a, b, ...))
 }
 ```
 
@@ -97,7 +100,7 @@ alist(a, b=a^2, ...) %=>% {
 The function `match.call` provided by base package let us format calls with formals matched.
 
 ```{r}
-match.call(textInput, call = quote(textInput('inputId', 'label', 'aaa')))
+match.call(textInput, call = quote(textInput("inputId", "label", "aaa")))
 ```
 
 This is already powerful as we can parse the expressions using `as.list()` to get the input parameters. However, when encounter the nested calls like `shiny` UI components, `match.call` does not work well. We can't see the matched results inside of the nested functions. 
@@ -106,7 +109,7 @@ This is already powerful as we can parse the expressions using `as.list()` to ge
 match.call(tagList, call = quote(tagList(
   div(
     tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
+      tags$li(textInput("inputId", "label", "aaa"))
     )
   )
 )))
@@ -118,7 +121,7 @@ match.call(tagList, call = quote(tagList(
 match_calls(call = tagList(
   div(
     tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
+      tags$li(textInput("inputId", "label", "aaa"))
     )
   )
 ), recursive = TRUE)
@@ -127,18 +130,17 @@ match_calls(call = tagList(
 It can also change modify the calls. For example, we want to add `ns` to input ID in shiny modules, then the following `replave_args` changes `"inputId"` to `ns("inputId")`
 
 ```{r}
-match_calls(call = tagList(
-  div(
-    tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
-    )
+match_calls(
+  call = tagList(div(tags$ul(
+    tags$li(textInput("inputId", "label", "aaa"))
+  ))),
+  recursive = TRUE,
+  replace_args = list(
+    "inputId" = function(v, ...) {
+      as.call(list(quote(ns), v))
+    }
   )
-), recursive = TRUE, replace_args = list(
-  'inputId' = function(v, ...){
-    as.call(list(quote(ns), v))
-  }
-))
-
+)
 ```
 
 ### 4. Pipe-friendly functions
@@ -164,7 +166,7 @@ With `no_op`, the pipe becomes:
 ```{r, eval=FALSE}
 final_results <- x |> 
   do_something(...) |> 
-  no_op(plot, ylim = c(0,100)) |> 
+  no_op(plot, ylim = c(0, 100)) |> 
   do_others(...)
 ```
 
@@ -172,12 +174,12 @@ Here's an example
 
 ```{r, fig.width=7,fig.height=5}
 
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 
-result <- (1:10) |> 
+result <- (1:10) |>
   iapply(alist(el, ii) %=>% {
     rnorm(20, el, ii)
-  }, simplify = FALSE) |> 
+  }, simplify = FALSE) |>
   unlist() |> 
   
   # Begin no-ops, result will not change
@@ -187,11 +189,11 @@ result <- (1:10) |>
   }) |> 
   no_op(
     # Use function and pass ... to function
-    plot, x = seq(0,1,length.out = 200), 
-    type = 'p', ylim = c(-20,20), pch = 16,
-    xlab = 'Time', ylab = 'Value', las = 1
+    plot, x = seq(0, 1, length.out = 200), 
+    type = "p", ylim = c(-20, 20), pch = 16,
+    xlab = "Time", ylab = "Value", las = 1
   ) |> 
-  no_op(hist, xlab = 'Values', main = 'Histogram') 
+  no_op(hist, xlab = "Values", main = "Histogram") 
 
 str(result)
 ```

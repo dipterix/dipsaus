@@ -25,7 +25,7 @@ base64_urlinternal_decoder <- function(x) {
 #'
 #' @export
 base64_urlencode <- function(x) {
-  if(!length(x)) { return(character(x)) }
+  if (!length(x)) { return(character(x)) }
   re <- vapply(enc2utf8(as.character(x)), base64_urlinternal_encoder,
                "", USE.NAMES = FALSE)
   re <- gsub("[=]{0,}$", "", re)

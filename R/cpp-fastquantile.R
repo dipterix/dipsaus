@@ -32,9 +32,9 @@
 #' )
 #'
 #' @export
-fastquantile <- function(x, q){
+fastquantile <- function(x, q) {
   stopifnot(q >= 0 && q <= 1)
-  if(!is.double(x)){
+  if (!is.double(x)) {
     return(quantile2(as.double(x), q))
   }
   quantile2(x, q)

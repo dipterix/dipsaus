@@ -49,8 +49,8 @@ NULL
 
 #' @rdname graphic-devices
 #' @export
-dev_create <- function(..., env = parent.frame(), attributes = list()){
-  quos <- rlang::quos(..., .ignore_empty = 'all', .named = TRUE)
+dev_create <- function(..., env = parent.frame(), attributes = list()) {
+  quos <- rlang::quos(..., .ignore_empty = "all", .named = TRUE)
   devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
   n_devs <- unlist(devs)
   n_devs <- sum(n_devs != "")
@@ -60,18 +60,18 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
   nms <- names(quos)
 
   # create devices
-  for(ii in seq_along(quos)){
+  for (ii in seq_along(quos)) {
     quo <- quos[[ii]]
     rlang::eval_tidy(quo, env = env)
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
     n <- sum(unlist(devs) != "")
-    if( n > n_devs ){
-      attr(devs[[n_devs + 1]], 'dipsaus_dev_name') <- paste0(private_id, nms[[ii]])
+    if ( n > n_devs ) {
+      attr(devs[[n_devs + 1]], "dipsaus_dev_name") <- paste0(private_id, nms[[ii]])
       opt <- attributes[[nms[[ii]]]]
-      if(is.null(opt)) {
+      if (is.null(opt)) {
         opt <- list()
       }
-      attr(devs[[n_devs + 1]], 'dipsaus_dev_attr') <- opt
+      attr(devs[[n_devs + 1]], "dipsaus_dev_attr") <- opt
     }
     # To CRAN Team who reaches this line
     #
@@ -122,19 +122,19 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
     #     Best
     #     -k
     #
-    assign('.Devices', devs, envir = baseenv())
+    assign(".Devices", devs, envir = baseenv())
     n_devs <- n
   }
 
-  dev_which <- function(dev_name){
-    stopifnot2(length(dev_name) == 1 && is.character(dev_name), msg = 'dev_name must be a string')
+  dev_which <- function(dev_name) {
+    stopifnot2(length(dev_name) == 1 && is.character(dev_name), msg = "dev_name must be a string")
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
-    for(ii in seq_along(devs)){
-      if(ii == 1) next()
+    for (ii in seq_along(devs)) {
+      if (ii == 1) next()
       dev <- devs[[ii]]
-      if( dev != '' ){
-        nm <- attr(dev, 'dipsaus_dev_name')
-        if(isTRUE(paste0(private_id, dev_name) == nm)){
+      if ( dev != "" ) {
+        nm <- attr(dev, "dipsaus_dev_name")
+        if (isTRUE(paste0(private_id, dev_name) == nm)) {
           return(ii)
         }
       }
@@ -142,48 +142,48 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
     return(NA)
   }
 
-  dev_switch <- function(dev_name){
+  dev_switch <- function(dev_name) {
     ii <- dev_which(dev_name)
-    if(!is.na(ii)){
+    if (!is.na(ii)) {
       grDevices::dev.set(ii)
       return(TRUE)
     }
     return(FALSE)
   }
 
-  dev_names <- function(){
+  dev_names <- function() {
     # only returns active device names
     devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
-    re <- lapply(devs, function(dev){
-      dev_name <- attr(dev, 'dipsaus_dev_name')
+    re <- lapply(devs, function(dev) {
+      dev_name <- attr(dev, "dipsaus_dev_name")
       id <- str_sub(dev_name, end = 6)
-      if(length(id) == 1 && isTRUE(id == private_id)){
+      if (length(id) == 1 && isTRUE(id == private_id)) {
         return(str_sub(dev_name, start = 7))
-      }else{
+      } else {
         NULL
       }
     })
     unlist(re)
   }
 
-  dev_off <- function(devnames){
-    if(missing(devnames)){
+  dev_off <- function(devnames) {
+    if (missing(devnames)) {
       devnames <- dev_names()
     }
-    for(nm in devnames){
+    for (nm in devnames) {
       ii <- dev_which(nm)
-      if(!is.na(ii)){
+      if (!is.na(ii)) {
         grDevices::dev.off(ii)
       }
     }
     invisible()
   }
 
-  dev_attributes <- function(dev_name){
+  dev_attributes <- function(dev_name) {
     ii <- dev_which(dev_name)
-    if(!is.na(ii)){
+    if (!is.na(ii)) {
       devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
-      return(attr(devs[[ii]], 'dipsaus_dev_attr'))
+      return(attr(devs[[ii]], "dipsaus_dev_attr"))
     }
     return(NULL)
   }
@@ -199,17 +199,17 @@ dev_create <- function(..., env = parent.frame(), attributes = list()){
 
 #' @rdname graphic-devices
 #' @export
-get_dev_attr <- function(which, dev = grDevices::dev.cur(), ifnotfound = NULL){
+get_dev_attr <- function(which, dev = grDevices::dev.cur(), ifnotfound = NULL) {
   devs <- get0(".Devices", envir = baseenv(), ifnotfound = list("null device"), inherits = FALSE)
-  if(length(devs) < dev){
+  if (length(devs) < dev) {
     return(ifnotfound)
   }
-  attrs <- attr(devs[[dev]], 'dipsaus_dev_attr')
+  attrs <- attr(devs[[dev]], "dipsaus_dev_attr")
 
-  if(missing(which)){
+  if (missing(which)) {
     # return the whole attributes
 
-    if(is.null(attrs)){
+    if (is.null(attrs)) {
       return(ifnotfound)
     } else {
       return(attrs)
@@ -218,7 +218,7 @@ get_dev_attr <- function(which, dev = grDevices::dev.cur(), ifnotfound = NULL){
   } else {
 
     # return the item within attr
-    if(which %in% names(attrs)){
+    if (which %in% names(attrs)) {
       return(attrs[[which]])
     } else {
       return(ifnotfound)

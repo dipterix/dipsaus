@@ -9,7 +9,7 @@ digest::digest
 #' @seealso \code{\link[utils]{removeSource}}
 #' @export
 digest2 <- function(object, ..., keep_source = FALSE) {
-  if(!keep_source) {
+  if (!keep_source) {
     object <- utils::removeSource(object)
   }
   digest::digest(object, ...)

@@ -24,7 +24,7 @@ Provides a way to avoid assignment to the left-hand side. If the statement
 }
 \examples{
 # Prepare, remove aaa if exists
-if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+if(exists('aaa', envir = globalenv(), inherits = FALSE)) {
   rm(aaa, envir = globalenv())
 }
 

@@ -25,7 +25,7 @@ A coarse way to find if a function comes from a package.
 is_from_namespace(baseenv())        # TRUE
 is_from_namespace(utils::read.csv)  # TRUE
 
-x <- function(){}
+x <- function() {}
 is_from_namespace(NULL)             # FALSE
 is_from_namespace(x)                # FALSE
 is_from_namespace(emptyenv())       # FALSE

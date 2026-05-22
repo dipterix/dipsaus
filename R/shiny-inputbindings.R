@@ -2,91 +2,91 @@
 
 get_shiny_input_bindings <- function() {
   bindings <- get(".shiny_input_bindings")
-  if(bindings$size() == 0) {
+  if (bindings$size() == 0) {
     bindings$mset(
-      'shiny.textInput' = list(
+      "shiny.textInput" = list(
         binding = "shiny.textInput",
         update_function = "shiny::updateTextInput"
       ),
-      'shiny.textAreaInput' = list(
+      "shiny.textAreaInput" = list(
         binding = "shiny.textareaInput",
         update_function = "shiny::updateTextAreaInput"
       ),
-      'shiny.passwordInput' = list(
+      "shiny.passwordInput" = list(
         binding = "shiny.passwordInput",
         update_function = "shiny::updateTextInput"
       ),
-      'shiny.numericInput' = list(
+      "shiny.numericInput" = list(
         binding = "shiny.numberInput",
         update_function = "shiny::updateNumericInput"
       ),
-      'shiny.checkboxInput' = list(
+      "shiny.checkboxInput" = list(
         binding = "shiny.checkboxInput",
         update_function = "shiny::updateCheckboxInput"
       ),
-      'shiny.sliderInput' = list(
+      "shiny.sliderInput" = list(
         binding = "shiny.sliderInput",
         update_function = "shiny::updateSliderInput"
       ),
-      'shiny.dateInput' = list(
+      "shiny.dateInput" = list(
         binding = "shiny.dateInput",
         update_function = "shiny::updateDateInput"
       ),
-      'shiny.dateRangeInput' = list(
+      "shiny.dateRangeInput" = list(
         binding = "shiny.dateRangeInput",
-        update_function = 'shiny::updateDateRangeInput'
+        update_function = "shiny::updateDateRangeInput"
       ),
-      'shiny.selectInput' = list(
+      "shiny.selectInput" = list(
         binding = "shiny.selectInput",
-        update_function = 'shiny::updateSelectInput'
+        update_function = "shiny::updateSelectInput"
       ),
-      'shiny.selectizeInput' = list(
+      "shiny.selectizeInput" = list(
         binding = "shiny.selectInput",
-        update_function = 'shiny::updateSelectizeInput'
+        update_function = "shiny::updateSelectizeInput"
       ),
-      'shiny.varSelectInput' = list(
+      "shiny.varSelectInput" = list(
         binding = "shiny.selectInput",
-        update_function = 'shiny::updateVarSelectInput'
+        update_function = "shiny::updateVarSelectInput"
       ),
-      'shiny.varSelectizeInput' = list(
+      "shiny.varSelectizeInput" = list(
         binding = "shiny.selectInput",
-        update_function = 'shiny::updateVarSelectizeInput'
+        update_function = "shiny::updateVarSelectizeInput"
       ),
-      'shiny.radioButtons' = list(
+      "shiny.radioButtons" = list(
         binding = "shiny.radioInput",
-        update_function = 'shiny::updateRadioButtons'
+        update_function = "shiny::updateRadioButtons"
       ),
-      'shiny.checkboxGroupInput' = list(
+      "shiny.checkboxGroupInput" = list(
         binding = "shiny.checkboxGroupInput",
-        update_function = 'shiny::updateCheckboxGroupInput'
+        update_function = "shiny::updateCheckboxGroupInput"
       ),
-      'shiny.actionButton' = list(
+      "shiny.actionButton" = list(
         binding = "shiny.actionButtonInput",
-        update_function = 'shiny::updateActionButton'
+        update_function = "shiny::updateActionButton"
       ),
-      'shiny.actionLink' = list(
+      "shiny.actionLink" = list(
         binding = "shiny.actionButtonInput",
-        update_function = 'shiny::updateActionButton'
+        update_function = "shiny::updateActionButton"
       ),
-      'shiny.fileInput' = list(
+      "shiny.fileInput" = list(
         binding = "shiny.fileInputBinding",
         update_function = NULL
       ),
-      'shiny.fileInput' = list(
+      "shiny.fileInput" = list(
         binding = "shiny.fileInputBinding",
         update_function = NULL
       ),
-      'shiny.textOutput' = list(
+      "shiny.textOutput" = list(
         binding = "shiny.textOutput",
         update_function = NULL
       ),
-      'dipsaus.compoundInput2' = list(
+      "dipsaus.compoundInput2" = list(
         binding = "dipsaus.compoundInput2",
-        update_function = 'dipsaus.updateCompoundInput2'
+        update_function = "dipsaus.updateCompoundInput2"
       ),
-      'dipsaus.actionButtonStyled' = list(
+      "dipsaus.actionButtonStyled" = list(
         binding = "shiny.actionButtonInput",
-        update_function = 'dipsaus.updateActionButtonStyled'
+        update_function = "dipsaus.updateActionButtonStyled"
       )
     )
   }
@@ -115,11 +115,11 @@ get_shiny_input_bindings <- function() {
 #'                      'shiny.actionButtonInput', 'shiny::updateActionButton')
 #'
 #' @export
-registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL, quiet = FALSE){
+registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NULL, quiet = FALSE) {
   ns <- asNamespace(pkg)
-  if( !is.function(ns[[fname]]) ){
-    if(!quiet){
-      stop(sprintf('%s::%s is not a function', pkg, fname))
+  if ( !is.function(ns[[fname]]) ) {
+    if (!quiet) {
+      stop(sprintf("%s::%s is not a function", pkg, fname))
     }
     return(invisible())
   }
@@ -127,9 +127,9 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
     binding = shiny_binding,
     update_function = update_function
   )
-  # shiny_input_bindings[[sprintf('%s.%s', pkg, fname)]] <- binding
+  # shiny_input_bindings[[sprintf("%s.%s", pkg, fname)]] <- binding
   bindings <- get_shiny_input_bindings()
-  bindings$set(key = sprintf('%s.%s', pkg, fname), value = binding)
+  bindings$set(key = sprintf("%s.%s", pkg, fname), value = binding)
   invisible(binding)
 }
 
@@ -167,53 +167,53 @@ registerInputBinding <- function(fname, pkg, shiny_binding, update_function = NU
 #' }
 #'
 #' @export
-getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
-  if( length(pkg) != 1 || !is.character(pkg) ){
+getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()) {
+  if ( length(pkg) != 1 || !is.character(pkg) ) {
     # need to get package from fname
 
-    if(is.character(fname)){
+    if (is.character(fname)) {
       fname <- str2lang(fname)
     }
 
     fname_quoted <- substitute(fname)
-    if( !is.language(fname) ){
+    if ( !is.language(fname) ) {
       fname <- fname_quoted
     }
 
     # now we have quoted fname
-    if(is.call(fname) && all(as.character(fname[[1]]) %in% c('::', ':::'))){
+    if (is.call(fname) && all(as.character(fname[[1]]) %in% c("::", ":::"))) {
       pkg <- deparse(fname[[2]])
       fname <- deparse(fname[[3]])
-    }else{
+    } else {
       f <- eval(fname, envir = envir)
       fenv <- environment(f)
-      if( isNamespace(fenv) ){
-        pkg <- fenv$.__NAMESPACE__.$spec[['name']]
+      if ( isNamespace(fenv) ) {
+        pkg <- fenv$.__NAMESPACE__.$spec[["name"]]
       }
       fname <- deparse(fname)
     }
-  }else{
+  } else {
     fname_quoted <- substitute(fname)
-    if(!is.character(fname)){
+    if (!is.character(fname)) {
       fname <- deparse(fname_quoted)
     }
   }
   # Check whether fname exists
-  if(is.null(pkg)){
-    cat2(sprintf('Cannot find function %s in any package loaded from envir. Please provide package name', fname), level = 'FATAL')
+  if (is.null(pkg)) {
+    cat2(sprintf("Cannot find function %s in any package loaded from envir. Please provide package name", fname), level = "FATAL")
   }
   ns <- asNamespace(pkg)
-  if(!is.function(ns[[fname]])){
-    cat2(sprintf('Cannot find function %s in namespace %s', fname, pkg), level = 'FATAL')
+  if (!is.function(ns[[fname]])) {
+    cat2(sprintf("Cannot find function %s in namespace %s", fname, pkg), level = "FATAL")
   }
-  binding_key <- sprintf('%s.%s', pkg, fname)
+  binding_key <- sprintf("%s.%s", pkg, fname)
   # binding_re <- shiny_input_bindings[[ binding_key ]]
   bindings <- get_shiny_input_bindings()
   binding_re <- bindings$get(key = binding_key, missing = NULL)
-  if(is.null(binding_re)){
-    cat2(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding("%s", "%s", shiny_binding = "<JavaScript_binding>", update_function = "<R update function or NULL>")\n  to register this input type.', binding_key, fname, pkg), level = 'FATAL')
+  if (is.null(binding_re)) {
+    cat2(sprintf('Cannot find input binding for %s. Please use\n\tdipsaus::registerInputBinding("%s", "%s", shiny_binding = "<JavaScript_binding>", update_function = "<R update function or NULL>")\n  to register this input type.', binding_key, fname, pkg), level = "FATAL")
   }
-  binding_re$call_function <- sprintf('%s::%s', pkg, fname)
+  binding_re$call_function <- sprintf("%s::%s", pkg, fname)
   binding_re
 }
 
@@ -223,8 +223,8 @@ getInputBinding <- function(fname, pkg = NULL, envir = parent.frame()){
 #' Detect whether 'Shiny' is running
 #' @return logical, true if current shiny context is active
 #' @export
-shiny_is_running <- function(){
-  if(requireNamespace('shiny', quietly = TRUE)){
+shiny_is_running <- function() {
+  if (requireNamespace("shiny", quietly = TRUE)) {
     return(isTRUE(!is.null(shiny::getDefaultReactiveDomain())))
   }
   return(FALSE)
@@ -242,20 +242,20 @@ shiny_is_running <- function(){
 #' session, otherwise returns \code{NULL}
 #' @export
 add_to_session <- function(
-  session, key = 'rave_id',
-  val = paste(sample(c(letters, LETTERS, 0:9), 20), collapse = ''),
+  session, key = "rave_id",
+  val = paste(sample(c(letters, LETTERS, 0:9), 20), collapse = ""),
   override = FALSE
-){
-  if(missing(session)){
-    if(requireNamespace('shiny', quietly = TRUE)){
+) {
+  if (missing(session)) {
+    if (requireNamespace("shiny", quietly = TRUE)) {
       session <- shiny::getDefaultReactiveDomain()
     } else {
-      stop('Please specify session')
+      stop("Please specify session")
     }
   }
 
-  if(!is.null(session)){
-    if(override || !exists(key, envir = session$userData)){
+  if (!is.null(session)) {
+    if (override || !exists(key, envir = session$userData)) {
       assign(key, val, envir = session$userData)
     }
     return(get(key, envir = session$userData))

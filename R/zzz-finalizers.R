@@ -3,33 +3,33 @@ memory_address <- function(x) {
 }
 
 DipsausSessionFinalizer <- R6::R6Class(
-  classname = 'DipsausSessionFinalizer',
+  classname = "DipsausSessionFinalizer",
   portable = FALSE,
-  parent_env = asNamespace('dipsaus'),
+  parent_env = asNamespace("dipsaus"),
   cloneable = FALSE,
   private = list(
     counts = NULL,
     finalizers = NULL,
     signatures = NULL,
-    finalize = function(){
-      .subset2(private$counts, 'reset')()
-      .subset2(private$signatures, 'reset')()
-      .subset2(private$finalizers, 'reset')()
+    finalize = function() {
+      .subset2(private$counts, "reset")()
+      .subset2(private$signatures, "reset")()
+      .subset2(private$finalizers, "reset")()
     }
   ),
   public = list(
-    initialize = function(){
+    initialize = function() {
       private$counts <- fastmap2()
       private$finalizers <- fastmap2()
       private$signatures <- fastmap2()
     },
-    do_finalize = function(){
+    do_finalize = function() {
       private$finalize()
     },
     register = function(key, object, finalizer, onexit = FALSE,
-                        replace_if_exists = c('ignore', 'flag', 'finalizer', 'both')){
+                        replace_if_exists = c("ignore", "flag", "finalizer", "both")) {
       stopifnot(is.function(finalizer))
-      stopifnot(is.environment(object) || inherits(object, c('externalptr')))
+      stopifnot(is.environment(object) || inherits(object, c("externalptr")))
       replace_if_exists <- match.arg(replace_if_exists)
 
       object_signature <- memory_address(object)
@@ -37,27 +37,27 @@ DipsausSessionFinalizer <- R6::R6Class(
       # be any reference to the object in this function
       rm(object)
 
-      if(!.subset2(private$counts, 'has')(key)){
+      if (!.subset2(private$counts, "has")(key)) {
         private$counts[[key]] <- 1L
         private$finalizers[[key]] <- list( finalizer = finalizer, onexit = onexit )
         private$signatures[[object_signature]] <- c(private$signatures[[object_signature]], key)
       } else {
         registered_keys <- private$signatures[[object_signature]]
         registered <- key %in% registered_keys
-        if(!registered){
+        if (!registered) {
           private$counts[[key]] <- private$counts[[key]] + 1L
           private$signatures[[object_signature]] <- c(private$signatures[[object_signature]], key)
         }
 
-        switch (
+        switch(
           replace_if_exists,
-          'flag' = {
+          "flag" = {
             private$finalizers[[key]]$onexit <- onexit
           },
-          'finalizer' = {
+          "finalizer" = {
             private$finalizers[[key]]$finalizer <- finalizer
           },
-          'both' = {
+          "both" = {
             private$finalizers[[key]]$onexit <- onexit
             private$finalizers[[key]]$finalizer <- finalizer
           }
@@ -68,41 +68,41 @@ DipsausSessionFinalizer <- R6::R6Class(
       return(self$.generate_finalizer(key, object_signature))
 
     },
-    .generate_finalizer = function(key, object_signature){
-      new_function2(alist(e=), {
+    .generate_finalizer = function(key, object_signature) {
+      new_function2(alist(e = ), {
         object_signature <- !!object_signature
         key <- !!key
         registered <- private$signatures[[object_signature]]
-        if(!key %in% registered){
+        if (!key %in% registered) {
           return()
         }
         registered <- registered[!registered %in% key]
-        if(length(registered)){
+        if (length(registered)) {
           private$signatures[[object_signature]] <- registered
         } else {
           # this object is no longer used
-          .subset2(private$signatures, 'remove')(object_signature)
+          .subset2(private$signatures, "remove")(object_signature)
         }
         # counting reference - 1
         new_count <- private$counts[[!!key]] - 1L
-        if(new_count > 0){
+        if (new_count > 0) {
           private$counts[[!!key]] <- new_count
           return()
         }
 
         # No reference, the key
-        .subset2(private$counts, 'remove')(!!key)
+        .subset2(private$counts, "remove")(!!key)
 
         # run finalizer
         tryCatch({
           private$finalizers[[!!key]]$finalizer(e)
-        }, error = function(e){
-          cat2('Error occurs during finalizing an object with key ', !!key, '\nReasons: ',
-               e$message, level = 'DEFAULT')
+        }, error = function(e) {
+          cat2("Error occurs during finalizing an object with key ", !!key, "\nReasons: ",
+               e$message, level = "DEFAULT")
         })
 
-        if(!isFALSE(private$finalizers[[!!key]]$onexit)){
-          .subset2(private$finalizers, 'remove')(!!key)
+        if (!isFALSE(private$finalizers[[!!key]]$onexit)) {
+          .subset2(private$finalizers, "remove")(!!key)
         }
       }, env = self)
     }
@@ -148,7 +148,7 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #'
 #' # ------------ Environment example ------------
 #' file_exists <- TRUE
-#' clear_files <- function(e){
+#' clear_files <- function(e) {
 #'   print('Clean some shared files')
 #'   # do something to remove files
 #'   file_exists <<- FALSE
@@ -156,9 +156,9 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #'
 #' # e1, e2 both require file existence
 #' e1 <- new.env()
-#' e1$valid <- function(){ file_exists }
+#' e1$valid <- function() { file_exists }
 #' e2 <- new.env()
-#' e2$valid <- function(){ file_exists }
+#' e2$valid <- function() { file_exists }
 #'
 #' e1$valid(); e2$valid()
 #'
@@ -185,16 +185,16 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #'   classname = '...demo...',
 #'   cloneable = TRUE,
 #'   private = list(
-#'     finalize = function(){
+#'     finalize = function() {
 #'       cat('Finalize private resource\n')
 #'     }
 #'   ),
 #'   public = list(
 #'     file_path = character(0),
-#'     shared_finalize = function(){
+#'     shared_finalize = function() {
 #'       cat('Finalize shared resource - ', self$file_path, '\n')
 #'     },
-#'     initialize = function(file_path){
+#'     initialize = function(file_path) {
 #'       self$file_path = file_path
 #'       shared_finalizer(self, key = self$file_path)
 #'     }
@@ -219,7 +219,7 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #' # ------------ fastmap/fastmap2 example -----------
 #'
 #' # No formals needed for fastmap/fastmap2
-#' fin <- function(){
+#' fin <- function() {
 #'   cat('Finalizer is called\n')
 #' }
 #' # single reference case
@@ -242,7 +242,7 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #' # This example shows a failure case using base::reg.finalizer
 #'
 #' file_exists <- TRUE
-#' clear_files <- function(e){
+#' clear_files <- function(e) {
 #'   print('Clean some shared files')
 #'   # do something to remove files
 #'   file_exists <<- FALSE
@@ -250,9 +250,9 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #'
 #' # e1, e2 both require file existence
 #' e1 <- new.env()
-#' e1$valid <- function(){ file_exists }
+#' e1$valid <- function() { file_exists }
 #' e2 <- new.env()
-#' e2$valid <- function(){ file_exists }
+#' e2$valid <- function() { file_exists }
 #'
 #' reg.finalizer(e1, clear_files)
 #' reg.finalizer(e2, clear_files)
@@ -267,20 +267,20 @@ dipsaus_sessionfinalizer <- DipsausSessionFinalizer$new()
 #' rm(e2); gc()
 #'
 #' @export
-shared_finalizer <- function(x, key, fin, onexit = FALSE, ...){
-  UseMethod('shared_finalizer')
+shared_finalizer <- function(x, key, fin, onexit = FALSE, ...) {
+  UseMethod("shared_finalizer")
 }
 
 #' @rdname shared_finalizer
 #' @export
-shared_finalizer.default <- function(x, key, fin, onexit = FALSE, ...){
+shared_finalizer.default <- function(x, key, fin, onexit = FALSE, ...) {
   re <- dipsaus_sessionfinalizer$register(
     key = key, object = x, finalizer = fin, onexit = onexit,
-    replace_if_exists = 'both')
-  assign('@@finalize@@', re, envir = x)
+    replace_if_exists = "both")
+  assign("@@finalize@@", re, envir = x)
 
   finalizer_wrapper <- function(e) {
-    .subset2(e, '@@finalize@@')(e)
+    .subset2(e, "@@finalize@@")(e)
     rm(e)
   }
   environment(finalizer_wrapper) <- baseenv()
@@ -292,10 +292,10 @@ shared_finalizer.default <- function(x, key, fin, onexit = FALSE, ...){
 
 #' @rdname shared_finalizer
 #' @export
-shared_finalizer.R6 <- function(x, key, fin, onexit = TRUE, ...){
-  if(is.function(.subset2(x, 'shared_finalize'))){
+shared_finalizer.R6 <- function(x, key, fin, onexit = TRUE, ...) {
+  if (is.function(.subset2(x, "shared_finalize"))) {
     r6_finalize <- function(e) {
-      .subset2(e, 'shared_finalize')()
+      .subset2(e, "shared_finalize")()
     }
     environment(r6_finalize) <- baseenv()
   } else {
@@ -304,7 +304,7 @@ shared_finalizer.R6 <- function(x, key, fin, onexit = TRUE, ...){
 
   re <- dipsaus_sessionfinalizer$register(
     key = key, object = x, finalizer = r6_finalize, onexit = onexit,
-    replace_if_exists = 'both')
+    replace_if_exists = "both")
 
   reg.finalizer(x, re, onexit = onexit)
 
@@ -314,16 +314,16 @@ shared_finalizer.R6 <- function(x, key, fin, onexit = TRUE, ...){
 
 #' @rdname shared_finalizer
 #' @export
-shared_finalizer.fastmap <- function(x, key, fin, onexit = FALSE, ...){
-  cenv <- environment(.subset2(x, 'reset'))
+shared_finalizer.fastmap <- function(x, key, fin, onexit = FALSE, ...) {
+  cenv <- environment(.subset2(x, "reset"))
   # create an wrapper
-  if(!length(formals(fin))){
-    formals(fin) <- alist(...=)
+  if (!length(formals(fin))) {
+    formals(fin) <- alist(... = )
   }
 
   re <- dipsaus_sessionfinalizer$register(
     key = key, object = cenv$key_idx_map, finalizer = fin, onexit = onexit,
-    replace_if_exists = 'both')
+    replace_if_exists = "both")
 
   reg.finalizer(cenv$key_idx_map, re, onexit = onexit)
 
@@ -333,7 +333,7 @@ shared_finalizer.fastmap <- function(x, key, fin, onexit = FALSE, ...){
 
 #' @rdname shared_finalizer
 #' @export
-shared_finalizer.fastmap2 <- function(x, key, fin, onexit = FALSE, ...){
+shared_finalizer.fastmap2 <- function(x, key, fin, onexit = FALSE, ...) {
   shared_finalizer.fastmap(x, key, fin, onexit, ...)
   rm(key, x, onexit, fin)
   invisible()

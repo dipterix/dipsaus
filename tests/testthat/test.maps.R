@@ -1,8 +1,8 @@
 
 # context("map")
 #
-# test_map <- function(generator, ...){
-#   make_map <- function(...){
+# test_map <- function(generator, ...) {
+#   make_map <- function(...) {
 #     generator$new(...)
 #   }
 #   self <- make_map(...)
@@ -80,7 +80,7 @@
 #   has_redis <- tryCatch({
 #     new( RcppRedis::Redis )
 #     TRUE
-#   }, error = function(e){
+#   }, error = function(e) {
 #     FALSE
 #   })
 #   skip_if(!has_redis, message = 'No Redis detected, skip :)')

@@ -54,53 +54,53 @@ updateActionButtonStyled(session, inputId, label = NULL, icon = NULL,
 
 Show-case:
 
-```{r, results='asis', echo=FALSE}
+```{r, results="asis", echo=FALSE}
 
-btypes <- c('default', 'primary', 'info', 'success', 'warning', 'danger')
+btypes <- c("default", "primary", "info", "success", "warning", "danger")
 btypes <- rbind(btypes, stringr::str_to_title(btypes))
 
 tags$table(
   class = "table table-bordered text-center",
   tags$tbody(
     tags$tr(tagList(
-      apply(btypes, 2, function(x){
+      apply(btypes, 2, function(x) {
         tags$th(x[2], br(), tags$small(paste0('type="', x[1], '"')))
       }),
-      tags$th('')
+      tags$th("")
     )),
     tags$tr(
-      apply(btypes, 2, function(x){
-        tags$td(actionButtonStyled('btn', x[2], type = x[1], btn_type = 'a', width = '100%'))
+      apply(btypes, 2, function(x) {
+        tags$td(actionButtonStyled("btn", x[2], type = x[1], btn_type = "a", width = "100%"))
       }),
-      tags$td('[default]')
+      tags$td("[default]")
     ),
     tags$tr(
-      apply(btypes, 2, function(x){
-        tags$td(actionButtonStyled('btn', x[2], type = x[1], btn_type = 'a', 
-                                   width = '100%', class = 'btn-lg'))
+      apply(btypes, 2, function(x) {
+        tags$td(actionButtonStyled("btn", x[2], type = x[1], btn_type = "a", 
+                                   width = "100%", class = "btn-lg"))
       }),
       tags$td('class="btn-lg"')
     ),
     tags$tr(
-      apply(btypes, 2, function(x){
-        tags$td(actionButtonStyled('btn', x[2], type = x[1], btn_type = 'a', 
-                                   width = '100%', class = 'btn-sm'))
+      apply(btypes, 2, function(x) {
+        tags$td(actionButtonStyled("btn", x[2], type = x[1], btn_type = "a", 
+                                   width = "100%", class = "btn-sm"))
       }),
       tags$td('class="btn-sm"')
     ),
     tags$tr(
-      apply(btypes, 2, function(x){
-        tags$td(actionButtonStyled('btn', x[2], type = x[1], btn_type = 'a', 
-                                   width = '100%', class = 'btn-xs'))
+      apply(btypes, 2, function(x) {
+        tags$td(actionButtonStyled("btn", x[2], type = x[1], btn_type = "a", 
+                                   width = "100%", class = "btn-xs"))
       }),
       tags$td('class="btn-xs"')
     ),
     tags$tr(
-      apply(btypes, 2, function(x){
-        tags$td(actionButtonStyled('btn', x[2], type = x[1], btn_type = 'a', 
-                                   width = '100%', disabled=TRUE))
+      apply(btypes, 2, function(x) {
+        tags$td(actionButtonStyled("btn", x[2], type = x[1], btn_type = "a", 
+                                   width = "100%", disabled = TRUE))
       }),
-      tags$td('disabled=TRUE')
+      tags$td("disabled=TRUE")
     )
   )
 )
@@ -115,11 +115,15 @@ inputs. For examples
 
 ```{r, eval=FALSE}
 compoundInput2(
-  'compound', 'Group Label', label_color = 1:10,
+  "compound", "Group Label", label_color = 1:10,
   components = div(
-    textInput('txt', 'Text'),
-    selectInput('sel', 'Select', choices = 1:10, multiple = TRUE),
-    sliderInput('sli', 'Slider', max=1, min=0, val=0.5)
+    textInput("txt", "Text"),
+    selectInput("sel", "Select", choices = 1:10, multiple = TRUE),
+    sliderInput("sli",
+                "Slider",
+                max = 1,
+                min = 0,
+                val = 0.5)
   ), max_ncomp = 10, min_ncomp = 0, initial_ncomp = 1
 )
 ```
@@ -153,23 +157,31 @@ The further details can be found with `demo('example-compountInput2', package='d
 ```{r, eval = FALSE}
 # Bad example
 observeEvent(input$A, {
-  updateSliderInput(session, 'B', value = input$A)
+  updateSliderInput(session, "B", value = input$A)
 })
 observeEvent(input$B, {
-  updateTextInput(session, 'A', value = input$B)
+  updateTextInput(session, "A", value = input$B)
 })
 ```
 
 In this case, you can use `sync_shiny_inputs`:
 
 ```{r, eval = FALSE}
-sync_shiny_inputs(input, session, inputIds = c('A', 'B'), uniform = list(
-  function(a){as.numeric(a)},
-  function(b){ b }
-), updates = list(
-  function(a){updateTextInput(session, 'A', value = a)},
-  function(b){updateSliderInput(session, 'B', value = b)}
-))
+sync_shiny_inputs(
+  input,
+  session,
+  inputIds = c("A", "B"),
+  uniform = list(function(a) {
+    as.numeric(a)
+  }, function(b) {
+    b
+  }),
+  updates = list(function(a) {
+    updateTextInput(session, "A", value = a)
+  }, function(b) {
+    updateSliderInput(session, "B", value = b)
+  })
+)
 ```
 
 `inputIds` refers to the input ID to be synchronized. When one or more of the inputs are changed, the value will be passed to the corresponding `uniform` functions and stored, then `updates` will notify each inputs to update the UI values. The input of `updates` is the stored value.

@@ -45,7 +45,7 @@ server <- function(input, output, session) {
   observeEvent(input$dir_input, {
     files <- input$dir_input
 
-    if(!is.null(files) && attr(files, "upload_status") == "completed") {
+    if (!is.null(files) && attr(files, "upload_status") == "completed") {
       # Get the upload directory
       upload_dir <- get_dipsaus_upload_dir("dir_input")
       cat("Files are stored in:", upload_dir, "\n")

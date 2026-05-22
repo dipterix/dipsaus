@@ -77,13 +77,13 @@ such as read in from a file, process, generate summarizing reports).
 
 # Basic usage
 a <- 1
-async_works(1:10, function(ii){
+async_works(1:10, function(ii) {
   ii + a # sub-process don't know a, hence must pass a as globals
 }, .globals = list(a = a))
 
 # non-blocking case
 system.time({
-  check <- async_works(1:10, function(ii){
+  check <- async_works(1:10, function(ii) {
     # simulating process, run run run
     Sys.sleep(ii)
     Sys.getpid()

@@ -1,16 +1,16 @@
-safe_urlencode <- function(x){
+safe_urlencode <- function(x) {
   re <- base64_urlencode(as.character(x))
-  paste0('==', re)
+  paste0("==", re)
 }
-safe_urldecode <- function(x){
-  x <- str_replace(as.character(x), pattern = '^==', '')
+safe_urldecode <- function(x) {
+  x <- str_replace(as.character(x), pattern = "^==", "")
   base64_urldecode(x)
 }
 
 
-stopifnot2 <- function(..., msg = 'Condition not satisfied'){
-  if(!all(c(...))){
-    cat2(msg, level = 'FATAL')
+stopifnot2 <- function(..., msg = "Condition not satisfied") {
+  if (!all(c(...))) {
+    cat2(msg, level = "FATAL")
   }
 }
 
@@ -30,27 +30,27 @@ stopifnot2 <- function(..., msg = 'Condition not satisfied'){
 #' time_delta(a, b, 'mins') # in minutes, around 0.005
 #'
 #' @export
-time_delta <- function(t1, t2, units = 'secs'){
-  as.numeric(t2 - t1, units=units)
+time_delta <- function(t1, t2, units = "secs") {
+  as.numeric(t2 - t1, units = units)
 }
 
-is_invalid <- function(x, any = FALSE, .invalids = list('is.null', 'is.na'), ...){
+is_invalid <- function(x, any = FALSE, .invalids = list("is.null", "is.na"), ...) {
   .invalids <- c(.invalids, list(...))
-  if('is.null' %in% .invalids){
-    if(is.null(x) || !length(x)){
+  if ("is.null" %in% .invalids) {
+    if (is.null(x) || !length(x)) {
       return(TRUE)
     }
   }
-  for( func in .invalids ){
+  for ( func in .invalids ) {
     res <- do.call(func, args = list(x))
-    if(length(res) > 1){
-      if(any){
+    if (length(res) > 1) {
+      if (any) {
         res <- any(res)
-      }else{
+      } else {
         res <- all(res)
       }
     }
-    if(res){
+    if (res) {
       return(TRUE)
     }
   }
@@ -71,7 +71,7 @@ is_invalid <- function(x, any = FALSE, .invalids = list('is.null', 'is.na'), ...
 #' drop_nulls(x)  # length of 2
 #'
 #' @export
-drop_nulls <- function (x, .invalids = list('is.null')) {
+drop_nulls <- function(x, .invalids = list("is.null")) {
   x[!vapply(x, is_invalid, FUN.VALUE = logical(1), .invalids = .invalids)]
 }
 
@@ -92,24 +92,24 @@ drop_nulls <- function (x, .invalids = list('is.null')) {
 #' print(as.list(env))
 #'
 #' @export
-clear_env <- function(env, ...){
-  if(is.environment(env)){
-    if(environmentIsLocked(env)){
-      warning('Environment is locked, cannot clear environment')
+clear_env <- function(env, ...) {
+  if (is.environment(env)) {
+    if (environmentIsLocked(env)) {
+      warning("Environment is locked, cannot clear environment")
       return(invisible(env))
     }
     nms <- names(env)
-    nms <- nms[!str_detect(nms, '^\\.__rave')]
-    if(isNamespace(env)){
+    nms <- nms[!str_detect(nms, "^\\.__rave")]
+    if (isNamespace(env)) {
       nms <- nms[!nms %in% c(".__NAMESPACE__.", ".__S3MethodsTable__.")]
     }
     rm(list = nms, envir = env)
-  } else if(inherits(env, 'fastmap2')){
-    .subset2(env, 'remove')(names(env))
-  } else if(inherits(env, 'fastmap')){
-    .subset2(env, 'remove')(names(env))
+  } else if (inherits(env, "fastmap2")) {
+    .subset2(env, "remove")(names(env))
+  } else if (inherits(env, "fastmap")) {
+    .subset2(env, "remove")(names(env))
   } else {
-    stop('env can only be environment or fastmap2 instances')
+    stop("env can only be environment or fastmap2 instances")
   }
   return(invisible(env))
 }
@@ -118,7 +118,7 @@ clear_env <- function(env, ...){
 #' @param ... ignored
 #' @return Nothing
 #' @export
-do_nothing <- function(...){
+do_nothing <- function(...) {
 
 }
 
@@ -127,30 +127,30 @@ do_nothing <- function(...){
 
 
 SEXP_TYPES <- list(
-  '0' =  c('NILSXP',     '0 NILSXP      NULL'),
-  '1' =  c('SYMSXP',     '1 SYMSXP      symbols'),
-  '2' =  c('LISTSXP',    '2 LISTSXP     pairlists'),
-  '3' =  c('CLOSXP',     '3 CLOSXP      closures'),
-  '4' =  c('ENVSXP',     '4 ENVSXP      environments'),
-  '5' =  c('PROMSXP',    '5 PROMSXP     promises'),
-  '6' =  c('LANGSXP',    '6 LANGSXP     language objects'),
-  '7' =  c('SPECIALSXP', '7 SPECIALSXP  special functions'),
-  '8' =  c('BUILTINSXP', '8 BUILTINSXP  builtin functions'),
-  '9' =  c('CHARSXP',    '9 CHARSXP     internal character strings'),
-  '10' = c('LGLSXP',     '10 LGLSXP     logical vectors'),
-  '13' = c('INTSXP',     '13 INTSXP     integer vectors'),
-  '14' = c('REALSXP',    '14 REALSXP    numeric vectors'),
-  '15' = c('CPLXSXP',    '15 CPLXSXP    complex vectors'),
-  '16' = c('STRSXP',     '16 STRSXP     character vectors'),
-  '17' = c('DOTSXP',     '17 DOTSXP     dot-dot-dot object'),
-  '18' = c('ANYSXP',     '18 ANYSXP     make "any" args work'),
-  '19' = c('VECSXP',     '19 VECSXP     list (generic vector)'),
-  '20' = c('EXPRSXP',    '20 EXPRSXP    expression vector'),
-  '21' = c('BCODESXP',   '21 BCODESXP   byte code'),
-  '22' = c('EXTPTRSXP',  '22 EXTPTRSXP  external pointer'),
-  '23' = c('WEAKREFSXP', '23 WEAKREFSXP weak reference'),
-  '24' = c('RAWSXP',     '24 RAWSXP     raw vector'),
-  '25' = c('S4SXP',      '25 S4SXP      S4 classes not of simple type')
+  "0" =  c("NILSXP",     "0 NILSXP      NULL"),
+  "1" =  c("SYMSXP",     "1 SYMSXP      symbols"),
+  "2" =  c("LISTSXP",    "2 LISTSXP     pairlists"),
+  "3" =  c("CLOSXP",     "3 CLOSXP      closures"),
+  "4" =  c("ENVSXP",     "4 ENVSXP      environments"),
+  "5" =  c("PROMSXP",    "5 PROMSXP     promises"),
+  "6" =  c("LANGSXP",    "6 LANGSXP     language objects"),
+  "7" =  c("SPECIALSXP", "7 SPECIALSXP  special functions"),
+  "8" =  c("BUILTINSXP", "8 BUILTINSXP  builtin functions"),
+  "9" =  c("CHARSXP",    "9 CHARSXP     internal character strings"),
+  "10" = c("LGLSXP",     "10 LGLSXP     logical vectors"),
+  "13" = c("INTSXP",     "13 INTSXP     integer vectors"),
+  "14" = c("REALSXP",    "14 REALSXP    numeric vectors"),
+  "15" = c("CPLXSXP",    "15 CPLXSXP    complex vectors"),
+  "16" = c("STRSXP",     "16 STRSXP     character vectors"),
+  "17" = c("DOTSXP",     "17 DOTSXP     dot-dot-dot object"),
+  "18" = c("ANYSXP",     "18 ANYSXP     make \"any\" args work"),
+  "19" = c("VECSXP",     "19 VECSXP     list (generic vector)"),
+  "20" = c("EXPRSXP",    "20 EXPRSXP    expression vector"),
+  "21" = c("BCODESXP",   "21 BCODESXP   byte code"),
+  "22" = c("EXTPTRSXP",  "22 EXTPTRSXP  external pointer"),
+  "23" = c("WEAKREFSXP", "23 WEAKREFSXP weak reference"),
+  "24" = c("RAWSXP",     "24 RAWSXP     raw vector"),
+  "25" = c("S4SXP",      "25 S4SXP      S4 classes not of simple type")
 )
 
 #' @title Get Internal Storage Type
@@ -186,7 +186,7 @@ SEXP_TYPES <- list(
 #'
 #'
 #' @export
-sexp_type2 <- function(x){
+sexp_type2 <- function(x) {
   re <- get_sexp_type(x)
   class(re) <- "sexp_type2"
   re
@@ -194,10 +194,10 @@ sexp_type2 <- function(x){
 
 #' @rdname sexp_type2
 #' @export
-as.character.sexp_type2 <- function(x, ...){
+as.character.sexp_type2 <- function(x, ...) {
   x <- unclass(x)
   x <- SEXP_TYPES[[as.character(x)]]
-  if(is.null(x)){
+  if (is.null(x)) {
     return("Unknown")
   }
   x[[1]]
@@ -205,13 +205,13 @@ as.character.sexp_type2 <- function(x, ...){
 
 #' @rdname sexp_type2
 #' @export
-print.sexp_type2 <- function(x, ...){
+print.sexp_type2 <- function(x, ...) {
   y <- unclass(x)
   y <- SEXP_TYPES[[as.character(y)]]
-  if(is.null(y)){
+  if (is.null(y)) {
     return(sprintf("%d Unknown type", x))
   }
-  cat(y[[2]], '\n')
+  cat(y[[2]], "\n")
   invisible(x)
 }
 

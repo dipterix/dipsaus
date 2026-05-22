@@ -91,7 +91,7 @@ NULL
 #' @rdname compoundInput2
 #' @export
 compoundInput2 <- function(
-  inputId, label = 'Group', components = shiny::tagList(),
+  inputId, label = "Group", components = shiny::tagList(),
   initial_ncomp = 1, min_ncomp = 0, max_ncomp = 10,
   value = NULL, label_color = NA, max_height = NULL, ...
 ) {
@@ -99,7 +99,7 @@ compoundInput2 <- function(
 
   if ( length(label_color) == 0 ) { label_color <- NA }
   if ( !length(label_color) %in% c(1, max_ncomp)) {
-    cat2('label_color must be length of 1 or equal to max_ncomp', level = 'FATAL')
+    cat2("label_color must be length of 1 or equal to max_ncomp", level = "FATAL")
   }
   if ( any(is.na(label_color)) ) {
     label_color[is.na(label_color)] <- par("fg")
@@ -114,7 +114,8 @@ compoundInput2 <- function(
   components <- substitute(components)
 
   parent_env <- parent.frame()
-  ...this_env <- new.env(); ...this_env$bind_infos <- list()
+  ...this_env <- new.env()
+  ...this_env$bind_infos <- list()
   min_ncomp <- max(min_ncomp, 0)
   max_ncomp <- max(min_ncomp, max_ncomp)
   initial_ncomp <- max(initial_ncomp, min_ncomp)
@@ -128,7 +129,7 @@ compoundInput2 <- function(
       ...this_env$bind_infos[[ id ]] <- bind_info
 
 
-      inner_id <- paste0(inputId, '_', id, '_', ind)
+      inner_id <- paste0(inputId, "_", id, "_", ind)
 
       inner_id
     }
@@ -140,17 +141,17 @@ compoundInput2 <- function(
 
     as.call(list(
       quote(shiny::div),
-      class = 'dipsaus-compound-input-item col-xs-12',
-      `data-value` = sprintf('%s', ind),
+      class = "dipsaus-compound-input-item col-xs-12",
+      `data-value` = sprintf("%s", ind),
       as.call(list(
         quote(shiny::tags$fieldset),
         as.call(list(
           quote(shiny::tags$legend),
           style = sprintf(
-            'border:none; margin: 0; padding: 0 10px; font-size: 14px; color: ${{label_color}}'),
-          sprintf('%s - %s', label, ind)
+            "border:none; margin: 0; padding: 0 10px; font-size: 14px; color: ${{label_color}}"),
+          sprintf("%s - %s", label, ind)
         )),
-        style = 'border: 1px solid #efefef; padding:.35em .625em .75em; margin-bottom: 15px;',
+        style = "border: 1px solid #efefef; padding:.35em .625em .75em; margin-bottom: 15px;",
         comp
       ))
     ))
@@ -158,31 +159,31 @@ compoundInput2 <- function(
 
   if (!is.list(value)) {
     value <- list()
-  }else{
+  } else {
     names(value) <- NULL
   }
 
   value <- shiny::restoreInput(id = inputId, default = value)
 
   if (length(max_height)) {
-    ...style <- sprintf('max-height:%s;overflow-x:hidden;overflow-y:auto', max_height)
-  } else{
+    ...style <- sprintf("max-height:%s;overflow-x:hidden;overflow-y:auto", max_height)
+  } else {
     ...style <- NULL
   }
   comp_ui <- quote(shiny::div(
     id = inputId,
-    class = 'dipsaus-compound-input',
+    class = "dipsaus-compound-input",
     style = ...style,
     # shiny::singleton(shiny::tags$head(
     #   shiny::tags$link(rel="stylesheet", type="text/css", href="dipsaus/dipsaus.css"),
     #   shiny::tags$script(src="dipsaus/dipsaus-dipterix-lib.js")
     # )),
     shiny::div(
-      class = 'dipsaus-compound-input-header force-hidden', style = 'display:none!important;',
+      class = "dipsaus-compound-input-header force-hidden", style = "display:none!important;",
       # Input information
 
       jsonlite::toJSON(list(
-        template = as.character(eval(...make_ui('${{ind}}'))),
+        template = as.character(eval(...make_ui("${{ind}}"))),
         initial_ncomp = ...initial_ncomp,
         min_ncomp = ...min_ncomp,
         max_ncomp = ...max_ncomp,
@@ -192,18 +193,18 @@ compoundInput2 <- function(
       ))
     ),
     shiny::div(
-      class = 'dipsaus-compound-input-body row m-0'
+      class = "dipsaus-compound-input-body row m-0"
     ),
     shiny::div(
-      class = 'dipsaus-compound-input-foot',
+      class = "dipsaus-compound-input-foot",
       shiny::div(
-        class = 'dipsaus-compound-input-foot-ctrl'
+        class = "dipsaus-compound-input-foot-ctrl"
       )
     ),
     shiny::div(
-      class = 'force-hidden',
+      class = "force-hidden",
       # Make sure some plugins are loaded
-      eval(...make_ui('...junk...'))
+      eval(...make_ui("...junk..."))
     )
   ))
 
@@ -222,7 +223,7 @@ compoundInput2 <- function(
     initial_ncomp = initial_ncomp,
     min_ncomp = min_ncomp,
     max_ncomp = max_ncomp,
-    template = '',
+    template = "",
     bind_infos = ...this_env$bind_infos,
     label_color = label_color
   )
@@ -266,7 +267,7 @@ translate_compoundInput <- function(data, session, name) {
   inner_ids <- names(meta$bind_infos)
   update_functions <- sapply(inner_ids, function(id, ...) {
     bind_info <- meta$bind_infos[[id]]
-    if (is.list(bind_info) && 'update_function' %in% names(bind_info)) {
+    if (is.list(bind_info) && "update_function" %in% names(bind_info)) {
       update_function <- bind_info$update_function
       if (length(update_function)) {
         update_function <- str2lang(update_function[[1]])
@@ -279,7 +280,7 @@ translate_compoundInput <- function(data, session, name) {
           session_scope <- .session$ns(NULL)
           session <- .session
           widget_name <- !!name
-          if ((length(session_scope) == 1) && session_scope != '') {
+          if ((length(session_scope) == 1) && session_scope != "") {
             # check whether name starts with session_scope if yes, this means
             # we register submodule in root session,
             # and we need to go back and remove session_scope in name
@@ -287,20 +288,20 @@ translate_compoundInput <- function(data, session, name) {
             nlen <- nchar(widget_name, allowNA = TRUE, keepNA = TRUE)
             if ( slen < nlen - 1 ) {
               if ( substr(widget_name, start = 1L, stop = slen + 1L) ==
-                  sprintf('%s-', session_scope) ) {
+                  sprintf("%s-", session_scope) ) {
                 # need to remove scope from widget_name
                 widget_name <- substr(widget_name, start = slen + 2, stop = nchar(widget_name))
               }
             }
           }
 
-          inputId <- sprintf('%s_%s_%s', widget_name, !!id, ii)
+          inputId <- sprintf("%s_%s_%s", widget_name, !!id, ii)
           call <- as.call(list(!!update_function, session = quote(session),
                                inputId = inputId, ...))
-          if ( !'...' %in% !!input_names) {
+          if ( !"..." %in% !!input_names) {
             # Need to match call
             nms <- names(call)
-            sel <- nms %in% c('', !!input_names)
+            sel <- nms %in% c("", !!input_names)
             if (!all(sel)) {
               call <- call[sel]
             }
@@ -315,13 +316,13 @@ translate_compoundInput <- function(data, session, name) {
           # if (mis_sess) {
           #   session <- shiny::getDefaultReactiveDomain()
           # }
-          # inputId <- sprintf('%s_%s_%s', name, id, ii)
+          # inputId <- sprintf("%s_%s_%s", name, id, ii)
           # call <- as.call(list(update_function, session = quote(session),
           #                      inputId = inputId, ...))
-          # if ( !'...' %in% input_names) {
+          # if ( !"..." %in% input_names) {
           #   # Need to match call
           #   nms <- names(call)
-          #   sel <- nms %in% c('', input_names)
+          #   sel <- nms %in% c("", input_names)
           #   if (!all(sel)) {
           #     call <- call[sel]
           #   }
@@ -336,9 +337,9 @@ translate_compoundInput <- function(data, session, name) {
     }
     return(NULL)
   }, simplify = FALSE, USE.NAMES = TRUE)
-  attr(data, 'update_functions') <- update_functions
-  attr(data, 'meta') <- meta
-  class(data) <- c('dipsaus_compoundInput_data', 'list')
+  attr(data, "update_functions") <- update_functions
+  attr(data, "meta") <- meta
+  class(data) <- c("dipsaus_compoundInput_data", "list")
   return(data)
 }
 
@@ -410,7 +411,7 @@ updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
     g <- value[[ii]]
     if (is.list(g)) {
       g$.__item <- ii
-    }else{
+    } else {
       g <- NULL
     }
     g
@@ -426,8 +427,8 @@ updateCompoundInput2 <- function(session, inputId, value = NULL, ncomp = NULL,
     sample <- env$compount_inputs$get(session$ns(inputId))
   }
 
-  update_functions <- attr(sample, 'update_functions')
-  meta <- attr(sample, 'meta')
+  update_functions <- attr(sample, "update_functions")
+  meta <- attr(sample, "meta")
   max_ncomp <- meta$max_ncomp
   if (!length(max_ncomp) || !is.numeric(max_ncomp) || max_ncomp <= 0) {
     max_ncomp <- 100

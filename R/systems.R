@@ -9,7 +9,7 @@
 #' get_os()
 #'
 #' @export
-get_os <- function () {
+get_os <- function() {
   os <- R.version$os
   if (grepl("^darwin", os, ignore.case = TRUE)) {
     return("darwin")
@@ -30,9 +30,9 @@ get_os <- function () {
 }
 
 safe_system <- function(cmd, ..., intern = TRUE, ignore.stderr = TRUE,
-                        minimized = TRUE, invisible = TRUE, show.output.on.console = TRUE){
+                        minimized = TRUE, invisible = TRUE, show.output.on.console = TRUE) {
   suppressWarnings({
-    if(get_os() == 'windows'){
+    if (get_os() == "windows") {
       ret <- system(cmd, intern = intern, ignore.stderr = ignore.stderr,
                     minimized = minimized, invisible = invisible,
                     show.output.on.console = show.output.on.console, ...)
@@ -43,38 +43,38 @@ safe_system <- function(cmd, ..., intern = TRUE, ignore.stderr = TRUE,
   ret
 }
 
-safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound = NULL, onNotFound = NA){
+safe_system2 <- function(cmd, args, ..., stdout = TRUE, stderr = FALSE, onFound = NULL, onNotFound = NA) {
 
-  if(Sys.which(cmd) == ""){
+  if (Sys.which(cmd) == "") {
     return(onNotFound)
   }
 
   suppressWarnings({
     ret <- system2(cmd, args, ..., stdout = stdout, stderr = stderr)
   })
-  if(is.function(onFound)){
+  if (is.function(onFound)) {
     ret <- onFound(ret)
   }
   ret
 }
 
 
-get_ram_osx <- function(){
+get_ram_osx <- function() {
   # try to locate sysctl
 
   # cmd <- Sys.which("sysctl")
-  # if(cmd == ""){
+  # if(cmd == "") {
   #   cmd <- "/usr/bin/top"
   # }
   # ram <- safe_system2(cmd, c("-l", "1", "-s", "0"))
   cmd <- Sys.which("sysctl")
-  if(cmd == ""){
+  if (cmd == "") {
     cmd <- "/usr/sbin/sysctl"
   }
-  if(!file.exists(cmd)){
-    cmd <- '/sbin/sysctl'
+  if (!file.exists(cmd)) {
+    cmd <- "/sbin/sysctl"
   }
-  if(!file.exists(cmd)){
+  if (!file.exists(cmd)) {
     return(NA)
   }
   # sysctl exists, use cmd
@@ -90,31 +90,31 @@ get_ram_osx <- function(){
   )
 }
 
-get_ram_windows <- function(){
+get_ram_windows <- function() {
   # check if windir is defined
   cmd <- Sys.which("wmic")
-  if(cmd == ""){
+  if (cmd == "") {
     # wmic might not exists, look for it in %WINDIR%\System32\wbem\wmic.exe
-    windir <- Sys.getenv('windir')
-    if(windir == ""){
-      windir <- Sys.getenv('SystemRoot')
+    windir <- Sys.getenv("windir")
+    if (windir == "") {
+      windir <- Sys.getenv("SystemRoot")
     }
-    if(windir == ""){
-      windir <- file.path(Sys.getenv('SystemDrive'), "WINDOWS", fsep = "\\")
+    if (windir == "") {
+      windir <- file.path(Sys.getenv("SystemDrive"), "WINDOWS", fsep = "\\")
     }
-    if(!dir.exists(windir)){
+    if (!dir.exists(windir)) {
       windir <- "C:\\WINDOWS"
     }
     cmd <- file.path(windir, "System32", "wbem", "wmic.exe", fsep = "\\")
   }
-  if(!file.exists(cmd)){
+  if (!file.exists(cmd)) {
     # cannot find wmic
     return(NA)
   }
   ram <- safe_system2(cmd, c("MemoryChip", "get", "Capacity"), stdout = TRUE)
 
   # User might have no access to the wmic command
-  if(length(ram) < 2) {
+  if (length(ram) < 2) {
     return(NA)
   }
   suppressWarnings({
@@ -127,20 +127,20 @@ get_ram_windows <- function(){
   })
 }
 
-get_ram_linux <- function(){
+get_ram_linux <- function() {
   # need to check "/proc/meminfo"
-  if(!file.exists("/proc/meminfo")){
+  if (!file.exists("/proc/meminfo")) {
     return(NA)
   }
   s <- readLines("/proc/meminfo", n = 100)
   # get memtotal
   s <- s[startsWith(s, "MemTotal")]
-  if(!length(s)){
+  if (!length(s)) {
     return(NA)
   }
   s <- stringr::str_match(s[[1]], "([0-9]+)([ kKmMgGtT]+)([bB])")
   unit <- tolower(trimws(s[[3]]))
-  units <- c('', 'k', 'm', 'g', 't')
+  units <- c("", "k", "m", "g", "t")
   ram <- as.numeric(s[[2]]) * 1024^(which(units == unit) - 1)
   structure(
     as.numeric(ram),
@@ -165,16 +165,16 @@ get_ram_linux <- function(){
 #' get_ram()
 #'
 #' @export
-get_ram <- function(){
+get_ram <- function() {
   # .Defunct("memory.size", "utils")
   os <- get_os()
-  if(os == 'windows'){
+  if (os == "windows") {
     return(get_ram_windows())
   }
-  if(os == 'darwin'){
+  if (os == "darwin") {
     return(get_ram_osx())
   }
-  if(os == 'linux'){
+  if (os == "linux") {
     return(get_ram_linux())
   }
   return(NA)
@@ -184,39 +184,39 @@ get_ram <- function(){
 #' @param get_public whether to get public 'IP'
 #' @return a list of 'IP' addresses
 #' @export
-get_ip <- function(get_public = NA){
+get_ip <- function(get_public = NA) {
   ip <- list(
-    available = c('127.0.0.1', '0.0.0.0'),
-    public = if(isFALSE(get_public)) { NULL } else { getOption("restbench.public_ip", NULL) }
+    available = c("127.0.0.1", "0.0.0.0"),
+    public = if (isFALSE(get_public)) { NULL } else { getOption("restbench.public_ip", NULL) }
   )
   try({
-    s <- switch (
+    s <- switch(
       get_os(),
-      'windows' = {
-        s <- system("ipconfig", intern=TRUE)
+      "windows" = {
+        s <- system("ipconfig", intern = TRUE)
         s <- stringr::str_extract(s, "IPv4 Address.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}.*")
         s <- s[!is.na(s)]
-        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+        stringr::str_extract(s, "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
       },
-      'darwin' = {
+      "darwin" = {
         s <- system("ifconfig 2>&1", intern = TRUE)
         s <- stringr::str_extract(s, "inet.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
         s <- s[!is.na(s)]
         # extract the first one as the second is mask
-        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+        stringr::str_extract(s, "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
       }, {
         s <- system("ip addr", intern = TRUE)
         s <- stringr::str_extract(s, "inet.*[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
         s <- s[!is.na(s)]
         # extract the first one as the second is mask
-        stringr::str_extract(s, '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}')
+        stringr::str_extract(s, "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")
       }
     )
     ip$available <- c(ip$available, s[!is.na(s)])
   }, silent = TRUE)
 
   # also use ipify
-  if(isTRUE(get_public)){
+  if (isTRUE(get_public)) {
     ip$public <- getOption("restbench.public_ip", try({
       suppressWarnings({
         # suppress incomplete final line warning
@@ -238,10 +238,10 @@ get_ip <- function(get_public = NA){
 
 #' @rdname dipsaus-defunct
 #' @export
-get_cpu <- function(){
+get_cpu <- function() {
   os <- get_os()
 
-  if(os == "darwin"){
+  if (os == "darwin") {
     .Defunct(msg = paste(
       "'get_cpu' is defunct due to its inconsistent results. Please use the following system commands to get CPU information:",
       "Windows: wmic cpu get name",
@@ -265,7 +265,7 @@ get_cpu <- function(){
 session_uuid <- local({
   uuids <- list()
 
-  function (pid = Sys.getpid(), attributes = FALSE) {
+  function(pid = Sys.getpid(), attributes = FALSE) {
     pidstr <- as.character(pid)
     uuid <- uuids[[pidstr]]
     if (!is.null(uuid)) {

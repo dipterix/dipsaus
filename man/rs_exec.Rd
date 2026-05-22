@@ -72,7 +72,7 @@ feature is subject to change in the future.
 }
 \examples{
 
-if(interactive()){
+if(interactive()) {
   h <- rs_exec(
     {
       Sys.sleep(2)

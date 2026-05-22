@@ -8,7 +8,7 @@ get_globals_size <- function(fun, args = list()) {
   # }), env = parse_env, quote_type = "quote")
 
   call <- as_call(quote(fun), quote(el), .list = args)
-  fun_internal <- new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
+  fun_internal <- new_function2(alist(el = ), body = call, quote_type = "quote", env = environment())
   globals_and_packages <- future::getGlobalsAndPackages(list(fun_internal), maxSize = 1e12)
   re <- attr(globals_and_packages$globals, "total_size")
   return(re)
@@ -33,7 +33,7 @@ get_globals_size <- function(fun, args = list()) {
 #' etc. Alternatively, you could pass future \code{\link[future]{plan}}
 #' objects.
 #' @return same as
-#' \code{with(FUN.args, lapply(x, function(el){eval(body(FUN))}))}
+#' \code{with(FUN.args, lapply(x, function(el) {eval(body(FUN))}))}
 #' @examples
 #'
 #' library(future)
@@ -43,22 +43,22 @@ get_globals_size <- function(fun, args = list()) {
 #' # 1. Change `plan` to 'multicore', 'multisession', or TRUE to enable
 #' # multi-core, but still with progress information
 #' # 2. Change plan=FALSE will use current future plan
-#' res <- lapply_async2(100:200, function(x){
+#' res <- lapply_async2(100:200, function(x) {
 #'   return(x+1)
-#' }, callback = function(e){
+#' }, callback = function(e) {
 #'   sprintf('Input=%d', e)
 #' }, plan = 'sequential')
 #'
 #' # Disable callback message, then the function reduce to
 #' # normal `future.apply::future_lapply`
-#' res <- lapply_async2(100:200, function(x){
+#' res <- lapply_async2(100:200, function(x) {
 #'   return(x+1)
 #' }, callback = NULL, plan = FALSE)
 #'
 #' if(interactive()) {
 #'
 #'   # PID are different, meaning executing in different sessions
-#'   lapply_async2(1:4, function(x){
+#'   lapply_async2(1:4, function(x) {
 #'     Sys.getpid()
 #'   })
 #' }
@@ -67,22 +67,22 @@ get_globals_size <- function(fun, args = list()) {
 #' @export
 lapply_async2 <- function(x, FUN, FUN.args = list(),
                           callback = NULL, plan = TRUE,
-                          future.chunk.size = NULL, future.seed = sample.int(1, n = 1e5 - 1), ...){
+                          future.chunk.size = NULL, future.seed = sample.int(1, n = 1e5 - 1), ...) {
 
-  if(inherits(callback, "formula")) {
+  if (inherits(callback, "formula")) {
     penv <- parent.frame()
     callback <- rlang::as_function(callback, env = penv)
   }
 
-  if( is.function(callback) ){
+  if ( is.function(callback) ) {
 
     callback_formals <- formals(callback)
-    if (length(callback_formals)){
+    if (length(callback_formals)) {
       callback_call <- quote(callback(el))
-    }else{
+    } else {
       callback_call <- quote(callback())
     }
-  }else{
+  } else {
     callback_formals <- list()
     callback_call <- NULL
   }
@@ -92,8 +92,8 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
 
   call <- as_call(quote(FUN), quote(el), .list = FUN.args)
-  if(is.null(callback_call)){
-    f <- new_function2(alist(el = ), body = call, quote_type = 'quote', env = environment())
+  if (is.null(callback_call)) {
+    f <- new_function2(alist(el = ), body = call, quote_type = "quote", env = environment())
     globals_and_packages <- future::getGlobalsAndPackages(list(f), maxSize = 1e12)
 
     parallel <- TRUE
@@ -102,8 +102,8 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       {
         max_globals_size <- getOption("future.globals.maxSize", default = 524288000) # 524288000 = 500MB
         globals_size <- attr(globals_and_packages$globals, "total_size")
-        if( isTRUE(globals_size >= max_globals_size) ) {
-          future::plan('sequential')
+        if ( isTRUE(globals_size >= max_globals_size) ) {
+          future::plan("sequential")
           parallel <- FALSE
         }
       },
@@ -112,10 +112,10 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       }
     )
 
-    if( parallel ) {
+    if ( parallel ) {
 
-      if(length(plan) && !isFALSE(plan)){
-        if(isTRUE(plan)){
+      if (length(plan) && !isFALSE(plan)) {
+        if (isTRUE(plan)) {
           make_forked_clusters(..., clean = TRUE)
         } else {
           current_plan <- future::plan("list")
@@ -129,16 +129,16 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
                 .cleanup = FALSE,
                 .init = FALSE
               )
-            }, error = function(e){
-              future::plan('sequential')
+            }, error = function(e) {
+              future::plan("sequential")
             })
           }, add = TRUE, after = TRUE)
-          if(is.character(plan) && plan == 'callr'){
+          if (is.character(plan) && plan == "callr") {
             if (!requireNamespace("future.callr", quietly = TRUE)) {
               stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
             }
             future::plan(future.callr::callr, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
-          }else{
+          } else {
             future::plan(plan, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
           }
         }
@@ -165,7 +165,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
       }, silent = TRUE)
     }, add = TRUE)
 
-    # if(is.null(shiny::getDefaultReactiveDomain())){
+    # if(is.null(shiny::getDefaultReactiveDomain())) {
 
     progressr::with_progress({
 
@@ -203,9 +203,9 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         list2env(...callback_globals, envir = runtime)
         environment(...callback2) <- runtime
         body(...callback2) <- quote(.(body(callback)))
-        if (length(formals(...callback2))){
+        if (length(formals(...callback2))) {
           msg <- ...callback2(el)
-        }else{
+        } else {
           msg <- ...callback2()
         }
         ...p(message = sprintf("%s (started)", msg))
@@ -231,8 +231,8 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         {
           max_globals_size <- getOption("future.globals.maxSize", default = 524288000) # 524288000 = 500MB
           globals_size <- attr(globals_and_packages$globals, "total_size")
-          if( isTRUE(globals_size >= max_globals_size) ) {
-            future::plan('sequential')
+          if ( isTRUE(globals_size >= max_globals_size) ) {
+            future::plan("sequential")
             parallel <- FALSE
           }
         },
@@ -241,12 +241,12 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         }
       )
 
-      if( parallel ) {
+      if ( parallel ) {
 
         ...p(message = "Preparing for parallel workers...")
 
-        if(length(plan) && !isFALSE(plan)){
-          if(isTRUE(plan)){
+        if (length(plan) && !isFALSE(plan)) {
+          if (isTRUE(plan)) {
             make_forked_clusters(..., clean = TRUE)
           } else {
             current_plan <- future::plan("list")
@@ -260,16 +260,16 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
                   .cleanup = FALSE,
                   .init = FALSE
                 )
-              }, error = function(e){
-                future::plan('sequential')
+              }, error = function(e) {
+                future::plan("sequential")
               })
             }, add = TRUE, after = TRUE)
-            if(is.character(plan) && plan == 'callr'){
+            if (is.character(plan) && plan == "callr") {
               if (!requireNamespace("future.callr", quietly = TRUE)) {
                 stop("Package \"future.callr\" is needed to set plan as 'callr'. Please install it.", call. = FALSE)
               }
               future::plan(future.callr::callr, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
-            }else{
+            } else {
               future::plan(plan, ..., .call = NULL, .cleanup = TRUE, .init = FALSE)
             }
           }
@@ -298,10 +298,10 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
         # future.chunk.size = future.chunk.size,
         # future.seed = future.seed)
       }, enable = interactive() || shiny_is_running())
-    # }else{
+    # } else {
     #   progressr::withProgressShiny({
     #     p <- progressr::progressor(along = x)
-    #     fs <- future.apply::future_lapply(x, function(el){
+    #     fs <- future.apply::future_lapply(x, function(el) {
     #       p(message = eval(callback_call))
     #       eval(call)
     #     })
@@ -313,7 +313,7 @@ lapply_async2 <- function(x, FUN, FUN.args = list(),
 
 
 
-  # fs <- lapply(seq_along(x), function(ii){
+  # fs <- lapply(seq_along(x), function(ii) {
   #
   #   on.exit(eval(callback_call))
   #

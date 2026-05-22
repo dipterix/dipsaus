@@ -41,7 +41,7 @@ A Wrapper for \code{fastmap::fastqueue}
 x <- fastqueue2()
 
 # add elements
-x$madd(1, "b", function(){ "c" }, 4, "5")
+x$madd(1, "b", function() { "c" }, 4, "5")
 
 # print information
 print(x)

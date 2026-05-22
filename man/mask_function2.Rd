@@ -23,7 +23,7 @@ environment.
 \examples{
 
 a <- 123
-f1 <- function(){
+f1 <- function() {
   a + 1
 }
 f1()   # 124

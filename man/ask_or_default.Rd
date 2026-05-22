@@ -25,7 +25,7 @@ default, otherwise returns the user input.
 This can only be used in an \code{\link{interactive}} session.
 }
 \examples{
-if(interactive()){
+if(interactive()) {
 ask_or_default('What is the best programming language?',
                default = 'PHP')
 }

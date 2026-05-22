@@ -58,7 +58,7 @@ vary_title(title = 'My Title', type = 'l')
 
 # modify a function
 
-f <- function(b = 1, x){ b + x }
+f <- function(b = 1, x) { b + x }
 f_pipable <- as_pipe(call = f, arg_name = 'x')
 f_pipable
 

@@ -32,9 +32,9 @@
 #' returned depends on whether \code{async} is called. See details for workflow.
 #'
 #' @export
-async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
+async_expr <- function(.X, .expr, .varname = "x", envir = parent.frame(),
                        .pre_run = NULL,
-                       .ncore = parallelly::availableCores(), ...){
+                       .ncore = parallelly::availableCores(), ...) {
   .envir <- new.env(parent = envir)
   .expr <- substitute(.expr)
   .pre_run <- substitute(.pre_run)
@@ -43,7 +43,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
   ._length <- length(.X)
   ._values <- list()
   ._ii <- 1
-  .envir$async <- function(expr){
+  .envir$async <- function(expr) {
     expr <- substitute(expr)
     call <- as.call(c(list(
       quote(future::future),
@@ -62,7 +62,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
         ._values[._ii - 1 + seq_along(.envir$._futures)] <<- re
       }
       .envir$._futures <- NULL
-    } else{
+    } else {
       if (length(.envir$._futures) >= .ncore) {
         re <- future::value(.envir$._futures[[1]])
         if (!is.null(re)) {
@@ -76,7 +76,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 
   eval(.pre_run, envir = .envir)
 
-  lapply(seq_along(.X), function(.jj){
+  lapply(seq_along(.X), function(.jj) {
     .__check__()
     if (any(future::resolved(.envir$._futures))) {
       .envir$._values
@@ -84,7 +84,7 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
     assign(.varname, .X[[.jj]], envir = .envir)
     .re <- eval(.expr, envir = .envir)
     if (._ii <= .jj &&
-        !inherits(.re, 'Future')) {
+        !inherits(.re, "Future")) {
       ._values[[.jj]] <<- .re
     }
 
@@ -101,8 +101,8 @@ async_expr <- function(.X, .expr, .varname = 'x', envir = parent.frame(),
 #' @param expr R expression
 #' @seealso \code{\link[dipsaus]{async_expr}}
 #' @export
-async <- function(expr){
-  cat2('async must be evaluated in function async_expr', level = 'FATAL')
+async <- function(expr) {
+  cat2("async must be evaluated in function async_expr", level = "FATAL")
 }
 
 
@@ -110,7 +110,7 @@ async <- function(expr){
 #' @param X,FUN,... passing to \code{future.apply::future_lapply}
 #' @seealso \code{\link[future.apply]{future_lapply}}
 #' @export
-async_flapply <- function(X, FUN, ...){
+async_flapply <- function(X, FUN, ...) {
   future.apply::future_lapply(X = X, FUN = FUN, ...)
 }
 
@@ -155,7 +155,7 @@ async_flapply <- function(X, FUN, ...){
 #'
 #'
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'
 #'   # ------ Basic example
 #'   library(future)
@@ -191,10 +191,10 @@ async_flapply <- function(X, FUN, ...){
 #'   options("dipsaus.cluster.backup" = "multisession")
 #'
 #'   # simple case:
-#'   my_func <- function(){
+#'   my_func <- function() {
 #'     make_forked_clusters(clean = TRUE)
 #'
-#'     fs <- lapply(1:4, function(i){
+#'     fs <- lapply(1:4, function(i) {
 #'       future({Sys.getpid()})
 #'     })
 #'
@@ -208,7 +208,7 @@ async_flapply <- function(X, FUN, ...){
 #'   my_plan <- plan()
 #'
 #'   # lapply_async2 version of the previous task
-#'   lapply_async2(1:4, function(i){
+#'   lapply_async2(1:4, function(i) {
 #'     Sys.getpid()
 #'   })
 #'
@@ -241,13 +241,13 @@ make_forked_clusters <- function(
     )
   }
   os <- get_os()
-  if (os == 'windows' || getOption("dipsaus.debug", FALSE) || getOption("dipsaus.no.fork", FALSE)) {
+  if (os == "windows" || getOption("dipsaus.debug", FALSE) || getOption("dipsaus.no.fork", FALSE)) {
     suc <- tryCatch({
       future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, workers = workers, ...)
       TRUE
     },
-    error = function(e){ FALSE },
-    warning = function(e){ FALSE })
+    error = function(e) { FALSE },
+    warning = function(e) { FALSE })
     if (!suc) {
       future::plan(on_failure, .call = NULL, .cleanup = TRUE, .init = FALSE, ...)
     }

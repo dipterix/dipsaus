@@ -38,13 +38,13 @@ dipsaus_unlock('testlocker', timeout = 0.01)
 
 # Create a locker, return TRUE
 lock_success = dipsaus_lock('testlocker')
-if(lock_success){
+if(lock_success) {
   cat2('testlocker has been locked')
 }
 
 # test whether locker has been locked
 lock_success = dipsaus_lock('testlocker', timeout = 0.01)
-if(!lock_success){
+if(!lock_success) {
   cat2('attempt to lock testlocker failed')
 }
 

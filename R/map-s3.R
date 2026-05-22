@@ -107,21 +107,21 @@ NULL
 #' @rdname map
 #' @param map a \code{fastmap::fastmap()} list
 #' @export
-session_map <- function(map = fastmap::fastmap()){
+session_map <- function(map = fastmap::fastmap()) {
   SessionMap$new(map = map)
 }
 
 #' @rdname map
 #' @param path directory path where map data should be stored
 #' @export
-rds_map <- function(path = tempfile()){
+rds_map <- function(path = tempfile()) {
   FileMap$new(path = path)
 }
 
 #' @rdname map
 #' @export
-text_map <- function(path = tempfile()){
-  warning('text_map is soft deprecated Please use rds_map instead.')
+text_map <- function(path = tempfile()) {
+  warning("text_map is soft deprecated Please use rds_map instead.")
   TextMap$new(path = path)
 }
 

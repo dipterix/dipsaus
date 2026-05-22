@@ -47,7 +47,7 @@ ui <- basicPage(
 
 if(interactive()) {
   shinyApp(
-    ui, server = function(input, output, session){},
+    ui, server = function(input, output, session) {},
     options = list(launch.browser = TRUE)
   )
 }

@@ -33,7 +33,7 @@
 #' }
 #'
 #'
-#' if( interactive() ){
+#' if( interactive() ) {
 #'   shinyApp(ui, server, options = list(launch.browser=TRUE))
 #' }
 #'
@@ -43,13 +43,13 @@
 actionButtonStyled <- function(
   inputId, label, icon = NULL, width = NULL, type = "primary",
   btn_type = "button", class = "", ...
-){
+) {
 
   if (length(type) > 1) {
     type <- type[[1]]
   }
   stopifnot2(length(type) == 0 || type[[1]] %in% c(
-    'default', 'primary', 'info', 'success', 'warning', 'danger'
+    "default", "primary", "info", "success", "warning", "danger"
   ), msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
 
   value <- shiny::restoreInput(id = inputId, default = NULL)
@@ -97,15 +97,15 @@ actionButtonStyled <- function(
 #'
 #' @export
 updateActionButtonStyled <- function(
-  session, inputId, label = NULL, icon = NULL, type = NULL, disabled = NULL, ...){
+  session, inputId, label = NULL, icon = NULL, type = NULL, disabled = NULL, ...) {
   if (length(type) > 1) {
     type <- type[[1]]
   }
   stopifnot2(length(type) == 0 || type[[1]] %in% c(
-    'default', 'primary', 'info', 'success', 'warning', 'danger'),
+    "default", "primary", "info", "success", "warning", "danger"),
     msg = "type must be in 'default', 'primary', 'info', 'success', 'warning', 'danger'")
   session$sendCustomMessage(
-    type = 'dipsaus.updateActionButtonStyled',
+    type = "dipsaus.updateActionButtonStyled",
     message = list(
       inputId = session$ns( inputId ),
       type = type,

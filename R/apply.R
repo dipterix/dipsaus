@@ -10,18 +10,18 @@
 #' index number of the element.
 #' @return a list or matrix depends on \code{.method}. See \code{\link[base]{lapply}}
 #' @export
-iapply <- function(X, FUN, ..., .method = c('sapply', 'lapply', 'vapply')) {
+iapply <- function(X, FUN, ..., .method = c("sapply", "lapply", "vapply")) {
   .method <- match.arg(.method)
   .formals <- formals(FUN)
 
-  if( length(.formals) >= 2 || '...' %in% names(.formals) ){
+  if ( length(.formals) >= 2 || "..." %in% names(.formals) ) {
     do.call(
       .method,
-      list( seq_along(X), function(ii, ...){
+      list( seq_along(X), function(ii, ...) {
         FUN(X[[ii]], ii, ...)
       }, ...)
     )
-  }else{
+  } else {
     do.call(.method, list(X, FUN, ...))
   }
 
@@ -44,8 +44,8 @@ iapply <- function(X, FUN, ..., .method = c('sapply', 'lapply', 'vapply')) {
 #'
 #' @export
 do_aggregate <- function(x, ...) {
-  if(is.data.frame(x)){
-    if(is.null(sys.call()[['by']])){
+  if (is.data.frame(x)) {
+    if (is.null(sys.call()[["by"]])) {
       return(stats::aggregate(data = x, ...))
     }
   }
@@ -74,11 +74,11 @@ do_aggregate <- function(x, ...) {
 #' # 1. ALT_FUN get executed because FUN returns NULL for all items in x
 #' forelse(
 #'   1:10,
-#'   function(x){
+#'   function(x) {
 #'     cat('The input is ', x, end = '\n')
-#'     if( x > 10) return(x) else return(NULL)
+#'     if ( x > 10) return(x) else return(NULL)
 #'   },
-#'   function(){
+#'   function() {
 #'     cat('ALT_FUN is executed!\n')
 #'     'wow'
 #'   }
@@ -87,41 +87,41 @@ do_aggregate <- function(x, ...) {
 #' # 2. FUN returns non-NULL object
 #' forelse(
 #'   1:10,
-#'   function(x){
+#'   function(x) {
 #'     cat('The input is ', x, end = '\n')
-#'     if( x %% 2 == 0 ) return(x) else return(NULL)
+#'     if ( x %% 2 == 0 ) return(x) else return(NULL)
 #'   },
 #'   'wow'
 #' )
 #'
 #' # --------------------------- Performance ------------------------------
-#' FUN <- function(x){
+#' FUN <- function(x) {
 #'   Sys.sleep(0.01)
-#'   if( x %% 2 == 0 ) return(x) else return(NULL)
+#'   if ( x %% 2 == 0 ) return(x) else return(NULL)
 #' }
 #'
 #' microbenchmark::microbenchmark({
 #'   forelse(1:10, FUN, 'wow')
 #' }, {
 #'   y <- unlist(lapply(1:10, FUN))
-#'   if(length(y)){
+#'   if (length(y)) {
 #'     y <- y[[1]]
-#'   }else{
+#'   } else {
 #'     y <- 'wow'
 #'   }
 #' }, {
 #'   y <- NULL
-#'   for(x in 1:10){ y <- FUN(x) }
-#'   if(is.null(y)){ y <- 'wow' }
+#'   for (x in 1:10) { y <- FUN(x) }
+#'   if (is.null(y)) { y <- 'wow' }
 #' }, times = 3)
 #'
 #'
 #' @export
 forelse <- function(x, FUN, ALT_FUN = NULL) {
-  if(is.function(ALT_FUN)){
+  if (is.function(ALT_FUN)) {
     alt <- ALT_FUN
   } else {
-    alt <- function(){
+    alt <- function() {
       ALT_FUN
     }
   }

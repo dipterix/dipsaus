@@ -186,12 +186,12 @@
 NULL
 
 
-not_implemented <- function(msg = 'Not yet implemented', default = 0){
+not_implemented <- function(msg = "Not yet implemented", default = 0) {
   warning(msg)
   default
 }
-rand_string <- function(length = 50){
-  paste(sample(c(letters, LETTERS, 0:9), length, replace = TRUE), collapse = '')
+rand_string <- function(length = 50) {
+  paste(sample(c(letters, LETTERS, 0:9), length, replace = TRUE), collapse = "")
 }
 null_item <- data.frame(
   time = character(0),
@@ -218,19 +218,19 @@ AbstractQueue <- R6::R6Class(
     # Run expr making sure that locker is locked to be exclusive (for write-only)
     exclusive = function(expr, ...) {
       custom_locker <- is.function(self$get_locker) && is.function(self$free_locker)
-      if(self$has_locker){
+      if (self$has_locker) {
 
-        if(custom_locker){
+        if (custom_locker) {
           self$get_locker(...)
-        }else{
+        } else {
           private$default_get_locker(...)
         }
 
 
         on.exit({
-          if(custom_locker){
+          if (custom_locker) {
             self$free_locker()
-          }else{
+          } else {
             private$default_free_locker()
           }
         }, add = FALSE, after = FALSE)
@@ -238,9 +238,9 @@ AbstractQueue <- R6::R6Class(
 
         force(expr)
 
-        if(custom_locker){
+        if (custom_locker) {
           self$free_locker()
-        }else{
+        } else {
           private$default_free_locker()
         }
         on.exit({}, add = FALSE, after = FALSE)
@@ -250,14 +250,14 @@ AbstractQueue <- R6::R6Class(
       }
     },
 
-    default_get_locker = function(timeout = Inf){
+    default_get_locker = function(timeout = Inf) {
       timeout <- as.numeric(timeout)
-      if(is.na(timeout)) {
+      if (is.na(timeout)) {
         timeout <- Inf
       }
       dipsaus_lock(self$lockfile, timeout = timeout)
     },
-    default_free_locker = function(){
+    default_free_locker = function() {
       dipsaus_unlock(self$lockfile)
     }
 
@@ -278,16 +278,16 @@ AbstractQueue <- R6::R6Class(
     # param `v` is always non-negative, this is guaranteed
     # Users are not supposed to call these methods directly,
     # they use self$head and self$head<-
-    `@get_head` = function(){ not_implemented() },
-    `@set_head` = function(v){ not_implemented() },
+    `@get_head` = function() { not_implemented() },
+    `@set_head` = function(v) { not_implemented() },
 
     # Get total number of items in the queue, similar to @get_head and @set_head
-    `@get_total` = function(){ not_implemented() },
-    `@set_total` = function(v){ not_implemented() },
+    `@get_total` = function() { not_implemented() },
+    `@set_total` = function(v) { not_implemented() },
 
     # Increase total, usually this doesn't need to be override, unless you are
     # using files to store total and want to decrease number of file connections
-    `@inc_total` = function(n=1){
+    `@inc_total` = function(n = 1) {
       self$total <- self$total + n
     },
 
@@ -299,7 +299,7 @@ AbstractQueue <- R6::R6Class(
     # Make **sure** to return a number as $push() function uses the returned
     # value as indicator of how many items are stored
     # Unless handled elsewhere, usually return length of msg
-    `@append_header` = function(msg, ...){
+    `@append_header` = function(msg, ...) {
       not_implemented()
       return(length(msg))
     },
@@ -314,7 +314,7 @@ AbstractQueue <- R6::R6Class(
     # and read the value
     #
     # Make sure return a string, it'll be encoded and stored as `hash`
-    `@store_value` = function(value, key){
+    `@store_value` = function(value, key) {
       not_implemented()
     },
 
@@ -322,12 +322,12 @@ AbstractQueue <- R6::R6Class(
     # key is the same as key in `@store_value`
     # preserve is a indicator of whether to preserve the value for future use
     # or remove the value to free memory/disk space
-    restore_value = function(hash, key, preserve = FALSE){
+    restore_value = function(hash, key, preserve = FALSE) {
       not_implemented()
     },
 
     # Fixed usage, don't override unless you know what's inside
-    push = function(value, message = '', ...){
+    push = function(value, message = "", ...) {
       time <- safe_urlencode(microtime())
 
       digest_val <- digest::digest(message)
@@ -337,13 +337,13 @@ AbstractQueue <- R6::R6Class(
       hash <- safe_urlencode(self$`@store_value`(value, key))
 
       message <- safe_urlencode(message)
-      if(length(hash) != 1){
-        cat2('store_value returns hash value that has length != 1', level = 'FATAL')
+      if (length(hash) != 1) {
+        cat2("store_value returns hash value that has length != 1", level = "FATAL")
       }
       out <- paste( time, key, hash, message, sep = "|" )
       private$exclusive({
         n <- self$`@append_header`(msg = out, ...)
-        if( n > 0 ){
+        if ( n > 0 ) {
           self$`@inc_total`( n )
         }
       })
@@ -352,15 +352,15 @@ AbstractQueue <- R6::R6Class(
     # decode headers and return a data.frame
     # items should be a nx4 matrix. Easiest example is the matrix returned by
     # `log()`
-    print_items = function(items){
+    print_items = function(items) {
       # Take the results from log() and translate into a data.frame with time, key, hash, and message
-      do.call('rbind', apply(items, 1, function(item){
+      do.call("rbind", apply(items, 1, function(item) {
         as.data.frame(self$print_item(item), stringsAsFactors = FALSE)
       }))
     },
 
     # Print single item, similar to `print_items`, returns a list
-    print_item = function(item){
+    print_item = function(item) {
       list(
         time = safe_urldecode(item[[1]]),
         key = item[[2]],
@@ -375,19 +375,19 @@ AbstractQueue <- R6::R6Class(
     # is usually much heavier. However, you can use
     # self$restore_value(hash, key, preserve=TRUE) to
     # obtain the value. The value is not always available though.
-    list = function(n = -1){
-      out <- self$log(n=n, all=FALSE)
-      if( !length(out) ){ return(null_item) }
-      if( !is.matrix(out) && !is.data.frame(out) ){
-        cat2('list must return a matrix or a data.frame', level = 'FATAL')
+    list = function(n = -1) {
+      out <- self$log(n = n, all = FALSE)
+      if ( !length(out) ) { return(null_item) }
+      if ( !is.matrix(out) && !is.data.frame(out) ) {
+        cat2("list must return a matrix or a data.frame", level = "FATAL")
       }
       nrows <- nrow(out)
-      if(!nrows){ return( null_item ) }
-      out <- lapply(seq_len(nrows), function(ii){
+      if (!nrows) { return( null_item ) }
+      out <- lapply(seq_len(nrows), function(ii) {
         re <- self$print_item(out[ii, ])
-        as.data.frame(re, stringsAsFactors=FALSE)
+        as.data.frame(re, stringsAsFactors = FALSE)
       })
-      do.call('rbind', out)
+      do.call("rbind", out)
     },
 
     # pop first n items from queue, `preserve` will be passed to `restore_value`
@@ -396,16 +396,16 @@ AbstractQueue <- R6::R6Class(
       private$exclusive({
         # Check count first, in this case, we don't read header file
         count <- self$count
-        if(count < 0.5){ return(list()) }
+        if (count < 0.5) { return(list()) }
         out <- self$`@log`(n = n)
-        if( !length(out) ){ return(list()) }
-        if( !is.matrix(out) && !is.data.frame(out) ){
-          cat2('list must return a matrix or a data.frame', level = 'FATAL')
+        if ( !length(out) ) { return(list()) }
+        if ( !is.matrix(out) && !is.data.frame(out) ) {
+          cat2("list must return a matrix or a data.frame", level = "FATAL")
         }
         nrows <- nrow(out)
-        if(!nrows){ return( list() ) }
+        if (!nrows) { return( list() ) }
         # parse time, key, hash
-        out <- lapply(seq_len(nrows), function(ii){
+        out <- lapply(seq_len(nrows), function(ii) {
           re <- self$print_item(out[ii, ])
           re$value <- self$restore_value( re$hash, re$key, preserve = preserve )
           re
@@ -421,14 +421,14 @@ AbstractQueue <- R6::R6Class(
     # If all=TRUE, return all items (#items=self$total), including popped items
     # If all=FALSE, only return items in the queue
     # The returned value should be a nx4 matrix
-    # I use stringr::str_split_fixed(..., '\\|', 4) in all queues implemented
-    `@log` = function(n = -1, all = FALSE){
+    # I use stringr::str_split_fixed(..., "\\|", 4) in all queues implemented
+    `@log` = function(n = -1, all = FALSE) {
       not_implemented()
     },
     # log with locks (thread-safe)
-    log = function(n=-1, all=FALSE){
+    log = function(n = -1, all = FALSE) {
       private$exclusive({
-        self$`@log`(n=n, all=all)
+        self$`@log`(n = n, all = all)
       })
     },
 
@@ -450,7 +450,7 @@ AbstractQueue <- R6::R6Class(
       not_implemented()
     },
     # thread-safe version
-    clean = function(...){
+    clean = function(...) {
       private$exclusive({
         self$`@clean`(...)
       })
@@ -463,7 +463,7 @@ AbstractQueue <- R6::R6Class(
     `@validate` = function(...) {
       not_implemented()
     },
-    validate = function(...){
+    validate = function(...) {
       private$exclusive({
         self$`@validate`(...)
       })
@@ -473,14 +473,14 @@ AbstractQueue <- R6::R6Class(
     # a database, a folder, or an existing queue
     # you should do checks whether the connection is new or it's an existing
     # queue
-    `@connect` = function(con = NULL, ...){
+    `@connect` = function(con = NULL, ...) {
       not_implemented()
     },
     # thread-safe version. sometimes you need to override this function instead
     # of `@connect`, because `private$exclusive` requires lockfile to be locked
     # If you don't have lockers ready, or need to set lockers during the
     # connection, override this one
-    connect = function(...){
+    connect = function(...) {
       private$exclusive({
         self$`@connect`(...)
       })
@@ -490,7 +490,7 @@ AbstractQueue <- R6::R6Class(
     # 1. set `get_locker` `free_locker` if lock type is not a file
     # 2. set lockfile (if using default lockers)
     # 3. call self$connect
-    initialize = function(con = NULL, lockfile, ...){
+    initialize = function(con = NULL, lockfile, ...) {
       self$lockfile <- lockfile
       self$connect(con, ...)
     },
@@ -498,31 +498,31 @@ AbstractQueue <- R6::R6Class(
     # destroy a queue, free up space
     # and call `delayedAssign('.lockfile', {stop(...)}, assign.env=private)`
     # to raise error if a destroyed queue is called again later.
-    destroy = function(){
+    destroy = function() {
       locker_key(self$lockfile, set_default = FALSE, unset = TRUE)
       private$default_free_locker()
-      delayedAssign('.lockfile', {
-        cat2("Queue is destroyed", level = 'FATAL')
-      }, assign.env=private)
+      delayedAssign(".lockfile", {
+        cat2("Queue is destroyed", level = "FATAL")
+      }, assign.env = private)
     }
   ),
   active = list(
 
     # read-only version of self$id. It's safer than private$.id as the latter
     # one does not always exist
-    id = function(){
-      if(length(private$.id) != 1){
+    id = function() {
+      if (length(private$.id) != 1) {
         private$.id <- rand_string()
       }
       private$.id
     },
 
     # set/get lock file. Don't call private$.lockfile directly
-    lockfile = function(v){
-      if(!missing(v)){
+    lockfile = function(v) {
+      if (!missing(v)) {
         private$default_free_locker()
         private$.lockfile <- v
-      }else if(!length(private$.lockfile)){
+      } else if (!length(private$.lockfile)) {
         private$.lockfile <- rand_string()
       }
       private$.lockfile
@@ -530,30 +530,42 @@ AbstractQueue <- R6::R6Class(
 
     # a safe wrapper for `@get_head` and `@set_head`
     head = function(v) {
-      if(missing(v)){ return(as.integer(self$`@get_head`())) }
-      if( length(v) != 1 ){ cat2('head must be a number',level = 'FATAL') }
-      if( !is.numeric(v) || v < 0 ){ cat2('head must be a non-negative integer',
-                                          level = 'FATAL') }
-      if( v > self$total ){ cat2('head must not exceed total',
-                                 level = 'FATAL') }
+      if (missing(v)) { return(as.integer(self$`@get_head`())) }
+      if (length(v) != 1) {
+        cat2("head must be a number", level = "FATAL")
+      }
+      if (!is.numeric(v) ||
+          v < 0) {
+        cat2("head must be a non-negative integer", level = "FATAL")
+      }
+      if (v > self$total) {
+        cat2("head must not exceed total", level = "FATAL")
+      }
       self$`@set_head`( v )
     },
 
     # a safe wrapper for `@get_total` and `@set_total`
-    total = function(v){
-      if(missing(v)){ return(as.integer(self$`@get_total`())) }
-      if( length(v) != 1 ){ cat2('total must be a number', level = 'FATAL') }
-      if( !is.numeric(v) || v < 0 ){ cat2('total must be a non-negative integer',
-                                          level = 'FATAL') }
-      self$`@set_total`( v )
+    total = function(v) {
+      if (missing(v)) {
+        return(as.integer(self$`@get_total`()))
+      }
+      if (length(v) != 1) {
+        cat2("total must be a number", level = "FATAL")
+      }
+      if (!is.numeric(v) ||
+          v < 0) {
+        cat2("total must be a non-negative integer", level = "FATAL")
+      }
+      self$`@set_total`(v)
     },
 
+
     # How many items in the queue right now, = total - head
-    count = function(){
+    count = function() {
       tryCatch({
         self$total - self$head
-      }, error = function(e){
-        warning('Cannot get count, return 0')
+      }, error = function(e) {
+        warning("Cannot get count, return 0")
         0
       })
     }

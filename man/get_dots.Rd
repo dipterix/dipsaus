@@ -33,13 +33,13 @@ evaluating the arguments.
 
 # missing_dots(environment()) is a fixed usage
 
-my_function <- function(...){
+my_function <- function(...) {
   missing_dots(environment())
 }
 my_function(,)
 
 # get_dots
-plot2 <- function(...){
+plot2 <- function(...) {
   title = get_dots('main', 'There is no title', ...)
   plot(...)
   title
@@ -49,8 +49,8 @@ plot2(1:10)
 plot2(1:10, main = 'Scatter Plot of 1:10')
 
 # ------------------------ Comparisons ----------------------------
-f1 <- function(...){ get_dots('x', ...) }
-f2 <- function(...){ list(...)[['x']] }
+f1 <- function(...) { get_dots('x', ...) }
+f2 <- function(...) { list(...)[['x']] }
 delayedAssign('y', { cat('y is evaluated!') })
 
 # y will not evaluate
@@ -60,9 +60,9 @@ f1(x = 1, y = y)
 f2(x = 1, y = y)
 
 # -------------------- Decorator example --------------------------
-ret_range <- function(which_range = 'y'){
-  function(f){
-    function(...){
+ret_range <- function(which_range = 'y') {
+  function(f) {
+    function(...) {
       f(...)
       y_range <- range(get_dots(which_range, 0, ...))
       y_range

@@ -42,7 +42,7 @@
 #'   })
 #' }
 #'
-#' if(interactive()){
+#' if(interactive()) {
 #'   shinyApp(ui, server)
 #' }
 #'
@@ -50,39 +50,39 @@
 #' @export
 set_shiny_input <- function(
   session = shiny::getDefaultReactiveDomain(), inputId, value,
-  priority = c('event', 'deferred', 'immediate'),
-  method = c('proxy', 'serialize', 'value', 'expression'), quoted = TRUE){
+  priority = c("event", "deferred", "immediate"),
+  method = c("proxy", "serialize", "value", "expression"), quoted = TRUE) {
 
   priority <- match.arg(priority)
   method <- match.arg(method)
   inputId <- session$ns(inputId)
   proxy <- method
 
-  switch (method,
-    'serialize' = {
+  switch(method,
+    "serialize" = {
       raw <- serialize(value, ascii = FALSE, connection = NULL)
       raw <- base64enc::base64encode(raw)
     },
-    'value' = {
+    "value" = {
       raw <- jsonlite::toJSON(value, auto_unbox = TRUE, digits = 22)
       raw <- base64_urlencode(raw)
     },
-    'expression' = {
-      if(!quoted){
+    "expression" = {
+      if (!quoted) {
         value <- substitute(value)
       }
-      raw <- paste(deparse(value), collapse = '\n')
+      raw <- paste(deparse(value), collapse = "\n")
       raw <- jsonlite::toJSON(raw, auto_unbox = TRUE)
       raw <- base64_urlencode(raw)
     },
-    'proxy' = {
+    "proxy" = {
       env <- ensure_shiny_proxy(session = session)
       env$proxy_data[[inputId]] <- value
       raw <- inputId
     }
   )
 
-  session$sendCustomMessage('dipsaus-set-input', list(
+  session$sendCustomMessage("dipsaus-set-input", list(
     inputId = inputId,
     proxy = proxy,
     value = raw,
@@ -98,13 +98,13 @@ set_shiny_input <- function(
 #' some widgets to work.
 #' @param x 'HTML' tags
 #' @export
-use_shiny_dipsaus <- function(x){
+use_shiny_dipsaus <- function(x) {
   version <- as.character(utils::packageVersion("dipsaus"))
   deps <- structure(list(name = "dipsaus", version = version, src = list(
-    file = system.file('shiny-addons/dipsaus', package = 'dipsaus')),
+    file = system.file("shiny-addons/dipsaus", package = "dipsaus")),
     meta = NULL, script = "dipsaus-dipterix-lib.js", stylesheet = "dipsaus.css",
     head = NULL, attachment = NULL, package = NULL, all_files = TRUE), class = "html_dependency")
-  if(missing(x)){
+  if (missing(x)) {
     return(deps)
     # x <- shiny::tags$div(style = "display: none;")
   }
@@ -117,8 +117,8 @@ use_shiny_dipsaus <- function(x){
 }
 
 
-ensure_shiny_proxy <- function(session = shiny::getDefaultReactiveDomain()){
-  if( shiny_is_running() ){
+ensure_shiny_proxy <- function(session = shiny::getDefaultReactiveDomain()) {
+  if ( shiny_is_running() ) {
     session$userData$dipsaus_reserved %?<-% new.env(parent = emptyenv())
     re <- session$userData$dipsaus_reserved
   } else {
@@ -130,35 +130,35 @@ ensure_shiny_proxy <- function(session = shiny::getDefaultReactiveDomain()){
   return(re)
 }
 
-registerSetInputs <- function(){
+registerSetInputs <- function() {
   # register input
   shiny::registerInputHandler("dipsaus_asis", function(data, session, name) {
 
-    if(!is.list(data)){
+    if (!is.list(data)) {
       return(NULL)
     }
-    proxy <- match.arg(data$proxy, c('serialize', 'value', 'expression', 'proxy'))
+    proxy <- match.arg(data$proxy, c("serialize", "value", "expression", "proxy"))
 
     raw <- data$value
-    switch (
+    switch(
       proxy,
 
-      'serialize' = {
+      "serialize" = {
         unserialize(base64enc::base64decode(raw))
       },
 
-      'value' = {
+      "value" = {
         jsonlite::fromJSON(base64_urldecode(raw))
       },
 
-      'expression' = {
+      "expression" = {
         raw <- jsonlite::fromJSON(base64_urldecode(raw))
         str2lang(raw)
       },
 
-      'proxy' = {
+      "proxy" = {
         env <- ensure_shiny_proxy(session = session)
-        if( env$proxy_data$`@has`(raw) ){
+        if ( env$proxy_data$`@has`(raw) ) {
           re <- env$proxy_data[[raw]]
           env$proxy_data$`@remove`(raw)
           re
@@ -168,9 +168,9 @@ registerSetInputs <- function(){
       },
 
       {
-        cat2('set_shiny_input method must be from ',
-             sQuote('serialize'), ', ', sQuote('value'),
-             level = 'FATAL')
+        cat2("set_shiny_input method must be from ",
+             sQuote("serialize"), ", ", sQuote("value"),
+             level = "FATAL")
       }
     )
 
@@ -178,18 +178,18 @@ registerSetInputs <- function(){
 
   shiny::registerInputHandler("dipsaus_swal", function(data, session, name) {
 
-    if(!is.list(data)){
+    if (!is.list(data)) {
       return(invisible())
     }
     key <- data$inputId
-    if(length(key) != 1 || !is.character(key)){ return(invisible()) }
+    if (length(key) != 1 || !is.character(key)) { return(invisible()) }
 
     env <- ensure_shiny_proxy(session = session)
     map <- env$alert_callbacks
     re <- map[[key]]
     map$`@remove`(key)
 
-    if(is.function(re)){
+    if (is.function(re)) {
       try({
         re(data$value)
       })

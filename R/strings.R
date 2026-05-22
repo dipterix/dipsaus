@@ -5,10 +5,10 @@
 #' @param mime 'mime' type, default is blank
 #' @return a 'base64' data string looks like \code{'data:;base64,AEF6986...'}
 #' @export
-to_datauri <- function(file, mime = ''){
+to_datauri <- function(file, mime = "") {
   info <- file.info(file)
-  ss <- jsonlite::base64_enc(input = readBin(file, what = 'raw', n = info$size))
-  ss <- sprintf('data:%s;base64,%s', mime, ss)
+  ss <- jsonlite::base64_enc(input = readBin(file, what = "raw", n = info$size))
+  ss <- sprintf("data:%s;base64,%s", mime, ss)
   ss
 }
 
@@ -37,18 +37,18 @@ to_datauri <- function(file, mime = ''){
 #' col2hexStr(1)                     # Instead of #000000, #CD8500
 #'
 #' @export
-col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
-  if(is.null(alpha)){
+col2hexStr <- function(col, alpha = NULL, prefix = "#", ...) {
+  if (is.null(alpha)) {
     alpha <- 1
     transparent <- FALSE
-  }else{
+  } else {
     transparent <- TRUE
   }
   re <- grDevices::adjustcolor(col, alpha.f = alpha)
-  if(!transparent){
+  if (!transparent) {
     re <- str_sub(re, end = 7L)
   }
-  str_replace(re, '^[^0-9A-F]*', prefix)
+  str_replace(re, "^[^0-9A-F]*", prefix)
 }
 
 
@@ -64,61 +64,61 @@ col2hexStr <- function(col, alpha = NULL, prefix = '#', ...){
 #' @examples
 #' parse_svec('1-10, 13:15,14-20')
 #' @export
-parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = TRUE){
-  connect <- unique(unlist(strsplit(connect, '')))
-  connect[connect %in% c('|', ':', '~')] <- paste0('\\', connect[connect %in% c('|', ':', '~')])
-  if('-' %in% connect) {
+parse_svec <- function(text, sep = ",", connect = "-:|", sort = FALSE, unique = TRUE) {
+  connect <- unique(unlist(strsplit(connect, "")))
+  connect[connect %in% c("|", ":", "~")] <- paste0("\\", connect[connect %in% c("|", ":", "~")])
+  if ("-" %in% connect) {
     connect <- c(connect[connect != "-"], "-")
   }
-  connect <- paste(connect, collapse = '')
+  connect <- paste(connect, collapse = "")
 
-  if(length(text) != 1) {
+  if (length(text) != 1) {
     text <- paste(text, collapse = sep)
   }
 
 
-  if(length(text) == 0 || !nzchar(trimws(text))){
+  if (length(text) == 0 || !nzchar(trimws(text))) {
     return(NULL)
   }
 
-  if(is.numeric(text)){
-    if(unique) {
+  if (is.numeric(text)) {
+    if (unique) {
       text <- unique(text)
     }
-    if(sort) {
+    if (sort) {
       text <- sort(text)
     }
     return(text)
   }
   s <- unlist(strsplit(text, sep, perl = TRUE))
   s <- trimws(s)
-  s <- s[s!='']
+  s <- s[s != ""]
 
-  s <- s[grepl(sprintf('^[0-9\\ %s]+$', connect), s)]
-  # s <- s[str_detect(s, sprintf('^[0-9\\ %s]+$', connect))]
+  s <- s[grepl(sprintf("^[0-9\\ %s]+$", connect), s)]
+  # s <- s[str_detect(s, sprintf("^[0-9\\ %s]+$", connect))]
 
   re <- NULL
-  for(ss in s){
-    if(grepl(sprintf('[%s]', connect), ss)){
-      ss <- unlist(strsplit(ss,  sprintf('[%s]', connect), perl = TRUE))
-      # ss <- as.vector(stringr::str_split(ss, sprintf('[%s]', connect), simplify = TRUE))
+  for (ss in s) {
+    if (grepl(sprintf("[%s]", connect), ss)) {
+      ss <- unlist(strsplit(ss,  sprintf("[%s]", connect), perl = TRUE))
+      # ss <- as.vector(stringr::str_split(ss, sprintf("[%s]", connect), simplify = TRUE))
       ss <- trimws(ss)
-      ss <- ss[grepl('^[0-9]+$', ss)]
+      ss <- ss[grepl("^[0-9]+$", ss)]
       ss <- as.numeric(ss)
       ss <- ss[!is.na(ss)]
-      if(length(ss) >= 2){
+      if (length(ss) >= 2) {
         re <- c(re, (ss[1]:ss[2]))
       }
-    }else{
+    } else {
       re <- c(re, as.numeric(ss))
     }
   }
 
-  if(unique){
+  if (unique) {
     re <- unique(re)
   }
 
-  if(sort){
+  if (sort) {
     re <- sort(re)
   }
 
@@ -137,25 +137,25 @@ parse_svec <- function(text, sep = ',', connect = '-:|', sort = FALSE, unique = 
 #' @examples
 #' deparse_svec(c(1:10, 15:18))
 #' @export
-deparse_svec <- function(nums, connect = '-', concatenate = TRUE, collapse = ',', max_lag = 1){
+deparse_svec <- function(nums, connect = "-", concatenate = TRUE, collapse = ",", max_lag = 1) {
   nums <- nums[is.finite(nums)]
-  if(length(nums) == 0){
-    return('')
+  if (length(nums) == 0) {
+    return("")
   }
   alag <- seq_len(max(1, max_lag))
   nums <- sort(unique(nums))
-  lg <- c(NA, nums)[seq_len(length(nums))]
+  lg <- c(NA, nums)[seq_along(nums)]
   ind <- nums - lg
   ind[1] <- 0
   ind2 <- c(ind[-1], -1)
-  re <- apply(cbind(nums[!ind %in% alag], nums[!ind2 %in% alag]), 1,function(x){
-    if(x[1] == x[2]){
+  re <- apply(cbind(nums[!ind %in% alag], nums[!ind2 %in% alag]), 1, function(x) {
+    if (x[1] == x[2]) {
       as.character(x[1])
-    }else{
+    } else {
       paste(x, collapse = connect)
     }
   })
-  if(concatenate){
+  if (concatenate) {
     re <- paste(re, collapse = collapse)
   }
   re
@@ -185,74 +185,74 @@ deparse_svec <- function(nums, connect = '-', concatenate = TRUE, collapse = ','
 #' the color will be "default"-black color.
 #' @export
 cat2 <- function(
-  ..., level = 'DEBUG', print_level = FALSE,
+  ..., level = "DEBUG", print_level = FALSE,
   file = "", sep = " ", fill = FALSE, labels = NULL,
-  append = FALSE, end = '\n', pal = list(
-    'DEBUG' = 'grey60',
-    'INFO' = '#1d9f34',
-    'WARNING' = '#ec942c',
-    'ERROR' = '#f02c2c',
-    'FATAL' = '#763053',
-    'DEFAULT' = 'grey60'
-  ), use_cli = TRUE, bullet = 'auto'
-){
-  if(!level %in% names(pal)){
-    level <- 'DEFAULT'
+  append = FALSE, end = "\n", pal = list(
+    "DEBUG" = "grey60",
+    "INFO" = "#1d9f34",
+    "WARNING" = "#ec942c",
+    "ERROR" = "#f02c2c",
+    "FATAL" = "#763053",
+    "DEFAULT" = "grey60"
+  ), use_cli = TRUE, bullet = "auto"
+) {
+  if (!level %in% names(pal)) {
+    level <- "DEFAULT"
   }
   bullet_list <- list(
-    'DEBUG' = 'tick',
-    'INFO' = 'heart',
-    'WARNING' = 'warning',
-    'ERROR' = 'cross',
-    'FATAL' = 'cross',
-    'DEFAULT' = 'arrow_right'
+    "DEBUG" = "tick",
+    "INFO" = "heart",
+    "WARNING" = "warning",
+    "ERROR" = "cross",
+    "FATAL" = "cross",
+    "DEFAULT" = "arrow_right"
   )
 
   .col <- pal[[level]]
-  if(is.null(.col)){ .col <- '#000000' }
-  if( bullet == 'auto' ){
+  if (is.null(.col)) { .col <- "#000000" }
+  if ( bullet == "auto" ) {
     bullet <- bullet_list[[level]]
-    if(is.null(bullet)){ bullet <- 'arrow_right' }
+    if (is.null(bullet)) { bullet <- "arrow_right" }
   }
 
   # check if interactive
-  if(interactive()){
+  if (interactive()) {
 
-    if( use_cli ){
+    if ( use_cli ) {
 
       cli::cat_bullet(..., col = .col, bullet = bullet)
-    }else{
+    } else {
       # use colored console
       col <- cli::make_ansi_style(.col)
-      if(print_level){
-        base::cat('[', level, ']: ', sep = '')
+      if (print_level) {
+        base::cat("[", level, "]: ", sep = "")
       }
       base::cat(col(..., sep = sep), end = end, file = file, fill = fill,
                 labels = labels, append = append)
     }
 
     # Update: not print anything
-  }else{
+  } else {
     # Whether running in the future session
     base::cat(..., end)
   }
 
-  if(level == 'FATAL'){
+  if (level == "FATAL") {
     # stop!
-    err <- simpleError(paste(..., collapse = '', sep = ''), call = NULL)
+    err <- simpleError(paste(..., collapse = "", sep = ""), call = NULL)
     trace <- rlang::trace_back()
     trace <- as.list(utils::capture.output(print(trace)))
-    if(length(trace) > 1){
-      trace <- c('Full call trees:', trace)
+    if (length(trace) > 1) {
+      trace <- c("Full call trees:", trace)
       err$trace <- trace
-      class(err) <- c('dipsausError', "simpleError", "error", "condition")
+      class(err) <- c("dipsausError", "simpleError", "error", "condition")
     }
 
-    # logger(sprintf('[FATAL] %s', utils::capture.output(traceback(trace))), flush = TRUE)
+    # logger(sprintf("[FATAL] %s", utils::capture.output(traceback(trace))), flush = TRUE)
 
     stop(err)
-  # }else{
-  #   logger(sprintf('%s %s', level, paste(..., collapse = '', sep = '')), flush = FALSE)
+  # } else {
+  #   logger(sprintf("%s %s", level, paste(..., collapse = "", sep = "")), flush = FALSE)
   }
 
   invisible()
@@ -266,25 +266,25 @@ cat2 <- function(
 #' @param kb_to_b how many bytes counts one KB, 1000 by default
 #' @return numeric equaling to \code{s} but formatted
 #' @export
-to_ram_size <- function(s, kb_to_b = 1000){
+to_ram_size <- function(s, kb_to_b = 1000) {
   base <- floor(log(max(abs(s), 1), kb_to_b))
   s <- s / (kb_to_b ^ (base))
-  if(is.na(base)){
+  if (is.na(base)) {
     base <- 0
   }
-  attr(s, 'unit') <- c('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')[base+1]
-  class(s) <- c('dipsaus_bytes', class(s))
+  attr(s, "unit") <- c("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")[base + 1]
+  class(s) <- c("dipsaus_bytes", class(s))
   s
 }
 
 
 #' @export
-as.character.dipsaus_bytes <- function(x, digit=1, ...){
-  sprintf(sprintf('%%.%df %s', digit, attr(x, 'unit')), x)
+as.character.dipsaus_bytes <- function(x, digit = 1, ...) {
+  sprintf(sprintf("%%.%df %s", digit, attr(x, "unit")), x)
 }
 
 #' @export
-print.dipsaus_bytes <- function(x, digit=1, ...){
+print.dipsaus_bytes <- function(x, digit = 1, ...) {
   re <- as.character(x, digit = digit, ...)
   cat(re)
   invisible(re)
@@ -294,14 +294,14 @@ print.dipsaus_bytes <- function(x, digit=1, ...){
 #' This is an experimental function that is designed for non-windows systems
 #' @return a list of total free memory.
 #' @export
-mem_limit2 <- function(){
+mem_limit2 <- function() {
 
   total <- get_ram()
 
 
   bytes <- 8 * .Machine$sizeof.pointer
   bytes <- bytes - (bytes > 32) * 4 - 4
-  free <- sum(gc()[,1] * c(bytes, 8))
+  free <- sum(gc()[, 1] * c(bytes, 8))
 
   list(
     total = total,
@@ -335,34 +335,34 @@ mem_limit2 <- function(){
 #' return \code{NULL}
 #'
 #' @examples
-#' if(interactive()){
+#' if(interactive()) {
 #' ask_yesno('Do you know how hard it is to submit an R package and ',
 #'           'pass the CRAN checks?')
 #' ask_yesno('Can I pass the CRAN check this time?')
 #' }
 #' @export
-ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE,
-                      use_rs = TRUE, ok = 'Yes', cancel = 'No',
-                      rs_title = 'Yes or No:'){
+ask_yesno <- function(..., end = "", level = "INFO", error_if_canceled = TRUE,
+                      use_rs = TRUE, ok = "Yes", cancel = "No",
+                      rs_title = "Yes or No:") {
 
-  if(use_rs && rs_avail()){
-    s <- paste(..., sep = '\n')
+  if (use_rs && rs_avail()) {
+    s <- paste(..., sep = "\n")
     res <- rstudioapi::showQuestion(rs_title, s, ok = ok, cancel = cancel)
     return(isTRUE(res))
   } else {
-    cat2(..., ' (Yes/no): ', end = end, level = level)
+    cat2(..., " (Yes/no): ", end = end, level = level)
     answer <- readline()
     answer <- trimws(toupper(answer))
-    if( answer %in% c('Y', 'YES') ){ return(TRUE) }
-    if( answer %in% c('N', 'NO') ){ return(FALSE) }
-    if( answer %in% c('C') ){
-      if( error_if_canceled ){
-        cat2('Canceled.', level = 'FATAL')
-      }else{
+    if ( answer %in% c("Y", "YES") ) { return(TRUE) }
+    if ( answer %in% c("N", "NO") ) { return(FALSE) }
+    if ( answer %in% c("C") ) {
+      if ( error_if_canceled ) {
+        cat2("Canceled.", level = "FATAL")
+      } else {
         return(NULL)
       }
     }
-    Recall('Please answer Y/yes, N/no, or c to cancel.', end = '', level = 'WARNING', error_if_canceled = error_if_canceled)
+    Recall("Please answer Y/yes, N/no, or c to cancel.", end = "", level = "WARNING", error_if_canceled = error_if_canceled)
   }
 
 
@@ -385,23 +385,23 @@ ask_yesno <- function(..., end = '', level = 'INFO', error_if_canceled = TRUE,
 #' @return A character from the user's input, or the default value. See details.
 #'
 #' @examples
-#' if(interactive()){
+#' if(interactive()) {
 #' ask_or_default('What is the best programming language?',
 #'                default = 'PHP')
 #' }
 #' @export
-ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
+ask_or_default <- function(..., default = "", end = "", level = "INFO") {
 
-  if(rs_avail()){
-    answer <- rstudioapi::showPrompt('Question', paste(..., sep = '\n'), default = default)
-    if(!length(answer) || answer == ''){
+  if (rs_avail()) {
+    answer <- rstudioapi::showPrompt("Question", paste(..., sep = "\n"), default = default)
+    if (!length(answer) || answer == "") {
       answer <- default
     }
   } else {
-    cat2(..., sprintf('\n  [default is %s] ', sQuote(default)),
+    cat2(..., sprintf("\n  [default is %s] ", sQuote(default)),
          end = end, level = level)
     answer <- trimws(readline())
-    if( answer == '' ){
+    if ( answer == "" ) {
       answer <- default
     }
   }
@@ -421,63 +421,63 @@ ask_or_default <- function(..., default = '', end = '', level = 'INFO'){
 #' @param ... pass to \code{\link[base]{list.files}} when list all files
 #' @return Characters, print-friendly directory tree.
 #' @export
-print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
-                                 collapse = NULL, ...){
-  root <- normalizePath(root, winslash = '/', mustWork = FALSE)
+print_directory_tree <- function(target, root = "~", child, dir_only = FALSE,
+                                 collapse = NULL, ...) {
+  root <- normalizePath(root, winslash = "/", mustWork = FALSE)
   target <- file.path(root, target)
-  target <- str_replace_all(target, '\\\\', '/')
-  target <- normalizePath(target, mustWork = FALSE, winslash = '/')
+  target <- str_replace_all(target, "\\\\", "/")
+  target <- normalizePath(target, mustWork = FALSE, winslash = "/")
 
-  paths <- stringr::str_split(target, '\\\\|/', simplify = TRUE)
-  rpath <- stringr::str_split(root, '\\\\|/', simplify = TRUE)
+  paths <- stringr::str_split(target, "\\\\|/", simplify = TRUE)
+  rpath <- stringr::str_split(root, "\\\\|/", simplify = TRUE)
 
-  tree_id <- cbind(paste(rpath, collapse = '/'), paths[, -seq_along(rpath)])
+  tree_id <- cbind(paste(rpath, collapse = "/"), paths[, -seq_along(rpath)])
 
-  df <- list('...' = character(0))
+  df <- list("..." = character(0))
 
-  for(i in seq_len(nrow(tree_id))){
+  for (i in seq_len(nrow(tree_id))) {
 
-    if(i == 1){
-      if( missing(child) ){
+    if (i == 1) {
+      if ( missing(child) ) {
         # child is only for the first target
         dir <- target[[i]]
-        if( dir.exists(dir) ){
+        if ( dir.exists(dir) ) {
           child <- list.dirs(dir, full.names = FALSE, recursive = FALSE)
-          if(!dir_only){
+          if (!dir_only) {
             child <- c(child, list.files(dir, full.names = FALSE, include.dirs = FALSE, ...))
           }
-          df[child] <- lapply(child, function(o){ character(0) })
+          df[child] <- lapply(child, function(o) { character(0) })
         } else {
-          child <- '...'
+          child <- "..."
         }
-      } else if(!length(child)){
+      } else if (!length(child)) {
         child <- character(0)
       } else {
-        df[child] <- lapply(child, function(o){ character(0) })
+        df[child] <- lapply(child, function(o) { character(0) })
       }
     } else {
-      child <- '...'
+      child <- "..."
     }
 
-    x <- c(as.list(tree_id[i, ]), list(child), list(''))
-    Reduce(function(a,b){
-      if(length(a) == 1 && a != ''){
+    x <- c(as.list(tree_id[i, ]), list(child), list(""))
+    Reduce(function(a, b) {
+      if (length(a) == 1 && a != "") {
         df[[a]] <<- c(df[[a]], b)
       }
       b
     }, x)
   }
 
-  res <- cli::tree(data.frame(names(df), I(unname(lapply(df, function(x){
-    x <- x[x!='']
-    if(!length(x)){
+  res <- cli::tree(data.frame(names(df), I(unname(lapply(df, function(x) {
+    x <- x[x != ""]
+    if (!length(x)) {
       x <- character(0)
-    }else {
+    } else {
       x <- unique(x)
     }
     x
   })))), root = root)
-  if(length(collapse) == 1){
+  if (length(collapse) == 1) {
     res <- paste(res, collapse = collapse)
   }
   res
@@ -505,8 +505,8 @@ print_directory_tree <- function(target, root = '~', child, dir_only = FALSE,
 #'
 #'
 #' @export
-capture_expr <- function(expr, collapse = '\n',
-                         type = c("output", "message"), ...){
+capture_expr <- function(expr, collapse = "\n",
+                         type = c("output", "message"), ...) {
   invisible(paste(utils::capture.output(expr, type = type, ...),
                   collapse = collapse))
 }

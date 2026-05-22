@@ -36,8 +36,8 @@ ui <- flex_div(
   shiny::fileInput('aa', 'item 5', width = '100\%'),
   ncols = c(2,3) # Try to assign 2 or 3 items per column
 )
-if(interactive()){
+if(interactive()) {
   shiny::shinyApp(ui = shiny::fluidPage(shiny::fluidRow(ui)),
-                  server = function(input, output, session){})
+                  server = function(input, output, session) {})
 }
 }
