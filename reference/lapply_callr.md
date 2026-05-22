@@ -88,9 +88,9 @@ identical to [`lapply`](https://rdrr.io/r/base/lapply.html); when
 
 ``` r
 
-if(interactive()){
+if(interactive()) {
 
-  lapply_callr(1:3, function(x, a){
+  lapply_callr(1:3, function(x, a) {
     c(Sys.getpid(), a, x)
   }, a = 1)
 

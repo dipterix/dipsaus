@@ -68,7 +68,7 @@ This can only be used in an
 ## Examples
 
 ``` r
-if(interactive()){
+if(interactive()) {
 ask_yesno('Do you know how hard it is to submit an R package and ',
           'pass the CRAN checks?')
 ask_yesno('Can I pass the CRAN check this time?')

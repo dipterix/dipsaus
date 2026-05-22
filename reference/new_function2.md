@@ -56,7 +56,7 @@ expanded if any 'quasi-quosure' detected
 [`formals`](https://rdrr.io/r/base/formals.html). For arguments with no
 default values, or quoted defaults, use
 [`alist`](https://rdrr.io/r/base/list.html). An `arg=alist(a=)` will
-result in a function like `function(a){...}`. See examples for more
+result in a function like `function(a) {...}`. See examples for more
 details.
 
 ## See also
@@ -85,7 +85,7 @@ print(f2)
 #> {
 #>     print(a + 1:10)
 #> }
-#> <environment: 0x55f7893818d0>
+#> <environment: 0x56236b980168>
 
 f2(0)
 #>  [1]  1  2  3  4  5  6  7  8  9 10
@@ -99,29 +99,29 @@ f2(0)  # result doesn't change as f2 doesn't depend on x anymore
 default <- 123
 
 # default with values pre-specified
-new_function2(list(a = default))   # function (a = 123){}
+new_function2(list(a = default))   # function (a = 123) {}
 #> function (a = 123) 
 #> {
 #> }
-#> <environment: 0x55f788eea918>
+#> <environment: 0x56236bfa7a60>
 
 # default with values unevaluated
-new_function2(list(a = quote(default)))   # function (a = default){}
+new_function2(list(a = quote(default)))   # function (a = default) {}
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x55f7898c6490>
+#> <environment: 0x56236ba2e2c8>
 new_function2(alist(a = default))
 #> function (a = default) 
 #> {
 #> }
-#> <environment: 0x55f7898f4500>
+#> <environment: 0x56236b82b900>
 
 # missing default
-new_function2(alist(a = ))    # function (a){}
+new_function2(alist(a = ))    # function (a) {}
 #> function (a) 
 #> {
 #> }
-#> <environment: 0x55f788b364f8>
+#> <environment: 0x562369fd4ea0>
 
 ```

@@ -48,11 +48,15 @@ multiple shiny inputs. For examples
 ``` r
 
 compoundInput2(
-  'compound', 'Group Label', label_color = 1:10,
+  "compound", "Group Label", label_color = 1:10,
   components = div(
-    textInput('txt', 'Text'),
-    selectInput('sel', 'Select', choices = 1:10, multiple = TRUE),
-    sliderInput('sli', 'Slider', max=1, min=0, val=0.5)
+    textInput("txt", "Text"),
+    selectInput("sel", "Select", choices = 1:10, multiple = TRUE),
+    sliderInput("sli",
+                "Slider",
+                max = 1,
+                min = 0,
+                val = 0.5)
   ), max_ncomp = 10, min_ncomp = 0, initial_ncomp = 1
 )
 ```
@@ -95,10 +99,10 @@ following code might cause recursive updates:
 
 # Bad example
 observeEvent(input$A, {
-  updateSliderInput(session, 'B', value = input$A)
+  updateSliderInput(session, "B", value = input$A)
 })
 observeEvent(input$B, {
-  updateTextInput(session, 'A', value = input$B)
+  updateTextInput(session, "A", value = input$B)
 })
 ```
 
@@ -106,13 +110,21 @@ In this case, you can use `sync_shiny_inputs`:
 
 ``` r
 
-sync_shiny_inputs(input, session, inputIds = c('A', 'B'), uniform = list(
-  function(a){as.numeric(a)},
-  function(b){ b }
-), updates = list(
-  function(a){updateTextInput(session, 'A', value = a)},
-  function(b){updateSliderInput(session, 'B', value = b)}
-))
+sync_shiny_inputs(
+  input,
+  session,
+  inputIds = c("A", "B"),
+  uniform = list(function(a) {
+    as.numeric(a)
+  }, function(b) {
+    b
+  }),
+  updates = list(function(a) {
+    updateTextInput(session, "A", value = a)
+  }, function(b) {
+    updateSliderInput(session, "B", value = b)
+  })
+)
 ```
 
 `inputIds` refers to the input ID to be synchronized. When one or more

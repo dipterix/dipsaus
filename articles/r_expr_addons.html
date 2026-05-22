@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>R Expression Add-on • dipsaus</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="R Expression Add-on">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dipsaus</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.4.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@ example, to check if a variable <code>aa</code> exists and not
 <code>NULL</code>, otherwise set a default value to be 1, the check
 looks like:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">'aa'</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span> <span class="op">)</span><span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"aa"</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">aa</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">aa</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Most of time we are repeating ourselves. With <code>%?&lt;-%</code>
@@ -102,7 +102,10 @@ even evaluate the expressions on the right-hand side)</p>
 <span></span>
 <span><span class="co"># %?&lt;-% will not evaluate rhs, nor assign values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>  <span class="va">e</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">}</span></span>
+<span>  <span class="va">e</span> <span class="op"><a href="../reference/grapes-help-set-grapes.html">%?&lt;-%</a></span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>aa <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $aa</span></span>
@@ -115,29 +118,29 @@ even evaluate the expressions on the right-hand side)</p>
 </h3>
 <p>In modern JavaScript, function can be created via
 <code>(arg) =&gt; { ... }</code>. For example,</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="kw">const</span> li <span class="op">=</span> [<span class="st">'A'</span><span class="op">,</span> <span class="st">'T'</span><span class="op">,</span> <span class="st">'G'</span><span class="op">,</span> <span class="st">'C'</span>]<span class="op">;</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="kw">const</span> li <span class="op">=</span> [<span class="st">"A"</span><span class="op">,</span> <span class="st">"T"</span><span class="op">,</span> <span class="st">"G"</span><span class="op">,</span> <span class="st">"C"</span>]<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>li<span class="op">.</span><span class="fu">map</span>((el<span class="op">,</span> ii) <span class="kw">=&gt;</span> {</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="cf">return</span>(<span class="vs">`The index for </span><span class="sc">${</span>el<span class="sc">}</span><span class="vs"> is </span><span class="sc">${</span>ii<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
 <script>
-const li = ['A', 'T', 'G', 'C'];
+const li = ["A", "T", "G", "C"];
 li.map((el, ii) => {
   return(`The index for ${el} is ${ii}`);
 });
 </script><p><code>dipsaus</code> provides functions <code>iapply</code>, and
 <code>%=&gt;%</code>, for example:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">li</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'T'</span>, <span class="st">'G'</span>, <span class="st">'C'</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">li</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"T"</span>, <span class="st">"G"</span>, <span class="st">"C"</span><span class="op">)</span></span>
 <span><span class="va">li</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">'The index for %s is %s'</span>, <span class="va">el</span>, <span class="va">ii</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"The index for %s is %s"</span>, <span class="va">el</span>, <span class="va">ii</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The index for A is 1" "The index for T is 2" "The index for G is 3"</span></span>
 <span><span class="co">#&gt; [4] "The index for C is 4"</span></span></code></pre></div>
 <p><code>%=&gt;%</code> collect the left-hand side elements as arguments
 and right-hand side expression as body and create function:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span><span class="va">a</span>, b<span class="op">=</span><span class="va">a</span><span class="op">^</span><span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span> , <span class="va">b</span>,<span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span><span class="va">a</span>, b <span class="op">=</span> <span class="va">a</span><span class="op">^</span><span class="fl">2</span>, <span class="va">...</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="co">#&gt; function (a, b = a^2, ...) </span></span>
 <span><span class="co">#&gt; {</span></span>
@@ -150,7 +153,7 @@ and right-hand side expression as body and create function:</p>
 <p>The function <code>match.call</code> provided by base package let us
 format calls with formals matched.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">textInput</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"inputId"</span>, <span class="st">"label"</span>, <span class="st">"aaa"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; textInput(inputId = "inputId", label = "label", value = "aaa")</span></span></code></pre></div>
 <p>This is already powerful as we can parse the expressions using
 <code><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list()</a></code> to get the input parameters. However, when
@@ -161,7 +164,7 @@ results inside of the nested functions.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/match.call.html" class="external-link">match.call</a></span><span class="op">(</span><span class="va">tagList</span>, call <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"inputId"</span>, <span class="st">"label"</span>, <span class="st">"aaa"</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -172,7 +175,7 @@ results inside of the nested functions.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"inputId"</span>, <span class="st">"label"</span>, <span class="st">"aaa"</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -183,17 +186,17 @@ results inside of the nested functions.</p>
 <code>replave_args</code> changes <code>"inputId"</code> to
 <code>ns("inputId")</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span>call <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
-<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
-<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">'inputId'</span>, <span class="st">'label'</span>, <span class="st">'aaa'</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/match_calls.html">match_calls</a></span><span class="op">(</span></span>
+<span>  call <span class="op">=</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">li</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"inputId"</span>, <span class="st">"label"</span>, <span class="st">"aaa"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  replace_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="st">"inputId"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/call.html" class="external-link">as.call</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">ns</span><span class="op">)</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, replace_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="st">'inputId'</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">v</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/call.html" class="external-link">as.call</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">ns</span><span class="op">)</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; tagList(div(tags$ul(tags$li(textInput(inputId = ns("inputId"), </span></span>
 <span><span class="co">#&gt;     label = "label", value = "aaa")))))</span></span></code></pre></div>
 </div>
@@ -223,17 +226,17 @@ pipe and continue the analysis, usually this is what happens:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final_results</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">do_something</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">plot</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">plot</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">do_others</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s an example</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span><span class="va">el</span>, <span class="va">ii</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-greater-than-grapes.html">%=&gt;%</a></span> <span class="op">{</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, <span class="va">el</span>, <span class="va">ii</span><span class="op">)</span></span>
-<span>  <span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  </span>
 <span>  <span class="co"># Begin no-ops, result will not change</span></span>
@@ -243,11 +246,11 @@ pipe and continue the analysis, usually this is what happens:</p>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span></span>
 <span>    <span class="co"># Use function and pass ... to function</span></span>
-<span>    <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>, </span>
-<span>    type <span class="op">=</span> <span class="st">'p'</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>,<span class="fl">20</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>,</span>
-<span>    xlab <span class="op">=</span> <span class="st">'Time'</span>, ylab <span class="op">=</span> <span class="st">'Value'</span>, las <span class="op">=</span> <span class="fl">1</span></span>
+<span>    <span class="va">plot</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"p"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">20</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Time"</span>, ylab <span class="op">=</span> <span class="st">"Value"</span>, las <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">'Values'</span>, main <span class="op">=</span> <span class="st">'Histogram'</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="../reference/no_op.html">no_op</a></span><span class="op">(</span><span class="va">hist</span>, xlab <span class="op">=</span> <span class="st">"Values"</span>, main <span class="op">=</span> <span class="st">"Histogram"</span><span class="op">)</span> </span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">#&gt;  -8.101   1.379   4.588   6.344  10.196  35.644</span></span></code></pre></div>
 <p><img src="r_expr_addons_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="672"></p>

@@ -41,11 +41,11 @@ function) or the result of `ALT_FUN()`.
 # 1. ALT_FUN get executed because FUN returns NULL for all items in x
 forelse(
   1:10,
-  function(x){
+  function(x) {
     cat('The input is ', x, end = '\n')
-    if( x > 10) return(x) else return(NULL)
+    if ( x > 10) return(x) else return(NULL)
   },
-  function(){
+  function() {
     cat('ALT_FUN is executed!\n')
     'wow'
   }
@@ -66,9 +66,9 @@ forelse(
 # 2. FUN returns non-NULL object
 forelse(
   1:10,
-  function(x){
+  function(x) {
     cat('The input is ', x, end = '\n')
-    if( x %% 2 == 0 ) return(x) else return(NULL)
+    if ( x %% 2 == 0 ) return(x) else return(NULL)
   },
   'wow'
 )
@@ -77,24 +77,24 @@ forelse(
 #> [1] 2
 
 # --------------------------- Performance ------------------------------
-FUN <- function(x){
+FUN <- function(x) {
   Sys.sleep(0.01)
-  if( x %% 2 == 0 ) return(x) else return(NULL)
+  if ( x %% 2 == 0 ) return(x) else return(NULL)
 }
 
 microbenchmark::microbenchmark({
   forelse(1:10, FUN, 'wow')
 }, {
   y <- unlist(lapply(1:10, FUN))
-  if(length(y)){
+  if (length(y)) {
     y <- y[[1]]
-  }else{
+  } else {
     y <- 'wow'
   }
 }, {
   y <- NULL
-  for(x in 1:10){ y <- FUN(x) }
-  if(is.null(y)){ y <- 'wow' }
+  for (x in 1:10) { y <- FUN(x) }
+  if (is.null(y)) { y <- 'wow' }
 }, times = 3)
 #> Unit: milliseconds
 #>                                                                                                                       expr
@@ -102,8 +102,8 @@ microbenchmark::microbenchmark({
 #>  {     y <- unlist(lapply(1:10, FUN))     if (length(y)) {         y <- y[[1]]     }     else {         y <- "wow"     } }
 #>           {     y <- NULL     for (x in 1:10) {         y <- FUN(x)     }     if (is.null(y)) {         y <- "wow"     } }
 #>        min        lq      mean    median        uq       max neval
-#>   20.16643  20.19583  20.21771  20.22522  20.24335  20.26148     3
-#>  101.00406 101.01575 101.06052 101.02744 101.08875 101.15006     3
-#>  100.83222 100.89676 100.94509 100.96129 101.00153 101.04177     3
+#>   20.24231  20.26441  20.27215  20.28651  20.28707  20.28762     3
+#>  101.18841 101.19884 101.20268 101.20927 101.20982 101.21036     3
+#>  101.06184 101.11695 101.14239 101.17207 101.18267 101.19327     3
 
 ```

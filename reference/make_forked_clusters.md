@@ -77,7 +77,7 @@ results before exiting the outer function.
 
 
 
-if(interactive()){
+if(interactive()) {
 
   # ------ Basic example
   library(future)
@@ -113,10 +113,10 @@ if(interactive()){
   options("dipsaus.cluster.backup" = "multisession")
 
   # simple case:
-  my_func <- function(){
+  my_func <- function() {
     make_forked_clusters(clean = TRUE)
 
-    fs <- lapply(1:4, function(i){
+    fs <- lapply(1:4, function(i) {
       future({Sys.getpid()})
     })
 
@@ -130,7 +130,7 @@ if(interactive()){
   my_plan <- plan()
 
   # lapply_async2 version of the previous task
-  lapply_async2(1:4, function(i){
+  lapply_async2(1:4, function(i) {
     Sys.getpid()
   })
 

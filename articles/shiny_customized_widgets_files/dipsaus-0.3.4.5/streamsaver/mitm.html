@@ -1,0 +1,130 @@
+<!--
+  mitm.html is the lite "man in the middle"
+
+  This is only meant to signal the opener's messageChannel to
+  the service worker - when that is done this mitm can be closed
+  but it's better to keep it alive since this also stops the sw
+  from restarting
+
+  The service worker is capable of intercepting all request and fork their
+  own "fake" response - wish we are going to craft
+  when the worker then receives a stream then the worker will tell the opener
+  to open up a link that will start the download
+-->
+<script>
+let keepAlive = () => {
+  keepAlive = () => {}
+  var ping = location.href.substr(0, location.href.lastIndexOf('/')) + '/ping'
+  var interval = setInterval(() => {
+    if (sw) {
+      sw.postMessage('ping')
+    } else {
+      fetch(ping).then(res => res.text(!res.ok && clearInterval(interval)))
+    }
+  }, 10000)
+}
+
+let messages = []
+window.onmessage = evt => messages.push(evt)
+
+let sw = null
+let scope = ''
+
+function registerWorker() {
+  return navigator.serviceWorker.getRegistration('./').then(swReg => {
+    return swReg || navigator.serviceWorker.register('sw.js', { scope: './' })
+  }).then(swReg => {
+    const swRegTmp = swReg.installing || swReg.waiting
+
+    scope = swReg.scope
+
+    return (sw = swReg.active) || new Promise(resolve => {
+      swRegTmp.addEventListener('statechange', fn = () => {
+        if (swRegTmp.state === 'activated') {
+          swRegTmp.removeEventListener('statechange', fn)
+          sw = swReg.active
+          resolve()
+        }
+      })
+    })
+  })
+}
+
+function onMessage (event) {
+  let { data, ports, origin } = event
+
+  if (!ports || !ports.length) {
+    throw new TypeError("[StreamSaver] You didn't send a messageChannel")
+  }
+
+  if (typeof data !== 'object') {
+    throw new TypeError("[StreamSaver] You didn't send a object")
+  }
+
+  data.origin = origin
+  data.referrer = data.referrer || document.referrer || origin
+  data.streamSaverVersion = new URLSearchParams(location.search).get('version')
+
+  if (data.streamSaverVersion === '1.2.0') {
+    console.warn('[StreamSaver] please update streamsaver')
+  }
+
+  if (!data.headers) {
+    console.warn("[StreamSaver] pass `data.headers` that you would like to pass along to the service worker\nit should be a 2D array or a key/val object that fetch's Headers api accepts")
+  } else {
+    new Headers(data.headers)
+  }
+
+  if (typeof data.filename === 'string') {
+    console.warn("[StreamSaver] You shouldn't send `data.filename` anymore. It should be included in the Content-Disposition header option")
+    data.filename = data.filename.replace(/\//g, ':')
+  }
+
+  if (data.size) {
+    console.warn("[StreamSaver] You shouldn't send `data.size` anymore. It should be included in the content-length header option")
+  }
+
+  if (data.readableStream) {
+    console.warn("[StreamSaver] You should send the readableStream in the messageChannel, not throught mitm")
+  }
+
+  if (!data.pathname) {
+    console.warn("[StreamSaver] Please send `data.pathname` (eg: /pictures/summer.jpg)")
+    data.pathname = Math.random().toString().slice(-6) + '/' + data.filename
+  }
+
+  data.pathname = data.pathname.replace(/^\/+/g, '')
+
+  let org = origin.replace(/(^\w+:|^)\/\//, '')
+
+  data.url = new URL(`${scope + org}/${data.pathname}`).toString()
+
+  if (!data.url.startsWith(`${scope + org}/`)) {
+    throw new TypeError('[StreamSaver] bad `data.pathname`')
+  }
+
+  const transferable = data.readableStream
+    ? [ ports[0], data.readableStream ]
+    : [ ports[0] ]
+
+  if (!(data.readableStream || data.transferringReadable)) {
+    keepAlive()
+  }
+
+  return sw.postMessage(data, transferable)
+}
+
+if (window.opener) {
+  window.opener.postMessage('StreamSaver::loadedPopup', '*')
+}
+
+if (navigator.serviceWorker) {
+  registerWorker().then(() => {
+    window.onmessage = onMessage
+    messages.forEach(window.onmessage)
+  })
+}
+
+keepAlive()
+
+</script>

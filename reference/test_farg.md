@@ -26,7 +26,7 @@ test_farg(fun, arg, dots = TRUE)
 
 ``` r
 
-a <- function(n = 1){}
+a <- function(n = 1) {}
 
 # Test whether `a` has argument called 'b'
 test_farg(a, 'b')
@@ -37,7 +37,7 @@ test_farg(a, c('b', 'n'))
 #> [1] FALSE  TRUE
 
 # `a` now has dots
-a <- function(n = 1, ...){}
+a <- function(n = 1, ...) {}
 
 # 'b' could goes to dots and a(b=...) is still valid
 test_farg(a, 'b')

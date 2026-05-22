@@ -31,10 +31,10 @@ lhs %D% rhs
 
 # Example 1: basic usage
 # Decorator that prints summary of results and return results itself
-verbose_summary <- function(...){
+verbose_summary <- function(...) {
   summary_args <- list(...)
-  function(f){
-    function(...){
+  function(f) {
+    function(...) {
       results <- f(...)
 
 
@@ -66,9 +66,9 @@ x <- 1:20
 y <- x + rnorm(20)
 
 # decorator, add a line with slope 1 with given intercept
-abline_xy <- function(b){
-  function(f){
-    function(...){
+abline_xy <- function(b) {
+  function(f) {
+    function(...) {
       f(...)
       intercept <- get_dots('intercept', 0, ...)
       abline(a = intercept, b = b)
@@ -77,7 +77,7 @@ abline_xy <- function(b){
 }
 
 # orig, plot whatever x vs jittered+intercept
-plot_xy <- function(x, intercept = rnorm(1)){
+plot_xy <- function(x, intercept = rnorm(1)) {
   plot(x, jitter(x, amount = 3) + intercept)
 }
 

@@ -34,7 +34,7 @@ Sys.sleep(0.3)
 b = Sys.time()
 
 time_delta(a, b) # In seconds, around 0.3
-#> [1] 0.3015678
+#> [1] 0.3016374
 time_delta(a, b, 'mins') # in minutes, around 0.005
-#> [1] 0.00502613
+#> [1] 0.00502729
 ```

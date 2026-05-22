@@ -40,7 +40,7 @@ This can only be used in an
 ## Examples
 
 ``` r
-if(interactive()){
+if(interactive()) {
 ask_or_default('What is the best programming language?',
                default = 'PHP')
 }

@@ -8,7 +8,7 @@ default value to be 1, the check looks like:
 
 ``` r
 
-if( exists('aa') && !is.null(aa) ){
+if ( exists("aa") && !is.null(aa) ) {
   aa <- 1
 }
 ```
@@ -47,7 +47,10 @@ e <- list(aa = 1)
 
 # %?<-% will not evaluate rhs, nor assign values
 system.time({
-  e %?<-% { Sys.sleep(10); list(aa = 2) }
+  e %?<-% {
+    Sys.sleep(10)
+    list(aa = 2)
+  }
   print(e)
 })
 #> $aa
@@ -62,7 +65,7 @@ In modern JavaScript, function can be created via `(arg) => { ... }`.
 For example,
 
 ``` js
-const li = ['A', 'T', 'G', 'C'];
+const li = ["A", "T", "G", "C"];
 li.map((el, ii) => {
   return(`The index for ${el} is ${ii}`);
 });
@@ -72,9 +75,9 @@ li.map((el, ii) => {
 
 ``` r
 
-li <- c('A', 'T', 'G', 'C')
+li <- c("A", "T", "G", "C")
 li |> iapply(alist(el, ii) %=>% {
-  sprintf('The index for %s is %s', el, ii)
+  sprintf("The index for %s is %s", el, ii)
 })
 #> [1] "The index for A is 1" "The index for T is 2" "The index for G is 3"
 #> [4] "The index for C is 4"
@@ -85,8 +88,8 @@ side expression as body and create function:
 
 ``` r
 
-alist(a, b=a^2, ...) %=>% {
-  print(c(a , b,...))
+alist(a, b = a^2, ...) %=>% {
+  print(c(a, b, ...))
 }
 #> function (a, b = a^2, ...) 
 #> {
@@ -101,7 +104,7 @@ with formals matched.
 
 ``` r
 
-match.call(textInput, call = quote(textInput('inputId', 'label', 'aaa')))
+match.call(textInput, call = quote(textInput("inputId", "label", "aaa")))
 #> textInput(inputId = "inputId", label = "label", value = "aaa")
 ```
 
@@ -116,7 +119,7 @@ results inside of the nested functions.
 match.call(tagList, call = quote(tagList(
   div(
     tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
+      tags$li(textInput("inputId", "label", "aaa"))
     )
   )
 )))
@@ -130,7 +133,7 @@ match.call(tagList, call = quote(tagList(
 match_calls(call = tagList(
   div(
     tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
+      tags$li(textInput("inputId", "label", "aaa"))
     )
   )
 ), recursive = TRUE)
@@ -144,17 +147,17 @@ input ID in shiny modules, then the following `replave_args` changes
 
 ``` r
 
-match_calls(call = tagList(
-  div(
-    tags$ul(
-      tags$li(textInput('inputId', 'label', 'aaa'))
-    )
+match_calls(
+  call = tagList(div(tags$ul(
+    tags$li(textInput("inputId", "label", "aaa"))
+  ))),
+  recursive = TRUE,
+  replace_args = list(
+    "inputId" = function(v, ...) {
+      as.call(list(quote(ns), v))
+    }
   )
-), recursive = TRUE, replace_args = list(
-  'inputId' = function(v, ...){
-    as.call(list(quote(ns), v))
-  }
-))
+)
 #> tagList(div(tags$ul(tags$li(textInput(inputId = ns("inputId"), 
 #>     label = "label", value = "aaa")))))
 ```
@@ -189,7 +192,7 @@ With `no_op`, the pipe becomes:
 
 final_results <- x |> 
   do_something(...) |> 
-  no_op(plot, ylim = c(0,100)) |> 
+  no_op(plot, ylim = c(0, 100)) |> 
   do_others(...)
 ```
 
@@ -198,12 +201,12 @@ Here’s an example
 ``` r
 
 
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 
-result <- (1:10) |> 
+result <- (1:10) |>
   iapply(alist(el, ii) %=>% {
     rnorm(20, el, ii)
-  }, simplify = FALSE) |> 
+  }, simplify = FALSE) |>
   unlist() |> 
   
   # Begin no-ops, result will not change
@@ -213,11 +216,11 @@ result <- (1:10) |>
   }) |> 
   no_op(
     # Use function and pass ... to function
-    plot, x = seq(0,1,length.out = 200), 
-    type = 'p', ylim = c(-20,20), pch = 16,
-    xlab = 'Time', ylab = 'Value', las = 1
+    plot, x = seq(0, 1, length.out = 200), 
+    type = "p", ylim = c(-20, 20), pch = 16,
+    xlab = "Time", ylab = "Value", las = 1
   ) |> 
-  no_op(hist, xlab = 'Values', main = 'Histogram') 
+  no_op(hist, xlab = "Values", main = "Histogram") 
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #>  -8.101   1.379   4.588   6.344  10.196  35.644
 ```

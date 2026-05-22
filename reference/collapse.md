@@ -52,25 +52,25 @@ x = array(rnorm(240), dim = c(4,5,6,2))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 1L, check = function(v){
+  times = 1L, check = function(v) {
     max(abs(range(do.call('-', v)))) < 1e-10
   }
 )
 #> Unit: microseconds
 #>     expr     min      lq    mean  median      uq     max neval
-#>   result 681.371 681.371 681.371 681.371 681.371 681.371     1
-#>  compare 626.076 626.076 626.076 626.076 626.076 626.076     1
+#>   result 816.889 816.889 816.889 816.889 816.889 816.889     1
+#>  compare 562.883 562.883 562.883 562.883 562.883 562.883     1
 
 # large data big difference
 x = array(rnorm(prod(300,200,105)), c(300,200,105,1))
 microbenchmark::microbenchmark(
   result = collapse(x, keep = c(3,2)),
   compare = apply(x, c(3,2), sum),
-  times = 1L , check = function(v){
+  times = 1L , check = function(v) {
     max(abs(range(do.call('-', v)))) < 1e-10
   })
 #> Unit: milliseconds
 #>     expr      min       lq     mean   median       uq      max neval
-#>   result  61.4848  61.4848  61.4848  61.4848  61.4848  61.4848     1
-#>  compare 112.1539 112.1539 112.1539 112.1539 112.1539 112.1539     1
+#>   result  54.4428  54.4428  54.4428  54.4428  54.4428  54.4428     1
+#>  compare 125.9565 125.9565 125.9565 125.9565 125.9565 125.9565     1
 ```

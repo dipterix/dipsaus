@@ -61,16 +61,16 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   sync_shiny_inputs(input, session, inputIds = c('a', 'b'), uniform = list(
-    function(a){as.numeric(a)},
+    function(a) {as.numeric(a)},
     'I'
   ), updates = list(
-    function(a){updateTextInput(session, 'a', value = a)},
-    function(b){updateSliderInput(session, 'b', value = b)}
+    function(a) {updateTextInput(session, 'a', value = a)},
+    function(b) {updateSliderInput(session, 'b', value = b)}
   ))
 
 }
 
-if( interactive() ){
+if( interactive() ) {
   shinyApp(ui, server)
 }
 ```

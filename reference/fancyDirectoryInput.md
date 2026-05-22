@@ -194,11 +194,11 @@ if(interactive()) {
   # Basic example
   shinyApp(
     ui,
-    server = function(input, output, session){
+    server = function(input, output, session) {
       # Observe directory upload - updates automatically when complete
       observeEvent(input$dir_input, {
         files <- input$dir_input
-        if(!is.null(files)) {
+        if (!is.null(files)) {
           upload_status <- attr(files, "upload_status")
 
           cat("Directory upload event:\n")
@@ -206,7 +206,7 @@ if(interactive()) {
           cat("  Total files:", attr(files, "totalFiles"), "\n")
           cat("  Ready:", attr(files, "ready"), "\n")
 
-          if(upload_status == "completed") {
+          if (upload_status == "completed") {
             # All files uploaded - datapaths are now populated!
             cat("\nAll files uploaded successfully!\n")
             cat("Files with datapaths:\n")
@@ -214,14 +214,14 @@ if(interactive()) {
                         c("name", "relativePath", "datapath")])
 
             # Now you can process all files
-            for(i in seq_len(nrow(files))) {
-              if(!is.na(files$datapath[i])) {
+            for (i in seq_len(nrow(files))) {
+              if (!is.na(files$datapath[i])) {
                 cat("\nProcessing:", files$name[i], "\n")
                 cat("  Server path:", files$datapath[i], "\n")
                 cat("  File size:", file.size(files$datapath[i]), "bytes\n")
               }
             }
-          } else if(upload_status == "initialized") {
+          } else if (upload_status == "initialized") {
             # Initial metadata - datapaths are NA at this point
             cat("Upload started, processing files...\n")
 
@@ -236,7 +236,7 @@ if(interactive()) {
       # Optional: Track individual files as they upload (real-time)
       observeEvent(input$dir_input__file, {
         file_data <- input$dir_input__file
-        if(!is.null(file_data) && !is.na(file_data$datapath)) {
+        if (!is.null(file_data) && !is.na(file_data$datapath)) {
           cat("File uploaded:", file_data$name, "->", file_data$datapath, "\n")
         }
       })
@@ -244,7 +244,7 @@ if(interactive()) {
       # Optional: Monitor upload progress
       observeEvent(input$dir_input__status, {
         status <- input$dir_input__status
-        if(!is.null(status) && is.data.frame(status)) {
+        if (!is.null(status) && is.data.frame(status)) {
           completed <- sum(status$status == "complete")
           total <- nrow(status)
           cat("Progress:", completed, "/", total, "files\n")
@@ -257,14 +257,14 @@ if(interactive()) {
   # Example with progress tracking
   shinyApp(
     ui2,
-    server = function(input, output, session){
+    server = function(input, output, session) {
       # Enable progress tracking
       observeDirectoryProgress("dir_input2")
 
       # Process files when complete
       observeEvent(input$dir_input2, {
         files <- input$dir_input2
-        if(!is.null(files) && attr(files, "upload_status") == "completed") {
+        if (!is.null(files) && attr(files, "upload_status") == "completed") {
           cat("Received", nrow(files), "files\n")
         }
       })
@@ -280,10 +280,10 @@ if(interactive()) {
 
   shinyApp(
     ui3,
-    server = function(input, output, session){
+    server = function(input, output, session) {
       observeEvent(input$dir_input3, {
         files <- input$dir_input3
-        if(!is.null(files) && attr(files, "upload_status") == "completed") {
+        if (!is.null(files) && attr(files, "upload_status") == "completed") {
           # Get upload directory with preserved structure
           upload_dir <- attr(files, "upload_dir")
           cat("Files stored in:", upload_dir, "\\n")
@@ -295,7 +295,7 @@ if(interactive()) {
       # Manual cleanup option
       observeEvent(input$cleanup, {
         upload_dir <- get_dipsaus_upload_dir('dir_input3')
-        if(!is.null(upload_dir) && dir.exists(upload_dir)) {
+        if (!is.null(upload_dir) && dir.exists(upload_dir)) {
           unlink(upload_dir, recursive = TRUE, force = TRUE)
           cat("Cleaned up:", upload_dir, "\\n")
         }

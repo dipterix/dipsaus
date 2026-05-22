@@ -67,7 +67,7 @@ vary_title
 #> {
 #>     plot(1:10, 1:10, ..., pch = pch, main = "[input:title]")
 #> }
-#> <environment: 0x55f784f0b3d0>
+#> <environment: 0x562365ba4d88>
 
 # vary_title is pipe-friendly with `pch` default 16
 vary_title(title = 'My Title')
@@ -84,7 +84,7 @@ vary_title(title = 'My Title', type = 'l')
 
 # modify a function
 
-f <- function(b = 1, x){ b + x }
+f <- function(b = 1, x) { b + x }
 f_pipable <- as_pipe(call = f, arg_name = 'x')
 f_pipable
 #> <Pipe-compatible function>
@@ -92,7 +92,7 @@ f_pipable
 #> {
 #>     f(..., x = "[input:x]")
 #> }
-#> <environment: 0x55f78405a980>
+#> <environment: 0x562363eb39e0>
 
 f_pipable(2)
 #> [1] 3

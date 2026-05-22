@@ -54,7 +54,7 @@ A list of `'fastqueue2'` instance
 x <- fastqueue2()
 
 # add elements
-x$madd(1, "b", function(){ "c" }, 4, "5")
+x$madd(1, "b", function() { "c" }, 4, "5")
 
 # print information
 print(x)
@@ -74,7 +74,7 @@ x[[2]]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x55f7878e8378>
+#> <environment: 0x562367a81528>
 
 # first two items in a list
 x[c(1,2)]
@@ -86,7 +86,7 @@ x[c(1,2)]
 #> {
 #>     "c"
 #> }
-#> <environment: 0x55f7878e8378>
+#> <environment: 0x562367a81528>
 #> 
 
 print(x)
@@ -100,7 +100,7 @@ as.list(x)
 #> {
 #>     "c"
 #> }
-#> <environment: 0x55f7878e8378>
+#> <environment: 0x562367a81528>
 #> 
 #> [[3]]
 #> [1] 4

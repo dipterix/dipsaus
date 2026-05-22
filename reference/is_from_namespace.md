@@ -34,7 +34,7 @@ is_from_namespace(baseenv())        # TRUE
 is_from_namespace(utils::read.csv)  # TRUE
 #> [1] TRUE
 
-x <- function(){}
+x <- function() {}
 is_from_namespace(NULL)             # FALSE
 #> [1] FALSE
 is_from_namespace(x)                # FALSE

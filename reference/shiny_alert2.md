@@ -93,7 +93,7 @@ server <- function(input, output, session) {
   })
 }
 
-if(interactive()){
+if(interactive()) {
   shinyApp(ui, server, options = list(launch.browser = TRUE))
 }
 ```

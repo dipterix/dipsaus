@@ -102,7 +102,7 @@ server <- function(input, output, session) {
   observeEvent(input$do, {
     updateActionButtonStyled(session, 'do', disabled = TRUE)
     progress <- progress2('Task A', max = 10, shiny_auto_close = TRUE)
-    lapply(1:10, function(ii){
+    lapply(1:10, function(ii) {
       progress$inc(sprintf('Detail %d', ii))
       Sys.sleep(0.2)
     })
@@ -110,7 +110,7 @@ server <- function(input, output, session) {
   })
 }
 
-if(interactive()){
+if(interactive()) {
   shinyApp(ui, server)
 }
 ```

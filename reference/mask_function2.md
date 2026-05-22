@@ -29,7 +29,7 @@ a masked function
 ``` r
 
 a <- 123
-f1 <- function(){
+f1 <- function() {
   a + 1
 }
 f1()   # 124
@@ -40,9 +40,9 @@ f2()   # a is masked with value 1, return 2
 #> [1] 2
 
 environment(f1)  # global env
-#> <environment: 0x55f7895862a0>
+#> <environment: 0x562369d5c1c8>
 environment(f2)  # masked env
-#> <environment: 0x55f7889f4c28>
+#> <environment: 0x5623688e1678>
 
 env <- environment(f2)
 identical(parent.env(env), environment(f1))  # true

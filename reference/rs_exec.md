@@ -98,7 +98,7 @@ subject to change in the future.
 
 ``` r
 
-if(interactive()){
+if(interactive()) {
   h <- rs_exec(
     {
       Sys.sleep(2)

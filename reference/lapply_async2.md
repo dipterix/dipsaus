@@ -51,7 +51,7 @@ lapply_async2(
 
 ## Value
 
-same as `with(FUN.args, lapply(x, function(el){eval(body(FUN))}))`
+same as `with(FUN.args, lapply(x, function(el) {eval(body(FUN))}))`
 
 ## Details
 
@@ -76,22 +76,22 @@ plan(sequential)
 # 1. Change `plan` to 'multicore', 'multisession', or TRUE to enable
 # multi-core, but still with progress information
 # 2. Change plan=FALSE will use current future plan
-res <- lapply_async2(100:200, function(x){
+res <- lapply_async2(100:200, function(x) {
   return(x+1)
-}, callback = function(e){
+}, callback = function(e) {
   sprintf('Input=%d', e)
 }, plan = 'sequential')
 
 # Disable callback message, then the function reduce to
 # normal `future.apply::future_lapply`
-res <- lapply_async2(100:200, function(x){
+res <- lapply_async2(100:200, function(x) {
   return(x+1)
 }, callback = NULL, plan = FALSE)
 
 if(interactive()) {
 
   # PID are different, meaning executing in different sessions
-  lapply_async2(1:4, function(x){
+  lapply_async2(1:4, function(x) {
     Sys.getpid()
   })
 }

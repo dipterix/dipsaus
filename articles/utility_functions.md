@@ -9,19 +9,19 @@ library(dipsaus)
 
 ``` r
 
-cat2('Debug passed!', level = 'DEBUG')
+cat2("Debug passed!", level = "DEBUG")
 #> ✔ Debug passed!
 
-cat2('You are all set.', level = 'INFO')
+cat2("You are all set.", level = "INFO")
 #> ♥ You are all set.
 
-cat2('Wait a second...', level = 'WARNING')
+cat2("Wait a second...", level = "WARNING")
 #> ⚠ Wait a second...
 
-cat2('Ooops', level = 'ERROR')
+cat2("Ooops", level = "ERROR")
 #> ✖ Ooops
 
-cat2('Bi--Doop---', level = 'FATAL')
+cat2("Bi--Doop---", level = "FATAL")
 #> ✖ Bi--Doop---
 #> Error: 
 #> ...
@@ -43,7 +43,7 @@ parse_svec("7-10,14-15")
 
 ``` r
 
-deparse_svec(c(2,5,3,1,7))
+deparse_svec(c(2, 5, 3, 1, 7))
 #> [1] "1-3,5,7"
 ```
 
@@ -52,13 +52,13 @@ collapsed together:
 
 ``` r
 
-deparse_svec(c(1,2,4,7,11))
+deparse_svec(c(1, 2, 4, 7, 11))
 #> [1] "1-2,4,7,11"
 
-deparse_svec(c(1,2,4,7,11), max_lag = 2)
+deparse_svec(c(1, 2, 4, 7, 11), max_lag = 2)
 #> [1] "1-4,7,11"
 
-deparse_svec(c(1,2,4,7,11), max_lag = 3)
+deparse_svec(c(1, 2, 4, 7, 11), max_lag = 3)
 #> [1] "1-7,11"
 ```
 
@@ -72,7 +72,7 @@ chip-set information on Linux or MacOS.
 
 # Total RAM in bytes
 get_ram()
-#> 16765390848.0 B
+#> 16766423040.0 B
 
 # Print-friendly
 to_ram_size(get_ram(), 1024)
@@ -81,9 +81,9 @@ to_ram_size(get_ram(), 1024)
 # WARNING: $free is the total RAM - R usage, is no the actual free RAM
 mem_limit2()
 #> $total
-#> 16765390848.0 B
+#> 16766423040.0 B
 #> $free
-#> 16698036056.0 B
+#> 16699058232.0 B
 ```
 
 #### 4. Interactive Questions

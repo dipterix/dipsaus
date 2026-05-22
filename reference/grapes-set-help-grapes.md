@@ -29,7 +29,7 @@ does exists and is not `NULL`
 
 ``` r
 # Prepare, remove aaa if exists
-if(exists('aaa', envir = globalenv(), inherits = FALSE)){
+if(exists('aaa', envir = globalenv(), inherits = FALSE)) {
   rm(aaa, envir = globalenv())
 }
 
